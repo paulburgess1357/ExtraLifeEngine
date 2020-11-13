@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{be2727b4-4fde-4149-ab29-2cec2a4294a1}</ProjectGuid>
+    <RootNamespace>ExtraLifeEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLFW_INCLUDE_NONE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalResources\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;StringUtilities.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLFW_INCLUDE_NONE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalResources\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;StringUtilities.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalResources\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;StringUtilities.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLFW_INCLUDE_NONE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalResources\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;StringUtilities.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Camera\CameraData.cpp" />
+    <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
+    <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\TransformSystem.cpp" />
+    <ClCompile Include="Input\Processing\MouseManager.cpp" />
+    <ClCompile Include="Input\Processing\MouseHandler.cpp" />
+    <ClCompile Include="Tests\GraphicsTesting\Scenes\SceneLoader.cpp" />
+    <ClCompile Include="Tests\GraphicsTesting\Cube\CubeResource.cpp" />
+    <ClCompile Include="Tests\GraphicsTesting\Cube\ICubeLoader.cpp" />
+    <ClCompile Include="Tests\GraphicsTesting\Cube\OpenGLCubeLoader.cpp" />
+    <ClCompile Include="Input\Processing\InputHandler.cpp" />
+    <ClCompile Include="Environment\Interfaces\Window\IWindowCreator.cpp" />
+    <ClCompile Include="Environment\OpenGL\Window\OpenGLWindow.cpp" />
+    <ClCompile Include="Environment\OpenGL\Window\OpenGLWindowCreator.cpp" />
+    <ClCompile Include="ExternalResources\c\glad.c" />
+    <ClCompile Include="Game\GameManager.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Environment\OpenGL\Shader\OpenGLShaderProgram.cpp" />
+    <ClCompile Include="Environment\Neutral\Shader\ShaderLoaderFromFile.cpp" />
+    <ClCompile Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.cpp" />
+    <ClCompile Include="Environment\Neutral\Window\WindowFactory.cpp" />
+    <ClCompile Include="Environment\Neutral\Window\Window.cpp" />
+    <ClCompile Include="ResourceManagement\ShaderResource.cpp" />
+    <ClCompile Include="ResourceManagement\TextureResource.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\WorldMovement.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera\CameraType.h" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Camera\CameraData.h" />
+    <ClInclude Include="Matrix\ProjectionMatrix.h" />
+    <ClInclude Include="Camera\Direction.h" />
+    <ClInclude Include="ECS\Components\Transform\MovementVelocityComponent.h" />
+    <ClInclude Include="ECS\Components\Transform\OrbitComponent.h" />
+    <ClInclude Include="ECS\Components\Transform\RotationComponent.h" />
+    <ClInclude Include="ECS\Components\Transform\ScaleComponent.h" />
+    <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.h" />
+    <ClInclude Include="ECS\Components\Shader\ShaderComponent.h" />
+    <ClInclude Include="ECS\Components\Transform\TransformComponent.h" />
+    <ClInclude Include="ECS\Systems\Render\Interfaces\ICubeRenderer.h" />
+    <ClInclude Include="ECS\Systems\Transform\TransformSystem.h" />
+    <ClInclude Include="Game\GameState.h" />
+    <ClInclude Include="Input\Command\ControlCommands.h" />
+    <ClInclude Include="Input\Command\NullCommand.h" />
+    <ClInclude Include="Input\Enums\Mouse.h" />
+    <ClInclude Include="Input\Processing\MouseHandler.h" />
+    <ClInclude Include="Input\Processing\MouseManager.h" />
+    <ClInclude Include="Input\Command\MouseCommandTest.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\CubeComponent.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Scenes\SceneLoader.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\CubeResource.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\OpenGLCubeLoader.h" />
+    <ClInclude Include="Environment\Interfaces\Shader\IShaderCompiler.h" />
+    <ClInclude Include="Environment\Interfaces\Shader\IShaderLoader.h" />
+    <ClInclude Include="Environment\Interfaces\Shader\IShaderProgram.h" />
+    <ClInclude Include="Environment\Neutral\Shader\ShaderType.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\ICubeLoader.h" />
+    <ClInclude Include="Input\Processing\InputHandler.h" />
+    <ClInclude Include="Input\Command\ExitCommand.h" />
+    <ClInclude Include="Input\Command\ICommand.h" />
+    <ClInclude Include="Environment\OpenGL\Window\OpenGLWindow.h" />
+    <ClInclude Include="Environment\OpenGL\Window\OpenGLWindowCreator.h" />
+    <ClInclude Include="Game\GameManager.h" />
+    <ClInclude Include="Input\Processing\InputManager.h" />
+    <ClInclude Include="Input\Enums\Keyboard.h" />
+    <ClInclude Include="Environment\OpenGL\Shader\OpenGLShaderProgram.h" />
+    <ClInclude Include="Environment\Neutral\Shader\ShaderLoaderFromFile.h" />
+    <ClInclude Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.h" />
+    <ClInclude Include="ResourceManagement\ShaderResource.h" />
+    <ClInclude Include="ResourceManagement\TextureResource.h" />
+    <ClInclude Include="Utility\FatalError.h" />
+    <ClInclude Include="Utility\Print.h" />
+    <ClInclude Include="Environment\Neutral\Window\WindowFactory.h" />
+    <ClInclude Include="Environment\Neutral\Window\Window.h" />
+    <ClInclude Include="Environment\Interfaces\Window\IWindowCreator.h" />
+    <ClInclude Include="ECS\Systems\Transform\WorldMovement.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

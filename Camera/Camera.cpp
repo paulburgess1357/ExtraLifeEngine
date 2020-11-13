@@ -116,7 +116,7 @@ void Camera::set_first_mouse_movement(const glm::vec2& current_mouse_coords){
 
 void Camera::pitch(float angle_offset) {
 
-	// Pitch RotationComponent
+	// Pitch Rotation Component
 	m_current_pitch += angle_offset;
 
 	// Clamp pitch if forcing level horizon

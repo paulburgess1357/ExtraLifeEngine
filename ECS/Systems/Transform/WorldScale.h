@@ -1,14 +1,13 @@
 #pragma once
 #include "entt/entity/registry.hpp"
 
-namespace Transform{
+namespace Transform {
 
-	class WorldMovement{
-		
+	class WorldScale {
 	public:
 		static void update(entt::registry& registry);
-		
 	};
 	
 } // namespace Transform
+
 

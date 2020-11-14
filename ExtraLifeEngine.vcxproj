@@ -181,6 +181,10 @@
     <ClCompile Include="ResourceManagement\ShaderResource.cpp" />
     <ClCompile Include="ResourceManagement\TextureResource.cpp" />
     <ClCompile Include="ECS\Systems\Transform\WorldMovement.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\WorldScale.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\ModelMatrixReset.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\WorldRotation.cpp" />
+    <ClCompile Include="ECS\Systems\Transform\WorldOrbit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraType.h" />
@@ -226,12 +230,16 @@
     <ClInclude Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.h" />
     <ClInclude Include="ResourceManagement\ShaderResource.h" />
     <ClInclude Include="ResourceManagement\TextureResource.h" />
+    <ClInclude Include="ECS\Systems\Transform\WorldRotation.h" />
     <ClInclude Include="Utility\FatalError.h" />
     <ClInclude Include="Utility\Print.h" />
     <ClInclude Include="Environment\Neutral\Window\WindowFactory.h" />
     <ClInclude Include="Environment\Neutral\Window\Window.h" />
     <ClInclude Include="Environment\Interfaces\Window\IWindowCreator.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldMovement.h" />
+    <ClInclude Include="ECS\Systems\Transform\WorldScale.h" />
+    <ClInclude Include="ECS\Systems\Transform\ModelMatrixReset.h" />
+    <ClInclude Include="ECS\Systems\Transform\WorldOrbit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

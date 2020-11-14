@@ -3,7 +3,7 @@
 
 namespace Transform{
 
-	class WorldMovement{
+	class ModelMatrixReset {
 		
 	public:
 		static void update(entt::registry& registry);
@@ -11,4 +11,5 @@ namespace Transform{
 	};
 	
 } // namespace Transform
+
 

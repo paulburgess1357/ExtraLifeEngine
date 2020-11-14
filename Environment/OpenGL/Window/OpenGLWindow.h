@@ -11,6 +11,7 @@ namespace OpenGL{
 		void swap_buffer() const override;
 		void clear_color() const override;
 		static void init_frame_buffer_callback();
+		
 	private:
 		static void frame_buffer_callback(GLFWwindow* window, const int width, const int height);		
 	};

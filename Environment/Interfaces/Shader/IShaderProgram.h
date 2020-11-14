@@ -24,6 +24,10 @@ public:
 	std::string get_shader_name() const{
 		return m_shader_name;
 	}
+
+	unsigned int get_handle() const{
+		return m_handle;
+	}
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value) = 0;

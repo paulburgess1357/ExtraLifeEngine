@@ -2,6 +2,7 @@
 #include "OpenGLShaderProgram.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "OpenGLUniformBlock.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader)
@@ -18,6 +19,10 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	// Create program to link the shaders		
 	std::shared_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
 
+	// Link uniform blocks (used across all shaders)
+	OpenGLUniformBlock opengl_uniform_block_allocator;
+	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
+	
 	return shader_program;		
 }
 

@@ -157,11 +157,13 @@
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
+    <ClCompile Include="Environment\Interfaces\Shader\IShaderUniformBlock.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Transform\TransformSystem.cpp" />
     <ClCompile Include="Input\Processing\MouseManager.cpp" />
     <ClCompile Include="Input\Processing\MouseHandler.cpp" />
+    <ClCompile Include="Environment\OpenGL\Shader\OpenGLUniformBlock.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Scenes\SceneLoader.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Cube\CubeResource.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Cube\ICubeLoader.cpp" />
@@ -190,6 +192,7 @@
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
+    <ClInclude Include="Environment\Interfaces\Shader\IShaderUniformBlock.h" />
     <ClInclude Include="Matrix\ProjectionMatrix.h" />
     <ClInclude Include="Camera\Direction.h" />
     <ClInclude Include="ECS\Components\Transform\MovementVelocityComponent.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="Input\Processing\MouseHandler.h" />
     <ClInclude Include="Input\Processing\MouseManager.h" />
     <ClInclude Include="Input\Command\MouseCommandTest.h" />
+    <ClInclude Include="Environment\OpenGL\Shader\OpenGLUniformBlock.h" />
     <ClInclude Include="Tests\GraphicsTesting\Cube\CubeComponent.h" />
     <ClInclude Include="Tests\GraphicsTesting\Scenes\SceneLoader.h" />
     <ClInclude Include="Tests\GraphicsTesting\Cube\CubeResource.h" />

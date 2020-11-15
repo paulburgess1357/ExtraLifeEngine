@@ -4,6 +4,7 @@
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include "../../Environment/Neutral/Shader/ShaderType.h"
 #include <memory>
+#include <string>
 
 namespace OpenGL{
 	
@@ -11,11 +12,11 @@ namespace OpenGL{
 
 	public:
 		OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader);
-		std::shared_ptr<IShaderProgram> compile() const override;
+		[[nodiscard]] std::shared_ptr<IShaderProgram> compile() const override;
 	
 	private:
 		static unsigned int compile_glsl_shader(const std::string& shader_glsl_code, const ShaderType shader_type);
-		std::shared_ptr<IShaderProgram> compile_shader_program(const unsigned int vertex_shader_id, const unsigned int fragment_shader_id) const;
+		[[nodiscard]] std::shared_ptr<IShaderProgram> compile_shader_program(const unsigned int vertex_shader_id, const unsigned int fragment_shader_id) const;
 	
 		static void check_vertex_frament_errors(const unsigned int shader_id);
 		static void check_shader_program_errors(const unsigned int shader_handle);

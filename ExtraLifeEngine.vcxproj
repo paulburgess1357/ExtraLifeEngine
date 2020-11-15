@@ -158,12 +158,15 @@
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
     <ClCompile Include="Environment\Interfaces\Shader\IShaderUniformBlock.cpp" />
+    <ClCompile Include="Matrix\MatrixFunctions.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Transform\TransformSystem.cpp" />
     <ClCompile Include="Input\Processing\MouseManager.cpp" />
     <ClCompile Include="Input\Processing\MouseHandler.cpp" />
     <ClCompile Include="Environment\OpenGL\Shader\OpenGLUniformBlock.cpp" />
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureCompiler.cpp" />
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLTexture.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Scenes\SceneLoader.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Cube\CubeResource.cpp" />
     <ClCompile Include="Tests\GraphicsTesting\Cube\ICubeLoader.cpp" />
@@ -187,12 +190,17 @@
     <ClCompile Include="ECS\Systems\Transform\ModelMatrixReset.cpp" />
     <ClCompile Include="ECS\Systems\Transform\WorldRotation.cpp" />
     <ClCompile Include="ECS\Systems\Transform\WorldOrbit.cpp" />
+    <ClCompile Include="Environment\Neutral\Texture\TextureLoaderFromFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
     <ClInclude Include="Environment\Interfaces\Shader\IShaderUniformBlock.h" />
+    <ClInclude Include="Environment\Interfaces\Texture\ITextureLoader.h" />
+    <ClInclude Include="Environment\Neutral\Texture\TextureLoadingData.h" />
+    <ClInclude Include="Environment\Interfaces\Texture\ITextureCompiler.h" />
+    <ClInclude Include="Matrix\MatrixFunctions.h" />
     <ClInclude Include="Matrix\ProjectionMatrix.h" />
     <ClInclude Include="Camera\Direction.h" />
     <ClInclude Include="ECS\Components\Transform\MovementVelocityComponent.h" />
@@ -212,7 +220,10 @@
     <ClInclude Include="Input\Processing\MouseManager.h" />
     <ClInclude Include="Input\Command\MouseCommandTest.h" />
     <ClInclude Include="Environment\OpenGL\Shader\OpenGLUniformBlock.h" />
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLTextureCompiler.h" />
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLTexture.h" />
     <ClInclude Include="Tests\GraphicsTesting\Cube\CubeComponent.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\TexturedCubeComponent.h" />
     <ClInclude Include="Tests\GraphicsTesting\Scenes\SceneLoader.h" />
     <ClInclude Include="Tests\GraphicsTesting\Cube\CubeResource.h" />
     <ClInclude Include="Tests\GraphicsTesting\Cube\OpenGLCubeLoader.h" />
@@ -235,6 +246,8 @@
     <ClInclude Include="ResourceManagement\ShaderResource.h" />
     <ClInclude Include="ResourceManagement\TextureResource.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldRotation.h" />
+    <ClInclude Include="Environment\Neutral\Texture\TextureLoaderFromFile.h" />
+    <ClInclude Include="Environment\Interfaces\Texture\ITexture.h" />
     <ClInclude Include="Utility\FatalError.h" />
     <ClInclude Include="Utility\Print.h" />
     <ClInclude Include="Environment\Neutral\Window\WindowFactory.h" />

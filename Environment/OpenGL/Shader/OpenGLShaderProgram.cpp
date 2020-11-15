@@ -1,11 +1,13 @@
 #include "OpenGLShaderProgram.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "../../ResourceManagement/TextureResource.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
-OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const std::string& shader_name, const unsigned int handle)
-	:IShaderProgram{ shader_name, handle }{
+OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const unsigned int handle)
+	:IShaderProgram{ handle },
+	m_available_tex_unit{ 0 } {
 }
 
 void OpenGL::OpenGLShaderProgram::bind() const{
@@ -17,7 +19,7 @@ void OpenGL::OpenGLShaderProgram::unbind() const{
 }
 
 void OpenGL::OpenGLShaderProgram::destroy() const{	
-	Print::print("Destroying Shader Program: " + get_shader_name() + " (Handle: " + std::to_string(m_handle) + ")");
+	Print::print("Destroying Shader Program: (Handle: " + std::to_string(m_handle) + ")");
 	glDeleteProgram(m_handle);
 }
 
@@ -27,7 +29,7 @@ int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {
 		m_uniform_locations[uniform_name] = glGetUniformLocation(m_handle, uniform_name.c_str());
 
 		if(m_uniform_locations[uniform_name] == -1){
-			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (glsl code) program: " + m_shader_name);
+			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
 		}		
 	}
 	
@@ -76,5 +78,38 @@ void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, c
 	unbind();
 }
 
+void OpenGL::OpenGLShaderProgram::attach_texture(const std::string& texture_name){	
+		
+	const auto it = m_texture_map.find(texture_name);
+	if (it == m_texture_map.end()) {
+		check_tex_unit();
+		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
+		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
+		m_available_tex_unit++;
+	}
+	
+}
 
+void OpenGL::OpenGLShaderProgram::check_tex_unit() const{
+	if(m_available_tex_unit == 99){
+		FatalError::fatal_error("Your tex unit for shader handle: " + std::to_string(m_handle) + " is 99");
+	}
 
+	if (m_available_tex_unit > 16) {
+		FatalError::fatal_error("Your tex unit for shader handle: " + std::to_string(m_handle) + " is greater than 16!  You have 16 textures for a single shader?");
+	}
+}
+
+void OpenGL::OpenGLShaderProgram::bind_textures() const{
+	for(const auto& texture : m_texture_map){
+		glActiveTexture(texture.second.first);
+		glBindTexture(GL_TEXTURE_2D, texture.second.second);		
+	}
+}
+
+void OpenGL::OpenGLShaderProgram::unbind_textures() const{
+	for (const auto& texture : m_texture_map) {
+		glActiveTexture(texture.second.first);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}

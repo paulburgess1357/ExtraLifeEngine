@@ -1,9 +1,8 @@
 #include "ShaderLoaderFromFile.h"
 #include "StringUtilities/LoadStrings/FileToString.h"
 
-ShaderLoaderFromFile::ShaderLoaderFromFile(const std::string& shader_name, const std::string& vertex_filepath, const std::string& fragment_filepath)
-	:IShaderLoader{ shader_name },
-	m_vertex_filepath {vertex_filepath},
+ShaderLoaderFromFile::ShaderLoaderFromFile(const std::string& vertex_filepath, const std::string& fragment_filepath)
+	:m_vertex_filepath {vertex_filepath},
 	m_fragment_filepath{fragment_filepath}{	
 }
 

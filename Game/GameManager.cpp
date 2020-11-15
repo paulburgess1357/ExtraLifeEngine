@@ -3,6 +3,7 @@
 #include "../Input/Command/ControlCommands.h"
 #include "../ResourceManagement/ShaderResource.h"
 #include "../ResourceManagement/TextureResource.h"
+#include "../ResourceManagement/TextureResource.h"
 #include "../Tests/GraphicsTesting/Cube/CubeResource.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Neutral/Window/WindowFactory.h"
@@ -55,6 +56,7 @@ void GameManager::initialize_controls() {
 
 void GameManager::initialize_scene(){
 	SceneLoader::single_cube(m_registry);
+	SceneLoader::single_textured_cube(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -66,7 +68,7 @@ void GameManager::gameloop() {
 		m_input_handler.hande_input();
 		m_mouse_handler.handle_input();
 		update();
-		render();		
+		render();
 	}
 }
 
@@ -85,6 +87,7 @@ void GameManager::destroy() const {
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
+	TextureResource::destroy_all();
 	m_shader_uniform_block->destroy();
 	glfwTerminate();
 }

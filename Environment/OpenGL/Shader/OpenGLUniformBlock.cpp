@@ -34,7 +34,7 @@ void OpenGL::OpenGLUniformBlock::link_projection_view_block_to_shader(std::share
 	// Links a single shader to the uniform matrix data block (binding point 0)
 	
 	IShaderUniformBlock::check_projection_view_block_created();		
-	Print::print("Linking shader program: '" + shader_program->get_shader_name() + "' to uniform projection view block");
+	Print::print("Linking shader program handle: '" + std::to_string(shader_program->get_handle()) + "' to uniform projection view block");
 
 	// Uniform block index name is defined in GLSL shader code
 	const unsigned int uniform_block_index = glGetUniformBlockIndex(shader_program->get_handle(), "uniform_matrices");

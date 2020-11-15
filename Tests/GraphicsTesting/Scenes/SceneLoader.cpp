@@ -1,7 +1,13 @@
 #include "SceneLoader.h"
+
+#include "../../../Utility/Print.h"
 #include "../Cube/CubeResource.h"
 #include "../../ResourceManagement/ShaderResource.h"
+#include "../../ResourceManagement/TextureResource.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
+#include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
+
+#include "../../Environment/Interfaces/Texture/ITexture.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
 #include "../../ECS/Components/Shader/ShaderComponent.h"
@@ -11,7 +17,7 @@
 #include "../../ECS/Components/Transform/MovementVelocityComponent.h"
 
 void SceneLoader::single_cube(entt::registry& registry){
-
+	
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/cube.glsl", "Assets/shaders/fragment/cube.glsl");
 	CubeComponent cube_component{ CubeResource::get("cube") };
 	
@@ -21,6 +27,21 @@ void SceneLoader::single_cube(entt::registry& registry){
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
 	registry.emplace<MovementVelocityComponent>(cube_entity, glm::vec3{ 0.0f, 0.00f, 0.00f });
 	registry.emplace<ScaleComponent>(cube_entity, 1.0f);
-	registry.emplace<RotationComponent>(cube_entity, 0.0f, 1.0f, 0.0f, 0.0f);
+	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 	
+}
+
+void SceneLoader::single_textured_cube(entt::registry& registry){
+	
+	TextureResource::load("texture1", "Assets/textures/colorful_squares.jpg", true);
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("textured_cube_test", "Assets/shaders/vertex/textured_cube.glsl", "Assets/shaders/fragment/textured_cube.glsl");	
+	shader_program->attach_texture("texture1");
+	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_textured") };
+
+	const entt::entity textured_cube_entity = registry.create();
+	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
+	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
+	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 2.0f, 0.00f });
+	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
+
 }

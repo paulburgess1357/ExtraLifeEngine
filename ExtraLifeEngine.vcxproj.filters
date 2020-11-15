@@ -111,6 +111,18 @@
     <ClCompile Include="Environment\OpenGL\Shader\OpenGLUniformBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\Neutral\Texture\TextureLoaderFromFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix\MatrixFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -276,6 +288,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\OpenGL\Shader\OpenGLUniformBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Texture\ITextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Neutral\Texture\TextureLoaderFromFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Neutral\Texture\TextureLoadingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Texture\ITextureCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLTextureCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Texture\ITexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\MatrixFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\GraphicsTesting\Cube\TexturedCubeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,7 @@
 
 std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_verticies() const {
 
-	Print::print("Loading CubeComponent Vertices");
+	Print::print("Loading Cube Component Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
@@ -29,10 +29,42 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_vertic
 	return std::make_pair(vbo_id, vao_id);
 }
 
+std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cube_textured_verticies() const{
+
+	Print::print("Loading Cube Component Textured Vertices");
+
+	// Load/store CubeComponent Data
+	unsigned int vbo_id{ 99 };
+	unsigned int vao_id{ 99 };
+
+	glGenBuffers(1, &vbo_id);
+	glGenVertexArrays(1, &vao_id);
+	glBindVertexArray(vao_id);
+
+	// Store Data
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_texture), m_cube_verticies_texture, GL_STATIC_DRAW);
+
+	// Vertex Data
+	// Position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Texture Coordinates
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	// Unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	return std::make_pair(vbo_id, vao_id);
+}
+
 
 std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal_verticies() const {
 
-	Print::print("Loading CubeComponent Normal Vertices");
+	Print::print("Loading Cube Component Normal Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
@@ -64,7 +96,7 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal
 
 std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() const {
 
-	Print::print("Loading CubeComponent Textured Normal Vertices");
+	Print::print("Loading Cube Component Textured Normal Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
@@ -87,7 +119,7 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	// Texture
+	// ITexture
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 

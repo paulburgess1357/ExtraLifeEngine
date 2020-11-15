@@ -1,24 +1,24 @@
 #include "OpenGLShaderCompiler.h"
 #include "OpenGLShaderProgram.h"
+#include "OpenGLUniformBlock.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
-#include "OpenGLUniformBlock.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader)
-	:IShaderCompiler(shader_loader, shader_loader->load()){	
+	:IShaderCompiler(shader_loader){	
 }
 
 std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
 	
-	Print::print("Compiling Shader: " + m_shader_loader->get_shader_name());
+	Print::print("Compiling Shader");
 
 	const unsigned int vertex_shader_id = compile_glsl_shader(m_vertex_fragment_strings.first, ShaderType::VERTEX);
 	const unsigned int fragment_shader_id = compile_glsl_shader(m_vertex_fragment_strings.second, ShaderType::FRAGMENT);	
 
 	// Create program to link the shaders		
 	std::shared_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
-
+	
 	// Link uniform blocks (used across all shaders)
 	OpenGLUniformBlock opengl_uniform_block_allocator;
 	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
@@ -60,13 +60,14 @@ void OpenGL::OpenGLShaderCompiler::check_vertex_frament_errors(const unsigned in
 }
 
 std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_program(const unsigned vertex_shader_id, const unsigned fragment_shader_id) const{
+
 	unsigned int shader_program_handle = glCreateProgram();
 	glAttachShader(shader_program_handle, vertex_shader_id);
 	glAttachShader(shader_program_handle, fragment_shader_id);
 	glLinkProgram(shader_program_handle);
 
 	Print::print("Shader Handle: " + std::to_string(shader_program_handle));
-	std::shared_ptr<IShaderProgram> shader_program = std::make_shared<OpenGL::OpenGLShaderProgram>(m_shader_loader->get_shader_name(), shader_program_handle);
+	std::shared_ptr<IShaderProgram> shader_program = std::make_shared<OpenGL::OpenGLShaderProgram>(shader_program_handle);
 
 	Print::print("Checking Shader Program for Errors");
 	check_shader_program_errors(shader_program_handle);

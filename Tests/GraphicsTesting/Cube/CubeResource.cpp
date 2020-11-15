@@ -4,9 +4,10 @@
 #include "../../Utility/FatalError.h"
 
 std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> CubeResource::m_vbo_vaos_cache{
-	{ "cube", { 99, 99 }},
-	{ "cube_normal", { 99, 99 }},
-	{ "cube_normal_textured", { 99, 99 }},
+	{ "cube", { 99, 99 } },
+	{ "cube_normal", { 99, 99 } },
+	{ "cube_textured", { 99, 99} },
+	{ "cube_normal_textured", { 99, 99 } },
 };
 
 std::shared_ptr<ICubeLoader> CubeResource::m_cube_loader = std::make_shared<OpenGL::OpenGLCubeLoader>();
@@ -23,6 +24,8 @@ void CubeResource::load(const std::string& cube_name) {
 			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_verticies();
 		} else if (cube_name == "cube_normal") {
 			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_normal_verticies();
+		} else if(cube_name == "cube_textured"){
+			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_textured_verticies();
 		} else if (cube_name == "cube_normal_textured") {
 			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_normal_textured_verticies();
 		} else {

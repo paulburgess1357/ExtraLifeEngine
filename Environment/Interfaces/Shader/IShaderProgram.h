@@ -5,15 +5,9 @@
 
 class IShaderProgram{
 
-public:
-	IShaderProgram()
-		:m_shader_name{ "No Name" },
-		m_handle{ 99 }{		
-	}
-	
-	IShaderProgram(const std::string& shader_name, const unsigned int handle)
-		:m_shader_name{ shader_name },
-		m_handle{ handle }{
+public:	
+	IShaderProgram(const unsigned int handle)
+		:m_handle{ handle }{
 	}
 
 	virtual ~IShaderProgram() = default;
@@ -21,11 +15,7 @@ public:
 	virtual void unbind() const = 0;
 	virtual void destroy() const = 0;
 
-	std::string get_shader_name() const{
-		return m_shader_name;
-	}
-
-	unsigned int get_handle() const{
+	[[nodiscard]] unsigned int get_handle() const {
 		return m_handle;
 	}
 	
@@ -42,10 +32,13 @@ public:
 	virtual void set_uniform(const std::string& uniform_name, const glm::mat3& value) = 0;
 	virtual void set_uniform(const std::string& uniform_name, const glm::mat4& value) = 0;
 
+	// Texture handling (per shader)		
+	virtual void attach_texture(const std::string& texture_name) = 0;
+	virtual void bind_textures() const = 0;
+	virtual void unbind_textures() const = 0;
+
 protected:
-	virtual int get_uniform(const std::string& uniform_name) = 0;
-	
-	std::string m_shader_name;
+	virtual int get_uniform(const std::string& uniform_name) = 0;	
 	unsigned int m_handle;
 	std::unordered_map<std::string, int> m_uniform_locations;
 	

@@ -84,6 +84,7 @@ void GameManager::render(){
 }
 
 void GameManager::destroy() const {
+	Print::print_separator(true, true);
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();

@@ -17,7 +17,7 @@ std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
 
 std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile_texture() const{
 
-	unsigned int texture_handle{ 99 }; // Bug: Possible bug here.... not sure if this goes out of scope if open gl holds the texture number (problaby not since its copied to my constructor for the Texture Program)
+	unsigned int texture_handle{ 99 };
 
 	// Store w/ OpenGL & bind
 	glGenTextures(1, &texture_handle);
@@ -53,7 +53,7 @@ void OpenGL::OpenGLTextureCompiler::generate_texture() const {
 }
 
 GLenum OpenGL::OpenGLTextureCompiler::get_texture_format() const{
-	GLenum format { 0 }; // Bug - possible bug here.... not sure ------------------------------------------------------------------------------------------------------------------------------------------------------------
+	GLenum format { 0 };
 	if (m_texture_loading_data.m_components == 1) {
 		format = GL_RED;
 	} else if (m_texture_loading_data.m_components == 3) {

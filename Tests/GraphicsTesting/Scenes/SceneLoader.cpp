@@ -1,13 +1,10 @@
 #include "SceneLoader.h"
 
-#include "../../../Utility/Print.h"
 #include "../Cube/CubeResource.h"
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../ResourceManagement/TextureResource.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
 #include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
-
-#include "../../Environment/Interfaces/Texture/ITexture.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
 #include "../../ECS/Components/Shader/ShaderComponent.h"
@@ -34,8 +31,12 @@ void SceneLoader::single_cube(entt::registry& registry){
 void SceneLoader::single_textured_cube(entt::registry& registry){
 	
 	TextureResource::load("texture1", "Assets/textures/colorful_squares.jpg", true);
+	TextureResource::load("texture2", "Assets/textures/brickwall.jpg", true);
+	
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("textured_cube_test", "Assets/shaders/vertex/textured_cube.glsl", "Assets/shaders/fragment/textured_cube.glsl");	
 	shader_program->attach_texture("texture1");
+	shader_program->attach_texture("texture2");
+	
 	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_textured") };
 
 	const entt::entity textured_cube_entity = registry.create();

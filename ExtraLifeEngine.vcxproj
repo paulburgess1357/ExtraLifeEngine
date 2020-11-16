@@ -157,7 +157,10 @@
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
+    <ClCompile Include="Environment\Interfaces\Shader\IShaderProgram.cpp" />
     <ClCompile Include="Environment\Interfaces\Shader\IShaderUniformBlock.cpp" />
+    <ClCompile Include="Environment\Interfaces\Texture\ITexture.cpp" />
+    <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Matrix\MatrixFunctions.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />

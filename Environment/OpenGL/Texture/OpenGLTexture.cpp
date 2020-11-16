@@ -8,14 +8,6 @@ OpenGL::OpenGLTexture::OpenGLTexture(const unsigned handle)
 	
 }
 
-void OpenGL::OpenGLTexture::bind() const{
-	
-}
-
-void OpenGL::OpenGLTexture::unbind() const{
-	//glBindTexture(GL_TEXTURE_2D, 0);
-}
-
 void OpenGL::OpenGLTexture::destroy() const{
 	Print::print("Destroying Texture Handle: " + std::to_string(m_handle));
 	glDeleteTextures(1, &m_handle);

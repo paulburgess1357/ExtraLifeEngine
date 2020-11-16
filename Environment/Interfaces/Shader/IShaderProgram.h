@@ -6,18 +6,14 @@
 class IShaderProgram{
 
 public:	
-	IShaderProgram(const unsigned int handle)
-		:m_handle{ handle }{
-	}
+	IShaderProgram(const unsigned int handle);
 
 	virtual ~IShaderProgram() = default;
 	virtual void bind() const = 0;	
 	virtual void unbind() const = 0;
 	virtual void destroy() const = 0;
 
-	[[nodiscard]] unsigned int get_handle() const {
-		return m_handle;
-	}
+	[[nodiscard]] unsigned int get_handle() const;
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value) = 0;

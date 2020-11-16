@@ -2,7 +2,6 @@
 #include "IShaderProgram.h"
 #include "IShaderLoader.h"
 #include <memory>
-#include <string>
 #include <utility>
 
 class IShaderCompiler{

@@ -15,5 +15,6 @@ public:
 	
 protected:	
 	virtual void check_projection_view_block_created() const;
-	static unsigned int m_ubo_matrices_handle;	
+	static unsigned int m_ubo_matrices_handle;
+	
 };

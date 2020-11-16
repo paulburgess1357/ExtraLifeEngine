@@ -47,4 +47,3 @@ void ShaderResource::destroy_all(){
 	}
 	m_shader_cache.clear();
 }
-

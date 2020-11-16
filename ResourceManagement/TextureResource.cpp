@@ -49,4 +49,3 @@ bool TextureResource::is_loaded(const std::string& texture_name){
 	}
 	return true;
 }
-

@@ -82,6 +82,7 @@ void OpenGL::OpenGLShaderProgram::attach_texture(const std::string& texture_name
 		
 	const auto it = m_texture_map.find(texture_name);
 	if (it == m_texture_map.end()) {
+		Print::print("Attaching texture '" + texture_name + "' to shader handle: " + std::to_string(m_handle));
 		check_tex_unit();
 		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
 		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());

@@ -7,9 +7,7 @@
 class ITextureCompiler {
 
 public:
-	ITextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
-		:m_texture_loading_data{ texture_loader->load() }{
-	}
+	ITextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader);
 
 	virtual ~ITextureCompiler() = default;
 	[[nodiscard]] virtual std::shared_ptr<ITexture> compile() = 0;

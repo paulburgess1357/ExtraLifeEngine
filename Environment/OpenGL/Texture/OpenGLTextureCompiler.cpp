@@ -55,10 +55,13 @@ void OpenGL::OpenGLTextureCompiler::generate_texture() const {
 GLenum OpenGL::OpenGLTextureCompiler::get_texture_format() const{
 	GLenum format { 0 };
 	if (m_texture_loading_data.m_components == 1) {
+		Print::print("RED Format");
 		format = GL_RED;
 	} else if (m_texture_loading_data.m_components == 3) {
+		Print::print("RGB Format");
 		format = GL_RGB;
 	} else if (m_texture_loading_data.m_components == 4) {
+		Print::print("RGBA Format");
 		format = GL_RGBA;
 	} else {
 		FatalError::fatal_error("Unknown component number in load_texture function!");

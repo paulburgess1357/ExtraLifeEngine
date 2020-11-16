@@ -3,7 +3,6 @@
 #include "../Input/Command/ControlCommands.h"
 #include "../ResourceManagement/ShaderResource.h"
 #include "../ResourceManagement/TextureResource.h"
-#include "../ResourceManagement/TextureResource.h"
 #include "../Tests/GraphicsTesting/Cube/CubeResource.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Neutral/Window/WindowFactory.h"

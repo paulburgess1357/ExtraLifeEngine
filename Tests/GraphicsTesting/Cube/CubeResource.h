@@ -13,8 +13,8 @@ public:
 private:
 	CubeResource() = default;
 
-	static bool is_loaded(const std::string& cube_name);
 	static void load(const std::string& cube_name);
+	static bool is_loaded(const std::string& cube_name);	
 
 	static std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_vbo_vaos_cache;
 	static std::shared_ptr<ICubeLoader> m_cube_loader;

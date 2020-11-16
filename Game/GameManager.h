@@ -37,7 +37,7 @@ private:
 	InputHandler m_input_handler;
 	MouseHandler m_mouse_handler;		
 
-	std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block = nullptr;	
+    std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	
 };

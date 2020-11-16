@@ -14,8 +14,15 @@ namespace OpenGL{
 		void unbind() const override;
 		void destroy() const override;
 
+		// Texture handling (per shader)		
+		void attach_texture(const std::string& texture_name) override;
+		void bind_textures() const override;
+		void unbind_textures() const override;
+		void check_tex_unit() const;
+
 		// Single Value Uniforms
 		void set_uniform(const std::string& uniform_name, const int value) override;
+		void set_uniform(const std::string& uniform_name, const unsigned int value) override;
 		void set_uniform(const std::string& uniform_name, const float value) override;
 
 		// Vector Uniforms
@@ -26,12 +33,6 @@ namespace OpenGL{
 		// Matrix Uniforms		
 		void set_uniform(const std::string& uniform_name, const glm::mat3& value) override;
 		void set_uniform(const std::string& uniform_name, const glm::mat4& value) override;
-
-		// Texture handling (per shader)
-		void check_tex_unit() const;
-		void attach_texture(const std::string& texture_name) override;
-		void bind_textures() const override;
-		void unbind_textures() const override;
 
 	private:
 		int get_uniform(const std::string& uniform_name) override;

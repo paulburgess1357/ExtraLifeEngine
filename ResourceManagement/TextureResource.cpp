@@ -18,6 +18,14 @@ std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_name,
 	return m_texture_cache[texture_name];	
 }
 
+bool TextureResource::is_loaded(const std::string& texture_name) {
+	const auto it = m_texture_cache.find(texture_name);
+	if (it == m_texture_cache.end()) {
+		return false;
+	}
+	return true;
+}
+
 std::shared_ptr<ITexture> TextureResource::get(const std::string& texture_name) {
 	if (!is_loaded(texture_name)) {
 		FatalError::fatal_error("Unable to locate texture: " + texture_name);
@@ -40,12 +48,4 @@ void TextureResource::destroy_all(){
 		texture.second->destroy();
 	}
 	m_texture_cache.clear();
-}
-
-bool TextureResource::is_loaded(const std::string& texture_name){
-	const auto it = m_texture_cache.find(texture_name);
-	if (it == m_texture_cache.end()) {
-		return false;
-	}
-	return true;
 }

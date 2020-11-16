@@ -11,7 +11,7 @@ std::shared_ptr<IShaderProgram> ShaderResource::load(const std::string& shader_n
 	if (!is_loaded(shader_name)) {
 		const std::shared_ptr<IShaderLoader> shader_loader = std::make_shared<ShaderLoaderFromFile>(vertex_shader_path, fragment_shader_path);
 		const std::shared_ptr<IShaderCompiler> shader_compiler = std::make_shared<OpenGL::OpenGLShaderCompiler>(shader_loader);
-		m_shader_cache[shader_name] = shader_compiler->compile();;
+		m_shader_cache[shader_name] = shader_compiler->compile();
 	}	
 	return m_shader_cache[shader_name];
 }

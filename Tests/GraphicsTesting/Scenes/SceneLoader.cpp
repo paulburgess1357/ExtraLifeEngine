@@ -31,11 +31,9 @@ void SceneLoader::single_cube(entt::registry& registry){
 void SceneLoader::single_textured_cube(entt::registry& registry){
 	
 	TextureResource::load("texture1", "Assets/textures/colorful_squares.jpg", true);
-	TextureResource::load("texture2", "Assets/textures/brickwall.jpg", true);
 	
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("textured_cube_test", "Assets/shaders/vertex/textured_cube.glsl", "Assets/shaders/fragment/textured_cube.glsl");	
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("textured_cube_test", "Assets/shaders/vertex/multi_textured_cube.glsl", "Assets/shaders/fragment/multi_textured_cube.glsl");	
 	shader_program->attach_texture("texture1");
-	shader_program->attach_texture("texture2");
 	
 	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_textured") };
 
@@ -46,3 +44,4 @@ void SceneLoader::single_textured_cube(entt::registry& registry){
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 
 }
+

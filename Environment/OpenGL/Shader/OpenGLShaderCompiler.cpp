@@ -23,6 +23,7 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	// Link uniform blocks (used across all shaders)
 	OpenGLUniformBlock opengl_uniform_block_allocator;
 	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
+	opengl_uniform_block_allocator.link_camera_position_block_to_shader(shader_program);
 	
 	return shader_program;		
 }

@@ -4,8 +4,10 @@
 class SceneLoader{
 	
 public:
-	static void single_cube(entt::registry& registry);
-	static void single_textured_cube(entt::registry& registry);
+	static void single_cube(entt::registry& registry);	
+	static void single_cube_textured(entt::registry& registry);
+	static void single_cube_lighting(entt::registry& registry);
+	
 	
 };
 

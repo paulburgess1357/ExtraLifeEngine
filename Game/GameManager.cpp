@@ -28,7 +28,7 @@ void GameManager::set_game_state(GameState gamestate) {
 
 void GameManager::run(){
 	initialize_window();
-	initialize_uniform_blocks();
+	initialize_uniform_block_handler();
 	initialize_projection_matrix();
 	initialize_controls();
 	initialize_scene();
@@ -40,9 +40,8 @@ void GameManager::initialize_window(){
 	m_window = WindowFactory::create_opengl_window(1920, 1080, false);
 }
 
-void GameManager::initialize_uniform_blocks(){
-	m_shader_uniform_block = std::make_shared<OpenGL::OpenGLUniformBlock>();
-	m_shader_uniform_block->create_projection_view_block();
+void GameManager::initialize_uniform_block_handler(){
+	m_shader_uniform_block_handler = std::make_shared<OpenGL::OpenGLUniformBlock>();
 }
 
 void GameManager::initialize_projection_matrix() const{
@@ -54,8 +53,7 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	SceneLoader::single_cube(m_registry);
-	SceneLoader::single_textured_cube(m_registry);
+	SceneLoader::single_cube_lighting(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -72,7 +70,7 @@ void GameManager::gameloop() {
 }
 
 void GameManager::update(){
-	m_shader_uniform_block->update(m_camera);
+	m_shader_uniform_block_handler->update(m_camera);
 	Transform::TransformSystem::update(m_registry);
 }
 
@@ -88,6 +86,6 @@ void GameManager::destroy() const {
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	TextureResource::destroy_all();
-	m_shader_uniform_block->destroy();
+	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

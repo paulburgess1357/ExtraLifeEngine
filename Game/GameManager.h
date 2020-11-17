@@ -19,7 +19,7 @@ public:
 	
 private:
 	void initialize_window();
-	void initialize_uniform_blocks();
+	void initialize_uniform_block_handler();
 	void initialize_projection_matrix() const;
 	void initialize_controls();
 	void initialize_scene();
@@ -37,7 +37,7 @@ private:
 	InputHandler m_input_handler;
 	MouseHandler m_mouse_handler;		
 
-    std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block = nullptr;	
+    std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	
 };

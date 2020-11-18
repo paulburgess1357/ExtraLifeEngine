@@ -138,7 +138,7 @@ const float ICubeLoader::m_cube_verticies_normals[216] = {
 
 const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
 
-	// CubeComponent Verticies     // Normals           // ITexture
+	// CubeComponent Verticies   // Normals    // Texture
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
 	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,

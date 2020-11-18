@@ -53,7 +53,7 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	SceneLoader::single_cube_lighting(m_registry);
+	SceneLoader::single_cube_textured_lighting_maps_directional_lights(m_registry);
 }
 
 void GameManager::initialize_renderers(){

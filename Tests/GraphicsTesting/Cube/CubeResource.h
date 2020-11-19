@@ -1,7 +1,7 @@
 #pragma once
 #include "ICubeLoader.h"
-#include <utility>
 #include <memory>
+#include <utility>
 #include <unordered_map>
 
 class CubeResource {

@@ -1,9 +1,9 @@
 #pragma once
-#include "../../Neutral/Window/Window.h"
+#include "../../Interfaces/Window/IWindow.h"
 
 namespace OpenGL{
 
-	class OpenGLWindow : public Window {
+	class OpenGLWindow : public IWindow {
 		
 	public:
 		OpenGLWindow(const int window_width, const int window_height, const bool is_resizeable, GLFWwindow* window);

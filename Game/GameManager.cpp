@@ -5,7 +5,7 @@
 #include "../ResourceManagement/TextureResource.h"
 #include "../Tests/GraphicsTesting/Cube/CubeResource.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
-#include "../Environment/Neutral/Window/WindowFactory.h"
+#include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
 #include "../Environment/OpenGL/Shader/OpenGLUniformBlock.h"
@@ -37,11 +37,11 @@ void GameManager::run(){
 }
 
 void GameManager::initialize_window(){
-	m_window = WindowFactory::create_opengl_window(1920, 1080, false);
+	m_window = IWindowCreator::create_window(1920, 1080, false);
 }
 
 void GameManager::initialize_uniform_block_handler(){
-	m_shader_uniform_block_handler = std::make_shared<OpenGL::OpenGLUniformBlock>();
+	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block();
 }
 
 void GameManager::initialize_projection_matrix() const{
@@ -57,7 +57,7 @@ void GameManager::initialize_scene(){
 }
 
 void GameManager::initialize_renderers(){
-	m_cube_renderer = std::make_shared<OpenGL::OpenGLCubeRenderer>();
+	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 }
 
 void GameManager::gameloop() {
@@ -85,7 +85,6 @@ void GameManager::destroy() const {
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
-	TextureResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

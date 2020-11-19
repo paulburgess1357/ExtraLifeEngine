@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 
 OpenGL::OpenGLWindow::OpenGLWindow(const int window_width, const int window_height, const bool is_resizeable, GLFWwindow* window)
-	:Window{ window_width, window_height, is_resizeable, window } {
+	:IWindow{ window_width, window_height, is_resizeable, window } {
 }
 
 void OpenGL::OpenGLWindow::swap_buffer() const{

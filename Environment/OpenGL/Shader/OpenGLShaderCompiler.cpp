@@ -10,8 +10,7 @@ OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShader
 }
 
 std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
-
-	Print::print_separator(true, true);
+	
 	Print::print("Compiling Shader");
 
 	const unsigned int vertex_shader_id = compile_glsl_shader(m_vertex_fragment_strings.first, ShaderType::VERTEX);

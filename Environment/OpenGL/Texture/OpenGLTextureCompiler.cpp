@@ -9,7 +9,9 @@ OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<IText
 }
 
 std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
+
 	Print::print("Compiling Texture");
+	
 	std::shared_ptr<ITexture> texture = compile_texture();
 	TextureLoaderFromFile::free_loaded_texture_data(m_texture_loading_data);
 	return texture;	

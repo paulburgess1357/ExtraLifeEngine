@@ -1,7 +1,7 @@
 #include "ProjectionMatrix.h"
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
-#include "../Environment/Neutral/Window/Window.h"
+#include "../Environment/Interfaces/Window/IWindow.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
 
@@ -14,11 +14,11 @@ const float ProjectionMatrix::DEFAULT_FOV{ 45.0f };
 const float ProjectionMatrix::DEFAULT_ZNEAR{ 0.1f };
 const float ProjectionMatrix::DEFAULT_ZFAR{ 100.0f };
 
-std::shared_ptr<Window> ProjectionMatrix::m_window_ptr = nullptr;
+std::shared_ptr<IWindow> ProjectionMatrix::m_window_ptr = nullptr;
 
-void ProjectionMatrix::initialize_projection_matrix(const std::shared_ptr<Window>& window_ptr){
+void ProjectionMatrix::initialize_projection_matrix(const std::shared_ptr<IWindow>& window_ptr){
 	if(window_ptr == nullptr){
-		FatalError::fatal_error("Window pointer is null!  The projection matrix must be initialized with a non-null window pointer!");
+		FatalError::fatal_error("IWindow pointer is null!  The projection matrix must be initialized with a non-null window pointer!");
 	}
 	
 	m_window_ptr = window_ptr;
@@ -30,7 +30,7 @@ void ProjectionMatrix::set_projection_matrix() {
 	m_window_width = m_window_ptr->get_width();
 	m_window_height = m_window_ptr->get_height();
 
-	Print::print("Window: " + std::to_string(m_window_width) + "x" + std::to_string(m_window_height));
+	Print::print("IWindow: " + std::to_string(m_window_width) + "x" + std::to_string(m_window_height));
 
 	m_projection_matrix = glm::perspective(glm::radians(DEFAULT_FOV),
 		static_cast<float>(m_window_width) /

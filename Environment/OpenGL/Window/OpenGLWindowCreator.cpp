@@ -3,7 +3,7 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-std::shared_ptr<Window> OpenGL::OpenGLWindowCreator::m_opengl_window = nullptr;
+std::shared_ptr<IWindow> OpenGL::OpenGLWindowCreator::m_opengl_window = nullptr;
 
 OpenGL::OpenGLWindowCreator::OpenGLWindowCreator(const int width, const int height, const bool is_resizeable)
 	:m_width { width },
@@ -11,7 +11,7 @@ OpenGL::OpenGLWindowCreator::OpenGLWindowCreator(const int width, const int heig
 	m_is_resizeable { is_resizeable }{
 }
 
-std::shared_ptr<Window> OpenGL::OpenGLWindowCreator::create_window() {
+std::shared_ptr<IWindow> OpenGL::OpenGLWindowCreator::create_glfw_window() {
 
 	if(m_opengl_window){
 		return m_opengl_window;

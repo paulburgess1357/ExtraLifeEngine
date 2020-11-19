@@ -9,8 +9,9 @@ std::unordered_map<std::string, std::shared_ptr<IShaderProgram>> ShaderResource:
 
 std::shared_ptr<IShaderProgram> ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path){
 	if (!is_loaded(shader_name)) {
+		Print::print("\nLoading Shader: " + shader_name + " (" + vertex_shader_path + ") & (" + fragment_shader_path + ")");
 		const std::shared_ptr<IShaderLoader> shader_loader = std::make_shared<ShaderLoaderFromFile>(vertex_shader_path, fragment_shader_path);
-		const std::shared_ptr<IShaderCompiler> shader_compiler = std::make_shared<OpenGL::OpenGLShaderCompiler>(shader_loader);
+		const std::shared_ptr<IShaderCompiler> shader_compiler = IShaderCompiler::create_compiler(shader_loader);		
 		m_shader_cache[shader_name] = shader_compiler->compile();
 	}	
 	return m_shader_cache[shader_name];

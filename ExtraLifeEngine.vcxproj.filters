@@ -36,12 +36,6 @@
     <ClCompile Include="Environment\Neutral\Shader\ShaderLoaderFromFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Environment\Neutral\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment\Neutral\Window\WindowFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,6 +126,18 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Systems\Render\Interfaces\ICubeRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Interfaces\Shader\IShaderCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Interfaces\Window\IWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -171,12 +177,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Neutral\Shader\ShaderType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Environment\Neutral\Window\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Environment\Neutral\Window\WindowFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility\FatalError.h">
@@ -324,6 +324,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\GraphicsTesting\Cube\TexturedCubeComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Neutral\API\GraphicsAPIType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Window\IWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

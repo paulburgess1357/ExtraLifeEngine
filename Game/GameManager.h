@@ -3,7 +3,7 @@
 #include "../Camera/Camera.h"
 #include "../Input/Processing/InputHandler.h"
 #include "../Input/Processing/MouseHandler.h"
-#include "../Environment/Neutral/Window/Window.h"
+#include "../Environment/Interfaces/Window/IWindow.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
 #include "../ECS/Systems/Render/Interfaces/ICubeRenderer.h"
 #include "entt/entity/registry.hpp"
@@ -32,7 +32,7 @@ private:
 	
 	GameState m_gamestate;
 	entt::registry m_registry;
-	std::shared_ptr<Window> m_window;
+	std::shared_ptr<IWindow> m_window;
 	Camera m_camera;
 	InputHandler m_input_handler;
 	MouseHandler m_mouse_handler;		

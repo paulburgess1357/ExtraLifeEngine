@@ -95,7 +95,6 @@ void SceneLoader::single_cube_textured_lighting_maps(entt::registry& registry){
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 }
 
-
 void SceneLoader::single_cube_textured_lighting_maps_directional_lights(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/textured_cube_lighting_directional.glsl", "Assets/shaders/fragment/textured_cube_lighting_directional.glsl");

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Neutral/Window/Window.h"
+#include "../../Interfaces//Window/IWindow.h"
 #include <memory>
 
 class IWindowCreator {
@@ -7,7 +7,8 @@ class IWindowCreator {
 public:	
 	IWindowCreator();	
 	virtual ~IWindowCreator() = default;
-	[[nodiscard]] virtual std::shared_ptr<Window> create_window() = 0;
+	[[nodiscard]] virtual std::shared_ptr<IWindow> create_glfw_window() = 0;
+	[[nodiscard]] static std::shared_ptr<IWindow> create_window(const int width, const int height, const bool is_resizeable);
 	
 protected:
 	static void init_glfw();

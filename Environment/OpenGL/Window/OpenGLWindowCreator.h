@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Neutral/Window/Window.h"
+#include "../../Interfaces/Window/IWindow.h"
 #include "../../Interfaces/Window/IWindowCreator.h"
 
 namespace OpenGL{
@@ -10,7 +10,7 @@ namespace OpenGL{
 		OpenGLWindowCreator(const int width, const int height, const bool is_resizeable);
 		~OpenGLWindowCreator() = default;
 
-		[[nodiscard]] std::shared_ptr<Window> create_window() override;
+		[[nodiscard]] std::shared_ptr<IWindow> create_glfw_window() override;
 		
 	private:
 		void init_glfw_hints() const;
@@ -20,7 +20,7 @@ namespace OpenGL{
 		int m_width;
 		int m_height;
 		bool m_is_resizeable;
-		static std::shared_ptr<Window> m_opengl_window;
+		static std::shared_ptr<IWindow> m_opengl_window;
 		
 	};
 	

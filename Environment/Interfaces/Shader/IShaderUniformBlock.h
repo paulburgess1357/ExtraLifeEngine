@@ -18,6 +18,8 @@ public:
 	
 	virtual void update(Camera& camera) const = 0;
 	virtual void destroy() const = 0;
+
+	[[nodiscard]] static std::shared_ptr<IShaderUniformBlock> create_shader_uniform_block();
 	
 protected:	
 	virtual void check_projection_view_block_created() const;

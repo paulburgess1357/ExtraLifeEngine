@@ -11,6 +11,7 @@ public:
 
 	virtual ~ITextureCompiler() = default;
 	[[nodiscard]] virtual std::shared_ptr<ITexture> compile() = 0;
+	[[nodiscard]] static std::shared_ptr<ITextureCompiler> create_compiler(const std::shared_ptr<ITextureLoader>& texture_loader);
 	
 protected:
 	TextureLoadingData m_texture_loading_data;

@@ -3,6 +3,8 @@
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 
+std::shared_ptr<ICubeLoader> CubeResource::m_cube_loader = nullptr;
+
 std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> CubeResource::m_vbo_vaos_cache{
 	{ "cube", { 99, 99 } },
 	{ "cube_normal", { 99, 99 } },
@@ -10,9 +12,12 @@ std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> CubeResou
 	{ "cube_normal_textured", { 99, 99 } },
 };
 
-std::shared_ptr<ICubeLoader> CubeResource::m_cube_loader = std::make_shared<OpenGL::OpenGLCubeLoader>();
-
 unsigned int CubeResource::get(const std::string& cube_name){
+
+	if(m_cube_loader == nullptr){
+		m_cube_loader = ICubeLoader::create_cube_loader();
+	}
+	
 	load(cube_name);
 	return m_vbo_vaos_cache[cube_name].second;
 }

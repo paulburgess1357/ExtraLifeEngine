@@ -1,12 +1,12 @@
 #pragma once
-#include "../Environment/Neutral/Window/Window.h"
+#include "../Environment/Interfaces/Window/IWindow.h"
 #include <glm/glm.hpp>
 #include <memory>
 
 class ProjectionMatrix{
 
 public:
-	static void initialize_projection_matrix(const std::shared_ptr<Window>& window_ptr);
+	static void initialize_projection_matrix(const std::shared_ptr<IWindow>& window_ptr);
 	static glm::mat4 get_projection_matrix();
 private:
 	ProjectionMatrix() = default;
@@ -22,7 +22,7 @@ private:
 	static const float DEFAULT_ZNEAR;
 	static const float DEFAULT_ZFAR;
 
-	static std::shared_ptr<Window> m_window_ptr;
+	static std::shared_ptr<IWindow> m_window_ptr;
 	
 };
 

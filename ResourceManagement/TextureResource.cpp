@@ -10,9 +10,9 @@ std::unordered_map<std::string, std::shared_ptr<ITexture>> TextureResource::m_te
 std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_name, const std::string& texture_path, const bool flip_texture){
 	
 	if (!is_loaded(texture_name)) {
-		Print::print("Loading Texture: " + texture_name + " (" + texture_path + ")");
+		Print::print("\nLoading Texture: " + texture_name + " (" + texture_path + ")");
 		const std::shared_ptr<ITextureLoader> texture_loader = std::make_shared<TextureLoaderFromFile>(texture_path, flip_texture);
-		const std::shared_ptr<ITextureCompiler> texture_compiler = std::make_shared<OpenGL::OpenGLTextureCompiler>(texture_loader);
+		const std::shared_ptr<ITextureCompiler> texture_compiler = ITextureCompiler::create_compiler(texture_loader);
 		m_texture_cache[texture_name] = texture_compiler->compile();		
 	}
 	return m_texture_cache[texture_name];	

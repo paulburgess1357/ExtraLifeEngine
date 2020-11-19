@@ -1,10 +1,10 @@
 #pragma once
 #include <GLFW/glfw3.h>
 
-class Window{
+class IWindow{
 	
 public:	
-	virtual ~Window();
+	virtual ~IWindow();
 	
 	virtual void swap_buffer() const = 0;
 	virtual void clear_color() const = 0;	
@@ -15,7 +15,7 @@ public:
 	static bool is_resizeable();	
 
 protected:
-	Window(const int width, const int height, const bool is_resizeable, GLFWwindow* window);
+	IWindow(const int width, const int height, const bool is_resizeable, GLFWwindow* window);
 	static int m_width;
 	static int m_height;
 	static bool m_is_resizeable;

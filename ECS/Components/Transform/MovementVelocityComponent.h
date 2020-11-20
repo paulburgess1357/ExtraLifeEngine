@@ -1,4 +1,5 @@
 #pragma once
+#include <glm/glm.hpp>
 
 struct MovementVelocityComponent {
 	// x, y, z, movement velocity

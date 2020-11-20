@@ -164,6 +164,7 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITexture.cpp" />
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp" />
+    <ClCompile Include="ResourceManagement\LightResource.cpp" />
     <ClCompile Include="Matrix\MatrixFunctions.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />
@@ -201,12 +202,15 @@
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
+    <ClInclude Include="ECS\Components\Lights\DirectionalLight.h" />
+    <ClInclude Include="ECS\Components\Lights\PointLight.h" />
     <ClInclude Include="Environment\Interfaces\Shader\IShaderUniformBlock.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureLoader.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPIType.h" />
     <ClInclude Include="Environment\Neutral\Texture\TextureLoadingData.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureCompiler.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h" />
+    <ClInclude Include="ResourceManagement\LightResource.h" />
     <ClInclude Include="Matrix\MatrixFunctions.h" />
     <ClInclude Include="Matrix\ProjectionMatrix.h" />
     <ClInclude Include="Camera\Direction.h" />

@@ -3,6 +3,7 @@
 #include "../Cube/CubeResource.h"
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../ResourceManagement/TextureResource.h"
+#include "../../ResourceManagement/LightResource.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
 #include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
@@ -110,6 +111,40 @@ void SceneLoader::single_cube_textured_lighting_maps_directional_lights(entt::re
 	shader_program->set_uniform("dirlight.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("dirlight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 
+
+	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
+	const entt::entity textured_cube_entity = registry.create();
+
+	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
+	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
+	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
+	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
+	
+}
+
+void SceneLoader::single_cube_textured_lighting_maps_directional_lights_using_attach(entt::registry& registry){
+
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/textured_cube_lighting_directional_using_attach.glsl", "Assets/shaders/fragment/textured_cube_lighting_directional_using_attach.glsl");
+	TextureResource::load("material.diffuse", "Assets/textures/brown_container.png", true);
+	TextureResource::load("material.specular", "Assets/textures/container_specular_map.png", true);
+
+	shader_program->attach_texture("material.diffuse");
+	shader_program->attach_texture("material.specular");
+	shader_program->set_uniform("material.shininess", 32.0f);
+
+	DirectionalLight dirlight;
+	LightResource::load("dirlight", dirlight);
+	shader_program->attach_directional_light("dirlight");
+
+	DirectionalLight another_dirlight;
+	another_dirlight.direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
+	LightResource::load("another_dirlight", another_dirlight);
+	shader_program->attach_directional_light("another_dirlight");
+
+	DirectionalLight yet_another;
+	yet_another.direction = glm::vec3{ 1.0f, 0.0f, 0.0f };
+	LightResource::load("yet_another_dirlight", yet_another);
+	shader_program->attach_directional_light("yet_another_dirlight");
 
 	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
 	const entt::entity textured_cube_entity = registry.create();

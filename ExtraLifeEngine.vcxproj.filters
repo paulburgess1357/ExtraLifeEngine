@@ -138,6 +138,9 @@
     <ClCompile Include="Environment\Interfaces\Window\IWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManagement\LightResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -333,6 +336,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Interfaces\Window\IWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Lights\DirectionalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Lights\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\LightResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

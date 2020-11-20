@@ -1,4 +1,5 @@
 #pragma once
+#include "../../ECS/Components/Lights/DirectionalLight.h"
 #include <string>
 #include <unordered_map>
 #include <glm/glm.hpp>
@@ -18,6 +19,9 @@ public:
 	virtual void bind_textures() const = 0;
 	virtual void unbind_textures() const = 0;
 	[[nodiscard]] unsigned int get_handle() const;
+
+	// Lighting
+	virtual void attach_directional_light(const std::string& dirlight_name) = 0;
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value) = 0;

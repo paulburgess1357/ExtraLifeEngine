@@ -1,13 +1,17 @@
 #include "OpenGLShaderProgram.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "../../ResourceManagement/LightResource.h"
 #include "../../ResourceManagement/TextureResource.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
+std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> OpenGL::OpenGLShaderProgram::m_directional_light_map;
+
 OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const unsigned int handle)
 	:IShaderProgram{ handle },
-	m_available_tex_unit{ 0 } {
+	m_available_tex_unit{ 0 },
+	m_current_dirlight{ 0 }{
 }
 
 void OpenGL::OpenGLShaderProgram::bind() const{
@@ -30,6 +34,22 @@ void OpenGL::OpenGLShaderProgram::attach_texture(const std::string& texture_name
 		m_available_tex_unit++;
 	}
 
+}
+
+void OpenGL::OpenGLShaderProgram::attach_directional_light(const std::string& dirlight_name){
+
+	m_directional_light_map[dirlight_name] = LightResource::get_dirlight(dirlight_name);
+
+	const std::string dirlight_shader_name = "dirlight[" + std::to_string(m_current_dirlight) + "]";
+
+	set_uniform(dirlight_shader_name + ".direction", m_directional_light_map[dirlight_name]->direction);
+	set_uniform(dirlight_shader_name + ".ambient", m_directional_light_map[dirlight_name]->ambient);
+	set_uniform(dirlight_shader_name + ".diffuse", m_directional_light_map[dirlight_name]->diffuse);
+	set_uniform(dirlight_shader_name + ".specular", m_directional_light_map[dirlight_name]->specular);
+
+	set_uniform("active_dirlight_qty", m_current_dirlight);
+	m_current_dirlight++;
+	
 }
 
 void OpenGL::OpenGLShaderProgram::check_tex_unit() const {

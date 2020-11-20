@@ -1,7 +1,10 @@
 #pragma once
 #include "../../Interfaces/Shader/IShaderProgram.h"
+#include "../../ECS/Components/Lights/DirectionalLight.h"
+#include "../../ECS/Components/Lights/PointLight.h"
 #include <unordered_map>
 #include <utility>
+#include <memory>
 
 namespace OpenGL{
 
@@ -20,6 +23,9 @@ namespace OpenGL{
 		void unbind_textures() const override;
 		void check_tex_unit() const;
 
+		// Lighting
+		void attach_directional_light(const std::string& dirlight_name) override;
+
 		// Single Value Uniforms
 		void set_uniform(const std::string& uniform_name, const int value) override;
 		void set_uniform(const std::string& uniform_name, const unsigned int value) override;
@@ -37,11 +43,17 @@ namespace OpenGL{
 	private:
 		int get_uniform(const std::string& uniform_name) override;
 
-		// Texture map
+		// Texture map (per shader)
 		// <texture_name, <tex_unit, tex_handle>>
 		unsigned int m_available_tex_unit;
 		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_texture_map;
-		
+
+		// Directional light map (all shaders)
+		unsigned int m_current_dirlight;
+		static std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> m_directional_light_map;
+
+		// Point light map (per shader)
+		// std::unordered_map<std::string, std::shared_ptr<PointLight>> m_point_light_map;		
 	};
 	
 } // namespace OpenGL

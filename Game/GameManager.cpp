@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "../Matrix/ProjectionMatrix.h"
 #include "../Input/Command/ControlCommands.h"
+#include "../ResourceManagement/LightResource.h"
 #include "../ResourceManagement/ShaderResource.h"
 #include "../ResourceManagement/TextureResource.h"
 #include "../Tests/GraphicsTesting/Cube/CubeResource.h"
@@ -53,7 +54,7 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	SceneLoader::single_cube_textured_lighting_maps_directional_lights(m_registry);
+	SceneLoader::single_cube_textured_lighting_maps_directional_lights_using_attach(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -85,6 +86,7 @@ void GameManager::destroy() const {
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
+	LightResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

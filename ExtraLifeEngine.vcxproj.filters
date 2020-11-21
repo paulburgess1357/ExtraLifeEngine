@@ -347,5 +347,8 @@
     <ClInclude Include="ResourceManagement\LightResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\Components\Lights\SceneLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

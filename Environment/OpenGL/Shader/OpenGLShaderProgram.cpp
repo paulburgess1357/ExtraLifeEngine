@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
-std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> OpenGL::OpenGLShaderProgram::m_directional_light_map;
+//std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<DirectionalLight>>> OpenGL::OpenGLShaderProgram::m_directional_light_map;
 
 OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const unsigned int handle)
 	:IShaderProgram{ handle },
@@ -22,15 +22,36 @@ void OpenGL::OpenGLShaderProgram::unbind() const{
 	glUseProgram(0);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_texture(const std::string& texture_name) {
+void OpenGL::OpenGLShaderProgram::attach_diffuse_texture(const std::string& texture_name) {
 
 	const auto it = m_texture_map.find(texture_name);
-	if (it == m_texture_map.end()) {
-		Print::print("Attaching texture '" + texture_name + "' to shader handle: " + std::to_string(m_handle));
+	if (it == m_texture_map.end()) {		
+
 		check_tex_unit();
 		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
 		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
-		set_uniform(texture_name, m_available_tex_unit);
+
+		Print::print("Attaching diffuse texture '" + texture_name + "' (material.diffuse) to shader handle: " + std::to_string(m_handle));
+		set_uniform("material.diffuse", m_available_tex_unit);
+		
+		m_available_tex_unit++;
+	}
+
+}
+
+void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& texture_name, const float shininess) {
+
+	const auto it = m_texture_map.find(texture_name);
+	if (it == m_texture_map.end()) {
+
+		check_tex_unit();
+		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
+		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
+
+		Print::print("Attaching specular texture '" + texture_name + "' (material.specular) to shader handle: " + std::to_string(m_handle));
+		set_uniform("material.specular", m_available_tex_unit);
+		set_uniform("material.shininess", shininess);
+
 		m_available_tex_unit++;
 	}
 
@@ -38,19 +59,30 @@ void OpenGL::OpenGLShaderProgram::attach_texture(const std::string& texture_name
 
 void OpenGL::OpenGLShaderProgram::attach_directional_light(const std::string& dirlight_name){
 
-	m_directional_light_map[dirlight_name] = LightResource::get_dirlight(dirlight_name);
-
 	const std::string dirlight_shader_name = "dirlight[" + std::to_string(m_current_dirlight) + "]";
 
-	set_uniform(dirlight_shader_name + ".direction", m_directional_light_map[dirlight_name]->direction);
-	set_uniform(dirlight_shader_name + ".ambient", m_directional_light_map[dirlight_name]->ambient);
-	set_uniform(dirlight_shader_name + ".diffuse", m_directional_light_map[dirlight_name]->diffuse);
-	set_uniform(dirlight_shader_name + ".specular", m_directional_light_map[dirlight_name]->specular);
+	m_directional_light_map[dirlight_name].first = dirlight_shader_name;
+	m_directional_light_map[dirlight_name].second = LightResource::get_dirlight(dirlight_name);
 
+	Print::print("Attaching Directional Light: " + dirlight_name + " (" + dirlight_shader_name + ")");
+	set_uniform(dirlight_shader_name + ".direction", m_directional_light_map[dirlight_name].second->direction);
 	set_uniform("active_dirlight_qty", m_current_dirlight);
 	m_current_dirlight++;
 	
 }
+
+void OpenGL::OpenGLShaderProgram::attach_scene_light(const std::string& scenelight_name){
+
+	Print::print("Attaching Scene Light: " + scenelight_name);
+	m_scene_light_pair.first = scenelight_name;
+	m_scene_light_pair.second = LightResource::get_scenelight(scenelight_name);
+
+	set_uniform("scenelight.ambient", m_scene_light_pair.second->ambient);
+	set_uniform("scenelight.diffuse", m_scene_light_pair.second->diffuse);
+	set_uniform("scenelight.specular", m_scene_light_pair.second->specular);
+	
+}
+
 
 void OpenGL::OpenGLShaderProgram::check_tex_unit() const {
 	if (m_available_tex_unit == 99) {

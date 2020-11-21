@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Interfaces/Shader/IShaderProgram.h"
 #include "../../ECS/Components/Lights/DirectionalLight.h"
+#include "../../ECS/Components/Lights/SceneLight.h"
 #include "../../ECS/Components/Lights/PointLight.h"
 #include <unordered_map>
 #include <utility>
@@ -18,12 +19,14 @@ namespace OpenGL{
 		void destroy() const override;
 
 		// Texture handling (per shader)		
-		void attach_texture(const std::string& texture_name) override;
+		void attach_diffuse_texture(const std::string& texture_name) override;
+		void attach_specular_texture(const std::string& texture_name, const float shininess) override;
 		void bind_textures() const override;
 		void unbind_textures() const override;
 		void check_tex_unit() const;
 
 		// Lighting
+		void attach_scene_light(const std::string& scenelight_name) override;
 		void attach_directional_light(const std::string& dirlight_name) override;
 
 		// Single Value Uniforms
@@ -43,16 +46,20 @@ namespace OpenGL{
 	private:
 		int get_uniform(const std::string& uniform_name) override;
 
-		// Texture map (per shader)
+		// Texture map
 		// <texture_name, <tex_unit, tex_handle>>
 		unsigned int m_available_tex_unit;
 		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_texture_map;
 
-		// Directional light map (all shaders)
-		unsigned int m_current_dirlight;
-		static std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> m_directional_light_map;
+		// Directional light map
+		// < actual light name, < light name in shader, shared ptr to light>>
+		unsigned int m_current_dirlight;		
+		std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<DirectionalLight>>> m_directional_light_map;
 
-		// Point light map (per shader)
+		// Scene light
+		std::pair<std::string, std::shared_ptr<SceneLight>> m_scene_light_pair;
+		
+		// Point light map
 		// std::unordered_map<std::string, std::shared_ptr<PointLight>> m_point_light_map;		
 	};
 	

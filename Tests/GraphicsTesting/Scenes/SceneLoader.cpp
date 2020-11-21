@@ -9,57 +9,26 @@
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
 #include "../../ECS/Components/Shader/ShaderComponent.h"
-#include "../../ECS/Components/Transform/ScaleComponent.h"
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
-#include "../../ECS/Components/Transform/MovementVelocityComponent.h"
 
 void SceneLoader::single_cube(entt::registry& registry) {
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
-	shader_program->set_uniform("cube_color", glm::vec3(0.4f, 0.1f, 0.9f));
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
 
-	CubeComponent cube_component{ CubeResource::get("cube") };
-	const entt::entity cube_entity = registry.create();
+	DirectionalLight dirlight;
+	dirlight.direction = glm::vec3(1.0f, 1.0f, 0.0f);
+	LightResource::load("dirlight", dirlight);
 
-	registry.emplace<ShaderComponent>(cube_entity, shader_program);
-	registry.emplace<CubeComponent>(cube_entity, cube_component);
-	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
-	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
+	const SceneLight scenelight;
+	LightResource::load("scenelight", scenelight);
 
-}
-
-void SceneLoader::single_cube_textured(entt::registry& registry) {
-
-	TextureResource::load("texture1", "Assets/textures/colorful_squares.jpg", true);
-
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("textured_cube_test", "Assets/shaders/vertex/textured_cube.glsl", "Assets/shaders/fragment/textured_cube.glsl");
-	shader_program->attach_texture("texture1");
-
-	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_textured") };
-
-	const entt::entity textured_cube_entity = registry.create();
-	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
-	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
-	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 2.0f, 0.00f });
-	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
-
-}
-
-void SceneLoader::single_cube_lighting(entt::registry& registry) {
-
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/cube_colored_lighting.glsl", "Assets/shaders/fragment/cube_colored_lighting.glsl");
-
-	shader_program->set_uniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-	shader_program->set_uniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader_program->attach_scene_light("scenelight");
+	shader_program->attach_directional_light("dirlight");
+	
+	shader_program->set_uniform("material.diffuse", glm::vec3(0.5f, 0.9f, 0.31f));
 	shader_program->set_uniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("material.shininess", 32.0f);
-
-	shader_program->set_uniform("light.position", glm::vec3(0.0f, 1.0f, 1.0f));
-	shader_program->set_uniform("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-	shader_program->set_uniform("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader_program->set_uniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-	
 
 	CubeComponent cube_component{ CubeResource::get("cube_normal") };
 	const entt::entity cube_entity = registry.create();
@@ -71,88 +40,32 @@ void SceneLoader::single_cube_lighting(entt::registry& registry) {
 
 }
 
-void SceneLoader::single_cube_textured_lighting_maps(entt::registry& registry){
+void SceneLoader::single_cube_textured(entt::registry& registry) {
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/textured_cube_lighting.glsl", "Assets/shaders/fragment/textured_cube_lighting.glsl");
-	TextureResource::load("material.diffuse", "Assets/textures/brown_container.png", true);
-	TextureResource::load("material.specular", "Assets/textures/container_specular_map.png", true);
-
-	shader_program->attach_texture("material.diffuse");
-	shader_program->attach_texture("material.specular");
-	shader_program->set_uniform("material.shininess", 32.0f);
-
-	shader_program->set_uniform("light.position", glm::vec3(0.0f, 1.0f, 1.0f));
-	shader_program->set_uniform("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-	shader_program->set_uniform("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader_program->set_uniform("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-
-	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
-	const entt::entity textured_cube_entity = registry.create();
-
-	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
-	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
-	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
-	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
-}
-
-void SceneLoader::single_cube_textured_lighting_maps_directional_lights(entt::registry& registry){
-
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/textured_cube_lighting_directional.glsl", "Assets/shaders/fragment/textured_cube_lighting_directional.glsl");
-	TextureResource::load("material.diffuse", "Assets/textures/brown_container.png", true);
-	TextureResource::load("material.specular", "Assets/textures/container_specular_map.png", true);
-
-	shader_program->attach_texture("material.diffuse");
-	shader_program->attach_texture("material.specular");
-	shader_program->set_uniform("material.shininess", 32.0f);
-
-	shader_program->set_uniform("dirlight.direction", glm::vec3(0.0f, 1.0f, 0.0f));
-	shader_program->set_uniform("dirlight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-	shader_program->set_uniform("dirlight.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader_program->set_uniform("dirlight.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-
-	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
-	const entt::entity textured_cube_entity = registry.create();
-
-	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
-	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
-	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
-	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
-	
-}
-
-void SceneLoader::single_cube_textured_lighting_maps_directional_lights_using_attach(entt::registry& registry){
-
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cube_test", "Assets/shaders/vertex/textured_cube_lighting_directional_using_attach.glsl", "Assets/shaders/fragment/textured_cube_lighting_directional_using_attach.glsl");
-	TextureResource::load("material.diffuse", "Assets/textures/brown_container.png", true);
-	TextureResource::load("material.specular", "Assets/textures/container_specular_map.png", true);
-
-	shader_program->attach_texture("material.diffuse");
-	shader_program->attach_texture("material.specular");
-	shader_program->set_uniform("material.shininess", 32.0f);
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube_textured", "Assets/shaders/vertex/cube_textured.glsl", "Assets/shaders/fragment/cube_textured.glsl");
+	TextureResource::load("brown_container", "Assets/textures/colorful_squares.jpg", true);
+	TextureResource::load("brown_container_boarder", "Assets/textures/container_specular_map.png", true);
 
 	DirectionalLight dirlight;
+	dirlight.direction = glm::vec3(1.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
+
+	const SceneLight scenelight;	
+	LightResource::load("scenelight", scenelight);
+
+	shader_program->attach_diffuse_texture("brown_container");
+	shader_program->attach_specular_texture("brown_container_boarder", 32.0f);
+
+	shader_program->attach_scene_light("scenelight");
 	shader_program->attach_directional_light("dirlight");
 
-	DirectionalLight another_dirlight;
-	another_dirlight.direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
-	LightResource::load("another_dirlight", another_dirlight);
-	shader_program->attach_directional_light("another_dirlight");
-
-	DirectionalLight yet_another;
-	yet_another.direction = glm::vec3{ 1.0f, 0.0f, 0.0f };
-	LightResource::load("yet_another_dirlight", yet_another);
-	shader_program->attach_directional_light("yet_another_dirlight");
-
-	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
 	const entt::entity textured_cube_entity = registry.create();
-
+	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
 	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
-	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 0.0f, 0.0f, 0.00f });
+	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 3.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
-	
 }
+
+
 

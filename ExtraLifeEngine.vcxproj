@@ -204,6 +204,7 @@
     <ClInclude Include="Camera\CameraData.h" />
     <ClInclude Include="ECS\Components\Lights\DirectionalLight.h" />
     <ClInclude Include="ECS\Components\Lights\PointLight.h" />
+    <ClInclude Include="ECS\Components\Lights\SceneLight.h" />
     <ClInclude Include="Environment\Interfaces\Shader\IShaderUniformBlock.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureLoader.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPIType.h" />

@@ -2,8 +2,8 @@
 
 // Type Definitions
 struct Material {
-    vec3 diffuse;
-    vec3 specular;    
+    sampler2D diffuse;
+    sampler2D specular;    
     float shininess;
 }; 
 
@@ -31,16 +31,18 @@ uniform DirectionalLight dirlight[8];
 // Vertex Variables
 in vec3 frag_cube_normals;
 in vec3 fragment_world_position;
+in vec2 fragment_tex_coords;
 
 // Output
 out vec4 fragment_color;
 
 // Function Definitions
-vec3 calc_directional_light_no_texture(DirectionalLight dirlight, 
-                                       Material material, 
-                                       SceneLight scenelight, 
-                                       vec3 normalized_frag_cube_normals, 
-                                       vec3 view_direction);
+vec3 calc_directional_light(DirectionalLight dirlight, 
+                            Material material, 
+                            SceneLight scenelight, 
+                            vec3 normalized_frag_cube_normals, 
+                            vec3 view_direction, 
+                            vec2 fragment_tex_coords);
 
 // Shader
 void main() {
@@ -50,17 +52,19 @@ void main() {
 
     vec3 result = vec3(0.0f);
     for(int i = 0; i <= active_dirlight_qty; i++) {
-        result += calc_directional_light_no_texture(dirlight[i], material, scenelight, normalized_frag_cube_normals, view_direction);
+        result += calc_directional_light(dirlight[i], material, scenelight, normalized_frag_cube_normals, view_direction, fragment_tex_coords);
     }
+    
+    fragment_color = vec4(result, 1.0);
+};
 
-    fragment_color = vec4(result, 1.0); // set all 4 vector values to 1.0
-}
-
-vec3 calc_directional_light_no_texture(DirectionalLight dirlight, 
-                                       Material material, 
-                                       SceneLight scenelight, 
-                                       vec3 normalized_frag_cube_normals, 
-                                       vec3 view_direction){
+// Function Definitions
+vec3 calc_directional_light(DirectionalLight dirlight, 
+                            Material material, 
+                            SceneLight scenelight, 
+                            vec3 normalized_frag_cube_normals, 
+                            vec3 view_direction, 
+                            vec2 fragment_tex_coords){
     
     vec3 light_direction = normalize(dirlight.direction);
 
@@ -72,9 +76,9 @@ vec3 calc_directional_light_no_texture(DirectionalLight dirlight,
     float specular_impact = pow(max(dot(view_direction, reflection_direction), 0.0), material.shininess);
 
     // Combine
-    vec3 ambient = scenelight.ambient  * material.diffuse;
-    vec3 diffuse = scenelight.diffuse  * diffuse_impact * material.diffuse;
-    vec3 specular = scenelight.specular * specular_impact * material.specular;
+    vec3 ambient = scenelight.ambient  * vec3(texture(material.diffuse, fragment_tex_coords));
+    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(material.diffuse, fragment_tex_coords));
+    vec3 specular = scenelight.specular * specular_impact * vec3(texture(material.specular, fragment_tex_coords));
 
     return (ambient + diffuse + specular);
-} 
+}  

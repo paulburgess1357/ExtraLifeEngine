@@ -15,12 +15,14 @@ public:
 	virtual void destroy() const = 0;
 
 	// Texture handling (per shader)		
-	virtual void attach_texture(const std::string& texture_name) = 0;
+	virtual void attach_diffuse_texture(const std::string& texture_name) = 0;
+	virtual void attach_specular_texture(const std::string& texture_name, const float shininess) = 0;
 	virtual void bind_textures() const = 0;
 	virtual void unbind_textures() const = 0;
 	[[nodiscard]] unsigned int get_handle() const;
 
 	// Lighting
+	virtual void attach_scene_light(const std::string& scenelight_name) = 0;
 	virtual void attach_directional_light(const std::string& dirlight_name) = 0;
 	
 	// Single Value Uniforms

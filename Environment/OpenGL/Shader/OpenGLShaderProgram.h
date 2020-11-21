@@ -28,6 +28,7 @@ namespace OpenGL{
 		// Lighting
 		void attach_scene_light(const std::string& scenelight_name) override;
 		void attach_directional_light(const std::string& dirlight_name) override;
+		void attach_point_light(const std::string& pointlight_name) override;
 
 		// Single Value Uniforms
 		void set_uniform(const std::string& uniform_name, const int value) override;
@@ -56,11 +57,12 @@ namespace OpenGL{
 		unsigned int m_current_dirlight;		
 		std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<DirectionalLight>>> m_directional_light_map;
 
-		// Scene light
+		// Scene light		
 		std::pair<std::string, std::shared_ptr<SceneLight>> m_scene_light_pair;
 		
 		// Point light map
-		// std::unordered_map<std::string, std::shared_ptr<PointLight>> m_point_light_map;		
+		unsigned int m_current_pointlight;
+		std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<PointLight>>> m_pointlight_map;
 	};
 	
 } // namespace OpenGL

@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 
 struct DirectionalLight{
-	glm::vec3 direction { 0.0f, 1.0f, 0.0f };
+	glm::vec3 m_direction { 0.0f, 1.0f, 0.0f };
 };
 
 // Direction: Direction light is coming from (so (0, 1, 0) is coming FROM above and pointing downwards)

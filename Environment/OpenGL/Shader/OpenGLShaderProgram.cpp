@@ -6,12 +6,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
-//std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<DirectionalLight>>> OpenGL::OpenGLShaderProgram::m_directional_light_map;
-
 OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const unsigned int handle)
 	:IShaderProgram{ handle },
 	m_available_tex_unit{ 0 },
-	m_current_dirlight{ 0 }{
+	m_current_dirlight{ 0 },
+	m_current_pointlight{ 0 }{
 }
 
 void OpenGL::OpenGLShaderProgram::bind() const{
@@ -60,13 +59,14 @@ void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& tex
 void OpenGL::OpenGLShaderProgram::attach_directional_light(const std::string& dirlight_name){
 
 	const std::string dirlight_shader_name = "dirlight[" + std::to_string(m_current_dirlight) + "]";
+	Print::print("Attaching Directional Light: " + dirlight_name + " (" + dirlight_shader_name + ")");
 
 	m_directional_light_map[dirlight_name].first = dirlight_shader_name;
 	m_directional_light_map[dirlight_name].second = LightResource::get_dirlight(dirlight_name);
-
-	Print::print("Attaching Directional Light: " + dirlight_name + " (" + dirlight_shader_name + ")");
-	set_uniform(dirlight_shader_name + ".direction", m_directional_light_map[dirlight_name].second->direction);
+	
+	set_uniform(dirlight_shader_name + ".direction", m_directional_light_map[dirlight_name].second->m_direction);
 	set_uniform("active_dirlight_qty", m_current_dirlight);
+	
 	m_current_dirlight++;
 	
 }
@@ -77,12 +77,29 @@ void OpenGL::OpenGLShaderProgram::attach_scene_light(const std::string& scenelig
 	m_scene_light_pair.first = scenelight_name;
 	m_scene_light_pair.second = LightResource::get_scenelight(scenelight_name);
 
-	set_uniform("scenelight.ambient", m_scene_light_pair.second->ambient);
-	set_uniform("scenelight.diffuse", m_scene_light_pair.second->diffuse);
-	set_uniform("scenelight.specular", m_scene_light_pair.second->specular);
+	set_uniform("scenelight.ambient", m_scene_light_pair.second->m_ambient);
+	set_uniform("scenelight.diffuse", m_scene_light_pair.second->m_diffuse);
+	set_uniform("scenelight.specular", m_scene_light_pair.second->m_specular);
 	
 }
 
+void OpenGL::OpenGLShaderProgram::attach_point_light(const std::string& pointlight_name){
+
+	const std::string pointlight_shader_name = "pointlight[" + std::to_string(m_current_pointlight) + "]";
+	Print::print("Attaching PointLight: " + pointlight_name + " (" + pointlight_shader_name + ")");
+	
+	m_pointlight_map[pointlight_name].first = pointlight_shader_name;
+	m_pointlight_map[pointlight_name].second = LightResource::get_pointlight(pointlight_name);
+
+	set_uniform(pointlight_shader_name + ".position", m_pointlight_map[pointlight_name].second->m_position);
+	set_uniform(pointlight_shader_name + ".constant", m_pointlight_map[pointlight_name].second->m_constant);
+	set_uniform(pointlight_shader_name + ".linear", m_pointlight_map[pointlight_name].second->m_linear);
+	set_uniform(pointlight_shader_name + ".quadratic", m_pointlight_map[pointlight_name].second->m_quadratic);
+
+	set_uniform("active_pointlight_qty", m_current_pointlight);
+	
+	m_current_pointlight++;
+}
 
 void OpenGL::OpenGLShaderProgram::check_tex_unit() const {
 	if (m_available_tex_unit == 99) {

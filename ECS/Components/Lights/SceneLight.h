@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 
 struct SceneLight{
-	glm::vec3 ambient{ 0.2f, 0.2f, 0.2f };
-	glm::vec3 diffuse{ 0.5f, 0.5f, 0.5f };
-	glm::vec3 specular{ 1.0f, 1.0f, 1.0f };
+	glm::vec3 m_ambient{ 0.2f, 0.2f, 0.2f };
+	glm::vec3 m_diffuse{ 0.5f, 0.5f, 0.5f };
+	glm::vec3 m_specular{ 1.0f, 1.0f, 1.0f };
 };

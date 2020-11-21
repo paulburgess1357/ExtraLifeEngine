@@ -1,5 +1,4 @@
 #pragma once
-#include "../../ECS/Components/Lights/DirectionalLight.h"
 #include <string>
 #include <unordered_map>
 #include <glm/glm.hpp>
@@ -24,6 +23,7 @@ public:
 	// Lighting
 	virtual void attach_scene_light(const std::string& scenelight_name) = 0;
 	virtual void attach_directional_light(const std::string& dirlight_name) = 0;
+	virtual void attach_point_light(const std::string& pointlight_name) = 0;
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value) = 0;

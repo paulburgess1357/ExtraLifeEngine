@@ -2,7 +2,7 @@
 Entity Component System Game Engine (In Progress)
 
 ## Features
-- Phong Lighting
+- Blinn Phong Lighting
 - Flexible Architecture
   - Modern OpenGL 3.3+
   - Future Vulkan Support

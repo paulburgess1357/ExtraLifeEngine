@@ -7,12 +7,13 @@ Entity Component System Game Engine (In Progress)
   - Modern OpenGL 3.3+
   - Future Vulkan Support
 ## Dependencies (Included in repo)
-- C++ 17
 - OpenGL
 - Assimp
 - GLFW
 - STB Image
 - GLM
 - Entt
+## Other
+- C++ 17
 
 

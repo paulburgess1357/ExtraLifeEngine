@@ -99,6 +99,7 @@ vec3 calc_directional_light(DirectionalLight dirlight,
                             vec2 fragment_tex_coords){
     
     vec3 light_direction = normalize(dirlight.direction);
+    vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
 
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_cube_normals, light_direction), 0.0);
@@ -124,13 +125,15 @@ vec3 calc_point_light(PointLight pointlight,
                       vec3 fragment_world_position){
     
     vec3 light_direction = normalize(pointlight.position - fragment_world_position);
+    vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
     
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_cube_normals, light_direction), 0.0);
     
     // Specular
     vec3 reflection_direction = reflect(-light_direction, normalized_frag_cube_normals);
-    float specular_impact = pow(max(dot(view_direction, reflection_direction), 0.0), material.shininess);
+    //float specular_impact = pow(max(dot(view_direction, reflection_direction), 0.0), material.shininess);
+    float specular_impact = pow(max(dot(normalized_frag_cube_normals, halfway_btwn_view_and_light_dir), 0.0), material.shininess);
     
     // Attenuation
     float distance_to_light = length(pointlight.position - fragment_world_position);

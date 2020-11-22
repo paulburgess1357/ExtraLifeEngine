@@ -20,9 +20,6 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 
-	const SceneLight scenelight;
-	LightResource::load("scenelight", scenelight);
-
 	PointLight pointlight1;
 	pointlight1.m_position = glm::vec3(0.0f, -1.0f, 0.0f);
 	LightResource::load("pointlight1", pointlight1);
@@ -31,7 +28,6 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	pointlight2.m_position = glm::vec3(0.0f, 0.0f, -1.0f);
 	LightResource::load("pointlight2", pointlight2);
 
-	shader_program->attach_scene_light("scenelight");
 	shader_program->attach_directional_light("dirlight");
 	shader_program->attach_point_light("pointlight1");
 	shader_program->attach_point_light("pointlight2");
@@ -60,21 +56,16 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 
-	const SceneLight scenelight;	
-	LightResource::load("scenelight", scenelight);
-
 	PointLight pointlight1;
 	pointlight1.m_position = glm::vec3(3.0f, -1.0f, 0.0f);
 	LightResource::load("pointlight1", pointlight1);
 
 	PointLight pointlight2;
 	pointlight2.m_position = glm::vec3(3.0f, 0.0f, -1.0f);
-	LightResource::load("pointlight2", pointlight2);	
+	LightResource::load("pointlight2", pointlight2);
 
 	shader_program->attach_diffuse_texture("brown_container");
 	shader_program->attach_specular_texture("brown_container_boarder", 32.0f);
-
-	shader_program->attach_scene_light("scenelight");
 	shader_program->attach_directional_light("dirlight");
 	shader_program->attach_point_light("pointlight1");
 	shader_program->attach_point_light("pointlight2");

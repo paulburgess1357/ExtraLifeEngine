@@ -3,6 +3,7 @@
 #include "OpenGLUniformBlock.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "../../../ResourceManagement/LightResource.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader)
@@ -23,6 +24,15 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	OpenGLUniformBlock opengl_uniform_block_allocator;
 	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
 	opengl_uniform_block_allocator.link_camera_position_block_to_shader(shader_program);
+
+	// Set light uniforms to -1 (inactive)
+	shader_program->set_uniform("active_dirlight_qty", -1);
+	shader_program->set_uniform("active_pointlight_qty", -1);
+
+	// Set default scene lighting (i.e. ambient light levels)
+	const SceneLight scenelight;
+	LightResource::load("scenelight", scenelight);
+	shader_program->attach_scene_light("scenelight");
 	
 	return shader_program;		
 }

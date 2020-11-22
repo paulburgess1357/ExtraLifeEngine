@@ -34,10 +34,10 @@ layout (std140) uniform uniform_camera_world_position{
 uniform Material material;
 uniform SceneLight scenelight;
 
-uniform int active_dirlight_qty;
+uniform int active_dirlight_qty; // Set to -1 during shader initialization
 uniform DirectionalLight dirlight[8];
 
-uniform int active_pointlight_qty;
+uniform int active_pointlight_qty; // Set to -1 during shader initialization
 uniform PointLight pointlight[16];
 
 // Vertex Variables
@@ -78,6 +78,10 @@ void main() {
     // Point
     for(int i = 0; i <= active_pointlight_qty; i++){
         result += calc_point_light_no_texture(pointlight[i], material, scenelight, normalized_frag_cube_normals, view_direction, fragment_world_position);
+    }
+
+    if(result.x == 0.0f && result.y==0.0f && result.z==0.0f){
+       result = scenelight.ambient  * material.diffuse;
     }
 
     fragment_color = vec4(result, 1.0); // set all 4 vector values to 1.0

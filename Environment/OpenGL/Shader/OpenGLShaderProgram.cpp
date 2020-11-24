@@ -9,6 +9,8 @@
 OpenGL::OpenGLShaderProgram::OpenGLShaderProgram(const unsigned int handle)
 	:IShaderProgram{ handle },
 	m_available_tex_unit{ 0 },
+	m_current_diffuse{ 0 },
+	m_current_specular { 0 },
 	m_current_dirlight{ 0 },
 	m_current_pointlight{ 0 }{
 }
@@ -23,34 +25,39 @@ void OpenGL::OpenGLShaderProgram::unbind() const{
 
 void OpenGL::OpenGLShaderProgram::attach_diffuse_texture(const std::string& texture_name) {
 
-	const auto it = m_texture_map.find(texture_name);
-	if (it == m_texture_map.end()) {		
+	const auto it = m_diffuse_texture_map.find(texture_name);
+	if (it == m_diffuse_texture_map.end()) {		
 
 		check_tex_unit();
 		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
+		m_diffuse_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
 
-		Print::print("Attaching diffuse texture '" + texture_name + "' (material.diffuse) to shader handle: " + std::to_string(m_handle));
-		set_uniform("material.diffuse", m_available_tex_unit);
+		Print::print("Attaching diffuse texture '" + texture_name + "' (diffuse_material.m_sampler) to shader handle: " + std::to_string(m_handle));
+		set_uniform("diffuse_material.m_sampler", m_available_tex_unit);
 		
+		check_texture_qty(m_current_diffuse);
+		
+		m_current_diffuse++;
 		m_available_tex_unit++;
 	}
-
 }
 
 void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& texture_name, const float shininess) {
 
-	const auto it = m_texture_map.find(texture_name);
-	if (it == m_texture_map.end()) {
+	const auto it = m_specular_texture_map.find(texture_name);
+	if (it == m_specular_texture_map.end()) {
 
 		check_tex_unit();
 		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-		m_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
+		m_specular_texture_map[texture_name] = std::make_pair(m_available_tex_unit, texture->get_handle());
 
-		Print::print("Attaching specular texture '" + texture_name + "' (material.specular) to shader handle: " + std::to_string(m_handle));
-		set_uniform("material.specular", m_available_tex_unit);
-		set_uniform("material.shininess", shininess);
+		Print::print("Attaching specular texture '" + texture_name + "' (specular_material.m_sampler) to shader handle: " + std::to_string(m_handle));
+		set_uniform("specular_material.m_sampler", m_available_tex_unit);
+		set_uniform("specular_material.m_shininess", shininess);
 
+		check_texture_qty(m_current_specular);
+		
+		m_current_specular++;
 		m_available_tex_unit++;
 	}
 
@@ -58,7 +65,7 @@ void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& tex
 
 void OpenGL::OpenGLShaderProgram::attach_directional_light(const std::string& dirlight_name){
 
-	const std::string dirlight_shader_name = "dirlight[" + std::to_string(m_current_dirlight) + "]";
+	const std::string dirlight_shader_name = create_shader_variable_name("dirlight", m_current_dirlight);
 	Print::print("Attaching Directional Light: " + dirlight_name + " (" + dirlight_shader_name + ")");
 
 	m_directional_light_map[dirlight_name].first = dirlight_shader_name;
@@ -85,7 +92,7 @@ void OpenGL::OpenGLShaderProgram::attach_scene_light(const std::string& scenelig
 
 void OpenGL::OpenGLShaderProgram::attach_point_light(const std::string& pointlight_name){
 
-	const std::string pointlight_shader_name = "pointlight[" + std::to_string(m_current_pointlight) + "]";
+	const std::string pointlight_shader_name = create_shader_variable_name("pointlight", m_current_pointlight);
 	Print::print("Attaching PointLight: " + pointlight_name + " (" + pointlight_shader_name + ")");
 	
 	m_pointlight_map[pointlight_name].first = pointlight_shader_name;
@@ -113,14 +120,24 @@ void OpenGL::OpenGLShaderProgram::check_tex_unit() const {
 
 void OpenGL::OpenGLShaderProgram::bind_textures() const {
 
-	for (const auto& texture : m_texture_map) {
+	for (const auto& texture : m_diffuse_texture_map) {
+		glActiveTexture(GL_TEXTURE0 + texture.second.first);
+		glBindTexture(GL_TEXTURE_2D, texture.second.second);
+	}
+
+	for (const auto& texture : m_specular_texture_map) {
 		glActiveTexture(GL_TEXTURE0 + texture.second.first);
 		glBindTexture(GL_TEXTURE_2D, texture.second.second);
 	}
 }
 
 void OpenGL::OpenGLShaderProgram::unbind_textures() const {
-	for (const auto& texture : m_texture_map) {
+	for (const auto& texture : m_diffuse_texture_map) {
+		glActiveTexture(GL_TEXTURE0 + texture.second.first);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	for (const auto& texture : m_specular_texture_map) {
 		glActiveTexture(GL_TEXTURE0 + texture.second.first);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -190,4 +207,14 @@ void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, c
 	bind();
 	glUniformMatrix4fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
 	unbind();
+}
+
+std::string OpenGL::OpenGLShaderProgram::create_shader_variable_name(const std::string& name, const unsigned index){
+	return(name + "[" + std::to_string(index) + "]");
+}
+
+void OpenGL::OpenGLShaderProgram::check_texture_qty(const unsigned qty){
+	if(qty == 1){
+		FatalError::fatal_error("Texture quantity is >= 1 (0 is the starting count for your texture quantity)!  Shaders are currently not coded to accept more than one type of texture per shader.");
+	}
 }

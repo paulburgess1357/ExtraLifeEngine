@@ -45,12 +45,19 @@ namespace OpenGL{
 		void set_uniform(const std::string& uniform_name, const glm::mat4& value) override;
 
 	private:
+		static std::string create_shader_variable_name(const std::string& name, const unsigned int index);
+		static void check_texture_qty(const unsigned int qty);
 		int get_uniform(const std::string& uniform_name) override;
 
-		// Texture map
+		// Texture maps
 		// <texture_name, <tex_unit, tex_handle>>
 		unsigned int m_available_tex_unit;
-		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_texture_map;
+		
+		unsigned int m_current_diffuse;
+		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_diffuse_texture_map;
+
+		unsigned int m_current_specular;		
+		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_specular_texture_map;
 
 		// Directional light map
 		// < actual light name, < light name in shader, shared ptr to light>>

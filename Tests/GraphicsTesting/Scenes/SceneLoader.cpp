@@ -32,9 +32,9 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->attach_point_light("pointlight1");
 	shader_program->attach_point_light("pointlight2");
 	
-	shader_program->set_uniform("material.diffuse", glm::vec3(0.5f, 0.9f, 0.31f));
-	shader_program->set_uniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader_program->set_uniform("material.shininess", 32.0f);
+	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.5f, 0.9f, 0.31f));
+	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
 	CubeComponent cube_component{ CubeResource::get("cube_normal") };
 	const entt::entity cube_entity = registry.create();

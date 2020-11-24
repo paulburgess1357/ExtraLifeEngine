@@ -165,8 +165,7 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp" />
     <ClCompile Include="Model\Mesh.cpp" />
-    <ClCompile Include="ModelLoading\AssimpTest.cpp" />
-    <ClCompile Include="Tests\ResourceManagement\LightResource.cpp" />
+    <ClCompile Include="ResourceManagement\LightResource.cpp" />
     <ClCompile Include="Matrix\MatrixFunctions.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeRenderer.cpp" />
@@ -191,8 +190,8 @@
     <ClCompile Include="Environment\Neutral\Shader\ShaderLoaderFromFile.cpp" />
     <ClCompile Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.cpp" />
     <ClCompile Include="Environment\Interfaces\Window\IWindow.cpp" />
-    <ClCompile Include="Tests\ResourceManagement\ShaderResource.cpp" />
-    <ClCompile Include="Tests\ResourceManagement\TextureResource.cpp" />
+    <ClCompile Include="ResourceManagement\ShaderResource.cpp" />
+    <ClCompile Include="ResourceManagement\TextureResource.cpp" />
     <ClCompile Include="ECS\Systems\Transform\WorldMovement.cpp" />
     <ClCompile Include="ECS\Systems\Transform\WorldScale.cpp" />
     <ClCompile Include="ECS\Systems\Transform\ModelMatrixReset.cpp" />
@@ -215,9 +214,8 @@
     <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h" />
     <ClInclude Include="Model\IMesh.h" />
     <ClInclude Include="Model\Mesh.h" />
-    <ClInclude Include="ModelLoading\AssimpTest.h" />
     <ClInclude Include="Model\Vertex.h" />
-    <ClInclude Include="Tests\ResourceManagement\LightResource.h" />
+    <ClInclude Include="ResourceManagement\LightResource.h" />
     <ClInclude Include="Matrix\MatrixFunctions.h" />
     <ClInclude Include="Matrix\ProjectionMatrix.h" />
     <ClInclude Include="Camera\Direction.h" />
@@ -261,8 +259,8 @@
     <ClInclude Include="Environment\OpenGL\Shader\OpenGLShaderProgram.h" />
     <ClInclude Include="Environment\Neutral\Shader\ShaderLoaderFromFile.h" />
     <ClInclude Include="Environment\OpenGL\Shader\OpenGLShaderCompiler.h" />
-    <ClInclude Include="Tests\ResourceManagement\ShaderResource.h" />
-    <ClInclude Include="Tests\ResourceManagement\TextureResource.h" />
+    <ClInclude Include="ResourceManagement\ShaderResource.h" />
+    <ClInclude Include="ResourceManagement\TextureResource.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldRotation.h" />
     <ClInclude Include="Environment\Neutral\Texture\TextureLoaderFromFile.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITexture.h" />

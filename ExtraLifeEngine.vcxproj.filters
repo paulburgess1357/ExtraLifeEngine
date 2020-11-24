@@ -132,19 +132,16 @@
     <ClCompile Include="Environment\Interfaces\Window\IWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelLoading\AssimpTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Model\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\ResourceManagement\LightResource.cpp">
+    <ClCompile Include="ResourceManagement\LightResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\ResourceManagement\ShaderResource.cpp">
+    <ClCompile Include="ResourceManagement\ShaderResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\ResourceManagement\TextureResource.cpp">
+    <ClCompile Include="ResourceManagement\TextureResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -347,9 +344,6 @@
     <ClInclude Include="ECS\Components\Lights\SceneLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelLoading\AssimpTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Model\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -359,13 +353,13 @@
     <ClInclude Include="Model\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\ResourceManagement\LightResource.h">
+    <ClInclude Include="ResourceManagement\LightResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\ResourceManagement\ShaderResource.h">
+    <ClInclude Include="ResourceManagement\ShaderResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\ResourceManagement\TextureResource.h">
+    <ClInclude Include="ResourceManagement\TextureResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

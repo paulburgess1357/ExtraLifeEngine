@@ -50,7 +50,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube_textured", "Assets/shaders/vertex/cube_textured.glsl", "Assets/shaders/fragment/cube_textured.glsl");
 	TextureResource::load("brown_container", "Assets/textures/wood.png", true);
-	TextureResource::load("brown_container_boarder", "Assets/textures/black_specular_map.png", true);
+	TextureResource::load("brown_container_boarder", "Assets/textures/container_specular_map.png", true);
 
 	DirectionalLight dirlight;
 	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);

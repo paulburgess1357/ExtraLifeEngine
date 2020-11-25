@@ -374,5 +374,8 @@
     <ClInclude Include="Environment\OpenGL\Light\OpenGLLightHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\TextureShaderData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

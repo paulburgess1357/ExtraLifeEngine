@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
+#include "../Texture/TextureShaderData.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -23,14 +24,14 @@ namespace OpenGL{
 		static void check_texture_qty(const unsigned int qty);
 
 		// Texture maps
-		// <texture_name, <tex_unit, tex_handle>>
+		// <texture_name, <texture_name_in_shader, tex_unit, tex_handle>
 		unsigned int m_available_tex_unit;
 
 		unsigned int m_current_diffuse;
-		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_diffuse_texture_map;
+		std::unordered_map<std::string, TextureShaderData> m_diffuse_texture_map;
 
 		unsigned int m_current_specular;
-		std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_specular_texture_map;
+		std::unordered_map<std::string, TextureShaderData> m_specular_texture_map;
 
 		std::shared_ptr<IShaderProgram> m_shader_program;
 		

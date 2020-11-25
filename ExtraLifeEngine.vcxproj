@@ -214,6 +214,7 @@
     <ClInclude Include="Environment\Neutral\Texture\TextureLoadingData.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureCompiler.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h" />
+    <ClInclude Include="Environment\OpenGL\Texture\TextureShaderData.h" />
     <ClInclude Include="Model\IMesh.h" />
     <ClInclude Include="Model\Mesh.h" />
     <ClInclude Include="Model\Vertex.h" />

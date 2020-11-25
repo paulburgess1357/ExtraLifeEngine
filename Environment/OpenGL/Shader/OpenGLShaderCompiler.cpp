@@ -29,6 +29,10 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	shader_program->set_uniform("active_dirlight_qty", -1);
 	shader_program->set_uniform("active_pointlight_qty", -1);
 
+	// Initialize Handlers
+	shader_program->init_texture_handler();	
+	shader_program->init_light_handler();
+
 	// Set default scene lighting (i.e. ambient light levels)
 	const SceneLight scenelight;
 	LightResource::load("scenelight", scenelight);

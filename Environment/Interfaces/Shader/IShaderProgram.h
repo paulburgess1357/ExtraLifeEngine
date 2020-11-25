@@ -12,13 +12,13 @@ public:
 	virtual void bind() const = 0;	
 	virtual void unbind() const = 0;
 	virtual void destroy() const = 0;
-
+	[[nodiscard]] unsigned int get_handle() const;
+	
 	// Texture handling (per shader)		
 	virtual void attach_diffuse_texture(const std::string& texture_name) = 0;
 	virtual void attach_specular_texture(const std::string& texture_name, const float shininess) = 0;
 	virtual void bind_textures() const = 0;
-	virtual void unbind_textures() const = 0;
-	[[nodiscard]] unsigned int get_handle() const;
+	virtual void unbind_textures() const = 0;	
 
 	// Lighting
 	virtual void attach_scene_light(const std::string& scenelight_name) = 0;
@@ -38,6 +38,10 @@ public:
 	// Matrix Uniforms		
 	virtual void set_uniform(const std::string& uniform_name, const glm::mat3& value) = 0;
 	virtual void set_uniform(const std::string& uniform_name, const glm::mat4& value) = 0;
+
+	// Handler Initialization
+	virtual void init_texture_handler() = 0;
+	virtual void init_light_handler() = 0;
 
 protected:	
 	virtual int get_uniform(const std::string& uniform_name) = 0;	

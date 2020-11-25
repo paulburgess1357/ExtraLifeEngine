@@ -144,6 +144,12 @@
     <ClCompile Include="ResourceManagement\TextureResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Light\OpenGLLightHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -360,6 +366,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManagement\TextureResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLTextureHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Light\OpenGLLightHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

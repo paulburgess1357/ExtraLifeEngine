@@ -2,7 +2,6 @@
 #include "../Mesh/OpenGLMesh.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include <string>
 
 namespace OpenGL{
@@ -14,10 +13,20 @@ namespace OpenGL{
 		
 	private:
 		void load();
-		void process_node(aiNode* node, const aiScene* scene) const;
-		OpenGLMesh process_mesh(aiMesh* mesh, const aiScene* scene);
+		void process_node(aiNode* node, const aiScene* scene);
+		OpenGLMesh process_mesh(aiMesh* mesh, const aiScene* scene) const;
+		//static std::vector<Vertex> process_vertices(const aiMesh* mesh);
+
+		
+
+
+
+		
+
+		static void check_assimp_importer(const Assimp::Importer& importer, const aiScene* scene);
 		
 		std::string m_path;
+		std::string m_directory;
 		std::vector<OpenGLMesh> m_mesh_vector;
 
 	};

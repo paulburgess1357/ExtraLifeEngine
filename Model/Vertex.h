@@ -3,11 +3,11 @@
 
 struct Vertex {
 
-	glm::vec3 m_position;
-	glm::vec3 m_normals;
-	glm::vec2 m_tex_coords;
+	glm::vec3 m_position{ 0.0f };
+	glm::vec3 m_normals{ 0.0f };
+	glm::vec2 m_tex_coords { 0.0f };
 
-	glm::vec3 m_tangent;
-	glm::vec3 m_bitangent;
+	glm::vec3 m_tangent{ 0.0f };
+	glm::vec3 m_bitangent{ 0.0f };
 	
 };

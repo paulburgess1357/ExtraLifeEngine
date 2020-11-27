@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\ICubeRenderer.cpp" />
@@ -164,6 +165,8 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITexture.cpp" />
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp" />
+    <ClCompile Include="AssimpProcessor\OpenGLAssimpProcessor.cpp" />
+    <ClCompile Include="Utility\FileHandler.cpp" />
     <ClCompile Include="Model\Mesh\OpenGLMesh.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureHandler.cpp" />
     <ClCompile Include="Environment\OpenGL\Light\OpenGLLightHandler.cpp" />
@@ -204,6 +207,7 @@
     <ClCompile Include="Environment\Neutral\Texture\TextureLoaderFromFile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
@@ -217,6 +221,8 @@
     <ClInclude Include="Environment\Interfaces\Texture\ITextureCompiler.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h" />
     <ClInclude Include="Environment\OpenGL\Texture\TextureShaderData.h" />
+    <ClInclude Include="AssimpProcessor\OpenGLAssimpProcessor.h" />
+    <ClInclude Include="Utility\FileHandler.h" />
     <ClInclude Include="Model\Mesh\IMesh.h" />
     <ClInclude Include="Model\Model\IModel.h" />
     <ClInclude Include="Model\Mesh\OpenGLMesh.h" />

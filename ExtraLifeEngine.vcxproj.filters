@@ -156,6 +156,15 @@
     <ClCompile Include="Model\Model\OpenGLModelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\FileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpProcessor\OpenGLAssimpProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -390,6 +399,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model\Model\OpenGLModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FileHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpProcessor\AssimpProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpProcessor\OpenGLAssimpProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

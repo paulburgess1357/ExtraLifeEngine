@@ -1,4 +1,22 @@
 #include "AssimpProcessor.h"
+#include "../Utility/FatalError.h"
+#include <assimp/postprocess.h>
+
+const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_model_path){
+
+	const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes);
+
+	check_assimp_importer(m_assimp_importer, scene);
+	return scene;
+	
+}
+
+void AssimpProcessor::check_assimp_importer(const Assimp::Importer& importer, const aiScene* scene) {
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+		FatalError::fatal_error("Assimp ReadFile Error: " + std::string(importer.GetErrorString()));
+	}
+}
+
 
 std::vector<Vertex> AssimpProcessor::process_verticies(const aiMesh* mesh){
 
@@ -13,7 +31,7 @@ std::vector<Vertex> AssimpProcessor::process_verticies(const aiMesh* mesh){
 		}
 
 		if (mesh->HasNormals()) {
-			process_vertex_normals(current_vertex, mesh->mVertices[i]);
+			process_vertex_normals(current_vertex, mesh->mNormals[i]);
 		}
 
 		if (mesh->HasTextureCoords(0)) {

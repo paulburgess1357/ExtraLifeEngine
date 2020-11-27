@@ -166,12 +166,13 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp" />
     <ClCompile Include="AssimpProcessor\OpenGLAssimpProcessor.cpp" />
+    <ClCompile Include="Model\Model\IModel.cpp" />
     <ClCompile Include="Utility\FileHandler.cpp" />
     <ClCompile Include="Model\Mesh\OpenGLMesh.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureHandler.cpp" />
     <ClCompile Include="Environment\OpenGL\Light\OpenGLLightHandler.cpp" />
     <ClCompile Include="Model\Model\OpenGLModel.cpp" />
-    <ClCompile Include="Model\Model\OpenGLModelLoader.cpp" />
+    <ClCompile Include="Model\Loader\OpenGLModelLoaderFromFile.cpp" />
     <ClCompile Include="ResourceManagement\LightResource.cpp" />
     <ClCompile Include="Matrix\MatrixFunctions.cpp" />
     <ClCompile Include="Matrix\ProjectionMatrix.cpp" />
@@ -230,7 +231,7 @@
     <ClInclude Include="Environment\OpenGL\Texture\OpenGLTextureHandler.h" />
     <ClInclude Include="Environment\OpenGL\Light\OpenGLLightHandler.h" />
     <ClInclude Include="Model\Model\OpenGLModel.h" />
-    <ClInclude Include="Model\Model\OpenGLModelLoader.h" />
+    <ClInclude Include="Model\Loader\OpenGLModelLoaderFromFile.h" />
     <ClInclude Include="ResourceManagement\LightResource.h" />
     <ClInclude Include="Matrix\MatrixFunctions.h" />
     <ClInclude Include="Matrix\ProjectionMatrix.h" />

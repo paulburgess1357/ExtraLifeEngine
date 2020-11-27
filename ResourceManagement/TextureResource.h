@@ -8,6 +8,7 @@ class TextureResource {
 
 public:
 	static std::shared_ptr<ITexture> load(const std::string& texture_name, const std::string& texture_path, const bool flip_texture);
+	static std::shared_ptr<ITexture> load(const std::string& texture_path, const bool flip_texture);
 	static std::shared_ptr<ITexture> get(const std::string& texture_name);
 	static void destroy(const std::string& texture_name);
 	static void destroy_all();

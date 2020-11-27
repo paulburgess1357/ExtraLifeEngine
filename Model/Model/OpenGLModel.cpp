@@ -1,7 +1,11 @@
 #include "OpenGLModel.h"
 
-OpenGL::OpenGLModel::OpenGLModel(const OpenGLModelLoader& model_loader){
-	// TODO e.g. m_mesh_vector = model_loader.get_loaded_mesh_vector();
+OpenGL::OpenGLModel::OpenGLModel(const std::shared_ptr<IShaderProgram>& shader_program, OpenGLModelLoaderFromFile& model_loader)
+	:IModel(shader_program){
+
+	model_loader.set_shader_program(m_shader_program);
+	m_mesh_vector = model_loader.load();
+	
 }
 
 void OpenGL::OpenGLModel::draw() const{
@@ -12,4 +16,12 @@ void OpenGL::OpenGLModel::draw() const{
 		
 	}
 }
+
+void OpenGL::OpenGLModel::destroy(){
+	for (auto& mesh : m_mesh_vector){
+		mesh.destroy();
+	}
+	m_mesh_vector.clear();
+}
+
 

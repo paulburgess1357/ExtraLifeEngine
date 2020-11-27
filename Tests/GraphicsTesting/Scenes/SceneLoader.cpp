@@ -12,6 +12,9 @@
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 
+#include "../../Model/Loader/OpenGLModelLoaderFromFile.h"
+#include "../../Model/Model/OpenGLModel.h"
+
 void SceneLoader::single_cube(entt::registry& registry) {
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
@@ -76,4 +79,18 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
 	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 3.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
+}
+
+void SceneLoader::single_model(entt::registry& registry){
+
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+
+	DirectionalLight dirlight;
+	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+	LightResource::load("dirlight", dirlight);
+
+	shader_program->attach_directional_light("dirlight");
+	
+	OpenGL::OpenGLModelLoaderFromFile model_loader{ "Assets/models/backpack/backpack.obj" };
+	OpenGL::OpenGLModel model{ shader_program, model_loader };
 }

@@ -24,10 +24,8 @@ void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const std::string& tex
 		const TextureShaderData texture_shader_data{ "diffuse_material.m_sampler", m_available_tex_unit, texture->get_handle() };
 		m_diffuse_texture_map[texture_name] = texture_shader_data;
 
-		Print::print("Attaching diffuse texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));
-		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, m_available_tex_unit);
-
 		check_texture_qty(m_current_diffuse);
+		// Print::print("Attaching diffuse texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
 
 		m_current_diffuse++;
 		m_available_tex_unit++;
@@ -46,12 +44,9 @@ void OpenGL::OpenGLTextureHandler::attach_specular_texture(const std::string& te
 		const TextureShaderData texture_shader_data{ "specular_material.m_sampler", m_available_tex_unit, texture->get_handle(), shininess };
 		m_specular_texture_map[texture_name] = texture_shader_data;
 
-		Print::print("Attaching specular texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));
-		Print::print("Setting specular shininess (specular_material.m_shininess) to: " + std::to_string(shininess));
-		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, m_available_tex_unit);
-		m_shader_program->set_uniform("specular_material.m_shininess", shininess);
-
 		check_texture_qty(m_current_specular);
+		// Print::print("Attaching specular texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));
+		// Print::print("Setting specular shininess (specular_material.m_shininess) to: " + std::to_string(shininess));		
 
 		m_current_specular++;
 		m_available_tex_unit++;
@@ -74,6 +69,7 @@ void OpenGL::OpenGLTextureHandler::bind_textures() const{
 	for (const auto& texture : m_specular_texture_map) {
 
 		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit);
+		m_shader_program->set_uniform("specular_material.m_shininess", texture.second.m_shininess);
 		m_shader_program->bind();
 		
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);

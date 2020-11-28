@@ -9,7 +9,7 @@ namespace OpenGL{
 	class OpenGLModel : public IModel {
 
 	public:
-		OpenGLModel(const std::shared_ptr<IShaderProgram>& shader_program, OpenGLModelLoaderFromFile& model_loader);
+		OpenGLModel(OpenGLModelLoaderFromFile& model_loader, const std::shared_ptr<IShaderProgram>& shader_program);
 		~OpenGLModel() = default;		
 		void draw() const override;
 		void destroy() override;

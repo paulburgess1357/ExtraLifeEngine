@@ -3,7 +3,6 @@
 #include "../../AssimpProcessor/OpenGLAssimpProcessor.h"
 #include "../../Utility/FatalError.h"
 #include "../../Utility/FileHandler.h"
-#include "../../Utility/Print.h"
 
 OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path)
 	:m_path{ path },

@@ -166,6 +166,9 @@
     <ClCompile Include="Environment\Interfaces\Texture\ITextureCompiler.cpp" />
     <ClCompile Include="Environment\Neutral\API\GraphicsAPI.cpp" />
     <ClCompile Include="AssimpProcessor\OpenGLAssimpProcessor.cpp" />
+    <ClCompile Include="ECS\Systems\Render\Interfaces\IModelRenderer.cpp" />
+    <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.cpp" />
+    <ClCompile Include="ResourceManagement\ModelResource.cpp" />
     <ClCompile Include="Model\Model\IModel.cpp" />
     <ClCompile Include="Utility\FileHandler.cpp" />
     <ClCompile Include="Model\Mesh\OpenGLMesh.cpp" />
@@ -215,6 +218,7 @@
     <ClInclude Include="ECS\Components\Lights\DirectionalLight.h" />
     <ClInclude Include="ECS\Components\Lights\PointLight.h" />
     <ClInclude Include="ECS\Components\Lights\SceneLight.h" />
+    <ClInclude Include="ECS\Components\Model\ModelComponent.h" />
     <ClInclude Include="Environment\Interfaces\Shader\IShaderUniformBlock.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureLoader.h" />
     <ClInclude Include="Environment\Neutral\API\GraphicsAPIType.h" />
@@ -223,6 +227,9 @@
     <ClInclude Include="Environment\Neutral\API\GraphicsAPI.h" />
     <ClInclude Include="Environment\OpenGL\Texture\TextureShaderData.h" />
     <ClInclude Include="AssimpProcessor\OpenGLAssimpProcessor.h" />
+    <ClInclude Include="ECS\Systems\Render\Interfaces\IModelRenderer.h" />
+    <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.h" />
+    <ClInclude Include="ResourceManagement\ModelResource.h" />
     <ClInclude Include="Utility\FileHandler.h" />
     <ClInclude Include="Model\Mesh\IMesh.h" />
     <ClInclude Include="Model\Model\IModel.h" />

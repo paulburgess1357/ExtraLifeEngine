@@ -1,19 +1,14 @@
 #include "OpenGLModel.h"
 
-OpenGL::OpenGLModel::OpenGLModel(const std::shared_ptr<IShaderProgram>& shader_program, OpenGLModelLoaderFromFile& model_loader)
+OpenGL::OpenGLModel::OpenGLModel(OpenGLModelLoaderFromFile& model_loader, const std::shared_ptr<IShaderProgram>& shader_program)
 	:IModel(shader_program){
-
 	model_loader.set_shader_program(m_shader_program);
-	m_mesh_vector = model_loader.load();
-	
+	m_mesh_vector = model_loader.load();	
 }
 
 void OpenGL::OpenGLModel::draw() const{
 	for(const auto& mesh : m_mesh_vector){
-
-		// TODO Activate shader program (likley in render function outside this loop)
-		mesh.draw();
-		
+		mesh.draw();		
 	}
 }
 

@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "../Matrix/ProjectionMatrix.h"
 #include "../Input/Command/ControlCommands.h"
+#include "../ResourceManagement/ModelResource.h"
 #include "../ResourceManagement/LightResource.h"
 #include "../ResourceManagement/ShaderResource.h"
 #include "../ResourceManagement/TextureResource.h"
@@ -61,6 +62,7 @@ void GameManager::initialize_scene(){
 
 void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
+	m_model_renderer = IModelRenderer::get_model_renderer();
 }
 
 void GameManager::gameloop() {
@@ -79,6 +81,7 @@ void GameManager::update(){
 
 void GameManager::render(){
 	m_cube_renderer->render(m_registry, m_camera);
+	m_model_renderer->render(m_registry, m_camera);
 	m_window->swap_buffer();
 	m_window->clear_color();
 }
@@ -89,6 +92,7 @@ void GameManager::destroy() const {
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
+	ModelResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

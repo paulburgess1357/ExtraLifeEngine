@@ -91,7 +91,7 @@ void LightResource::destroy_scenelight(const std::string& light_name) {
 }
 
 void LightResource::destroy_all(){
-	Print::print("Destroying All Lights");
+	Print::print("Destroying Lights");
 	m_dirlight_cache.clear();
 	m_pointlight_cache.clear();
 	m_scenelight_cache.clear();

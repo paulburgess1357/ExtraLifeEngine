@@ -1,10 +1,10 @@
 #include "OpenGLCubeRenderer.h"
+#include "../../Matrix/MatrixFunctions.h"
 #include "../../Matrix/ProjectionMatrix.h"
 #include "../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 #include "../../Tests/GraphicsTesting/Cube/CubeComponent.h"
 #include "../../Tests/GraphicsTesting/Cube/TexturedCubeComponent.h"
-#include "../../Matrix/MatrixFunctions.h"
 #include <glad/glad.h>
 
 void OpenGL::OpenGLCubeRenderer::render(entt::registry& registry, Camera& camera) const{

@@ -56,7 +56,7 @@ void OpenGL::OpenGLMesh::draw() const{
     m_texture_handler.bind_textures();
 
 	glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, nullptr); //TODO if draw if messed up try changing nullptr to 0.
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0); //TODO if draw if messed up try changing nullptr to 0.
     glBindVertexArray(0);
 
     m_texture_handler.unbind_textures();	
@@ -64,7 +64,6 @@ void OpenGL::OpenGLMesh::draw() const{
 }
 
 void OpenGL::OpenGLMesh::destroy(){
-    Print::print("Destroying Mesh Buffers");
     glDeleteBuffers(1, &m_vbo);
     glDeleteVertexArrays(1, &m_vao);
     glDeleteBuffers(1, &m_ebo);

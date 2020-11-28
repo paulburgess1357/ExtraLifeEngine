@@ -4,16 +4,17 @@
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../ResourceManagement/TextureResource.h"
 #include "../../ResourceManagement/LightResource.h"
+#include "../../ResourceManagement/ModelResource.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
 #include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
+#include "../../ECS/Components/Model/ModelComponent.h"
 #include "../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 
-#include "../../Model/Loader/OpenGLModelLoaderFromFile.h"
-#include "../../Model/Model/OpenGLModel.h"
+#include "../../Utility/Print.h"
 
 void SceneLoader::single_cube(entt::registry& registry) {
 
@@ -39,11 +40,10 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
-	CubeComponent cube_component{ CubeResource::get("cube_normal") };
-	const entt::entity cube_entity = registry.create();
 
+	const entt::entity cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity, shader_program);
-	registry.emplace<CubeComponent>(cube_entity, cube_component);
+	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 
@@ -74,23 +74,28 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	shader_program->attach_point_light("pointlight2");
 
 	const entt::entity textured_cube_entity = registry.create();
-	TexturedCubeComponent textured_cube_component{ CubeResource::get("cube_normal_textured") };
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
-	registry.emplace<TexturedCubeComponent>(textured_cube_entity, textured_cube_component);
+	registry.emplace<TexturedCubeComponent>(textured_cube_entity, CubeResource::get("cube_normal_textured"));
 	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 3.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 }
 
 void SceneLoader::single_model(entt::registry& registry){
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");
 
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
-
 	shader_program->attach_directional_light("dirlight");
+
+	ModelComponent model_component{ ModelResource::get("backpack") };
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -3.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+
+
 	
-	OpenGL::OpenGLModelLoaderFromFile model_loader{ "Assets/models/backpack/backpack.obj" };
-	OpenGL::OpenGLModel model{ shader_program, model_loader };
 }

@@ -25,7 +25,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material(OpenGLTextureHandler& texture_
 		std::string material_path{ ai_material_path.C_Str() };
 		material_path = update_material_path(material_path, directory);
 		
-		TextureResource::load(material_path, true);
+		TextureResource::load(material_path, false);
 		load_material_into_handler(texture_handler, material_path, texture_type);
 		
 	}

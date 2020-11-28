@@ -4,10 +4,10 @@
 
 struct ModelComponent{
 
-	ModelComponent(const std::shared_ptr<IModel> model)
-		:m_model{ model }{
-		
+	ModelComponent(const std::shared_ptr<IModel>& model)
+		:m_model{ model }{		
 	}
 	
-	std::shared_ptr<IModel> m_model = nullptr;	
+	std::shared_ptr<IModel> m_model = nullptr;
+	
 };

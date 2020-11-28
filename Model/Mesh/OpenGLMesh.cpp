@@ -10,6 +10,8 @@ OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::v
      m_vao{ 99 },
 	 m_vbo{ 99 },
 	 m_ebo{ 99 }{
+
+    setup();
 	
 }
 

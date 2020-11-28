@@ -54,7 +54,6 @@ OpenGL::OpenGLMesh OpenGL::OpenGLModelLoaderFromFile::process_mesh(aiMesh* mesh,
 	const std::vector<unsigned int> mesh_indicies{ AssimpProcessor::process_faces(mesh) };
 
 	const OpenGLTextureHandler mesh_texture_handler = OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, m_shader_program);
-
 	OpenGLMesh opengl_mesh { mesh_vertices, mesh_indicies, mesh_texture_handler };
 	
 	return opengl_mesh;

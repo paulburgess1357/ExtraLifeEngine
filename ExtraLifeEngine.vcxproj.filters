@@ -425,13 +425,13 @@
     <ClInclude Include="ResourceManagement\ModelResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Model\ModelComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\Systems\Render\Interfaces\IModelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Model\ModelComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

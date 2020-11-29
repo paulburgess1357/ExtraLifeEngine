@@ -13,6 +13,7 @@ void OpenGL::OpenGLLightHandler::attach_directional_light(const std::string& dir
 
 	const std::string dirlight_shader_name = create_shader_variable_name("dirlight", m_current_dirlight);
 	Print::print("Attaching Directional Light: " + dirlight_name + " (" + dirlight_shader_name + ")");
+	Print::print("Active Dirlight Quantity: " + std::to_string(m_current_dirlight));
 
 	m_directional_light_map[dirlight_name].first = dirlight_shader_name;
 	m_directional_light_map[dirlight_name].second = LightResource::get_dirlight(dirlight_name);
@@ -28,6 +29,7 @@ void OpenGL::OpenGLLightHandler::attach_point_light(const std::string& pointligh
 
 	const std::string pointlight_shader_name = create_shader_variable_name("pointlight", m_current_pointlight);
 	Print::print("Attaching PointLight: " + pointlight_name + " (" + pointlight_shader_name + ")");
+	Print::print("Active PointLight Quantity: " + std::to_string(m_current_pointlight));
 
 	m_pointlight_map[pointlight_name].first = pointlight_shader_name;
 	m_pointlight_map[pointlight_name].second = LightResource::get_pointlight(pointlight_name);

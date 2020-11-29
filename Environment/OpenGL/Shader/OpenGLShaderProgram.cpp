@@ -25,6 +25,10 @@ void OpenGL::OpenGLShaderProgram::attach_diffuse_texture(const std::string& text
 	m_texture_handler.attach_diffuse_texture(texture_name);
 }
 
+void OpenGL::OpenGLShaderProgram::attach_normal_texture(const std::string& texture_name) {
+	m_texture_handler.attach_normal_texture(texture_name);
+}
+
 void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& texture_name, const float shininess) {
 	m_texture_handler.attach_specular_texture(texture_name, shininess);
 }

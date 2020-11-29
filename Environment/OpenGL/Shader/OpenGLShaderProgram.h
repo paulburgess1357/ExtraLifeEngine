@@ -18,6 +18,7 @@ namespace OpenGL{
 
 		// Texture handling (per shader)		
 		void attach_diffuse_texture(const std::string& texture_name) override;
+		void attach_normal_texture(const std::string& texture_name) override;
 		void attach_specular_texture(const std::string& texture_name, const float shininess) override;
 		void bind_textures() const override;
 		void unbind_textures() const override;		

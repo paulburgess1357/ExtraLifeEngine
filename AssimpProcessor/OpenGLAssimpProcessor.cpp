@@ -1,6 +1,7 @@
 #include "OpenGLAssimpProcessor.h"
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
+#include "../Utility/Print.h"
 
 OpenGL::OpenGLTextureHandler OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* mesh, const aiScene* scene, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){	
 	
@@ -11,6 +12,7 @@ OpenGL::OpenGLTextureHandler OpenGL::OpenGLAssimpProcessor::load_all_materials(c
 	
 	load_material(texture_handler, material, aiTextureType_DIFFUSE, directory);
 	load_material(texture_handler, material, aiTextureType_SPECULAR, directory);
+	load_material(texture_handler, material, aiTextureType_HEIGHT, directory);
 	return texture_handler;	
 }
 
@@ -56,9 +58,15 @@ void OpenGL::OpenGLAssimpProcessor::load_material_into_handler(OpenGLTextureHand
 			break;
 		}
 
+		// Obj & Assimp does not use aiTextureType_Normals for normal maps (backpack obj example)
+		case aiTextureType_NORMALS: {
+			FatalError::fatal_error("Normal map texture type needs to be added (aiTextureType_NORMALS)");
+			break;
+		}
+		
 		case aiTextureType_HEIGHT: {
-			//TODO confirm this is a normal map
-			FatalError::fatal_error("Normal map texture type needs to be added");
+			Print::print("****** Warning: Attaching normal texture using 'aiTextureType_HEIGHT' ******");
+			texture_handler.attach_normal_texture(material_name);
 			break;
 		}
 

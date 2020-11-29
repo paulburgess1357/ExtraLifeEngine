@@ -14,8 +14,6 @@
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 
-#include "../../Utility/Print.h"
-
 void SceneLoader::single_cube(entt::registry& registry) {
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
@@ -82,20 +80,29 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 
 void SceneLoader::single_model(entt::registry& registry){
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");
+	// Standard Model Shader = "Assets/shaders/fragment/model.glsl"
+	// Normal Mapping Model Shader = "Assets/shaders/fragment/model_normal_mapping.glsl"
+
+	//TODO change the fragment_world_position variable name to fragment_position in the model.glsl shader.
+	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+
+	
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_fix_attempt.glsl", "Assets/shaders/fragment/model_normals_fix_attempt.glsl");
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");	
 
 	DirectionalLight dirlight;
+	dirlight.m_direction = glm::vec3{ 1.0f, 0.0f, 1.0f };
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
+
+	//PointLight pointlight;
+	//LightResource::load("point", pointlight);
+	//shader_program->attach_point_light("point");
 
 	ModelComponent model_component{ ModelResource::get("backpack") };
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -3.0f, 0.0f, 0.0f });
-	registry.emplace<ShaderComponent>(model_entity, shader_program);
-
-
-	
+	registry.emplace<ShaderComponent>(model_entity, shader_program);	
 }

@@ -91,7 +91,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");	
 
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
+	dirlight.m_direction = glm::vec3{ 1.0f, 1.0f, 0.0f };
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
 

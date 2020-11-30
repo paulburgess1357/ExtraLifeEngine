@@ -62,12 +62,12 @@ void main(){
     vec3 fragment_position = vec3(model_matrix * vec4(model_position, 1.0)); // World space 
 
     // Convert Pointlights to Tangent Space
-    for(int i = 0; i < active_pointlight_qty; i++){
+    for(int i = 0; i <= active_pointlight_qty; i++){
         tangent_pointlights[i] = convert_pointlight_to_tangent_space(pointlight[i], tbn_matrix);
     }
 
     // Convert Directional Lights to Tangent Space
-    for(int i = 0; i < active_dirlight_qty; i++){
+    for(int i = 0; i <= active_dirlight_qty; i++){
         tangent_dirlights[i] = convert_dirlight_to_tangent_space(dirlight[i], tbn_matrix);
     }          
 

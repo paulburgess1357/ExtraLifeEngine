@@ -1,6 +1,6 @@
 #version 330 core
-#define MAXIMUM_DIR_LIGHTS 1
-#define MAXIMUM_POINT_LIGHTS 1
+#define MAXIMUM_DIR_LIGHTS 2
+#define MAXIMUM_POINT_LIGHTS 2
 
 struct DirectionalLight {
     vec3 direction;
@@ -49,14 +49,14 @@ out vec3 tangent_fragment_position;
 out vec2 fragment_tex_coords;
 
 // Function Definitions
-mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 tangent_vec);
+mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 model_normals, vec3 tangent_vec);
 PointLight convert_pointlight_to_tangent_space(PointLight pointlight, mat3 tbn_matrix);
 DirectionalLight convert_dirlight_to_tangent_space(DirectionalLight dirlight, mat3 tbn_matrix);
 
 void main(){
    
     // TBN Matrix
-    mat3 tbn_matrix = calc_tbn_matrix(normal_matrix, in_bitangent);
+    mat3 tbn_matrix = calc_tbn_matrix(normal_matrix, model_normals, in_tangent);
 
     // Calc fragment_position for gl_Position and tangent_fragment_position
     vec3 fragment_position = vec3(model_matrix * vec4(model_position, 1.0)); // World space 
@@ -79,7 +79,7 @@ void main(){
     
 }
 
-mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 tangent_vec){
+mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 model_normals, vec3 tangent_vec){
 
     vec3 t = normalize(normal_matrix * tangent_vec);
     vec3 n = normalize(normal_matrix * model_normals);    
@@ -92,12 +92,12 @@ mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 tangent_vec){
 };
 
 PointLight convert_pointlight_to_tangent_space(PointLight pointlight, mat3 tbn_matrix){
-    pointlight.position = tbn_matrix * pointlight.position;
+    pointlight.position = normalize(tbn_matrix * pointlight.position);
     return pointlight;
 
 };
 
 DirectionalLight convert_dirlight_to_tangent_space(DirectionalLight dirlight, mat3 tbn_matrix){
-    dirlight.direction = tbn_matrix * dirlight.direction;
+    dirlight.direction = normalize(tbn_matrix * dirlight.direction);
     return dirlight;
 };

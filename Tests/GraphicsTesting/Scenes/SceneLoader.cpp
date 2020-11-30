@@ -87,11 +87,11 @@ void SceneLoader::single_model(entt::registry& registry){
 	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
 
 	
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_fix_attempt.glsl", "Assets/shaders/fragment/model_normals_fix_attempt.glsl");
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals.glsl", "Assets/shaders/fragment/model_normals.glsl");
 	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");	
 
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3{ 1.0f, 0.0f, 1.0f };
+	dirlight.m_direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
 

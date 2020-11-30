@@ -2,6 +2,8 @@
 #include "../Utility/FatalError.h"
 #include <assimp/postprocess.h>
 
+#include "../Utility/Print.h"
+
 const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_model_path){
 
 	const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes);

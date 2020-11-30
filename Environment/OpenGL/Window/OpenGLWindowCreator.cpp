@@ -79,5 +79,5 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glEnable(GL_MULTISAMPLE);
 
 	// Face Culling
-	// glEnable(GL_CULL_FACE);	
+	glEnable(GL_CULL_FACE);	
 }

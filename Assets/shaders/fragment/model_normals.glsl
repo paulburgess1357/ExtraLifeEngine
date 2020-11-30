@@ -1,6 +1,6 @@
 #version 330 core
-#define MAXIMUM_DIR_LIGHTS 1
-#define MAXIMUM_POINT_LIGHTS 1
+#define MAXIMUM_DIR_LIGHTS 2
+#define MAXIMUM_POINT_LIGHTS 2
 
 struct DiffuseMaterial {
     sampler2D m_sampler;
@@ -84,19 +84,19 @@ void main() {
     
     // Convert normal to tangent space
     normalized_frag_model_normals = normalize(normalized_frag_model_normals * 2 - 1); 
-    vec3 view_direction = normalize(tangent_camera_position - tangent_fragment_position);
+    vec3 tangent_view_direction = normalize(tangent_camera_position - tangent_fragment_position);
     
     // Lighting
     vec3 result = vec3(0.0f);
     
     // Directional
     for(int i = 0; i <= active_dirlight_qty; i++) {
-        result += calc_directional_light(tangent_dirlights[i], diffuse_material, specular_material, scenelight, normalized_frag_model_normals, view_direction, fragment_tex_coords);
+        result += calc_directional_light(tangent_dirlights[i], diffuse_material, specular_material, scenelight, normalized_frag_model_normals, tangent_view_direction, fragment_tex_coords);
     }
 
     // Point (active pointlight qty set to -1 during shader compilation)
     for(int i = 0; i <= active_pointlight_qty; i++){
-        result += calc_point_light(tangent_pointlights[i], diffuse_material, specular_material, scenelight, normalized_frag_model_normals, view_direction, fragment_tex_coords, tangent_fragment_position);
+        result += calc_point_light(tangent_pointlights[i], diffuse_material, specular_material, scenelight, normalized_frag_model_normals, tangent_view_direction, fragment_tex_coords, tangent_fragment_position);
     }
 
     if(result.x == 0.0f && result.y==0.0f && result.z==0.0f){
@@ -118,18 +118,17 @@ vec3 calc_directional_light(DirectionalLight dirlight,
     vec3 light_direction = normalize(dirlight.direction);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
 
+    // Ambient
+    vec3 ambient = scenelight.ambient * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
+    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
 
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
     float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
-
-    // Combine
-    vec3 ambient = scenelight.ambient  * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
     vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
-
+            
     return (ambient + diffuse + specular);
 }  
 
@@ -145,22 +144,21 @@ vec3 calc_point_light(PointLight pointlight,
     vec3 light_direction = normalize(pointlight.position - fragment_position);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
     
+    // Ambient
+    vec3 ambient  = scenelight.ambient * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
+    vec3 diffuse = scenelight.diffuse * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
 
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
     float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
+    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
     
     // Attenuation
     float distance_to_light = length(pointlight.position - fragment_position);
     float attenuation = 1.0 / (pointlight.constant + pointlight.linear * distance_to_light + pointlight.quadratic * (distance_to_light * distance_to_light));    
-
-    // Combine
-    vec3 ambient  = scenelight.ambient  * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 diffuse  = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
-   
+    
     ambient  *= attenuation;
     diffuse  *= attenuation;
     specular *= attenuation;

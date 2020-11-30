@@ -115,7 +115,7 @@ vec3 calc_directional_light(DirectionalLight dirlight,
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
 
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
+    // vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
     float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
 
     // Combine
@@ -142,7 +142,7 @@ vec3 calc_point_light(PointLight pointlight,
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
     
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
+    // vec3 reflection_direction = reflect(-light_direction, normalized_frag_model_normals);
     float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
     
     // Attenuation

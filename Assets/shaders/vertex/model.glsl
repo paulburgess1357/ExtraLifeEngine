@@ -22,5 +22,4 @@ void main(){
     gl_Position = projection_matrix * view_matrix * vec4(fragment_world_position, 1.0);
     frag_model_normals = normal_matrix * model_normals; // World Space (World space or view space here is impacted by how the normal matrix is made (in render system))
     fragment_tex_coords = tex_coords;
-
 }

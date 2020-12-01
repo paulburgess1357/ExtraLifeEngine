@@ -10,6 +10,7 @@
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
 #include "../../ECS/Components/Model/ModelComponent.h"
+#include "../../ECS/Components/Transform/ScaleComponent.h"
 #include "../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
@@ -42,7 +43,8 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	const entt::entity cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity, shader_program);
 	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
-	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ScaleComponent>(cube_entity, 0.5f);
+	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ -3.0f, 4.0f, 0.0f });
 	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 
 }
@@ -80,29 +82,24 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 
 void SceneLoader::single_model(entt::registry& registry){
 
-	// Standard Model Shader = "Assets/shaders/fragment/model.glsl"
-	// Normal Mapping Model Shader = "Assets/shaders/fragment/model_normal_mapping.glsl"
-
-	//TODO change the fragment_world_position variable name to fragment_position in the model.glsl shader.
-	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
-
-	
+	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");	
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals.glsl", "Assets/shaders/fragment/model_normals.glsl");
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");	
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");
 
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3{ 1.0f, 1.0f, 0.0f };
+	dirlight.m_direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
 
-	//PointLight pointlight;
-	//LightResource::load("point", pointlight);
-	//shader_program->attach_point_light("point");
+	PointLight pointlight;
+	pointlight.m_position = glm::vec3(0.0f, 2.0f, 0.0f);
+	LightResource::load("point", pointlight);
+	shader_program->attach_point_light("point");
 
 	ModelComponent model_component{ ModelResource::get("backpack") };
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
-	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -3.0f, 0.0f, 0.0f });
-	registry.emplace<ShaderComponent>(model_entity, shader_program);	
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }

@@ -1,7 +1,6 @@
 #include "OpenGLAssimpProcessor.h"
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
-#include "../Utility/Print.h"
 
 OpenGL::OpenGLTextureHandler OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* mesh, const aiScene* scene, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){	
 	
@@ -65,7 +64,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material_into_handler(OpenGLTextureHand
 		}
 		
 		case aiTextureType_HEIGHT: {
-			Print::print("****** Warning: Attaching normal texture using 'aiTextureType_HEIGHT' ******");
+			//Print::print("****** Warning: Attaching normal texture using 'aiTextureType_HEIGHT' ******");
 			texture_handler.attach_normal_texture(material_name);
 			break;
 		}

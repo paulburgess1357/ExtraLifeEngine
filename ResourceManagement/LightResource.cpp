@@ -12,8 +12,15 @@ std::shared_ptr<DirectionalLight> LightResource::load(const std::string& light_n
 }
 
 std::shared_ptr<PointLight> LightResource::load(const std::string& light_name, const PointLight& pointlight) {
+	check_point_light(pointlight);
 	m_pointlight_cache[light_name] = std::make_shared<PointLight>(pointlight);
 	return m_pointlight_cache[light_name];
+}
+
+void LightResource::check_point_light(const PointLight& pointlight){
+	if(pointlight.m_position.x == 0.0f && pointlight.m_position.y == 0.0f && pointlight.m_position.z == 0.0f){
+		FatalError::fatal_error("Your pointlight has a position of (0,0.0).  The tangent space conversion in the normal lighting shader will be dividing by 0 during the normalization function.");
+	}	
 }
 
 std::shared_ptr<SceneLight> LightResource::load(const std::string& light_name, const SceneLight& scenelight){

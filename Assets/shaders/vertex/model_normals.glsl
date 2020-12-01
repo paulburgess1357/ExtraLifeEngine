@@ -92,6 +92,8 @@ mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 model_normals, vec3 tangent_vec){
 };
 
 PointLight convert_pointlight_to_tangent_space(PointLight pointlight, mat3 tbn_matrix){
+    // Note: If pointlight is (0, 0, 0), the normalization will cause a division by 0.
+    // The object in the shader will have a black outline.
     pointlight.position = normalize(tbn_matrix * pointlight.position);
     return pointlight;
 

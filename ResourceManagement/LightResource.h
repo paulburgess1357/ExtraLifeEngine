@@ -29,6 +29,8 @@ private:
 	static bool is_pointlight_loaded(const std::string& light_name);
 	static bool is_scenelight_loaded(const std::string& light_name);
 
+	static void check_point_light(const PointLight& pointlight);
+
 	static std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> m_dirlight_cache;
 	static std::unordered_map<std::string, std::shared_ptr<PointLight>> m_pointlight_cache;
 	static std::unordered_map<std::string, std::shared_ptr<SceneLight>> m_scenelight_cache;

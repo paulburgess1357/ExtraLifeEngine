@@ -1,6 +1,10 @@
 #version 330 core
 #define MAXIMUM_DIR_LIGHTS 2
-#define MAXIMUM_POINT_LIGHTS 2
+#define MAXIMUM_POINT_LIGHTS 6
+// Note: Lighting calculations past this value result in a memory resource
+// error.  This can be solved by moving the TBN calculations into the fragment
+// shader.
+
 
 struct DirectionalLight {
     vec3 direction;

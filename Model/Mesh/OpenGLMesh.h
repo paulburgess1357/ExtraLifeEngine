@@ -10,13 +10,12 @@ namespace OpenGL{
 
 	public:
 
-		OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const OpenGLTextureHandler& texture_handler);
+		OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 		void draw() const override;
 		void destroy() override;
 		
 		std::vector<Vertex> m_vertices;
 		std::vector<unsigned int> m_indicies;
-        OpenGLTextureHandler m_texture_handler;
 
 	private:
 		void setup();

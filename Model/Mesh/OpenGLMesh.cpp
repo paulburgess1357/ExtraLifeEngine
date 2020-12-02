@@ -1,18 +1,13 @@
 #include "OpenGLMesh.h"
 #include <glad/glad.h>
 
-#include "../../Utility/Print.h"
-
-OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, const OpenGLTextureHandler& texture_handler)
+OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
 	:m_vertices{ vertices },
 	 m_indicies{ indices },
-	 m_texture_handler{ texture_handler },
      m_vao{ 99 },
 	 m_vbo{ 99 },
 	 m_ebo{ 99 }{
-
-    setup();
-	
+    setup();	
 }
 
 void OpenGL::OpenGLMesh::setup(){
@@ -55,14 +50,10 @@ void OpenGL::OpenGLMesh::setup(){
 
 void OpenGL::OpenGLMesh::draw() const{
 
-    m_texture_handler.bind_textures();
-
 	glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0); //TODO if draw if messed up try changing nullptr to 0.
     glBindVertexArray(0);
 
-    m_texture_handler.unbind_textures();	
-	
 }
 
 void OpenGL::OpenGLMesh::destroy(){

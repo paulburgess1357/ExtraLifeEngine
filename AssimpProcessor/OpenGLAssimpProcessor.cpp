@@ -2,21 +2,16 @@
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
 
-OpenGL::OpenGLTextureHandler OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* mesh, const aiScene* scene, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){	
+void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* mesh, const aiScene* scene, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){	
 	
-	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
-	OpenGLTextureHandler texture_handler;
-	texture_handler.set_shader_program(shader_program);
-	
-	load_material(texture_handler, material, aiTextureType_DIFFUSE, directory);
-	load_material(texture_handler, material, aiTextureType_SPECULAR, directory);
-	load_material(texture_handler, material, aiTextureType_HEIGHT, directory);
-	return texture_handler;	
+	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];	
+	load_material(material, aiTextureType_DIFFUSE, directory, shader_program);
+	load_material(material, aiTextureType_SPECULAR, directory, shader_program);
+	load_material(material, aiTextureType_HEIGHT, directory, shader_program);
 }
 
 
-void OpenGL::OpenGLAssimpProcessor::load_material(OpenGLTextureHandler& texture_handler, const aiMaterial* material, const aiTextureType texture_type, const std::string& directory){
+void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, const aiTextureType texture_type, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){
 	
 	for(unsigned int i = 0; i < material->GetTextureCount(texture_type); i++){
 
@@ -27,7 +22,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material(OpenGLTextureHandler& texture_
 		material_path = update_material_path(material_path, directory);
 		
 		TextureResource::load(material_path, false);
-		load_material_into_handler(texture_handler, material_path, texture_type);
+		load_material_into_shader(material_path, texture_type, shader_program);
 		
 	}
 
@@ -43,17 +38,17 @@ std::string OpenGL::OpenGLAssimpProcessor::update_material_path(const std::strin
 	
 }
 
-void OpenGL::OpenGLAssimpProcessor::load_material_into_handler(OpenGLTextureHandler& texture_handler, const std::string& material_name, const aiTextureType texture_type){
+void OpenGL::OpenGLAssimpProcessor::load_material_into_shader(const std::string& material_name, const aiTextureType texture_type, const std::shared_ptr<IShaderProgram>& shader_program){
 
 	switch (texture_type){
 
 		case aiTextureType_DIFFUSE: {
-			texture_handler.attach_diffuse_texture(material_name);
+			shader_program->attach_diffuse_texture(material_name);
 			break;
 		}
 
 		case aiTextureType_SPECULAR: {
-			texture_handler.attach_specular_texture(material_name, 16.0f);
+			shader_program->attach_specular_texture(material_name, 16.0f);
 			break;
 		}
 
@@ -64,13 +59,11 @@ void OpenGL::OpenGLAssimpProcessor::load_material_into_handler(OpenGLTextureHand
 		}
 		
 		case aiTextureType_HEIGHT: {
-			//Print::print("****** Warning: Attaching normal texture using 'aiTextureType_HEIGHT' ******");
-			texture_handler.attach_normal_texture(material_name);
+			shader_program->attach_normal_texture(material_name);
 			break;
 		}
 
 		case aiTextureType_AMBIENT:{
-			//TODO confirm this is a height map
 			FatalError::fatal_error("Height map texture type needs to be added");
 			break;
 		}

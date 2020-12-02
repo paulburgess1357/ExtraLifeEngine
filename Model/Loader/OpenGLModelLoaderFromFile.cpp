@@ -35,6 +35,7 @@ void OpenGL::OpenGLModelLoaderFromFile::process_node(aiNode* node, const aiScene
 	// the same way as a root node.
 
 	// Process all of the nodes meshes
+	
 	for(unsigned int i = 0; i < node->mNumMeshes; i++){
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		OpenGLMesh opengl_mesh = process_mesh(mesh, scene);
@@ -53,8 +54,8 @@ OpenGL::OpenGLMesh OpenGL::OpenGLModelLoaderFromFile::process_mesh(aiMesh* mesh,
 	const std::vector<Vertex> mesh_vertices{ AssimpProcessor::process_verticies(mesh) };
 	const std::vector<unsigned int> mesh_indicies{ AssimpProcessor::process_faces(mesh) };
 
-	const OpenGLTextureHandler mesh_texture_handler = OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, m_shader_program);
-	OpenGLMesh opengl_mesh { mesh_vertices, mesh_indicies, mesh_texture_handler };
+	OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, m_shader_program);
+	OpenGLMesh opengl_mesh { mesh_vertices, mesh_indicies };
 	
 	return opengl_mesh;
 	

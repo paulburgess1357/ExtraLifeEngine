@@ -45,7 +45,7 @@ void OpenGL::OpenGLTextureHandler::attach_normal_texture(const std::string& text
 		m_normal_texture_map[texture_name] = texture_shader_data;
 
 		check_texture_qty(m_current_normal);
-		Print::print("Attaching normal texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
+		//Print::print("Attaching normal texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
 
 		m_current_normal++;
 		m_available_tex_unit++;

@@ -1,4 +1,6 @@
 #version 330 core
+#define MAXIMUM_DIR_LIGHTS 2
+#define MAXIMUM_POINT_LIGHTS 6
 
 struct DiffuseMaterial {
     vec3 m_sampler;
@@ -42,10 +44,10 @@ uniform SpecularMaterial specular_material;
 uniform SceneLight scenelight;
 
 uniform int active_dirlight_qty; // Set to -1 during shader initialization
-uniform DirectionalLight dirlight[8];
+uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
 
 uniform int active_pointlight_qty; // Set to -1 during shader initialization
-uniform PointLight pointlight[16];
+uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
 
 // Vertex Variables
 in vec3 frag_cube_normals;
@@ -68,7 +70,7 @@ vec3 calc_point_light_no_texture(PointLight pointlight,
                                  SceneLight scenelight,                       
                                  vec3 normalized_frag_cube_normals, 
                                  vec3 view_direction,
-                                 vec3 fragment_world_position);
+                                 vec3 fragment_position);
 
 // Shader
 void main() {
@@ -128,9 +130,9 @@ vec3 calc_point_light_no_texture(PointLight pointlight,
                                  SceneLight scenelight,                       
                                  vec3 normalized_frag_cube_normals, 
                                  vec3 view_direction,                                 
-                                 vec3 fragment_world_position){
+                                 vec3 fragment_position){
     
-    vec3 light_direction = normalize(pointlight.position - fragment_world_position);
+    vec3 light_direction = normalize(pointlight.position - fragment_position);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
     
     // Diffuse
@@ -141,7 +143,7 @@ vec3 calc_point_light_no_texture(PointLight pointlight,
     float specular_impact = pow(max(dot(normalized_frag_cube_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
     
     // Attenuation
-    float distance_to_light = length(pointlight.position - fragment_world_position);
+    float distance_to_light = length(pointlight.position - fragment_position);
     float attenuation = 1.0 / (pointlight.constant + pointlight.linear * distance_to_light + pointlight.quadratic * (distance_to_light * distance_to_light));    
 
     // Combine

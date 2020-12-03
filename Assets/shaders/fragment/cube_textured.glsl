@@ -1,4 +1,6 @@
 #version 330 core
+#define MAXIMUM_DIR_LIGHTS 2
+#define MAXIMUM_POINT_LIGHTS 6
 
 struct DiffuseMaterial {
     sampler2D m_sampler;
@@ -42,10 +44,10 @@ uniform SpecularMaterial specular_material;
 uniform SceneLight scenelight;
 
 uniform int active_dirlight_qty; // Set to -1 during shader initialization
-uniform DirectionalLight dirlight[4];
+uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
 
 uniform int active_pointlight_qty; // Set to -1 during shader initialization
-uniform PointLight pointlight[16];
+uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
 
 // Vertex Variables
 in vec3 frag_cube_normals;
@@ -60,7 +62,7 @@ vec3 calc_directional_light(DirectionalLight dirlight,
                             DiffuseMaterial diffuse_material,
                             SpecularMaterial specular_material,
                             SceneLight scenelight, 
-                            vec3 normalized_frag_cube_normals, 
+                            vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
                             vec2 fragment_tex_coords);
 
@@ -68,10 +70,10 @@ vec3 calc_point_light(PointLight pointlight,
                       DiffuseMaterial diffuse_material,
                       SpecularMaterial specular_material,
                       SceneLight scenelight,                       
-                      vec3 normalized_frag_cube_normals, 
+                      vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
                       vec2 fragment_tex_coords,
-                      vec3 fragment_world_position);
+                      vec3 fragment_position);
 
 // Shader
 void main() {
@@ -104,25 +106,24 @@ vec3 calc_directional_light(DirectionalLight dirlight,
                             DiffuseMaterial diffuse_material,
                             SpecularMaterial specular_material,
                             SceneLight scenelight, 
-                            vec3 normalized_frag_cube_normals, 
+                            vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
                             vec2 fragment_tex_coords){
     
     vec3 light_direction = normalize(dirlight.direction);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
 
+    // Ambient
+    vec3 ambient = scenelight.ambient * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
     // Diffuse
-    float diffuse_impact = max(dot(normalized_frag_cube_normals, light_direction), 0.0);
+    float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
+    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
 
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_cube_normals);
-    float specular_impact = pow(max(dot(view_direction, reflection_direction), 0.0), specular_material.m_shininess);
-
-    // Combine
-    vec3 ambient = scenelight.ambient  * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+    float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
     vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
-
+            
     return (ambient + diffuse + specular);
 }  
 
@@ -130,30 +131,29 @@ vec3 calc_point_light(PointLight pointlight,
                       DiffuseMaterial diffuse_material,
                       SpecularMaterial specular_material,
                       SceneLight scenelight,                       
-                      vec3 normalized_frag_cube_normals, 
+                      vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
                       vec2 fragment_tex_coords,
-                      vec3 fragment_world_position){
+                      vec3 fragment_position){
     
-    vec3 light_direction = normalize(pointlight.position - fragment_world_position);
+    vec3 light_direction = normalize(pointlight.position - fragment_position);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
     
+    // Ambient
+    vec3 ambient  = scenelight.ambient * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
     // Diffuse
-    float diffuse_impact = max(dot(normalized_frag_cube_normals, light_direction), 0.0);
-    
+    float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
+    vec3 diffuse = scenelight.diffuse * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
     // Specular
-    vec3 reflection_direction = reflect(-light_direction, normalized_frag_cube_normals);
-    float specular_impact = pow(max(dot(normalized_frag_cube_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
+    float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
+    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
     
     // Attenuation
-    float distance_to_light = length(pointlight.position - fragment_world_position);
+    float distance_to_light = length(pointlight.position - fragment_position);
     float attenuation = 1.0 / (pointlight.constant + pointlight.linear * distance_to_light + pointlight.quadratic * (distance_to_light * distance_to_light));    
-
-    // Combine
-    vec3 ambient  = scenelight.ambient  * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 diffuse  = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
-    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
-   
+    
     ambient  *= attenuation;
     diffuse  *= attenuation;
     specular *= attenuation;

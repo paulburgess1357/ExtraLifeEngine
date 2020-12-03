@@ -10,6 +10,7 @@ std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> CubeResou
 	{ "cube_normal", { 99, 99 } },
 	{ "cube_textured", { 99, 99} },
 	{ "cube_normal_textured", { 99, 99 } },
+	{ "cubemap", { 99, 99 } } 
 };
 
 unsigned int CubeResource::get(const std::string& cube_name){
@@ -33,6 +34,8 @@ void CubeResource::load(const std::string& cube_name) {
 			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_textured_verticies();
 		} else if (cube_name == "cube_normal_textured") {
 			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cube_normal_textured_verticies();
+		} else if (cube_name == "cubemap") {
+			m_vbo_vaos_cache[cube_name] = m_cube_loader->load_cubemap_verticies();
 		} else {
 			FatalError::fatal_error("No cube type: '" + cube_name + "' exists in the cube resource manager map!");
 		}

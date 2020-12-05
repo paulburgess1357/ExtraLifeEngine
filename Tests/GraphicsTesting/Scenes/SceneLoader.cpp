@@ -15,6 +15,8 @@
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 
+#include "../../Environment/Neutral/Texture/TextureLoaderFromFile.h"
+
 void SceneLoader::single_cube(entt::registry& registry) {
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
@@ -103,4 +105,10 @@ void SceneLoader::single_model(entt::registry& registry){
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
+		
+}
+
+void SceneLoader::cubemap(entt::registry& registry){
+	CubeComponent cube_component =  CubeResource::get("cubemap");
+	TextureResource::load_cubemap_textures("milkyway", "Assets/cubemaps/milkyway", false);
 }

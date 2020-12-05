@@ -177,6 +177,15 @@
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\Interfaces\Texture\ICubeMapCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Texture\OpenGLCubeMapCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\SBTIUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -432,6 +441,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components\Model\ModelComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Texture\ICubeMapCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\OpenGLCubeMapCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\SBTIUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,8 @@
 #include "TextureResource.h"
 #include "../Environment/Interfaces/Texture/ITextureLoader.h"
+#include "../Environment/Interfaces/Texture/ITextureCompiler.h"
+#include "../Environment/Interfaces/Texture/ICubeMapCompiler.h"
 #include "../Environment/Neutral/Texture/TextureLoaderFromFile.h"
-#include "../Environment/OpenGL/Texture/OpenGLTextureCompiler.h"
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
 
@@ -21,6 +22,19 @@ std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_name,
 std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_path, const bool flip_texture){
 	return load(texture_path, texture_path, flip_texture);
 }
+
+std::shared_ptr<ITexture> TextureResource::load_cubemap_textures(const std::string& cubemap_name, const std::string& cubemap_folder, const bool flip_textures){
+	if(!is_loaded(cubemap_name)){
+		Print::print("\nLoading CubeMap: " + cubemap_name + " (" + cubemap_folder + ")");
+		std::shared_ptr<ITextureLoader> texture_loader = std::make_shared<TextureLoaderFromFile>(cubemap_folder, flip_textures);		
+		std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders = texture_loader->create_cubemap_loaders();		
+		const std::shared_ptr<ICubeMapCompiler> cubemap_compiler = ICubeMapCompiler::create_compiler(texture_loaders);
+		m_texture_cache[cubemap_name] = cubemap_compiler->compile();				
+	}
+
+	return m_texture_cache[cubemap_name];
+}
+
 
 bool TextureResource::is_loaded(const std::string& texture_name) {
 	const auto it = m_texture_cache.find(texture_name);

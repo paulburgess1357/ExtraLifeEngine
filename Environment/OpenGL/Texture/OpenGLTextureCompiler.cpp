@@ -1,8 +1,9 @@
 #include "OpenGLTextureCompiler.h"
 #include "OpenGLTexture.h"
-#include "../../Neutral/Texture/TextureLoaderFromFile.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "../../Utility/SBTIUtilities.h"
+#include "../../Neutral/Texture/TextureLoaderFromFile.h"
 
 OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
 	:ITextureCompiler{ texture_loader }{	
@@ -10,10 +11,9 @@ OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<IText
 
 std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
 
-	Print::print("Compiling Texture");
-	
-	std::shared_ptr<ITexture> texture = compile_texture();
-	TextureLoaderFromFile::free_loaded_texture_data(m_texture_loading_data);
+	Print::print("Compiling Texture");	
+	std::shared_ptr<ITexture> texture = compile_texture();	
+
 	return texture;	
 }
 
@@ -51,7 +51,8 @@ void OpenGL::OpenGLTextureCompiler::set_texture_parameters() {
 
 void OpenGL::OpenGLTextureCompiler::generate_texture() const {
 	GLenum format = get_texture_format();
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
+	SBTIUtilities::free_image(m_texture_loading_data.m_image_data);
 }
 
 GLenum OpenGL::OpenGLTextureCompiler::get_texture_format() const{

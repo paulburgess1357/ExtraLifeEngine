@@ -1,13 +1,11 @@
 #include "TextureLoaderFromFile.h"
 #include "../../Utility/FatalError.h"
-
-#define STB_IMAGE_IMPLEMENTATION // Both of these must only exist
-#include "stb_image/stb_image.h" // in a single file (per source doc)
+#include "../../Utility/FileHandler.h"
+#include "stb_image/stb_image.h"
 
 TextureLoaderFromFile::TextureLoaderFromFile(const std::string& texture_path, const bool flip_texture)
 	:m_flip_texture{ flip_texture },
-	m_texture_path{ texture_path }{
-	
+	m_texture_path{ texture_path }{	
 }
 
 TextureLoadingData TextureLoaderFromFile::load() {
@@ -27,6 +25,17 @@ void TextureLoaderFromFile::check_image_data(void* image_data) const{
 	}
 }
 
-void TextureLoaderFromFile::free_loaded_texture_data(TextureLoadingData texture_loading_data) {
-	stbi_image_free(texture_loading_data.m_image_data);
+std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loaders(){
+	
+	std::vector<std::string> filenames = FileHandler::list_directory_filenames(m_texture_path);	
+	const std::string extension = FileHandler::get_filename_extension(filenames.at(0));
+	
+	std::vector<std::string> expected_filenames{ "right", "left", "top", "bottom", "front", "back" };
+	std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders;
+
+	for (const auto& expected_filename : expected_filenames) {
+		texture_loaders[expected_filename] = std::make_shared<TextureLoaderFromFile>(m_texture_path + "/" + expected_filename + "." + extension, m_flip_texture);
+	}
+
+	return texture_loaders;
 }

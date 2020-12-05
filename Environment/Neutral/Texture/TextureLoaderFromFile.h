@@ -2,15 +2,15 @@
 #include "../../Interfaces/Texture/ITextureLoader.h"
 #include "../Texture/TextureLoadingData.h"
 #include <string>
+#include <memory>
+#include <unordered_map>
 
 class TextureLoaderFromFile : public ITextureLoader {
 	
 public:
 	TextureLoaderFromFile(const std::string& texture_path, const bool flip_texture);
 	[[nodiscard]] TextureLoadingData load() override;
-
-	// Loaded STBI texture data must be freed (it is subsequently handled by OpenGL/Vulkan)
-	static void free_loaded_texture_data(TextureLoadingData texture_loading_data);
+	[[nodiscard]] std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> create_cubemap_loaders() override;
 		
 private:
 	void check_image_data(void* image_data) const;
@@ -19,4 +19,3 @@ private:
 	std::string m_texture_path;
 	
 };
-

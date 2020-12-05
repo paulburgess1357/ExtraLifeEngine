@@ -12,7 +12,7 @@ namespace OpenGL{
 
 	public:
 		OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader);
-		[[nodiscard]] std::shared_ptr<IShaderProgram> compile() const override;
+		[[nodiscard]] std::shared_ptr<IShaderProgram> compile(const bool set_default_lights) const override;
 	
 	private:
 		static unsigned int compile_glsl_shader(const std::string& shader_glsl_code, const ShaderType shader_type);

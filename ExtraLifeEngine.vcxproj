@@ -170,6 +170,8 @@
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.cpp" />
     <ClCompile Include="Environment\Interfaces\Texture\ICubeMapCompiler.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\OpenGLCubeMapCompiler.cpp" />
+    <ClCompile Include="ECS\Systems\Render\Interfaces\ICubeMapRenderer.cpp" />
+    <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeMapRenderer.cpp" />
     <ClCompile Include="Utility\SBTIUtilities.cpp" />
     <ClCompile Include="ResourceManagement\ModelResource.cpp" />
     <ClCompile Include="Model\Model\IModel.cpp" />
@@ -218,6 +220,7 @@
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
+    <ClInclude Include="ECS\Components\CubeMap\CubeMapComponent.h" />
     <ClInclude Include="ECS\Components\Lights\DirectionalLight.h" />
     <ClInclude Include="ECS\Components\Lights\PointLight.h" />
     <ClInclude Include="ECS\Components\Lights\SceneLight.h" />
@@ -234,6 +237,8 @@
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLModelRenderer.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ICubeMapCompiler.h" />
     <ClInclude Include="Environment\OpenGL\Texture\OpenGLCubeMapCompiler.h" />
+    <ClInclude Include="ECS\Systems\Render\Interfaces\ICubeMapRenderer.h" />
+    <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLCubeMapRenderer.h" />
     <ClInclude Include="Utility\SBTIUtilities.h" />
     <ClInclude Include="ResourceManagement\ModelResource.h" />
     <ClInclude Include="Utility\FileHandler.h" />

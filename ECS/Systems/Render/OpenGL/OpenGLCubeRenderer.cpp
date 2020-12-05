@@ -7,14 +7,14 @@
 #include "../../Tests/GraphicsTesting/Cube/TexturedCubeComponent.h"
 #include <glad/glad.h>
 
-void OpenGL::OpenGLCubeRenderer::render(entt::registry& registry, Camera& camera) const{
+void OpenGL::OpenGLCubeRenderer::render(entt::registry& registry) const{
 
-	render_cube(registry, camera);
-	render_textured_cube(registry, camera);
+	render_cube(registry);
+	render_textured_cube(registry);
 	
 }
 
-void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry, Camera& camera){
+void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry){
 
 	glDisable(GL_CULL_FACE);
 	
@@ -34,7 +34,7 @@ void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry, Camera& c
 	glEnable(GL_CULL_FACE);
 }
 
-void OpenGL::OpenGLCubeRenderer::render_textured_cube(entt::registry& registry, Camera& camera){
+void OpenGL::OpenGLCubeRenderer::render_textured_cube(entt::registry& registry){
 
 	glDisable(GL_CULL_FACE);
 	

@@ -50,20 +50,20 @@ void OpenGL::OpenGLTextureCompiler::set_texture_parameters() {
 }
 
 void OpenGL::OpenGLTextureCompiler::generate_texture() const {
-	GLenum format = get_texture_format();
+	GLenum format = get_texture_format(m_texture_loading_data.m_components);
 	glTexImage2D(GL_TEXTURE_2D, 0, format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
 	SBTIUtilities::free_image(m_texture_loading_data.m_image_data);
 }
 
-GLenum OpenGL::OpenGLTextureCompiler::get_texture_format() const{
+GLenum OpenGL::OpenGLTextureCompiler::get_texture_format(const unsigned int component_num) {
 	GLenum format { 0 };
-	if (m_texture_loading_data.m_components == 1) {
+	if (component_num == 1) {
 		Print::print("RED Format");
 		format = GL_RED;
-	} else if (m_texture_loading_data.m_components == 3) {
+	} else if (component_num == 3) {
 		Print::print("RGB Format");
 		format = GL_RGB;
-	} else if (m_texture_loading_data.m_components == 4) {
+	} else if (component_num == 4) {
 		Print::print("RGBA Format");
 		format = GL_RGBA;
 	} else {

@@ -18,6 +18,8 @@ public:
 	virtual void attach_diffuse_texture(const std::string& texture_name) = 0;
 	virtual void attach_normal_texture(const std::string& texture_name) = 0;
 	virtual void attach_specular_texture(const std::string& texture_name, const float shininess) = 0;
+	virtual void attach_cubemap_texture(const std::string& texture_name) = 0;
+	
 	virtual void bind_textures() const = 0;
 	virtual void unbind_textures() const = 0;	
 

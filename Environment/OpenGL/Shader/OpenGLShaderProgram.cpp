@@ -33,6 +33,11 @@ void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& tex
 	m_texture_handler.attach_specular_texture(texture_name, shininess);
 }
 
+void OpenGL::OpenGLShaderProgram::attach_cubemap_texture(const std::string& texture_name){
+	m_texture_handler.attach_cubemap_texture(texture_name);
+}
+
+
 void OpenGL::OpenGLShaderProgram::bind_textures() const {
 	m_texture_handler.bind_textures();
 }

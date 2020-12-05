@@ -9,6 +9,7 @@ OpenGL::OpenGLTextureHandler::OpenGLTextureHandler()
 	:m_available_tex_unit { 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
+	 m_current_cubemap{ 0 },
 	 m_shader_program{ nullptr }{
 	
 }
@@ -74,10 +75,32 @@ void OpenGL::OpenGLTextureHandler::attach_specular_texture(const std::string& te
 	
 }
 
+void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const std::string& texture_name){
+
+	const auto it = m_cubemap_texture_map.find(texture_name);
+	if (it == m_cubemap_texture_map.end()) {
+
+		check_tex_unit();
+		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
+
+		const TextureShaderData texture_shader_data{ "cubemap", m_available_tex_unit, texture->get_handle() };
+		m_cubemap_texture_map[texture_name] = texture_shader_data;
+
+		check_texture_qty(m_current_cubemap);
+		Print::print("Attaching cubemap texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
+
+		m_current_cubemap++;
+		m_available_tex_unit++;
+	}
+	
+}
+
+
 void OpenGL::OpenGLTextureHandler::bind_textures() const{
 	bind_diffuse_textures();
 	bind_specular_textures();
-	bind_normal_textures();	
+	bind_normal_textures();
+	bind_cubemap_textures();
 }
 
 void OpenGL::OpenGLTextureHandler::bind_diffuse_textures() const{
@@ -123,11 +146,23 @@ void OpenGL::OpenGLTextureHandler::bind_normal_textures() const{
 	
 }
 
+void OpenGL::OpenGLTextureHandler::bind_cubemap_textures() const{
+
+	for (const auto& texture : m_cubemap_texture_map) {
+		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit);
+		m_shader_program->bind();
+
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texture.second.m_tex_handle);
+	}
+}
+
 
 void OpenGL::OpenGLTextureHandler::unbind_textures() const{
 	unbind_diffuse_textures();
 	unbind_specular_textures();
-	unbind_normal_textures();	
+	unbind_normal_textures();
+	unbind_cubemap_textures();
 }
 
 void OpenGL::OpenGLTextureHandler::unbind_diffuse_textures() const{
@@ -150,6 +185,14 @@ void OpenGL::OpenGLTextureHandler::unbind_normal_textures() const{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
+
+void OpenGL::OpenGLTextureHandler::unbind_cubemap_textures() const{
+	for (const auto& texture : m_cubemap_texture_map) {
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	}
+}
+
 
 void OpenGL::OpenGLTextureHandler::check_tex_unit() const{
 

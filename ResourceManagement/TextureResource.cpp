@@ -27,7 +27,7 @@ std::shared_ptr<ITexture> TextureResource::load_cubemap_textures(const std::stri
 	if(!is_loaded(cubemap_name)){
 		Print::print("\nLoading CubeMap: " + cubemap_name + " (" + cubemap_folder + ")");
 		std::shared_ptr<ITextureLoader> texture_loader = std::make_shared<TextureLoaderFromFile>(cubemap_folder, flip_textures);		
-		std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders = texture_loader->create_cubemap_loaders();		
+		std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders = texture_loader->create_cubemap_loader();		
 		const std::shared_ptr<ICubeMapCompiler> cubemap_compiler = ICubeMapCompiler::create_compiler(texture_loaders);
 		m_texture_cache[cubemap_name] = cubemap_compiler->compile();				
 	}

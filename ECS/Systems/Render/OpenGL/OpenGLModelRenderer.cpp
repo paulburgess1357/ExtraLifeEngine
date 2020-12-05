@@ -5,7 +5,7 @@
 #include "../../../Components/Transform/TransformComponent.h"
 
 
-void OpenGL::OpenGLModelRenderer::render(entt::registry& registry, Camera& camera) const{
+void OpenGL::OpenGLModelRenderer::render(entt::registry& registry) const{
 
 	registry.view<ModelComponent, TransformComponent, ShaderComponent>().each([](auto& model, auto& transform, auto& shader) {		
 		

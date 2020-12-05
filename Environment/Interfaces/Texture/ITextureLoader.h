@@ -10,6 +10,6 @@ public:
 	
 	// Returns a pointer to the image date in memory
 	[[nodiscard]] virtual TextureLoadingData load() = 0;
-	[[nodiscard]] std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> virtual create_cubemap_loaders() = 0;
+	[[nodiscard]] virtual std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> create_cubemap_loader() = 0;
 	
 };

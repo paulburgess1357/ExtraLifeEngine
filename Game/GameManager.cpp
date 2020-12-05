@@ -57,13 +57,14 @@ void GameManager::initialize_controls() {
 void GameManager::initialize_scene(){
     //SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
-	//SceneLoader::single_model(m_registry);
+	SceneLoader::single_model(m_registry);
 	SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
+	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
 }
 
 void GameManager::gameloop() {
@@ -81,8 +82,9 @@ void GameManager::update(){
 }
 
 void GameManager::render(){
-	m_cube_renderer->render(m_registry, m_camera);
-	m_model_renderer->render(m_registry, m_camera);
+	m_cube_renderer->render(m_registry);
+	m_model_renderer->render(m_registry);
+	m_cubemap_renderer->render(m_registry, m_camera);
 	m_window->swap_buffer();
 	m_window->clear_color();
 }

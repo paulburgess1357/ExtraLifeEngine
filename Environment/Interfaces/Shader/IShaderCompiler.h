@@ -12,7 +12,7 @@ public:
 	}
 	
 	virtual ~IShaderCompiler() = default;
-	[[nodiscard]] virtual std::shared_ptr<IShaderProgram> compile() const = 0;
+	[[nodiscard]] virtual std::shared_ptr<IShaderProgram> compile(const bool set_default_lights) const = 0;
 	[[nodiscard]] static std::shared_ptr<IShaderCompiler> create_compiler(const std::shared_ptr<IShaderLoader>& shader_loader);
 	
 protected:

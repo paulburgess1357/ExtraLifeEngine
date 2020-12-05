@@ -16,7 +16,7 @@ namespace OpenGL{
 		[[nodiscard]] std::shared_ptr<ITexture> compile_texture() const;
 		static void set_texture_parameters();
 		void generate_texture() const;
-		GLenum get_texture_format() const;		
+		static GLenum get_texture_format(const unsigned int component_num);		
 		static void generate_mipmaps();
 				
 	};

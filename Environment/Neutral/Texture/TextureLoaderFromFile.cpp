@@ -25,7 +25,7 @@ void TextureLoaderFromFile::check_image_data(void* image_data) const{
 	}
 }
 
-std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loaders(){
+std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loader(){
 	
 	std::vector<std::string> filenames = FileHandler::list_directory_filenames(m_texture_path);	
 	const std::string extension = FileHandler::get_filename_extension(filenames.at(0));

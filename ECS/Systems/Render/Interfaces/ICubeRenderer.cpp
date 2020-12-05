@@ -15,7 +15,7 @@ std::shared_ptr<ICubeRenderer> ICubeRenderer::get_cube_renderer(){
 		return cube_renderer;
 	}
 
-	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return uniform block.");
+	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return cube renderer.");
 	std::shared_ptr<ICubeRenderer> cube_renderer = nullptr;
 	return cube_renderer;
 	

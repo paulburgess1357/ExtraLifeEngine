@@ -1,21 +1,20 @@
 #include "SceneLoader.h"
 
 #include "../Cube/CubeResource.h"
-#include "../../ResourceManagement/ShaderResource.h"
-#include "../../ResourceManagement/TextureResource.h"
 #include "../../ResourceManagement/LightResource.h"
 #include "../../ResourceManagement/ModelResource.h"
+#include "../../ResourceManagement/ShaderResource.h"
+#include "../../ResourceManagement/TextureResource.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
 #include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 
 #include "../../ECS/Components/Model/ModelComponent.h"
-#include "../../ECS/Components/Transform/ScaleComponent.h"
 #include "../../ECS/Components/Shader/ShaderComponent.h"
+#include "../../ECS/Components/CubeMap/CubeMapComponent.h"
+#include "../../ECS/Components/Transform/ScaleComponent.h"
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
-
-#include "../../Environment/Neutral/Texture/TextureLoaderFromFile.h"
 
 void SceneLoader::single_cube(entt::registry& registry) {
 
@@ -109,6 +108,13 @@ void SceneLoader::single_model(entt::registry& registry){
 }
 
 void SceneLoader::cubemap(entt::registry& registry){
-	CubeComponent cube_component =  CubeResource::get("cubemap");
-	TextureResource::load_cubemap_textures("milkyway", "Assets/cubemaps/milkyway", false);
+
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);	
+	TextureResource::load_cubemap_textures("milkyway", "Assets/cubemaps/space_red", false);
+	shader_program->attach_cubemap_texture("milkyway");
+	
+	const entt::entity cubemap_entity = registry.create();
+	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);
+	registry.emplace<CubeMapComponent>(cubemap_entity, CubeResource::get("cubemap"));
+	
 }

@@ -10,7 +10,7 @@ OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShader
 	:IShaderCompiler(shader_loader){	
 }
 
-std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
+std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool set_default_lights) const{	
 	
 	Print::print("Compiling Shader");
 
@@ -25,19 +25,22 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
 	opengl_uniform_block_allocator.link_camera_position_block_to_shader(shader_program);
 
-	// Set light uniforms to -1 (inactive)
-	shader_program->set_uniform("active_dirlight_qty", -1);
-	shader_program->set_uniform("active_pointlight_qty", -1);
-
 	// Initialize Handlers
 	shader_program->init_texture_handler();	
 	shader_program->init_light_handler();
 
-	// Set default scene lighting (i.e. ambient light levels)
-	const SceneLight scenelight;
-	LightResource::load("scenelight", scenelight);
-	shader_program->attach_scene_light("scenelight");
-	
+	if(set_default_lights){
+		
+		// Set light uniforms to -1 (inactive)
+		shader_program->set_uniform("active_dirlight_qty", -1);
+		shader_program->set_uniform("active_pointlight_qty", -1);
+
+		// Set default scene lighting (i.e. ambient light levels)
+		const SceneLight scenelight;
+		LightResource::load("scenelight", scenelight);
+		shader_program->attach_scene_light("scenelight");
+	}
+		
 	return shader_program;		
 }
 

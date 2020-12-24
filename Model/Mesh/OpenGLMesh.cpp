@@ -1,9 +1,10 @@
 #include "OpenGLMesh.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
+OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, const std::shared_ptr<IShaderProgram>& shader_program)
 	:m_vertices{ vertices },
 	 m_indicies{ indices },
+     m_texture_handler{ shader_program },
      m_vao{ 99 },
 	 m_vbo{ 99 },
 	 m_ebo{ 99 }{
@@ -49,10 +50,15 @@ void OpenGL::OpenGLMesh::setup(){
 }
 
 void OpenGL::OpenGLMesh::draw() const{
+    
+    m_texture_handler.bind_textures();
 
 	glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0); //TODO if draw if messed up try changing nullptr to 0.
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0); //TODO if draw is messed up try changing nullptr to 0.
     glBindVertexArray(0);
+
+    m_texture_handler.unbind_textures();
+
 
 }
 
@@ -61,4 +67,17 @@ void OpenGL::OpenGLMesh::destroy(){
     glDeleteVertexArrays(1, &m_vao);
     glDeleteBuffers(1, &m_ebo);
 }
+
+void OpenGL::OpenGLMesh::attach_diffuse_texture(const std::string& texture_name){
+    m_texture_handler.attach_diffuse_texture(texture_name);
+}
+
+void OpenGL::OpenGLMesh::attach_normal_texture(const std::string& texture_name){
+    m_texture_handler.attach_normal_texture(texture_name);
+}
+
+void OpenGL::OpenGLMesh::attach_specular_texture(const std::string& texture_name, const float shininess){
+    m_texture_handler.attach_specular_texture(texture_name, shininess);
+}
+
 

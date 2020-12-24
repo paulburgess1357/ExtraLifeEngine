@@ -49,6 +49,15 @@ mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 model_normals, vec3 tangent_vec){
     vec3 n = normalize(normal_matrix * model_normals);    
     t = normalize(t - dot(t, n) * n);
     vec3 b = cross(n, t);
+
+    // Check for right handedness (TBN must form a right handed coordinate
+    // system.  Some models will have symmetric UV's.  This causes the 
+    // 'T' to be oriented the wrong way.  The fix is simply to invert the 
+    // 'T'.
+    if (dot(cross(n, t), b) < 0.0f){
+     t = t * -1.0f;
+ }
+
     mat3 tbn_matrix = transpose(mat3(t, b, n));
 
     return tbn_matrix;

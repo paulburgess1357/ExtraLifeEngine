@@ -2,16 +2,16 @@
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
 
-void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* mesh, const aiScene* scene, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){	
+void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* assimp_mesh, const aiScene* scene, const std::string& directory, OpenGLMesh& mesh){
 	
-	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];	
-	load_material(material, aiTextureType_DIFFUSE, directory, shader_program);
-	load_material(material, aiTextureType_SPECULAR, directory, shader_program);
-	load_material(material, aiTextureType_HEIGHT, directory, shader_program);
+	aiMaterial* material = scene->mMaterials[assimp_mesh->mMaterialIndex];	
+	load_material(material, aiTextureType_DIFFUSE, directory, mesh);
+	load_material(material, aiTextureType_SPECULAR, directory, mesh);
+	load_material(material, aiTextureType_HEIGHT, directory, mesh);
 }
 
 
-void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, const aiTextureType texture_type, const std::string& directory, const std::shared_ptr<IShaderProgram>& shader_program){
+void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, const aiTextureType texture_type, const std::string& directory, OpenGLMesh& mesh){
 	
 	for(unsigned int i = 0; i < material->GetTextureCount(texture_type); i++){
 
@@ -22,7 +22,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, co
 		material_path = update_material_path(material_path, directory);
 		
 		TextureResource::load(material_path, false);
-		load_material_into_shader(material_path, texture_type, shader_program);
+		load_material_into_mesh(material_path, texture_type, mesh);
 		
 	}
 
@@ -38,17 +38,17 @@ std::string OpenGL::OpenGLAssimpProcessor::update_material_path(const std::strin
 	
 }
 
-void OpenGL::OpenGLAssimpProcessor::load_material_into_shader(const std::string& material_name, const aiTextureType texture_type, const std::shared_ptr<IShaderProgram>& shader_program){
+void OpenGL::OpenGLAssimpProcessor::load_material_into_mesh(const std::string& material_name, const aiTextureType texture_type, OpenGLMesh& mesh){
 
 	switch (texture_type){
 
 		case aiTextureType_DIFFUSE: {
-			shader_program->attach_diffuse_texture(material_name);
+			mesh.attach_diffuse_texture(material_name);
 			break;
 		}
 
 		case aiTextureType_SPECULAR: {
-			shader_program->attach_specular_texture(material_name, 16.0f);
+			mesh.attach_specular_texture(material_name);
 			break;
 		}
 
@@ -59,7 +59,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material_into_shader(const std::string&
 		}
 		
 		case aiTextureType_HEIGHT: {
-			shader_program->attach_normal_texture(material_name);
+			mesh.attach_normal_texture(material_name);
 			break;
 		}
 

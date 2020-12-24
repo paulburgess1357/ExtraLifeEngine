@@ -9,10 +9,20 @@ OpenGL::OpenGLTextureHandler::OpenGLTextureHandler()
 	:m_available_tex_unit { 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
+     m_current_normal{ 0 },
 	 m_current_cubemap{ 0 },
-	 m_shader_program{ nullptr }{
-	
+	 m_shader_program{ nullptr }{	
 }
+
+OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(const std::shared_ptr<IShaderProgram>& shader_program)
+	:m_available_tex_unit{ 0 },
+	 m_current_diffuse{ 0 },
+	 m_current_specular{ 0 },
+	 m_current_normal{ 0 },
+	 m_current_cubemap{ 0 },
+     m_shader_program{shader_program}{	
+}
+
 
 void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const std::string& texture_name){
 

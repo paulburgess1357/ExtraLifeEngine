@@ -8,10 +8,10 @@
 
 std::unordered_map<std::string, std::shared_ptr<IModel>> ModelResource::m_model_cache;
 
-std::shared_ptr<IModel> ModelResource::load(const std::string& model_name, const std::string& model_path, const std::string& model_shader_name){
+std::shared_ptr<IModel> ModelResource::load(const std::string& model_name, const std::string& model_path, const std::string& shader_name){
 	if(!is_loaded(model_name)){		
 		Print::print("\nLoading Model: " + model_name + " (" + model_path + ")");
-		load_model(model_name, model_path, model_shader_name);
+		load_model(model_name, model_path, shader_name);
 	}
 	return m_model_cache[model_name];
 }
@@ -24,15 +24,15 @@ bool ModelResource::is_loaded(const std::string& model_name) {
 	return true;
 }
 
-void ModelResource::load_model(const std::string& model_name, const std::string& model_path, const std::string& model_shader_name) {
+void ModelResource::load_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		load_opengl_model(model_name, model_path, model_shader_name);
+		load_opengl_model(model_name, model_path, shader_name);
 		return;
 	}
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
-		load_vulkan_model(model_name, model_path, model_shader_name);
+		load_vulkan_model(model_name, model_path, shader_name);
 		return;
 	}
 
@@ -40,13 +40,13 @@ void ModelResource::load_model(const std::string& model_name, const std::string&
 }
 
 
-void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, const std::string& model_shader_name) {
-	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path };
-	const std::shared_ptr<IShaderProgram> model_shader_program = ShaderResource::get(model_shader_name);
-	m_model_cache[model_name] = std::make_shared<OpenGL::OpenGLModel>(model_loader, model_shader_program);
+void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name) {
+	const std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get(shader_name);
+	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path, shader_program };
+	m_model_cache[model_name] = std::make_shared<OpenGL::OpenGLModel>(model_loader);
 }
 
-void ModelResource::load_vulkan_model(const std::string& model_name, const std::string& model_path, const std::string& model_shader_name) {
+void ModelResource::load_vulkan_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name) {
 	FatalError::fatal_error("Vulkan model code is not set for the model resource loader!");
 }
 

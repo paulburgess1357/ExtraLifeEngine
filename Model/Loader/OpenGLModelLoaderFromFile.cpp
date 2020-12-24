@@ -4,10 +4,10 @@
 #include "../../Utility/FatalError.h"
 #include "../../Utility/FileHandler.h"
 
-OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path)
-	:m_path{ path },
+OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program)
+	:m_path{ path },	 
 	 m_directory{ FileHandler::get_file_directory(m_path) },
-	 m_shader_program{ nullptr }{
+	 m_shader_program{ shader_program }{
 	
 }
 
@@ -54,13 +54,8 @@ OpenGL::OpenGLMesh OpenGL::OpenGLModelLoaderFromFile::process_mesh(aiMesh* mesh,
 	const std::vector<Vertex> mesh_vertices{ AssimpProcessor::process_verticies(mesh) };
 	const std::vector<unsigned int> mesh_indicies{ AssimpProcessor::process_faces(mesh) };
 
-	OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, m_shader_program);
-	OpenGLMesh opengl_mesh { mesh_vertices, mesh_indicies };
-	
-	return opengl_mesh;
-	
-}
-
-void OpenGL::OpenGLModelLoaderFromFile::set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program){
-	m_shader_program = shader_program;
+	OpenGLMesh opengl_mesh{ mesh_vertices, mesh_indicies, m_shader_program};
+	OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, opengl_mesh);
+		
+	return opengl_mesh;	
 }

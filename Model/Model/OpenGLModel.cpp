@@ -1,8 +1,6 @@
 #include "OpenGLModel.h"
 
-OpenGL::OpenGLModel::OpenGLModel(OpenGLModelLoaderFromFile& model_loader, const std::shared_ptr<IShaderProgram>& shader_program)
-	:IModel(shader_program){
-	model_loader.set_shader_program(m_shader_program);
+OpenGL::OpenGLModel::OpenGLModel(OpenGLModelLoaderFromFile& model_loader){
 	m_mesh_vector = model_loader.load();	
 }
 
@@ -18,5 +16,3 @@ void OpenGL::OpenGLModel::destroy(){
 	}
 	m_mesh_vector.clear();
 }
-
-

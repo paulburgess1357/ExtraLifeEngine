@@ -6,7 +6,7 @@
 
 const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_model_path){
 
-	const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes);
+	const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes); //aiProcess_FlipUVs
 
 	check_assimp_importer(m_assimp_importer, scene);
 	return scene;

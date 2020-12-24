@@ -86,7 +86,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");	
 	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals.glsl", "Assets/shaders/fragment/model_normals.glsl");
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");	
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader");
 
 	DirectionalLight dirlight;
 	dirlight.m_direction = glm::vec3{ 0.0f, -1.0f, 0.0f };
@@ -104,13 +104,14 @@ void SceneLoader::single_model(entt::registry& registry){
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 		
 }
 
 void SceneLoader::cubemap(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);	
-	TextureResource::load_cubemap_textures("milkyway", "Assets/cubemaps/space_red", false);
+	TextureResource::load_cubemap_textures("milkyway", "Assets/cubemaps/test_cubemap", false);
 	shader_program->attach_cubemap_texture("milkyway");
 	
 	const entt::entity cubemap_entity = registry.create();

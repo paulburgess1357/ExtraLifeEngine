@@ -1,0 +1,61 @@
+# Blender MTL File: 'OrangeBOT.blend'
+# Material Count: 5
+
+newmtl Black
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.207131 0.039412
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Black_Base_Color.jpg
+map_Ns Black_Roughness.jpg
+refl Black_Metallic.jpg
+
+newmtl FaceScreen
+Ns 506.250000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.002
+Ns 506.250000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Orange
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.207131 0.039412
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Orange_Base_Color.jpg
+map_Ns Orange_Roughness.jpg
+refl Orange_Metallic.jpg
+
+newmtl White.001
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.207131 0.039412
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd White_Base_Color.jpg
+map_Ns White_Roughness.jpg
+refl White_Metallic.jpg

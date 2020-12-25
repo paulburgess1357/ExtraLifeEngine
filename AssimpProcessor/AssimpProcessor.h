@@ -8,7 +8,7 @@
 class AssimpProcessor{
 	
 public:
-	const aiScene* create_scene_loader(const std::string& full_model_path);
+	const aiScene* create_scene_loader(const std::string& full_model_path, const bool assimp_flip_uvs);
 	static std::vector<Vertex> process_verticies(const aiMesh* mesh);
 	static std::vector<unsigned int> process_faces(const aiMesh* mesh);
 	

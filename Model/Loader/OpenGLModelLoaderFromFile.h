@@ -11,7 +11,7 @@ namespace OpenGL{
 	class OpenGLModelLoaderFromFile {
 
 	public:
-		OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program);
+		OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program, const bool assimp_flip_uvs);
 		std::vector<OpenGLMesh> load();
 		
 	private:		
@@ -19,6 +19,7 @@ namespace OpenGL{
 		OpenGLMesh process_mesh(aiMesh* mesh, const aiScene* scene) const;
 		
 		std::string m_path;
+		bool m_assimp_flip_uv;
 		std::string m_directory;
 		std::vector<OpenGLMesh> m_mesh_vector;
 		std::shared_ptr<IShaderProgram> m_shader_program;

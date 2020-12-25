@@ -2,6 +2,7 @@
 #include "../../Utility/FatalError.h"
 #include "../../Utility/FileHandler.h"
 #include "stb_image/stb_image.h"
+#include "StringUtilities/FilePath/FilePath.hpp"
 
 TextureLoaderFromFile::TextureLoaderFromFile(const std::string& texture_path, const bool flip_texture)
 	:m_flip_texture{ flip_texture },
@@ -28,7 +29,7 @@ void TextureLoaderFromFile::check_image_data(void* image_data) const{
 std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loader(){
 	
 	std::vector<std::string> filenames = FileHandler::list_directory_filenames(m_texture_path);	
-	const std::string extension = FileHandler::get_filename_extension(filenames.at(0));
+	const std::string extension = StringUtil::FilePath::get_extension(filenames.at(0));
 	
 	std::vector<std::string> expected_filenames{ "right", "left", "top", "bottom", "front", "back" };
 	std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders;

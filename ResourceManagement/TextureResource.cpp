@@ -19,7 +19,7 @@ std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_name,
 	return m_texture_cache[texture_name];	
 }
 
-std::shared_ptr<ITexture> TextureResource::load(const std::string& texture_path, const bool flip_texture){
+std::shared_ptr<ITexture> TextureResource::load_model_textures(const std::string& texture_path, const bool flip_texture){
 	return load(texture_path, texture_path, flip_texture);
 }
 

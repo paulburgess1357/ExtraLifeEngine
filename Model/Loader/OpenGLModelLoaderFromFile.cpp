@@ -2,11 +2,12 @@
 #include "../Vertex.h"
 #include "../../AssimpProcessor/OpenGLAssimpProcessor.h"
 #include "../../Utility/FatalError.h"
-#include "../../Utility/FileHandler.h"
+#include "StringUtilities/FilePath/FilePath.hpp"
 
-OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program)
-	:m_path{ path },	 
-	 m_directory{ FileHandler::get_file_directory(m_path) },
+OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program, const bool assimp_flip_uvs)
+	:m_path{ path },
+     m_assimp_flip_uv{ assimp_flip_uvs },
+     m_directory{ StringUtil::FilePath::get_directory(m_path)},
 	 m_shader_program{ shader_program }{
 	
 }
@@ -14,7 +15,7 @@ OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& 
 std::vector<OpenGL::OpenGLMesh> OpenGL::OpenGLModelLoaderFromFile::load(){
 
 	AssimpProcessor assimp_processor;
-	const aiScene* scene = assimp_processor.create_scene_loader(m_path);
+	const aiScene* scene = assimp_processor.create_scene_loader(m_path, m_assimp_flip_uv);
 	process_node(scene->mRootNode, scene);
 
 	return m_mesh_vector;

@@ -120,7 +120,7 @@ int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {
 		m_uniform_locations[uniform_name] = glGetUniformLocation(m_handle, uniform_name.c_str());
 
 		if (m_uniform_locations[uniform_name] == -1) {
-			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
+			//FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
 		}
 	}
 

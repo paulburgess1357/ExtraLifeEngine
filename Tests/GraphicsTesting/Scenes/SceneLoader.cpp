@@ -71,7 +71,7 @@ void SceneLoader::single_model(entt::registry& registry){
 void SceneLoader::cubemap(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);	
-	TextureResource::load_cubemap_textures("space_red", "Assets/cubemaps/space_red");
+	TextureResource::load_cubemap_textures("space_red", "Assets/cubemaps/milkyway");
 	shader_program->attach_cubemap_texture("space_red");
 	
 	const entt::entity cubemap_entity = registry.create();
@@ -82,7 +82,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(0.0f, 0.0f, -1.0f);
+	dirlight.m_direction = glm::vec3(0.0f, 0.3f, -1.0f);
 	LightResource::load("dirlight", dirlight);
 
 	//PointLight pointlight1;

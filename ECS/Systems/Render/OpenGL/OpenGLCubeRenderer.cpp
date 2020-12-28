@@ -8,10 +8,8 @@
 #include <glad/glad.h>
 
 void OpenGL::OpenGLCubeRenderer::render(entt::registry& registry) const{
-
 	render_cube(registry);
-	render_textured_cube(registry);
-	
+	render_textured_cube(registry);	
 }
 
 void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry){

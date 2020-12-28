@@ -65,14 +65,12 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glViewport(0, 0, m_width, m_height);
 	glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
 
-	// For 3D only
+	// Depth Testing (required glClear GL_DEPTH_BUFFER_BIT)
 	glEnable(GL_DEPTH_TEST);
-
-	//glDepthFunc(GL_LESS);
-	glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LESS);
 
 	// Alpha blending
-	glEnable(GL_BLEND);
+	// glEnable(GL_BLEND);
 	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// MSAA

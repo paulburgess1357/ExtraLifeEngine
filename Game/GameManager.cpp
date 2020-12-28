@@ -55,8 +55,9 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-    //SceneLoader::single_cube(m_registry);
-	//SceneLoader::single_cube_textured(m_registry);
+	SceneLoader::grid(m_registry);
+    SceneLoader::single_cube(m_registry);
+	SceneLoader::single_cube_textured(m_registry);
 	SceneLoader::single_model(m_registry);
 	SceneLoader::cubemap(m_registry);
 }
@@ -69,10 +70,12 @@ void GameManager::initialize_renderers(){
 
 void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
-		m_input_handler.hande_input();
+		m_input_handler.hande_input();		
 		m_mouse_handler.handle_input();
+		m_window->clear_color();								
 		update();
 		render();
+		m_window->swap_buffer();
 	}
 }
 
@@ -82,11 +85,9 @@ void GameManager::update(){
 }
 
 void GameManager::render(){
-	m_cube_renderer->render(m_registry);
-	m_model_renderer->render(m_registry);
 	m_cubemap_renderer->render(m_registry, m_camera);
-	m_window->swap_buffer();
-	m_window->clear_color();
+	m_cube_renderer->render(m_registry);
+	m_model_renderer->render(m_registry);	
 }
 
 void GameManager::destroy() const {

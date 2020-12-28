@@ -16,6 +16,16 @@
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 
+// Shaders
+// Model Shaders
+	// Standard model shader: Assets/shaders/vertex/model.glsl; Assets/shaders/fragment/model.glsl
+	// Normals model shader: Assets/shaders/vertex/model_normals.glsl; Assets/shaders/fragment/model_normals.glsl
+	// TBN model shader: Assets/shaders/vertex/model_normals_TBN_fragment.glsl; Assets/shaders/fragment/model_normals_TBN_fragment.glsl
+// Textured Cube Shaders
+	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
+	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
+
+
 void SceneLoader::single_cube(entt::registry& registry) {
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
@@ -28,34 +38,41 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	const entt::entity cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity, shader_program);
 	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
-	registry.emplace<ScaleComponent>(cube_entity, 0.5f);
-	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ -3.0f, 4.0f, 0.0f });
+	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ -5.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 }
 
 void SceneLoader::single_cube_textured(entt::registry& registry) {
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube_textured", "Assets/shaders/vertex/cube_textured.glsl", "Assets/shaders/fragment/cube_textured.glsl");
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl");
 	
-	TextureResource::load("brown_container", "Assets/textures/wood.png");
-	TextureResource::load("brown_container_boarder", "Assets/textures/container_specular_map.png");
+	TextureResource::load("colorful_squares", "Assets/textures/colorful_squares.jpg");
+	//TextureResource::load("transparent_specular", "Assets/textures/transparent_specular.png");
 
 	attach_basic_lighting(shader_program);
-	shader_program->attach_diffuse_texture("brown_container");
-	shader_program->attach_specular_texture("brown_container_boarder", 32.0f);
+	shader_program->attach_diffuse_texture("colorful_squares");
+	//shader_program->attach_specular_texture("transparent_specular", 32.0f);
 
 	const entt::entity textured_cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
 	registry.emplace<TexturedCubeComponent>(textured_cube_entity, CubeResource::get("cube_normal_textured"));
-	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 3.0f, 0.0f, 0.0f });
+	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 5.0f, 0.0f, 0.0f });
 	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 }
 
-void SceneLoader::single_model(entt::registry& registry){
+void SceneLoader::grid(entt::registry& registry){
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	ModelResource::load("grid", "Assets/models/metal_grid/metal_grid.obj", "grid_shader", false);
+	attach_basic_lighting(shader_program);
 
-	// Standard model shader: Assets/shaders/vertex/model.glsl; Assets/shaders/fragment/model.glsl
-	// Normals model shader: Assets/shaders/vertex/model_normals.glsl; Assets/shaders/fragment/model_normals.glsl
-	// TBN model shader: Assets/shaders/vertex/model_normals_TBN_fragment.glsl; Assets/shaders/fragment/model_normals_TBN_fragment.glsl
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, ModelResource::get("grid"));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+}
+
+
+void SceneLoader::single_model(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
 	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader", false);
@@ -65,7 +82,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.2f, 0.0f, 0.0f);		
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.2f, 0.0f, 0.0f);
 }
 
 void SceneLoader::cubemap(entt::registry& registry){

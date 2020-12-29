@@ -78,6 +78,8 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 
 	// Face Culling
 	glEnable(GL_CULL_FACE);
+	// Default enabled value(No need to specify unless winding order is not default)
+	// glFrontFace(GL_CCW) 
 
 	// Seamless Cubemap
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);

@@ -13,8 +13,6 @@ void OpenGL::OpenGLCubeRenderer::render(entt::registry& registry) const{
 }
 
 void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry){
-
-	glDisable(GL_CULL_FACE);
 	
 	registry.view<ShaderComponent, CubeComponent, TransformComponent>().each([](auto& shader, auto& cube, auto& transform) {
 
@@ -28,13 +26,9 @@ void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry){
 		shader.m_shader_program->unbind();
 
 	});
-
-	glEnable(GL_CULL_FACE);
 }
 
 void OpenGL::OpenGLCubeRenderer::render_textured_cube(entt::registry& registry){
-
-	glDisable(GL_CULL_FACE);
 	
 	registry.view<ShaderComponent, TexturedCubeComponent, TransformComponent>().each([](auto& shader, auto& cube, auto& transform) {
 
@@ -52,6 +46,4 @@ void OpenGL::OpenGLCubeRenderer::render_textured_cube(entt::registry& registry){
 		shader.m_shader_program->unbind();
 
 	});
-
-	glEnable(GL_CULL_FACE);
 }

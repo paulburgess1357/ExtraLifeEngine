@@ -3,232 +3,270 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
+// CounterClockwise Winding Order
+
 const float ICubeLoader::m_cube_verticies[108] = {
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
 
-		-0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
+     // back face
+     0.5f, -0.5f, -0.5f, // bottom left	
+    -0.5f, -0.5f, -0.5f, // bottom right
+    -0.5f,  0.5f, -0.5f, // top right
+    -0.5f,  0.5f, -0.5f, // top right		 
+	 0.5f,  0.5f, -0.5f, // top left			
+     0.5f, -0.5f, -0.5f, // bottom left	
 
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
+     // front face
+	-0.5f, -0.5f,  0.5f, // bottom left
+	 0.5f, -0.5f,  0.5f, // bottom right
+	 0.5f,  0.5f,  0.5f, // top right
+	 0.5f,  0.5f,  0.5f, // top right
+	-0.5f,  0.5f,  0.5f, // top left
+	-0.5f, -0.5f,  0.5f, // bottom left
 
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
+     // left face
+    -0.5f, -0.5f, -0.5f, // bottom left
+    -0.5f, -0.5f,  0.5f, // bottom right
+	-0.5f,  0.5f,  0.5f, // top right
+	-0.5f,  0.5f,  0.5f, // top right	
+    -0.5f,  0.5f, -0.5f, // top left		
+	-0.5f, -0.5f, -0.5f, // bottom left				
 
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
+     // right face		 		 		 	     
+	 0.5f, -0.5f,  0.5f, // bottom left
+     0.5f, -0.5f, -0.5f, // bottom right
+     0.5f,  0.5f, -0.5f, // top right
+     0.5f,  0.5f, -0.5f, // top right	
+	 0.5f,  0.5f,  0.5f, // top left
+	 0.5f, -0.5f,  0.5f, // bottom left
 
-		-0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f
+	 // bottom face
+	-0.5f, -0.5f, -0.5f, // bottom left
+	 0.5f, -0.5f, -0.5f, // bottom right
+	 0.5f, -0.5f,  0.5f, // top right
+	 0.5f, -0.5f,  0.5f, // top right
+	-0.5f, -0.5f,  0.5f, // top left
+	-0.5f, -0.5f, -0.5f, // bottom left
+
+    // top face
+	-0.5f,  0.5f,  0.5f, // bottom left
+	 0.5f,  0.5f,  0.5f, // bottom right
+     0.5f,  0.5f, -0.5f, // top right
+     0.5f,  0.5f, -0.5f, // top right	
+	-0.5f,  0.5f, -0.5f, // top left
+    -0.5f,  0.5f,  0.5f, // bottom left
 };
 
 const float ICubeLoader::m_cube_verticies_texture[180] = {
 
-		// Cube Verticies     // Texture Coordinates
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    // Vertices                 // Texture Coordinates
+	// back face
+	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left	
+	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right		 
+	 0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left			
+	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f // bottom left	
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 // front face
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 // left face
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+	-0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right	
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left		
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left				
 
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 // right face		 		 		 	     
+	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
+	 0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 // bottom face
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
+	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f, -0.5f,  0.5f,		0.0f, 1.0f, // top left
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	// top face
+	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left
+	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
 };
 
 const float ICubeLoader::m_cube_verticies_normals[216] = {
 
-	// CubeComponent Verticies     // Normals
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    // Verticies               // Normals
 
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    // back face
+    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
+   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
+    0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top left
+    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
 
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    // front face
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
+    0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom right
+    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
+    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
+   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top left
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
 
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+   // left face
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
+   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // bottom right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right	   
+   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // top left	   
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
 
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+    // right face
+	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right
+    0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right	
+    0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // top left
+    0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
 
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    // bottom face
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
+    0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom right
+    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
+    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
+   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top left
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
+
+    // top face
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
+	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right
+    0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right		
+   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top left
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
 };
 
 const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
 
-	// CubeComponent Verticies   // Normals    // Texture
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+	// Verticies               // Normals		     // Textures
 
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+	// back face
+	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
+   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 0.0f, // bottom right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
+	0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 1.0f, // top left
+	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
 
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+	// front face
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
+	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 1.0f, // top left
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
 
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+   // left face
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	   
+   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left	   
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
 
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+	// right face
+	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
+	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	
+	0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left
+	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
 
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+	// bottom face
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
+	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
+   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 1.0f, // top left
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+
+	// top face
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right
+	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right		
+   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 1.0f, // top left
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
 };
 
 const float ICubeLoader::m_cubemap_verticies[108] = {
 
-	// positions          
-	-1.0f,  1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	 1.0f, -1.0f, -1.0f,
-	 1.0f, -1.0f, -1.0f,
-	 1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
+	// Cubemap needs to be in clockwise winding order.  If its not,
+	// face culling will prevent the texture from being visible
 
-	-1.0f, -1.0f,  1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f,
+	// back face
+   -1.0f, -1.0f, -1.0f, // bottom right
+    1.0f, -1.0f, -1.0f, // bottom left   
+   -1.0f,  1.0f, -1.0f, // top right
+   -1.0f,  1.0f, -1.0f, // top right
+	1.0f, -1.0f, -1.0f, // bottom left
+    1.0f,  1.0f, -1.0f, // top left			 
+    
+	// left face
+   -1.0f, -1.0f,  1.0f, // bottom right
+   -1.0f, -1.0f, -1.0f, // bottom left	   
+   -1.0f,  1.0f,  1.0f, // top right
+   -1.0f,  1.0f,  1.0f, // top right
+   -1.0f, -1.0f, -1.0f, // bottom left	
+   -1.0f,  1.0f, -1.0f, // top left		
+   
 
-	 1.0f, -1.0f, -1.0f,
-	 1.0f, -1.0f,  1.0f,
-	 1.0f,  1.0f,  1.0f,
-	 1.0f,  1.0f,  1.0f,
-	 1.0f,  1.0f, -1.0f,
-	 1.0f, -1.0f, -1.0f,
+	// right face 	 	
+	1.0f, -1.0f, -1.0f, // bottom right
+	1.0f, -1.0f,  1.0f, // bottom left
+	1.0f,  1.0f, -1.0f, // top right
+	1.0f,  1.0f, -1.0f, // top right
+	1.0f, -1.0f,  1.0f, // bottom left
+	1.0f,  1.0f,  1.0f, // top left	
 
-	-1.0f, -1.0f,  1.0f,
-	-1.0f,  1.0f,  1.0f,
-	 1.0f,  1.0f,  1.0f,
-	 1.0f,  1.0f,  1.0f,
-	 1.0f, -1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f,
+	// front face   
+	1.0f, -1.0f,  1.0f, // bottom right
+   -1.0f, -1.0f,  1.0f, // bottom left
+	1.0f,  1.0f,  1.0f, // top right
+	1.0f,  1.0f,  1.0f, // top right
+   -1.0f, -1.0f,  1.0f, // bottom left
+   -1.0f,  1.0f,  1.0f, // top left	    
 
-	-1.0f,  1.0f, -1.0f,
-	 1.0f,  1.0f, -1.0f,
-	 1.0f,  1.0f,  1.0f,
-	 1.0f,  1.0f,  1.0f,
-	-1.0f,  1.0f,  1.0f,
-	-1.0f,  1.0f, -1.0f,
-
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f,  1.0f,
-	 1.0f, -1.0f, -1.0f,
-	 1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f,  1.0f,
-	 1.0f, -1.0f,  1.0f
+	// top face   
+    1.0f,  1.0f,  1.0f, // bottom right
+   -1.0f,  1.0f,  1.0f, // bottom left
+    1.0f,  1.0f, -1.0f, // top right
+	1.0f,  1.0f, -1.0f, // top right
+   -1.0f,  1.0f,  1.0f, // bottom left
+   -1.0f,  1.0f, -1.0f, // top left   
+	 
+	// bottom face   
+	1.0f, -1.0f, -1.0f, // bottom right
+   -1.0f, -1.0f, -1.0f, // bottom left
+	1.0f, -1.0f,  1.0f, // top right
+	1.0f, -1.0f,  1.0f, // top right
+   -1.0f, -1.0f, -1.0f, // bottom left 		 
+   -1.0f, -1.0f,  1.0f, // top left   
 };
 
 std::shared_ptr<ICubeLoader> ICubeLoader::create_cube_loader(){

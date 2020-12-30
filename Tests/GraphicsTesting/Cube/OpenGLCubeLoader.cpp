@@ -2,21 +2,28 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_verticies() const {
+CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_verticies() const {
 
 	Print::print("Loading Cube Component Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
 	unsigned int vao_id{ 99 };
+	unsigned int ebo_id{ 99 };
 
 	glGenBuffers(1, &vbo_id);
+	glGenBuffers(1, &ebo_id);
 	glGenVertexArrays(1, &vao_id);
+
 	glBindVertexArray(vao_id);
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies), m_cube_verticies, GL_STATIC_DRAW);
+
+	// Set up indices
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_all_cube_ebo_indices), m_all_cube_ebo_indices, GL_STATIC_DRAW);
 
 	// Vertex Data
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -26,25 +33,32 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_vertic
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return std::make_pair(vbo_id, vao_id);
+	return CubeIDStruct{vbo_id, vao_id, ebo_id };
 }
 
-std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal_verticies() const {
+CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_verticies() const {
 
 	Print::print("Loading Cube Component Normal Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
 	unsigned int vao_id{ 99 };
+	unsigned int ebo_id{ 99 };
 
 	glGenBuffers(1, &vbo_id);
+	glGenBuffers(1, &ebo_id);
 	glGenVertexArrays(1, &vao_id);
+
 	glBindVertexArray(vao_id);
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals), m_cube_verticies_normals, GL_STATIC_DRAW);
 
+	// Set up indices
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_all_cube_ebo_indices), m_all_cube_ebo_indices, GL_STATIC_DRAW);
+	
 	// Vertex Data
 	// Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -58,25 +72,32 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return std::make_pair(vbo_id, vao_id);
+	return CubeIDStruct{ vbo_id, vao_id, ebo_id };
 }
 
-std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cube_textured_verticies() const {
+CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_textured_verticies() const {
 
 	Print::print("Loading Cube Component Textured Vertices");
 
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
 	unsigned int vao_id{ 99 };
+	unsigned int ebo_id{ 99 };
 
 	glGenBuffers(1, &vbo_id);
+	glGenBuffers(1, &ebo_id);
 	glGenVertexArrays(1, &vao_id);
+
 	glBindVertexArray(vao_id);
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_texture), m_cube_verticies_texture, GL_STATIC_DRAW);
 
+	// Set up indices
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_all_cube_ebo_indices), m_all_cube_ebo_indices, GL_STATIC_DRAW);
+	
 	// Vertex Data
 	// Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -90,25 +111,32 @@ std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cube_textured_verti
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return std::make_pair(vbo_id, vao_id);
+	return CubeIDStruct{ vbo_id, vao_id, ebo_id };
 }
 
-std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() const {
+CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() const {
 
 	Print::print("Loading Cube Component Textured Normal Vertices");
 	
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
 	unsigned int vao_id{ 99 };
+	unsigned int ebo_id{ 99 };
 
 	glGenBuffers(1, &vbo_id);
+	glGenBuffers(1, &ebo_id);
 	glGenVertexArrays(1, &vao_id);
+
 	glBindVertexArray(vao_id);
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals_textures), m_cube_verticies_normals_textures, GL_STATIC_DRAW);
 
+	// Set up indices
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_all_cube_ebo_indices), m_all_cube_ebo_indices, GL_STATIC_DRAW);
+	
 	// Vertex Data
 	// Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -126,10 +154,10 @@ std::pair<unsigned int, unsigned int> OpenGL::OpenGLCubeLoader::load_cube_normal
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return std::make_pair(vbo_id, vao_id);
+	return CubeIDStruct{ vbo_id, vao_id, ebo_id };
 }
 
-std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cubemap_verticies() const{
+CubeIDStruct OpenGL::OpenGLCubeLoader::load_cubemap_verticies() const{
 
 	// Load/store CubeComponent Data
 	unsigned int vbo_id{ 99 };
@@ -137,12 +165,13 @@ std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cubemap_verticies()
 
 	glGenBuffers(1, &vbo_id);
 	glGenVertexArrays(1, &vao_id);
+
 	glBindVertexArray(vao_id);
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cubemap_verticies), m_cubemap_verticies, GL_STATIC_DRAW);
-
+	
 	// Vertex Data
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -151,12 +180,13 @@ std::pair<unsigned, unsigned> OpenGL::OpenGLCubeLoader::load_cubemap_verticies()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return std::make_pair(vbo_id, vao_id);
+	return CubeIDStruct{ vbo_id, vao_id, 99 };
 	
 }
 
 
-void OpenGL::OpenGLCubeLoader::destory(const unsigned int vbo_id, const unsigned int vao_id) const{
-	glDeleteBuffers(1, &vbo_id);
-	glDeleteVertexArrays(1, &vao_id);
+void OpenGL::OpenGLCubeLoader::destroy(const CubeIDStruct cube_id_struct) const{
+	glDeleteBuffers(1, &cube_id_struct.m_vbo_id);
+	glDeleteBuffers(1, &cube_id_struct.m_ebo_id);
+	glDeleteVertexArrays(1, &cube_id_struct.m_vao_id);
 }

@@ -467,5 +467,8 @@
     <ClInclude Include="ECS\Components\CubeMap\CubeMapComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tests\GraphicsTesting\Cube\CubeIDStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

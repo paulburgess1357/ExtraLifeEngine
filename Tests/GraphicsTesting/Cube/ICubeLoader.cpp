@@ -3,7 +3,36 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
-// CounterClockwise Winding Order
+// All cubes use counterclockwise winding order
+
+const int ICubeLoader::m_all_cube_ebo_indices[36] = {
+
+	// back face
+	0, 1, 2,
+	2, 3, 0,
+
+	// front face
+	4, 5, 6,
+	6, 7, 4,
+
+	// left face
+	8, 9, 10,
+	10, 11, 8,
+
+	// right face
+	12, 13, 14,
+	14, 15, 12,
+
+	// bottom face
+	16, 17, 18,
+	18, 19, 16,
+
+	// top face
+	20, 21, 22,
+	22, 23, 20
+};
+
+// -------------- Standard Cube --------------
 
 const float ICubeLoader::m_cube_verticies[108] = {
 
@@ -56,9 +85,52 @@ const float ICubeLoader::m_cube_verticies[108] = {
     -0.5f,  0.5f,  0.5f, // bottom left
 };
 
+const float ICubeLoader::m_cube_verticies_indexed[72] = {
+
+	// back face
+	0.5f, -0.5f, -0.5f, // bottom left	
+   -0.5f, -0.5f, -0.5f, // bottom right
+   -0.5f,  0.5f, -0.5f, // top right
+	0.5f,  0.5f, -0.5f, // top left			
+
+	// front face
+   -0.5f, -0.5f,  0.5f, // bottom left
+	0.5f, -0.5f,  0.5f, // bottom right
+	0.5f,  0.5f,  0.5f, // top right
+   -0.5f,  0.5f,  0.5f, // top left
+
+	// left face
+   -0.5f, -0.5f, -0.5f, // bottom left
+   -0.5f, -0.5f,  0.5f, // bottom right
+   -0.5f,  0.5f,  0.5f, // top right
+   -0.5f,  0.5f, -0.5f, // top left		
+
+	// right face		 		 		 	     
+	0.5f, -0.5f,  0.5f, // bottom left
+	0.5f, -0.5f, -0.5f, // bottom right
+	0.5f,  0.5f, -0.5f, // top right
+	0.5f,  0.5f,  0.5f, // top left
+
+	// bottom face
+   -0.5f, -0.5f, -0.5f, // bottom left
+	0.5f, -0.5f, -0.5f, // bottom right
+	0.5f, -0.5f,  0.5f, // top right
+   -0.5f, -0.5f,  0.5f, // top left
+
+   // top face
+   -0.5f,  0.5f,  0.5f, // bottom left
+	0.5f,  0.5f,  0.5f, // bottom right
+	0.5f,  0.5f, -0.5f, // top right
+   -0.5f,  0.5f, -0.5f, // top left
+};
+
+
+// -------------- Textured Cube --------------
+
 const float ICubeLoader::m_cube_verticies_texture[180] = {
 
     // Vertices                 // Texture Coordinates
+    
 	// back face
 	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left	
 	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
@@ -107,6 +179,50 @@ const float ICubeLoader::m_cube_verticies_texture[180] = {
 	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left
 	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
 };
+
+const float ICubeLoader::m_cube_verticies_texture_indexed[120] = {
+
+	// Vertices                 // Texture Coordinates
+	
+	// back face
+	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left	
+	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	 
+	 0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left			
+
+	 // front face
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+
+	 // left face
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+	-0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left		
+
+	 // right face		 		 		 	     
+	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+	 0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+
+	 // bottom face
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
+	-0.5f, -0.5f,  0.5f,		0.0f, 1.0f, // top left
+
+	// top face
+	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left
+};
+
+
+// -------------- Standard Cube w/ Normals --------------
 
 const float ICubeLoader::m_cube_verticies_normals[216] = {
 
@@ -161,6 +277,51 @@ const float ICubeLoader::m_cube_verticies_normals[216] = {
    -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
 };
 
+const float ICubeLoader::m_cube_verticies_normals_indexed[144] = {
+
+	// Verticies               // Normals
+
+	// back face
+	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
+   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
+	0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top left
+
+	// front face
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
+	0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom right
+	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
+   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top left
+
+   // left face
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
+   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // bottom right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right	   
+   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // top left	   
+
+	// right face
+	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right	
+	0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // top left
+
+	// bottom face
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom right
+	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
+   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top left
+
+	// top face
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
+	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right		
+   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top left
+	
+};
+
+
+// -------------- Textured Cube w/ Normals --------------
+
 const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
 
 	// Verticies               // Normals		     // Textures
@@ -213,6 +374,50 @@ const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
    -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 1.0f, // top left
    -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
 };
+
+const float ICubeLoader::m_cube_verticies_normals_textures_indexed[192] = {
+
+	// Verticies               // Normals		     // Textures
+
+	// back face
+	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
+   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 0.0f, // bottom right
+   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
+	0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 1.0f, // top left
+
+	// front face
+   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 1.0f, // top left
+
+   // left face
+   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left	   
+
+	// right face
+	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	
+	0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left
+
+	// bottom face
+   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
+   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 1.0f, // top left
+
+	// top face
+   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right
+   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 1.0f, // top left
+};
+
+
+// -------------- Cubemap --------------
 
 const float ICubeLoader::m_cubemap_verticies[108] = {
 

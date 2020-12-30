@@ -1,7 +1,7 @@
 #pragma once
 #include "ICubeLoader.h"
+#include "CubeIDStruct.h"
 #include <memory>
-#include <utility>
 #include <unordered_map>
 
 class CubeResource {
@@ -16,7 +16,6 @@ private:
 	static void load(const std::string& cube_name);
 	static bool is_loaded(const std::string& cube_name);	
 
-	static std::unordered_map<std::string, std::pair<unsigned int, unsigned int>> m_vbo_vaos_cache;
-	static std::shared_ptr<ICubeLoader> m_cube_loader;
-	
+	static std::unordered_map<std::string, CubeIDStruct> m_cube_id_cache;
+	static std::shared_ptr<ICubeLoader> m_cube_loader;	
 };

@@ -239,6 +239,7 @@
     <ClInclude Include="Environment\OpenGL\Texture\OpenGLCubeMapCompiler.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\ICubeMapRenderer.h" />
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLCubeMapRenderer.h" />
+    <ClInclude Include="Tests\GraphicsTesting\Cube\CubeIDStruct.h" />
     <ClInclude Include="Utility\SBTIUtilities.h" />
     <ClInclude Include="ResourceManagement\ModelResource.h" />
     <ClInclude Include="Utility\FileHandler.h" />

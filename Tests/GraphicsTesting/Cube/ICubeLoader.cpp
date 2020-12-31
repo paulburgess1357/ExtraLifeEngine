@@ -34,56 +34,56 @@ const int ICubeLoader::m_all_cube_ebo_indices[36] = {
 
 // -------------- Standard Cube --------------
 
-const float ICubeLoader::m_cube_verticies[108] = {
-
-     // back face
-     0.5f, -0.5f, -0.5f, // bottom left	
-    -0.5f, -0.5f, -0.5f, // bottom right
-    -0.5f,  0.5f, -0.5f, // top right
-    -0.5f,  0.5f, -0.5f, // top right		 
-	 0.5f,  0.5f, -0.5f, // top left			
-     0.5f, -0.5f, -0.5f, // bottom left	
-
-     // front face
-	-0.5f, -0.5f,  0.5f, // bottom left
-	 0.5f, -0.5f,  0.5f, // bottom right
-	 0.5f,  0.5f,  0.5f, // top right
-	 0.5f,  0.5f,  0.5f, // top right
-	-0.5f,  0.5f,  0.5f, // top left
-	-0.5f, -0.5f,  0.5f, // bottom left
-
-     // left face
-    -0.5f, -0.5f, -0.5f, // bottom left
-    -0.5f, -0.5f,  0.5f, // bottom right
-	-0.5f,  0.5f,  0.5f, // top right
-	-0.5f,  0.5f,  0.5f, // top right	
-    -0.5f,  0.5f, -0.5f, // top left		
-	-0.5f, -0.5f, -0.5f, // bottom left				
-
-     // right face		 		 		 	     
-	 0.5f, -0.5f,  0.5f, // bottom left
-     0.5f, -0.5f, -0.5f, // bottom right
-     0.5f,  0.5f, -0.5f, // top right
-     0.5f,  0.5f, -0.5f, // top right	
-	 0.5f,  0.5f,  0.5f, // top left
-	 0.5f, -0.5f,  0.5f, // bottom left
-
-	 // bottom face
-	-0.5f, -0.5f, -0.5f, // bottom left
-	 0.5f, -0.5f, -0.5f, // bottom right
-	 0.5f, -0.5f,  0.5f, // top right
-	 0.5f, -0.5f,  0.5f, // top right
-	-0.5f, -0.5f,  0.5f, // top left
-	-0.5f, -0.5f, -0.5f, // bottom left
-
-    // top face
-	-0.5f,  0.5f,  0.5f, // bottom left
-	 0.5f,  0.5f,  0.5f, // bottom right
-     0.5f,  0.5f, -0.5f, // top right
-     0.5f,  0.5f, -0.5f, // top right	
-	-0.5f,  0.5f, -0.5f, // top left
-    -0.5f,  0.5f,  0.5f, // bottom left
-};
+//const float ICubeLoader::m_cube_verticies[108] = {
+//
+//     // back face
+//     0.5f, -0.5f, -0.5f, // bottom left	
+//    -0.5f, -0.5f, -0.5f, // bottom right
+//    -0.5f,  0.5f, -0.5f, // top right
+//    -0.5f,  0.5f, -0.5f, // top right		 
+//	 0.5f,  0.5f, -0.5f, // top left			
+//     0.5f, -0.5f, -0.5f, // bottom left	
+//
+//     // front face
+//	-0.5f, -0.5f,  0.5f, // bottom left
+//	 0.5f, -0.5f,  0.5f, // bottom right
+//	 0.5f,  0.5f,  0.5f, // top right
+//	 0.5f,  0.5f,  0.5f, // top right
+//	-0.5f,  0.5f,  0.5f, // top left
+//	-0.5f, -0.5f,  0.5f, // bottom left
+//
+//     // left face
+//    -0.5f, -0.5f, -0.5f, // bottom left
+//    -0.5f, -0.5f,  0.5f, // bottom right
+//	-0.5f,  0.5f,  0.5f, // top right
+//	-0.5f,  0.5f,  0.5f, // top right	
+//    -0.5f,  0.5f, -0.5f, // top left		
+//	-0.5f, -0.5f, -0.5f, // bottom left				
+//
+//     // right face		 		 		 	     
+//	 0.5f, -0.5f,  0.5f, // bottom left
+//     0.5f, -0.5f, -0.5f, // bottom right
+//     0.5f,  0.5f, -0.5f, // top right
+//     0.5f,  0.5f, -0.5f, // top right	
+//	 0.5f,  0.5f,  0.5f, // top left
+//	 0.5f, -0.5f,  0.5f, // bottom left
+//
+//	 // bottom face
+//	-0.5f, -0.5f, -0.5f, // bottom left
+//	 0.5f, -0.5f, -0.5f, // bottom right
+//	 0.5f, -0.5f,  0.5f, // top right
+//	 0.5f, -0.5f,  0.5f, // top right
+//	-0.5f, -0.5f,  0.5f, // top left
+//	-0.5f, -0.5f, -0.5f, // bottom left
+//
+//    // top face
+//	-0.5f,  0.5f,  0.5f, // bottom left
+//	 0.5f,  0.5f,  0.5f, // bottom right
+//     0.5f,  0.5f, -0.5f, // top right
+//     0.5f,  0.5f, -0.5f, // top right	
+//	-0.5f,  0.5f, -0.5f, // top left
+//    -0.5f,  0.5f,  0.5f, // bottom left
+//};
 
 const float ICubeLoader::m_cube_verticies_indexed[72] = {
 
@@ -127,58 +127,58 @@ const float ICubeLoader::m_cube_verticies_indexed[72] = {
 
 // -------------- Textured Cube --------------
 
-const float ICubeLoader::m_cube_verticies_texture[180] = {
-
-    // Vertices                 // Texture Coordinates
-    
-	// back face
-	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left	
-	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
-	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
-	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right		 
-	 0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left			
-	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f // bottom left	
-
-	 // front face
-	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
-	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
-	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
-	-0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
-	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-
-	 // left face
-	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
-	-0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
-	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
-	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right	
-	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left		
-	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left				
-
-	 // right face		 		 		 	     
-	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
-	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
-	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
-	 0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
-	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-
-	 // bottom face
-	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
-	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
-	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
-	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
-	-0.5f, -0.5f,  0.5f,		0.0f, 1.0f, // top left
-	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
-
-	// top face
-	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f, // bottom right
-	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
-	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
-	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left
-	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
-};
+//const float ICubeLoader::m_cube_verticies_texture[180] = {
+//
+//    // Vertices                 // Texture Coordinates
+//    
+//	// back face
+//	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left	
+//	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+//	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+//	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right		 
+//	 0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left			
+//	 0.5f, -0.5f, -0.5f,		0.0f, 0.0f // bottom left	
+//
+//	 // front face
+//	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+//	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+//	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+//	-0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+//	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//
+//	 // left face
+//	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+//	-0.5f, -0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+//	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right
+//	-0.5f,  0.5f,  0.5f,		1.0f, 1.0f, // top right	
+//	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left		
+//	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left				
+//
+//	 // right face		 		 		 	     
+//	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+//	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+//	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
+//	 0.5f,  0.5f,  0.5f,		0.0f, 1.0f, // top left
+//	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//
+//	 // bottom face
+//	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+//	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f, // bottom right
+//	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
+//	 0.5f, -0.5f,  0.5f,		1.0f, 1.0f, // top right
+//	-0.5f, -0.5f,  0.5f,		0.0f, 1.0f, // top left
+//	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f, // bottom left
+//
+//	// top face
+//	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f, // bottom right
+//	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right
+//	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f, // top right	
+//	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f, // top left
+//	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f, // bottom left
+//};
 
 const float ICubeLoader::m_cube_verticies_texture_indexed[120] = {
 
@@ -224,58 +224,58 @@ const float ICubeLoader::m_cube_verticies_texture_indexed[120] = {
 
 // -------------- Standard Cube w/ Normals --------------
 
-const float ICubeLoader::m_cube_verticies_normals[216] = {
-
-    // Verticies               // Normals
-
-    // back face
-    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
-   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom right
-   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
-   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
-    0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top left
-    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
-
-    // front face
-   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
-    0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom right
-    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
-    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
-   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top left
-   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
-
-   // left face
-   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
-   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // bottom right
-   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right
-   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right	   
-   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // top left	   
-   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
-
-    // right face
-	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
-	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // bottom right
-	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right
-    0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right	
-    0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // top left
-    0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
-
-    // bottom face
-   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
-    0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom right
-    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
-    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
-   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top left
-   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
-
-    // top face
-   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
-	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom right
-	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right
-    0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right		
-   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top left
-   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
-};
+//const float ICubeLoader::m_cube_verticies_normals[216] = {
+//
+//    // Verticies               // Normals
+//
+//    // back face
+//    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
+//   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom right
+//   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
+//   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top right
+//    0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // top left
+//    0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f, // bottom left	
+//
+//    // front face
+//   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
+//    0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom right
+//    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
+//    0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top right
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // top left
+//   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f, // bottom left
+//
+//   // left face
+//   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
+//   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // bottom right
+//   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right
+//   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f, // top right	   
+//   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // top left	   
+//   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f, // bottom left
+//
+//    // right face
+//	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
+//	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // bottom right
+//	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right
+//    0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f, // top right	
+//    0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // top left
+//    0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f, // bottom left
+//
+//    // bottom face
+//   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
+//    0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom right
+//    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
+//    0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top right
+//   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f, // top left
+//   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f, // bottom left
+//
+//    // top face
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
+//	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom right
+//	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right
+//    0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top right		
+//   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f, // top left
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f, // bottom left
+//};
 
 const float ICubeLoader::m_cube_verticies_normals_indexed[144] = {
 
@@ -322,58 +322,58 @@ const float ICubeLoader::m_cube_verticies_normals_indexed[144] = {
 
 // -------------- Textured Cube w/ Normals --------------
 
-const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
-
-	// Verticies               // Normals		     // Textures
-
-	// back face
-	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
-   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 0.0f, // bottom right
-   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
-   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
-	0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 1.0f, // top left
-	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
-
-	// front face
-   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
-	0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 0.0f, // bottom right
-	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
-	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
-   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 1.0f, // top left
-   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
-
-   // left face
-   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
-   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
-   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
-   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	   
-   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left	   
-   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
-
-	// right face
-	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
-	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
-	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
-	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	
-	0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left
-	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
-
-	// bottom face
-   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
-	0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 0.0f, // bottom right
-	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
-	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
-   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 1.0f, // top left
-   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
-
-	// top face
-   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
-	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 0.0f, // bottom right
-	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right
-	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right		
-   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 1.0f, // top left
-   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
-};
+//const float ICubeLoader::m_cube_verticies_normals_textures[288] = {
+//
+//	// Verticies               // Normals		     // Textures
+//
+//	// back face
+//	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
+//   -0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 0.0f, // bottom right
+//   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
+//   -0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     1.0f, 1.0f, // top right
+//	0.5f,  0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 1.0f, // top left
+//	0.5f, -0.5f, -0.5f,        0.0f,  0.0f, -1.0f,     0.0f, 0.0f, // bottom left	
+//
+//	// front face
+//   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
+//	0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 0.0f, // bottom right
+//	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
+//	0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     1.0f, 1.0f, // top right
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 1.0f, // top left
+//   -0.5f, -0.5f,  0.5f,		   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, // bottom left
+//
+//   // left face
+//   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//   -0.5f, -0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+//   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
+//   -0.5f,  0.5f,  0.5f,		  -1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	   
+//   -0.5f,  0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left	   
+//   -0.5f, -0.5f, -0.5f,		  -1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//
+//	// right face
+//	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//	0.5f, -0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 0.0f, // bottom right
+//	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right
+//	0.5f,  0.5f, -0.5f,		   1.0f,  0.0f,  0.0f,     1.0f, 1.0f, // top right	
+//	0.5f,  0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 1.0f, // top left
+//	0.5f, -0.5f,  0.5f,		   1.0f,  0.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//
+//	// bottom face
+//   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//	0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+//	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
+//	0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     1.0f, 1.0f, // top right
+//   -0.5f, -0.5f,  0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 1.0f, // top left
+//   -0.5f, -0.5f, -0.5f,		   0.0f, -1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//
+//	// top face
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//	0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 0.0f, // bottom right
+//	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right
+//	0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     1.0f, 1.0f, // top right		
+//   -0.5f,  0.5f, -0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 1.0f, // top left
+//   -0.5f,  0.5f,  0.5f,		   0.0f,  1.0f,  0.0f,     0.0f, 0.0f, // bottom left
+//};
 
 const float ICubeLoader::m_cube_verticies_normals_textures_indexed[192] = {
 

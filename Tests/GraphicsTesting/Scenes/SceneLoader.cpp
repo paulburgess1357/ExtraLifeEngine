@@ -99,7 +99,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(0.0f, 0.3f, -1.0f);
+	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 
 	//PointLight pointlight1;

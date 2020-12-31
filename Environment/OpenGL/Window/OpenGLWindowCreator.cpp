@@ -65,7 +65,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glViewport(0, 0, m_width, m_height);
 	glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
 
-	// Depth Testing (required glClear GL_DEPTH_BUFFER_BIT)
+	// Depth Testing (requires glClear GL_DEPTH_BUFFER_BIT)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
@@ -83,4 +83,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 
 	// Seamless Cubemap
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	// Polygon (line) mode
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

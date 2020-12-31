@@ -19,7 +19,7 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_verticies() const {
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies), m_cube_verticies, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_indexed), m_cube_verticies_indexed, GL_STATIC_DRAW);
 
 	// Set up indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
@@ -53,7 +53,7 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_verticies() const {
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals), m_cube_verticies_normals, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals_indexed), m_cube_verticies_normals_indexed, GL_STATIC_DRAW);
 
 	// Set up indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
@@ -92,7 +92,7 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_textured_verticies() const {
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_texture), m_cube_verticies_texture, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_texture_indexed), m_cube_verticies_texture_indexed, GL_STATIC_DRAW);
 
 	// Set up indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
@@ -131,7 +131,7 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() con
 
 	// Store Data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals_textures), m_cube_verticies_normals_textures, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_cube_verticies_normals_textures_indexed), m_cube_verticies_normals_textures_indexed, GL_STATIC_DRAW);
 
 	// Set up indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);

@@ -1,6 +1,8 @@
 # Extra Life 3D Engine
 Entity Component System Game Engine (In Progress)
 
+![](Assets/textures/progress_screenshot.png)
+
 ## Features
 - Blinn Phong Lighting
 - Normal Mapping

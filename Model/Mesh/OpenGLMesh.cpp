@@ -54,7 +54,7 @@ void OpenGL::OpenGLMesh::draw() const{
     m_texture_handler.bind_textures();
 
 	glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0); //TODO if draw is messed up try changing nullptr to 0.
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     m_texture_handler.unbind_textures();

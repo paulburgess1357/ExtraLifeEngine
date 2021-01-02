@@ -156,6 +156,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp" />
+    <ClCompile Include="Voxel\OpenGLChunk.cpp" />
+    <ClCompile Include="Voxel\Block.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\ICubeRenderer.cpp" />
@@ -217,6 +219,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
+    <ClInclude Include="Voxel\OpenGLChunk.h" />
+    <ClInclude Include="Voxel\Block.h" />
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
@@ -308,6 +312,7 @@
     <ClInclude Include="ECS\Systems\Transform\WorldScale.h" />
     <ClInclude Include="ECS\Systems\Transform\ModelMatrixReset.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldOrbit.h" />
+    <ClInclude Include="Voxel\BlockType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

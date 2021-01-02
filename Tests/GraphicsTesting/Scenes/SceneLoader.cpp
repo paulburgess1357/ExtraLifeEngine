@@ -15,6 +15,8 @@
 #include "../../ECS/Components/Transform/ScaleComponent.h"
 #include "../../ECS/Components/Transform/RotationComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
+#include "../../ECS/Components/Transform/OrbitComponent.h"
+#include <GLFW/glfw3.h>
 
 // Shaders
 // Model Shaders
@@ -31,15 +33,22 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
 	attach_basic_lighting(shader_program);
 		
-	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.5f, 0.9f, 0.31f));
+	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f));
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
-	const entt::entity cube_entity = registry.create();
-	registry.emplace<ShaderComponent>(cube_entity, shader_program);
-	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
-	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ -5.0f, 0.0f, 0.0f });
-	registry.emplace<RotationComponent>(cube_entity, 0.0f, 0.2f, 0.0f, 0.0f);
+	for (int x = 0; x < 16; x++) {
+		for (int y = 0; y < 16; y++) {
+			for (int z = 0; z < 16; z++) {
+				const entt::entity cube_entity = registry.create();
+				registry.emplace<ShaderComponent>(cube_entity, shader_program);
+				registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
+				registry.emplace<TransformComponent>(cube_entity, glm::vec3{ x, y, z });
+			}
+		}
+	}
+
+	
 }
 
 void SceneLoader::single_cube_textured(entt::registry& registry) {

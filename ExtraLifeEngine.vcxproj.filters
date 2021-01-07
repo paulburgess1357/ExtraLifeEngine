@@ -198,6 +198,12 @@
     <ClCompile Include="Voxel\OpenGLChunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Voxel\OpenGLChunkManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Vector3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -483,6 +489,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\OpenGLChunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\OpenGLChunkManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Vector3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

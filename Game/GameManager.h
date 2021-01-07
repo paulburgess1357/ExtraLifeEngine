@@ -11,6 +11,12 @@
 #include "entt/entity/registry.hpp"
 #include <memory>
 
+
+
+
+
+#include "../Voxel/OpenGLChunk.h"
+
 class GameManager {
 	
 public:
@@ -43,6 +49,9 @@ private:
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
+
+	OpenGL::OpenGLChunk m_TEST_CHUNK;
+	std::shared_ptr<IShaderProgram> m_TEST_CHUNK_SHADER_PROGRAM;
 	
 };
 

@@ -156,6 +156,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp" />
+    <ClCompile Include="Utility\Vector3D.cpp" />
+    <ClCompile Include="Voxel\OpenGLChunkManager.cpp" />
     <ClCompile Include="Voxel\OpenGLChunk.cpp" />
     <ClCompile Include="Voxel\Block.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
@@ -219,6 +221,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
+    <ClInclude Include="Utility\Vector3D.h" />
+    <ClInclude Include="Voxel\OpenGLChunkManager.h" />
     <ClInclude Include="Voxel\OpenGLChunk.h" />
     <ClInclude Include="Voxel\Block.h" />
     <ClInclude Include="Camera\CameraType.h" />

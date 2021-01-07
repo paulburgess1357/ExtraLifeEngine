@@ -15,7 +15,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(0.0f, 0.0f, 1.0f), 0.5f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.15f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 }
@@ -55,12 +55,16 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	//SceneLoader::grid(m_registry);
+	SceneLoader::grid(m_registry);
     SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
+	//
+
+	m_TEST_CHUNK.initialize();
+	m_TEST_CHUNK_SHADER_PROGRAM = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
 	
-	SceneLoader::cubemap(m_registry);
+	//SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -88,7 +92,11 @@ void GameManager::update(){
 void GameManager::render(){
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
-	m_model_renderer->render(m_registry);	
+	m_model_renderer->render(m_registry);
+
+
+	
+	m_TEST_CHUNK.render(m_TEST_CHUNK_SHADER_PROGRAM);
 }
 
 void GameManager::destroy() const {

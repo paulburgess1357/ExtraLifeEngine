@@ -37,16 +37,21 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
-	for (int x = 0; x < 16; x++) {
-		for (int y = 0; y < 16; y++) {
-			for (int z = 0; z < 16; z++) {
+	//for (int x = 0; x < 16; x++) {
+	//	for (int y = 0; y < 16; y++) {
+	//		for (int z = 0; z < 16; z++) {
 				const entt::entity cube_entity = registry.create();
 				registry.emplace<ShaderComponent>(cube_entity, shader_program);
 				registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
-				registry.emplace<TransformComponent>(cube_entity, glm::vec3{ x, y, z });
-			}
-		}
-	}
+				registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 16, 0, 16 });
+
+				const entt::entity cube_entity2 = registry.create();
+				registry.emplace<ShaderComponent>(cube_entity2, shader_program);
+				registry.emplace<CubeComponent>(cube_entity2, CubeResource::get("cube_normal"));
+				registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 0, 0, 16 });
+	//		}
+	//	}
+	//}
 
 	
 }

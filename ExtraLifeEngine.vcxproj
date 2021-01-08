@@ -317,6 +317,7 @@
     <ClInclude Include="ECS\Systems\Transform\ModelMatrixReset.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldOrbit.h" />
     <ClInclude Include="Voxel\BlockType.h" />
+    <ClInclude Include="Voxel\WorldPosition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

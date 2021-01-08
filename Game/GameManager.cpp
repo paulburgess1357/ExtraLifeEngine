@@ -15,7 +15,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.15f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.5f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 }
@@ -59,11 +59,25 @@ void GameManager::initialize_scene(){
     SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
+
+	
+	ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	//TEMP_CHUNK_MANAGER.load(ShaderResource::get("voxel_shader"));
+
+	
+	int size = 16;
+	for(int x = 0; x <= size; x++){
+		for(int y = 0; y <= 4; y++){
+			for(int z = 0; z <= size; z++){
+				Print::print(std::to_string(x) + ";" + std::to_string(y) + ";" + std::to_string(z));
+				TEMP_CHUNK_MANAGER.load(WorldPosition{ 16 * x, 16 * y, 16 * z }, ShaderResource::get("voxel_shader"));
+			}
+		}
+	}
 	//
 
-	m_TEST_CHUNK.initialize();
-	m_TEST_CHUNK_SHADER_PROGRAM = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
 	
+		
 	//SceneLoader::cubemap(m_registry);
 }
 
@@ -87,6 +101,7 @@ void GameManager::gameloop() {
 void GameManager::update(){
 	m_shader_uniform_block_handler->update(m_camera);
 	Transform::TransformSystem::update(m_registry);
+	TEMP_CHUNK_MANAGER.update();
 }
 
 void GameManager::render(){
@@ -94,9 +109,9 @@ void GameManager::render(){
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 
-
+	TEMP_CHUNK_MANAGER.render();
 	
-	m_TEST_CHUNK.render(m_TEST_CHUNK_SHADER_PROGRAM);
+	
 }
 
 void GameManager::destroy() const {

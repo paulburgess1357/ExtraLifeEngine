@@ -12,11 +12,8 @@
 #include <memory>
 
 
-
-
-
-#include "../Voxel/OpenGLChunk.h"
-
+// TEMP
+#include "../Voxel/OpenGLChunkManager.h"
 class GameManager {
 	
 public:
@@ -36,23 +33,21 @@ private:
 	void gameloop();
 	void update();
 	void render();
-	void destroy() const;		
+	void destroy() const;
+	
 	
 	GameState m_gamestate;
 	entt::registry m_registry;
 	std::shared_ptr<IWindow> m_window;
 	Camera m_camera;
 	InputHandler m_input_handler;
-	MouseHandler m_mouse_handler;		
+	MouseHandler m_mouse_handler;
+	OpenGL::OpenGLChunkManager TEMP_CHUNK_MANAGER;
 
     std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
-
-	OpenGL::OpenGLChunk m_TEST_CHUNK;
-	std::shared_ptr<IShaderProgram> m_TEST_CHUNK_SHADER_PROGRAM;
-	
 };
 
 

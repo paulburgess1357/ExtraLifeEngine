@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "../Matrix/ProjectionMatrix.h"
 #include "../Input/Command/ControlCommands.h"
+#include "../Interface/ImGuiInterface.h"
 #include "../ResourceManagement/ModelResource.h"
 #include "../ResourceManagement/LightResource.h"
 #include "../ResourceManagement/ShaderResource.h"
@@ -30,6 +31,7 @@ void GameManager::set_game_state(GameState gamestate) {
 
 void GameManager::run(){
 	initialize_window();
+	initialize_imgui();
 	initialize_uniform_block_handler();
 	initialize_projection_matrix();
 	initialize_controls();
@@ -40,6 +42,10 @@ void GameManager::run(){
 
 void GameManager::initialize_window(){
 	m_window = IWindowCreator::create_window(1920, 1080, false);
+}
+
+void GameManager::initialize_imgui(){
+	ImGuiInterface::initialize(m_window);
 }
 
 void GameManager::initialize_uniform_block_handler(){
@@ -91,6 +97,8 @@ void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
 		m_input_handler.hande_input();		
 		m_mouse_handler.handle_input();
+
+		
 		m_window->clear_color();								
 		update();
 		render();
@@ -98,29 +106,29 @@ void GameManager::gameloop() {
 	}
 }
 
-void GameManager::update(){
+void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	Transform::TransformSystem::update(m_registry);
+	Transform::TransformSystem::update(m_registry);	
 	TEMP_CHUNK_MANAGER.update();
+	ImGuiInterface::update();
 }
 
-void GameManager::render(){
+void GameManager::render(){	
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
-
 	TEMP_CHUNK_MANAGER.render();
-	
-	
+	ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	Print::print_separator(true, true);
+	ImGuiInterface::destroy();
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
-	ModelResource::destroy_all();
+	ModelResource::destroy_all();	
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

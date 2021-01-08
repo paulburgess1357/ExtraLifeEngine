@@ -24,6 +24,7 @@ public:
 	
 private:
 	void initialize_window();
+	void initialize_imgui();
 	void initialize_uniform_block_handler();
 	void initialize_projection_matrix() const;
 	void initialize_controls();

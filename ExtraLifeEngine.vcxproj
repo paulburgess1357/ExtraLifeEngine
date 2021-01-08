@@ -156,6 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui_demo.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Interface\ImGuiInterface.cpp" />
     <ClCompile Include="Utility\Vector3D.cpp" />
     <ClCompile Include="Voxel\OpenGLChunkManager.cpp" />
     <ClCompile Include="Voxel\OpenGLChunk.cpp" />
@@ -221,6 +228,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
+    <ClInclude Include="ExternalResources\imgui\imconfig.h" />
+    <ClInclude Include="ExternalResources\imgui\imgui.h" />
+    <ClInclude Include="ExternalResources\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="ExternalResources\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ExternalResources\imgui\imgui_internal.h" />
+    <ClInclude Include="ExternalResources\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
+    <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
+    <ClInclude Include="Interface\ImGuiInterface.h" />
     <ClInclude Include="Utility\Vector3D.h" />
     <ClInclude Include="Voxel\OpenGLChunkManager.h" />
     <ClInclude Include="Voxel\OpenGLChunk.h" />

@@ -1,9 +1,5 @@
 #pragma once
 
-//#define SCX 16
-//#define SCY 16
-//#define SCZ 16
-
 #include "OpenGLChunk.h"
 #include "WorldPosition.h"
 #include "../Environment/Interfaces/Shader/IShaderProgram.h"

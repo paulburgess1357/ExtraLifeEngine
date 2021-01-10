@@ -1,16 +1,11 @@
 #pragma once
-
-#define CX 10
-#define CY 10
-#define CZ 10
+#define CX 15
+#define CY 15
+#define CZ 15
 
 #include "WorldPosition.h"
 #include "../Environment/Interfaces/Shader/IShaderProgram.h"
-#include <cstdint>
-#include <glad/glad.h>
 #include <memory>
-
-typedef glm::tvec4<GLbyte> byte4;
 
 namespace OpenGL{
 	
@@ -20,15 +15,16 @@ namespace OpenGL{
 		OpenGLChunk(const WorldPosition& starting_world_position, const std::shared_ptr<IShaderProgram>& shader_program);
 		~OpenGLChunk();
 
-		uint8_t get(const int x, const int y, const int z) const;
-		void set(const int x, const int y, const int z, uint8_t type);		
+		[[nodiscard]] signed char get(const signed char x, const signed char y, const signed char z) const; 
+		void set(const signed char x, const signed char y, const signed char z, const signed char type);
 		void update();
 		void render() const;
-
 	private:
-		void initialize();
 		
-		uint8_t m_block_types[CX][CY][CZ];		
+		void initialize_vbo_vao();
+		void initialize_types();
+		
+		signed char m_block_types[CX][CY][CZ];		
 		unsigned int m_vbo;
 		unsigned int m_vao;
 		
@@ -36,6 +32,7 @@ namespace OpenGL{
 		bool m_update_required;
 
 		glm::mat4 m_model_matrix;
+		glm::mat3 m_normal_matrix;
 		std::shared_ptr<IShaderProgram> m_shader_program;
 	};
 	

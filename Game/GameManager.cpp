@@ -16,7 +16,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.5f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.1f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 }
@@ -61,27 +61,35 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	SceneLoader::grid(m_registry);
-    SceneLoader::single_cube(m_registry);
+	//SceneLoader::grid(m_registry);
+    //SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
 
 	
-	ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
-	//TEMP_CHUNK_MANAGER.load(ShaderResource::get("voxel_shader"));
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
+
+	// Copied from scene loader to test.... ===========
+	DirectionalLight dirlight;
+	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+	LightResource::load("dirlight", dirlight);
+	shader_program->attach_directional_light("dirlight");
+
 
 	
-	int size = 16;
-	for(int x = 0; x <= size; x++){
-		for(int y = 0; y <= 4; y++){
-			for(int z = 0; z <= size; z++){
-				Print::print(std::to_string(x) + ";" + std::to_string(y) + ";" + std::to_string(z));
+	// =================================================
+	
+	int size = 4;
+	for(int x = 0; x < 16; x++){
+		for(int y = 0; y < size; y++){
+			for(int z = 0; z < 16; z++){
 				TEMP_CHUNK_MANAGER.load(WorldPosition{ 16 * x, 16 * y, 16 * z }, ShaderResource::get("voxel_shader"));
 			}
 		}
 	}
-	//
-
+	
+	//TEMP_CHUNK_MANAGER.load(WorldPosition{ 5, 0, 16 }, ShaderResource::get("voxel_shader"));
 	
 		
 	//SceneLoader::cubemap(m_registry);
@@ -96,10 +104,8 @@ void GameManager::initialize_renderers(){
 void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
 		m_input_handler.hande_input();		
-		m_mouse_handler.handle_input();
-
-		
-		m_window->clear_color();								
+		m_mouse_handler.handle_input();		
+		m_window->clear_color();
 		update();
 		render();
 		m_window->swap_buffer();

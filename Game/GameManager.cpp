@@ -16,9 +16,10 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.1f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.9f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
+	
 }
 
 GameManager::~GameManager(){
@@ -72,7 +73,7 @@ void GameManager::initialize_scene(){
 
 	// Copied from scene loader to test.... ===========
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
 
@@ -80,10 +81,10 @@ void GameManager::initialize_scene(){
 	
 	// =================================================
 	
-	int size = 4;
-	for(int x = 0; x < 16; x++){
+	int size = 16;
+	for(int x = 0; x < size; x++){
 		for(int y = 0; y < size; y++){
-			for(int z = 0; z < 16; z++){
+			for(int z = 0; z < size; z++){
 				TEMP_CHUNK_MANAGER.load(WorldPosition{ 16 * x, 16 * y, 16 * z }, ShaderResource::get("voxel_shader"));
 			}
 		}

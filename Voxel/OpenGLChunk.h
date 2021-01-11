@@ -1,7 +1,7 @@
 #pragma once
-#define CX 15
-#define CY 15
-#define CZ 15
+#define CX 16
+#define CY 16
+#define CZ 16
 
 #include "WorldPosition.h"
 #include "../Environment/Interfaces/Shader/IShaderProgram.h"

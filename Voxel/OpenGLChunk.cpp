@@ -5,7 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 
-OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, const std::shared_ptr<IShaderProgram>& shader_program)
+OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, 
+	const std::shared_ptr<IShaderProgram>& shader_program)
 	:m_block_types{},
 	 m_vbo{ 99 },
 	 m_vao{ 99 },
@@ -85,64 +86,92 @@ void OpenGL::OpenGLChunk::update() {
 	// VertexAndNormals vertex[CX * CY * CZ * 6 * 6];  However, this is
 	// created on the stack and you will quickly run into memory issues when
 	// creating chunks larger than 15x15x15.
+	//
 	std::vector<VertexAndNormals> vertex;	
 	for(signed char x = 0; x < CX; x++){
 		for(signed char y = 0; y < CY; y++){
-			for(signed char z = 0; z < CZ; z++){
+			for(signed char z = 0; z < CZ; z++){				
 				const signed char type = m_block_types[x][y][z];
 				
 				// Skip Empty Blocks
 				if(type == 0){
 					continue;
-				}
+				}			
 				
-				// left face (negative x)				
-				vertex.emplace_back(x,     y,     z,     type, -1, 0, 0); // bottom left
-				vertex.emplace_back(x,     y,     z + 1, type, -1, 0, 0); // bottom right
-				vertex.emplace_back(x,     y + 1, z,     type, -1, 0, 0); // top left
-				vertex.emplace_back(x,     y + 1, z,     type, -1, 0, 0); // top left
-				vertex.emplace_back(x,     y,     z + 1, type, -1, 0, 0); // bottom right
-				vertex.emplace_back(x,     y + 1, z + 1, type, -1, 0, 0); // top right
+				//TODO Values on the edges of chunks are being drawn, even
+				//TODO if there is overlap from one chunk to another chunk.
+				//TODO I need to be able to reference the cube type in adjacent
+				//TODO chunks.  Note that the (x == 0) (y == 0) (y ++ CY -1), etc
+				//TODO is also happening here (without that arguemnt I wouldn't draw the
+				//TODO chunk edge).
+				
+				// left face (negative x)
+				// E.g. if x is > 0 and the block to the left does not exist, draw square
+				if ((x > 0 && m_block_types[x - 1][y][z] == 0) || (x == 0)) {
+					vertex.emplace_back(x, y, z, type, -1, 0, 0); // bottom left
+					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+					vertex.emplace_back(x, y + 1, z + 1, type, -1, 0, 0); // top right
+				}
 
 				// right face (positive x)
-				vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
-				vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
-				vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
-				vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
-				vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
-				vertex.emplace_back(x + 1, y + 1, z,     type, 1, 0, 0); // top right
+				// if x is < CX and the block to the right does not exist, draw square
+				 if ((x < CX - 1 && m_block_types[x + 1][y][z] == 0) || (x == CX - 1)) {
+				//if (x < CX - 1 && m_block_types[x + 1][y][z] == 0) {
+					vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
+					vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
+					vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
+					vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
+					vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
+					vertex.emplace_back(x + 1, y + 1, z,     type, 1, 0, 0); // top right
+				}
 
 				// front face (positive z)
-				vertex.emplace_back(x,     y,     z + 1, type, 0, 0, 1); // bottom left
-				vertex.emplace_back(x + 1, y,     z + 1, type, 0, 0, 1); // bottom right
-				vertex.emplace_back(x,     y + 1, z + 1, type, 0, 0, 1); // top left
-				vertex.emplace_back(x,     y + 1, z + 1, type, 0, 0, 1); // top left
-				vertex.emplace_back(x + 1, y,     z + 1, type, 0, 0, 1); // bottom right
-				vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 0, 1); // top right
+				//if ((z > 0 && m_block_types[x][y][z - 1] == 0) || (z == 0)) {
+				if ((z < CZ - 1 && m_block_types[x][y][z + 1] == 0) || (z == CZ - 1)) {
+				//if (z < CZ - 1 && m_block_types[x][y][z + 1] == 0) {
+					vertex.emplace_back(x, y, z + 1, type, 0, 0, 1); // bottom left
+					vertex.emplace_back(x + 1, y, z + 1, type, 0, 0, 1); // bottom right
+					vertex.emplace_back(x, y + 1, z + 1, type, 0, 0, 1); // top left
+					vertex.emplace_back(x, y + 1, z + 1, type, 0, 0, 1); // top left
+					vertex.emplace_back(x + 1, y, z + 1, type, 0, 0, 1); // bottom right
+					vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 0, 1); // top right
+				}
 
 				// back face (negative z)
-				vertex.emplace_back(x + 1, y,     z,     type, 0, 0, -1); // bottom left
-				vertex.emplace_back(x,     y,     z,     type, 0, 0, -1); // bottom right
-				vertex.emplace_back(x + 1, y + 1, z,     type, 0, 0, -1); // top left
-				vertex.emplace_back(x + 1, y + 1, z,     type, 0, 0, -1); // top left
-				vertex.emplace_back(x,     y,     z,     type, 0, 0, -1); // bottom right
-				vertex.emplace_back(x,     y + 1, z,     type, 0, 0, -1); // top right
+				 if ((z > 0 && m_block_types[x][y][z - 1] == 0) || (z == 0)) {
+				//if (z > 0 && m_block_types[x][y][z - 1] == 0){
+					vertex.emplace_back(x + 1, y,     z,     type, 0, 0, -1); // bottom left
+					vertex.emplace_back(x,     y,     z,     type, 0, 0, -1); // bottom right
+					vertex.emplace_back(x + 1, y + 1, z,     type, 0, 0, -1); // top left
+					vertex.emplace_back(x + 1, y + 1, z,     type, 0, 0, -1); // top left
+					vertex.emplace_back(x,     y,     z,     type, 0, 0, -1); // bottom right
+					vertex.emplace_back(x,     y + 1, z,     type, 0, 0, -1); // top right
+				}
 
 				// top face (positive y)
-				vertex.emplace_back(x,     y + 1, z + 1, type, 0, 1, 0); // bottom left
-				vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
-				vertex.emplace_back(x,     y + 1, z,     type, 0, 1, 0); // top left
-				vertex.emplace_back(x,     y + 1, z,     type, 0, 1, 0); // top left
-				vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
-				vertex.emplace_back(x + 1, y + 1, z,     type, 0, 1, 0); // top right
+				 if((y < CY - 1 && m_block_types[x][y + 1][z] == 0) || (y == CY - 1)){
+				//if(y < CY - 1 && m_block_types[x][y + 1][z] == 0){
+					vertex.emplace_back(x, y + 1, z + 1, type, 0, 1, 0); // bottom left
+					vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
+					vertex.emplace_back(x, y + 1, z, type, 0, 1, 0); // top left
+					vertex.emplace_back(x, y + 1, z, type, 0, 1, 0); // top left
+					vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
+					vertex.emplace_back(x + 1, y + 1, z, type, 0, 1, 0); // top right
+				}
 
 				// bottom face (negative y)
-				vertex.emplace_back(x,     y,     z,     type, 0, -1, 0); // bottom left
-				vertex.emplace_back(x + 1, y,     z,     type, 0, -1, 0); // bottom right
-				vertex.emplace_back(x,     y,     z + 1, type, 0, -1, 0); // top left
-				vertex.emplace_back(x,     y,     z + 1, type, 0, -1, 0); // top left
-				vertex.emplace_back(x + 1, y,     z,     type, 0, -1, 0); // bottom right
-				vertex.emplace_back(x + 1, y,     z + 1, type, 0, -1, 0); // top right								
+				 if ((y > 0 && m_block_types[x][y - 1][z] == 0) || (y == 0)) {
+				//if (y > 0 && m_block_types[x][y - 1][z] == 0) {
+					vertex.emplace_back(x,     y,     z,     type, 0, -1, 0); // bottom left
+					vertex.emplace_back(x + 1, y,     z,     type, 0, -1, 0); // bottom right
+					vertex.emplace_back(x,     y,     z + 1, type, 0, -1, 0); // top left
+					vertex.emplace_back(x,     y,     z + 1, type, 0, -1, 0); // top left
+					vertex.emplace_back(x + 1, y,     z,     type, 0, -1, 0); // bottom right
+					vertex.emplace_back(x + 1, y,     z + 1, type, 0, -1, 0); // top right
+				}
 			}			
 		}		
 	}

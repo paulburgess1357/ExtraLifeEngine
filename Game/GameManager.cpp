@@ -16,7 +16,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(8.0f, 8.0f, 38.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.9f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0.0f, 16.0f * 16, 0.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.03f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	
@@ -69,11 +69,11 @@ void GameManager::initialize_scene(){
 
 	
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
-	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
+	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 
 	// Copied from scene loader to test.... ===========
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);
+	dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
 

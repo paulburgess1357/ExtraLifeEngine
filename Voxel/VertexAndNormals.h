@@ -4,7 +4,9 @@ struct VertexAndNormals {
 
 	VertexAndNormals() = default;
 
-	VertexAndNormals(const signed char x, const signed char y, const signed char z, const signed char w, const signed char n1, const signed char n2, const signed char n3)
+	VertexAndNormals(const signed char x, const signed char y, 
+		const signed char z, const signed char w, const signed char n1, 
+		const signed char n2, const signed char n3)
 		:m_x{ x },
 		m_y{ y },
 		m_z{ z },

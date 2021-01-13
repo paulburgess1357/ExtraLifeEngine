@@ -16,7 +16,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 16.0f * 16, 0.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.03f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0.0f, 0, -4.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.3f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	

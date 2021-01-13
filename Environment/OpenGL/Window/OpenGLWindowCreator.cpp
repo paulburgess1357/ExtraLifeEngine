@@ -85,5 +85,5 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	// Polygon (line) mode
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

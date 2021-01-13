@@ -164,9 +164,9 @@
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Interface\ImGuiInterface.cpp" />
     <ClCompile Include="Utility\Vector3D.cpp" />
-    <ClCompile Include="Voxel\OpenGLChunkManager.cpp" />
-    <ClCompile Include="Voxel\OpenGLChunk.cpp" />
-    <ClCompile Include="Voxel\Block.cpp" />
+    <ClCompile Include="Voxel\Interface\IChunk.cpp" />
+    <ClCompile Include="Voxel\Interface\ChunkManager.cpp" />
+    <ClCompile Include="Voxel\OpenGL\OpenGLChunk.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\ICubeRenderer.cpp" />
@@ -238,9 +238,9 @@
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
     <ClInclude Include="Interface\ImGuiInterface.h" />
     <ClInclude Include="Utility\Vector3D.h" />
-    <ClInclude Include="Voxel\OpenGLChunkManager.h" />
-    <ClInclude Include="Voxel\OpenGLChunk.h" />
-    <ClInclude Include="Voxel\Block.h" />
+    <ClInclude Include="Voxel\Interface\IChunk.h" />
+    <ClInclude Include="Voxel\Interface\ChunkManager.h" />
+    <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h" />
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Camera\CameraData.h" />
@@ -332,9 +332,8 @@
     <ClInclude Include="ECS\Systems\Transform\WorldScale.h" />
     <ClInclude Include="ECS\Systems\Transform\ModelMatrixReset.h" />
     <ClInclude Include="ECS\Systems\Transform\WorldOrbit.h" />
-    <ClInclude Include="Voxel\BlockType.h" />
-    <ClInclude Include="Voxel\VertexAndNormals.h" />
-    <ClInclude Include="Voxel\WorldPosition.h" />
+    <ClInclude Include="Voxel\Neutral\VertexAndNormals.h" />
+    <ClInclude Include="Voxel\Neutral\WorldPosition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

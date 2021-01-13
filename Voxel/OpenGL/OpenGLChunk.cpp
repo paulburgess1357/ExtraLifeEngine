@@ -1,24 +1,13 @@
 #include "OpenGLChunk.h"
-#include "VertexAndNormals.h"
-#include "../Utility/Print.h"
-#include "../Matrix/MatrixFunctions.h"
-#include <glm/gtc/matrix_transform.hpp>
+#include "../Neutral/VertexAndNormals.h"
+#include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, 
-	const std::shared_ptr<IShaderProgram>& shader_program)
-	:m_block_types{},
+OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, const std::shared_ptr<IShaderProgram>& shader_program)
+	:IChunk(starting_world_position, shader_program),
 	 m_vbo{ 99 },
-	 m_vao{ 99 },
-	 m_vertex_qty{ 0 },
-	 m_update_required{ true },
-     m_model_matrix{ glm::translate(glm::mat4(1), starting_world_position.get_vec3()) },
-     m_normal_matrix{ MatrixFunctions::get_normal_matrix(m_model_matrix) },
-     m_shader_program { shader_program }{
-
+	 m_vao{ 99 }{
 	 initialize_vbo_vao();
-	 initialize_types();
-	 // Print::print("World Position: " + std::to_string(starting_world_position.x) + ";" + std::to_string(starting_world_position.y) + ";" + std::to_string(starting_world_position.z));
 }
 
 OpenGL::OpenGLChunk::~OpenGLChunk(){
@@ -27,31 +16,10 @@ OpenGL::OpenGLChunk::~OpenGLChunk(){
 	glDeleteVertexArrays(1, &m_vao);
 }
 
-signed char OpenGL::OpenGLChunk::get(const signed char x, const signed char y, const signed char z) const{
-	return m_block_types[x][y][z];
-}
-
-void OpenGL::OpenGLChunk::set(const signed char x, const signed char y, const signed char z, const signed char type){
-	m_block_types[x][y][z] = type;
-	m_update_required = true;
-}
-
 void OpenGL::OpenGLChunk::initialize_vbo_vao(){
 	Print::print("Initializing Chunk VBO and VAO");
 	glGenBuffers(1, &m_vbo);
 	glGenVertexArrays(1, &m_vao);
-}
-
-void OpenGL::OpenGLChunk::initialize_types(){
-	Print::print("Initializing Types to RANDOM 1 or 0 FOR TESTING");
-	for (signed char x = 0; x < CX; x++) {
-		for (signed char y = 0; y < CY; y++) {
-			for (signed char z = 0; z < CZ; z++) {
-				int RANDOMVALUE = rand() % 2;
-				m_block_types[x][y][z] = RANDOMVALUE;
-			}
-		}
-	}	
 }
 
 void OpenGL::OpenGLChunk::render() const{
@@ -86,7 +54,7 @@ void OpenGL::OpenGLChunk::update() {
 	// VertexAndNormals vertex[CX * CY * CZ * 6 * 6];  However, this is
 	// created on the stack and you will quickly run into memory issues when
 	// creating chunks larger than 15x15x15.
-	//
+	
 	std::vector<VertexAndNormals> vertex;	
 	for(signed char x = 0; x < CX; x++){
 		for(signed char y = 0; y < CY; y++){
@@ -119,7 +87,6 @@ void OpenGL::OpenGLChunk::update() {
 				// right face (positive x)
 				// if x is < CX and the block to the right does not exist, draw square
 				 if ((x < CX - 1 && m_block_types[x + 1][y][z] == 0) || (x == CX - 1)) {
-				//if (x < CX - 1 && m_block_types[x + 1][y][z] == 0) {
 					vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
 					vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
 					vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
@@ -131,7 +98,6 @@ void OpenGL::OpenGLChunk::update() {
 				// front face (positive z)
 				//if ((z > 0 && m_block_types[x][y][z - 1] == 0) || (z == 0)) {
 				if ((z < CZ - 1 && m_block_types[x][y][z + 1] == 0) || (z == CZ - 1)) {
-				//if (z < CZ - 1 && m_block_types[x][y][z + 1] == 0) {
 					vertex.emplace_back(x, y, z + 1, type, 0, 0, 1); // bottom left
 					vertex.emplace_back(x + 1, y, z + 1, type, 0, 0, 1); // bottom right
 					vertex.emplace_back(x, y + 1, z + 1, type, 0, 0, 1); // top left
@@ -142,7 +108,6 @@ void OpenGL::OpenGLChunk::update() {
 
 				// back face (negative z)
 				 if ((z > 0 && m_block_types[x][y][z - 1] == 0) || (z == 0)) {
-				//if (z > 0 && m_block_types[x][y][z - 1] == 0){
 					vertex.emplace_back(x + 1, y,     z,     type, 0, 0, -1); // bottom left
 					vertex.emplace_back(x,     y,     z,     type, 0, 0, -1); // bottom right
 					vertex.emplace_back(x + 1, y + 1, z,     type, 0, 0, -1); // top left
@@ -153,7 +118,6 @@ void OpenGL::OpenGLChunk::update() {
 
 				// top face (positive y)
 				 if((y < CY - 1 && m_block_types[x][y + 1][z] == 0) || (y == CY - 1)){
-				//if(y < CY - 1 && m_block_types[x][y + 1][z] == 0){
 					vertex.emplace_back(x, y + 1, z + 1, type, 0, 1, 0); // bottom left
 					vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
 					vertex.emplace_back(x, y + 1, z, type, 0, 1, 0); // top left
@@ -164,7 +128,6 @@ void OpenGL::OpenGLChunk::update() {
 
 				// bottom face (negative y)
 				 if ((y > 0 && m_block_types[x][y - 1][z] == 0) || (y == 0)) {
-				//if (y > 0 && m_block_types[x][y - 1][z] == 0) {
 					vertex.emplace_back(x,     y,     z,     type, 0, -1, 0); // bottom left
 					vertex.emplace_back(x + 1, y,     z,     type, 0, -1, 0); // bottom right
 					vertex.emplace_back(x,     y,     z + 1, type, 0, -1, 0); // top left
@@ -174,7 +137,7 @@ void OpenGL::OpenGLChunk::update() {
 				}
 			}			
 		}		
-	}
+	}	
 
 	m_vertex_qty = static_cast<int>(vertex.size());
 

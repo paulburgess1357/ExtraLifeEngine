@@ -192,15 +192,6 @@
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLCubeMapRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Voxel\Block.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Voxel\OpenGLChunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Voxel\OpenGLChunkManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\Vector3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -223,6 +214,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\Interface\IChunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\Interface\ChunkManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\OpenGL\OpenGLChunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -503,22 +503,7 @@
     <ClInclude Include="Tests\GraphicsTesting\Cube\CubeIDStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\Block.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Voxel\BlockType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Voxel\OpenGLChunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Voxel\OpenGLChunkManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\Vector3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Voxel\WorldPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interface\ImGuiInterface.h">
@@ -548,7 +533,19 @@
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\VertexAndNormals.h">
+    <ClInclude Include="Voxel\Interface\IChunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Interface\ChunkManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\VertexAndNormals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\WorldPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

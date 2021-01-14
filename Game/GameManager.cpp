@@ -16,7 +16,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 0, -4.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.3f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.0029f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	
@@ -67,6 +67,8 @@ void GameManager::initialize_scene(){
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
 
+
+	TEMP_CHUNK_MANAGER = std::make_shared<ChunkManager>();
 	
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
@@ -80,12 +82,12 @@ void GameManager::initialize_scene(){
 
 	
 	// =================================================
-	
-	int size = 16;
+	//TODO Paul you set the bottom to size 8.  when you do full cube size, make it 16 again.
+	int size = 4;
 	for(int x = 0; x < size; x++){
 		for(int y = 0; y < size; y++){
 			for(int z = 0; z < size; z++){
-				TEMP_CHUNK_MANAGER.load(WorldPosition{ 16 * x, 16 * y, 16 * z }, ShaderResource::get("voxel_shader"));
+				TEMP_CHUNK_MANAGER->load(WorldPosition{ 8 * x, 8 * y, 8 * z }, ShaderResource::get("voxel_shader"));
 			}
 		}
 	}
@@ -116,7 +118,7 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	Transform::TransformSystem::update(m_registry);	
-	TEMP_CHUNK_MANAGER.update();
+	TEMP_CHUNK_MANAGER->update();
 	ImGuiInterface::update();
 }
 
@@ -124,7 +126,7 @@ void GameManager::render(){
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
-	TEMP_CHUNK_MANAGER.render();
+	TEMP_CHUNK_MANAGER->render();
 	ImGuiInterface::render();
 }
 

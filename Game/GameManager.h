@@ -43,7 +43,9 @@ private:
 	Camera m_camera;
 	InputHandler m_input_handler;
 	MouseHandler m_mouse_handler;
-	ChunkManager TEMP_CHUNK_MANAGER;
+
+	
+	std::shared_ptr<ChunkManager> TEMP_CHUNK_MANAGER = nullptr;
 
     std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	

@@ -3,10 +3,13 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, const std::shared_ptr<IShaderProgram>& shader_program)
+OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, 
+	const std::shared_ptr<IShaderProgram>& shader_program,
+	const std::shared_ptr<ChunkManager>& chunk_manager)
 	:IChunk(starting_world_position, shader_program),
 	 m_vbo{ 99 },
-	 m_vao{ 99 }{
+	 m_vao{ 99 },
+	 m_chunkmanager{ chunk_manager }{
 	 initialize_vbo_vao();
 }
 

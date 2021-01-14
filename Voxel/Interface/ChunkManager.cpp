@@ -3,10 +3,14 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
+// I need to initalize all chunk types before I build out the actual graphics data...
+// Otherwise when I get a pointer to the neighboring chunk, those types may not be set yet.
+// Currently this happens
+
 void ChunkManager::load(const WorldPosition& m_world_position, const std::shared_ptr<IShaderProgram>& shader_program) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		m_chunkmap[m_world_position] = std::make_shared<OpenGL::OpenGLChunk>(m_world_position, shader_program);
+		m_chunkmap[m_world_position] = std::make_shared<OpenGL::OpenGLChunk>(m_world_position, shader_program, shared_from_this());
 		return;
 	}
 
@@ -29,3 +33,9 @@ void ChunkManager::render() const {
 		chunk.second->render();
 	}
 }
+
+std::shared_ptr<IChunk> ChunkManager::get(const WorldPosition& m_world_position){
+	return m_chunkmap.at(m_world_position);
+}
+
+

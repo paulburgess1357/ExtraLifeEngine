@@ -13,7 +13,7 @@ IChunk::IChunk(const WorldPosition& starting_world_position,
     m_world_position{ starting_world_position },
 	m_shader_program{ shader_program }{
 	initialize_types();
-	// Print::print("World Position: " + std::to_string(starting_world_position.x) + ";" + std::to_string(starting_world_position.y) + ";" + std::to_string(starting_world_position.z));
+	Print::print("World Position: " + std::to_string(starting_world_position.x) + ";" + std::to_string(starting_world_position.y) + ";" + std::to_string(starting_world_position.z));
 }
 
 IChunk::~IChunk() = default;
@@ -33,7 +33,7 @@ void IChunk::initialize_types() {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
 				int RANDOMVALUE = rand() % 2;
-				m_block_types[x][y][z] = RANDOMVALUE;
+				m_block_types[x][y][z] = 1;
 			}
 		}
 	}

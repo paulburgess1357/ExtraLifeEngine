@@ -1,7 +1,7 @@
 #pragma once
-#define CX 16
-#define CY 16
-#define CZ 16
+#define CX 8
+#define CY 8
+#define CZ 8
 
 #include "../Neutral/WorldPosition.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
@@ -10,7 +10,8 @@
 class IChunk {
 
 public:
-	IChunk(const WorldPosition& starting_world_position, const std::shared_ptr<IShaderProgram>& shader_program);
+	IChunk(const WorldPosition& starting_world_position, 
+		const std::shared_ptr<IShaderProgram>& shader_program);
 	virtual ~IChunk();
 
 	[[nodiscard]] signed char get(const signed char x, const signed char y, const signed char z) const;

@@ -58,6 +58,34 @@ void OpenGL::OpenGLChunk::update() {
 	// created on the stack and you will quickly run into memory issues when
 	// creating chunks larger than 15x15x15.
 	
+	Print::print("Current chunk world position: " + std::to_string(m_world_position.x) + "," + std::to_string(m_world_position.y) + "," + std::to_string(m_world_position.z));
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)) {
+		Print::print("Chunk Exists to the LEFT!");
+	}
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::RIGHT)) {
+		Print::print("Chunk Exists to the RIGHT!");
+	}
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::TOP)) {
+		Print::print("Chunk Exists ABOVE!");
+	}
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BOTTOM)) {
+		Print::print("Chunk Exists BELOW!");
+	}
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::FRONT)) {
+		Print::print("Chunk Exists to the FRONT!");
+	}
+
+	if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BACK)) {
+		Print::print("Chunk Exists to the BACK!");
+	}
+	
+	
+	
 	std::vector<VertexAndNormals> vertex;	
 	for(signed char x = 0; x < CX; x++){
 		for(signed char y = 0; y < CY; y++){
@@ -78,18 +106,82 @@ void OpenGL::OpenGLChunk::update() {
 				
 				// left face (negative x)
 				// E.g. if x is > 0 and the block to the left does not exist, draw square
-				if ((x > 0 && m_block_types[x - 1][y][z] == 0) || (x == 0)) {
+
+				// when x == 0 i know im on the left side of the chunk...
+				// if I'm on the left side of the chunk, I need to see if there is a chunk to my left
+
+
+				
+				// when x == CX, i know im on the right side of the chunk...				
+
+
+
+				/*if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)) {
+					Print::print("Chunk Exists to the LEFT!");
+				}*/
+
+				// x == 0 so I'm on the left edge of the chunk
+				//if(x == 0 && m_chunkmanager->chunk_exists(WorldPosition(m_world_position.x - CX, m_world_position.y, m_world_position.z))){
+
+				//	// im on left face AND a chunk exists on my left
+				//	std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::LEFT);
+				//	
+				//}
+
+				if(x == 0 && m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)){
+					// im on left face AND a chunk exists on my left
+
+					// get adjacent chunk
+					std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::LEFT);
+
+					// check the adjacent chunks block that would be touching this chunks block
+					if(adjacent_chunk->get(CX - 1, y, z) == 0){
+
+						// draw chunk
+						vertex.emplace_back(x, y, z, type, -1, 0, 0); // bottom left
+						vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+						vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+						vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+						vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+						vertex.emplace_back(x, y + 1, z + 1, type, -1, 0, 0); // top right
+						
+					}
+
+					
+				} else if(x > 0 && m_block_types[x - 1][y][z] == 0){
 					vertex.emplace_back(x, y, z, type, -1, 0, 0); // bottom left
 					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
 					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
 					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
 					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
 					vertex.emplace_back(x, y + 1, z + 1, type, -1, 0, 0); // top right
+				} else if(x == 0 && !m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)) {
+					// edge case?
+					vertex.emplace_back(x, y, z, type, -1, 0, 0); // bottom left
+					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+					vertex.emplace_back(x, y + 1, z, type, -1, 0, 0); // top left
+					vertex.emplace_back(x, y, z + 1, type, -1, 0, 0); // bottom right
+					vertex.emplace_back(x, y + 1, z + 1, type, -1, 0, 0); // top right
+				} else{
+					//?
 				}
+				
+				
+				//if ((x > 0 && m_block_types[x - 1][y][z] == 0) || (x == 0)) {
+				//if (x > 0 && m_block_types[x - 1][y][z] == 0) {
+				//	vertex.emplace_back(x,    y,     z, type, -1, 0, 0); // bottom left
+				//	vertex.emplace_back(x,    y,     z + 1, type, -1, 0, 0); // bottom right
+				//	vertex.emplace_back(x,    y + 1, z, type, -1, 0, 0); // top left
+				//	vertex.emplace_back(x,    y + 1, z, type, -1, 0, 0); // top left
+				//	vertex.emplace_back(x,    y,     z + 1, type, -1, 0, 0); // bottom right
+				//	vertex.emplace_back(x,    y + 1, z + 1, type, -1, 0, 0); // top right
+				//}
 
 				// right face (positive x)
 				// if x is < CX and the block to the right does not exist, draw square
-				 if ((x < CX - 1 && m_block_types[x + 1][y][z] == 0) || (x == CX - 1)) {
+				// if ((x < CX - 1 && m_block_types[x + 1][y][z] == 0) || (x == CX - 1)) {
+				if (x < CX - 1 && m_block_types[x + 1][y][z] == 0) {
 					vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
 					vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
 					vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left

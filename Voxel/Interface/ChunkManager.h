@@ -10,16 +10,38 @@
 //Note when this is in a resouce mangaer, it must be a shared pointer
 	// to allow shared_from_this()
 
+enum class AdjacentChunkPosition{
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM,
+	FRONT,
+	BACK
+};
+
 class ChunkManager : public std::enable_shared_from_this<ChunkManager>{
 
 public:
 	ChunkManager() = default;
 	virtual ~ChunkManager() = default;		
 
-	std::shared_ptr<IChunk> get(const WorldPosition& m_world_position);
-	void load(const WorldPosition& m_world_position, const std::shared_ptr<IShaderProgram>& shader_program);
+	std::shared_ptr<IChunk> get(const WorldPosition& world_position) const;
+
+	bool adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const;
+	std::shared_ptr<IChunk> get_adjacent_chunk(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const;
+	
 	void update() const;
 	void render() const;
+	
+	void load(const int size_x, const int size_y, const int size_z, const std::shared_ptr<IShaderProgram>& shader_program);
+	
+private:
+	bool chunk_exists(const WorldPosition& world_position) const;
+	void load(const WorldPosition& world_position, const std::shared_ptr<IShaderProgram>& shader_program);
+
+
+	
+
 
 private:
 	std::unordered_map<WorldPosition, std::shared_ptr<IChunk>, WorldPositionHash> m_chunkmap;

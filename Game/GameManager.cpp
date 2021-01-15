@@ -63,7 +63,7 @@ void GameManager::initialize_controls() {
 
 void GameManager::initialize_scene(){
 	//SceneLoader::grid(m_registry);
-    //SceneLoader::single_cube(m_registry);
+    SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
 
@@ -80,17 +80,17 @@ void GameManager::initialize_scene(){
 	shader_program->attach_directional_light("dirlight");
 
 
-	
+	TEMP_CHUNK_MANAGER->load(4, 4, 4, shader_program);
 	// =================================================
 	//TODO Paul you set the bottom to size 8.  when you do full cube size, make it 16 again.
-	int size = 4;
-	for(int x = 0; x < size; x++){
-		for(int y = 0; y < size; y++){
-			for(int z = 0; z < size; z++){
-				TEMP_CHUNK_MANAGER->load(WorldPosition{ 8 * x, 8 * y, 8 * z }, ShaderResource::get("voxel_shader"));
-			}
-		}
-	}
+	//int size = 4;
+	//for(int x = 0; x < size; x++){
+	//	for(int y = 0; y < size; y++){
+	//		for(int z = 0; z < size; z++){
+	//			TEMP_CHUNK_MANAGER->load(WorldPosition{ 8 * x, 8 * y, 8 * z }, ShaderResource::get("voxel_shader"));
+	//		}
+	//	}
+	//}
 	
 	//TEMP_CHUNK_MANAGER.load(WorldPosition{ 5, 0, 16 }, ShaderResource::get("voxel_shader"));
 	

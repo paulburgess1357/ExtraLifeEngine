@@ -2,6 +2,9 @@
 #include "glm/glm.hpp"
 
 struct WorldPosition {
+
+	WorldPosition() = default;
+	
 	WorldPosition(const int pos_x, const int pos_y, const int pos_z)
 		:x{ pos_x },
 		y{ pos_y },

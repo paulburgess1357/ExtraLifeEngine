@@ -4,8 +4,12 @@
 #define CZ 4
 
 #include "../Neutral/WorldPosition.h"
+#include "../Neutral/VertexAndNormals.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <memory>
+#include <vector>
+
+#include "../../Utility/Print.h"
 
 class IChunk {
 
@@ -18,9 +22,21 @@ public:
 	void set(const signed char x, const signed char y, const signed char z, const signed char type);
 	virtual void update() = 0;
 	virtual void render() const = 0;
+	void print_world_position(){
+		Print::print(std::to_string(m_world_position.x) + "," + std::to_string(m_world_position.y) + "," + std::to_string(m_world_position.z));
+	}
 	
 protected:
 	void initialize_types();
+	static void emplace_left_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+	static void emplace_right_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+
+	static void emplace_front_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+	static void emplace_back_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+	
+	static void emplace_top_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+	static void emplace_bottom_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+	
 
 	signed char m_block_types[CX][CY][CZ];
 

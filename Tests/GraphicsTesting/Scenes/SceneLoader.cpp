@@ -48,7 +48,7 @@ void SceneLoader::single_cube(entt::registry& registry) {
 				const entt::entity cube_entity2 = registry.create();
 				registry.emplace<ShaderComponent>(cube_entity2, shader_program);
 				registry.emplace<CubeComponent>(cube_entity2, CubeResource::get("cube_normal"));
-				registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 4, 0, 0 });
+				registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 6, 0, 0 });
 	//		}
 	//	}
 	//}

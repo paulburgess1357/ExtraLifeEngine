@@ -32,9 +32,74 @@ void IChunk::initialize_types() {
 	for (signed char x = 0; x < CX; x++) {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
-				int RANDOMVALUE = rand() % 2;
-				m_block_types[x][y][z] = 1;
+				int RANDOMVALUE = rand() % 10;
+
+				if(RANDOMVALUE <= 0){
+					m_block_types[x][y][z] = 0;
+				} else{
+					m_block_types[x][y][z] = 1;
+				}
+				
+				//m_block_types[x][y][z] = RANDOMVALUE;
 			}
 		}
 	}
 }
+
+void IChunk::emplace_left_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x,     y,     z,     type, -1, 0, 0); // bottom left
+	vertex.emplace_back(x,     y,     z + 1, type, -1, 0, 0); // bottom right
+	vertex.emplace_back(x,     y + 1, z,     type, -1, 0, 0); // top left
+	vertex.emplace_back(x,     y + 1, z,     type, -1, 0, 0); // top left
+	vertex.emplace_back(x,     y,     z + 1, type, -1, 0, 0); // bottom right
+	vertex.emplace_back(x,     y + 1, z + 1, type, -1, 0, 0); // top right
+}
+
+void IChunk::emplace_right_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
+	vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
+	vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
+	vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left
+	vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
+	vertex.emplace_back(x + 1, y + 1, z,     type, 1, 0, 0); // top right
+}
+
+void IChunk::emplace_front_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x, y, z + 1, type, 0, 0, 1); // bottom left
+	vertex.emplace_back(x + 1, y, z + 1, type, 0, 0, 1); // bottom right
+	vertex.emplace_back(x, y + 1, z + 1, type, 0, 0, 1); // top left
+	vertex.emplace_back(x, y + 1, z + 1, type, 0, 0, 1); // top left
+	vertex.emplace_back(x + 1, y, z + 1, type, 0, 0, 1); // bottom right
+	vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 0, 1); // top right
+}
+
+void IChunk::emplace_back_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x + 1, y, z, type, 0, 0, -1); // bottom left
+	vertex.emplace_back(x, y, z, type, 0, 0, -1); // bottom right
+	vertex.emplace_back(x + 1, y + 1, z, type, 0, 0, -1); // top left
+	vertex.emplace_back(x + 1, y + 1, z, type, 0, 0, -1); // top left
+	vertex.emplace_back(x, y, z, type, 0, 0, -1); // bottom right
+	vertex.emplace_back(x, y + 1, z, type, 0, 0, -1); // top right
+}
+
+
+
+void IChunk::emplace_top_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x, y + 1, z + 1, type, 0, 1, 0); // bottom left
+	vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
+	vertex.emplace_back(x, y + 1, z, type, 0, 1, 0); // top left
+	vertex.emplace_back(x, y + 1, z, type, 0, 1, 0); // top left
+	vertex.emplace_back(x + 1, y + 1, z + 1, type, 0, 1, 0); // bottom right
+	vertex.emplace_back(x + 1, y + 1, z, type, 0, 1, 0); // top right
+}
+
+void IChunk::emplace_bottom_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type){
+	vertex.emplace_back(x, y, z, type, 0, -1, 0); // bottom left
+	vertex.emplace_back(x + 1, y, z, type, 0, -1, 0); // bottom right
+	vertex.emplace_back(x, y, z + 1, type, 0, -1, 0); // top left
+	vertex.emplace_back(x, y, z + 1, type, 0, -1, 0); // top left
+	vertex.emplace_back(x + 1, y, z, type, 0, -1, 0); // bottom right
+	vertex.emplace_back(x + 1, y, z + 1, type, 0, -1, 0); // top right
+}
+
+

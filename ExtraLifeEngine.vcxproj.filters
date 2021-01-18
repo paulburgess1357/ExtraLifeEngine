@@ -548,5 +548,8 @@
     <ClInclude Include="Voxel\Neutral\WorldPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Voxel\Neutral\Face.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

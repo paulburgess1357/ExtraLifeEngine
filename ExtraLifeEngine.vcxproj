@@ -240,6 +240,7 @@
     <ClInclude Include="Utility\Vector3D.h" />
     <ClInclude Include="Voxel\Interface\IChunk.h" />
     <ClInclude Include="Voxel\Interface\ChunkManager.h" />
+    <ClInclude Include="Voxel\Neutral\Face.h" />
     <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h" />
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />

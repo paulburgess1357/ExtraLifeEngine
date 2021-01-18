@@ -16,10 +16,15 @@ struct VertexAndNormals {
 		m_n3{ n3 }{
 	}
 
+	// position
 	signed char m_x = 0;
 	signed char m_y = 0;
 	signed char m_z = 0;
+
+	// type
 	signed char m_w = 0;
+
+	// normals
 	signed char m_n1 = 0;
 	signed char m_n2 = 0;
 	signed char m_n3 = 0;

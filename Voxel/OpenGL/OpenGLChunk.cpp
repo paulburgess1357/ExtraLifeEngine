@@ -3,8 +3,6 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-#include "../../Utility/FatalError.h"
-
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position,
                                  const std::shared_ptr<IShaderProgram>& shader_program,
                                  const std::shared_ptr<ChunkManager>& chunk_manager)
@@ -60,47 +58,32 @@ void OpenGL::OpenGLChunk::update() {
 	// created on the stack and you will quickly run into memory issues when
 	// creating chunks larger than 15x15x15.
 
-	//Print::print("Current chunk world position: " + std::to_string(m_world_position.x) + "," + std::to_string(m_world_position.y) + "," + std::to_string(m_world_position.z));
 
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)) {
-	//	Print::print("Chunk Exists to the LEFT!");
-	//}
-
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::RIGHT)) {
-	//	Print::print("Chunk Exists to the RIGHT!");
-	//}
-
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::TOP)) {
-	//	Print::print("Chunk Exists ABOVE!");
-	//}
-
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BOTTOM)) {
-	//	Print::print("Chunk Exists BELOW!");
-	//}
-
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::FRONT)) {
-	//	Print::print("Chunk Exists to the FRONT!");
-	//}
-
-	//if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BACK)) {
-	//	Print::print("Chunk Exists to the BACK!");
-	//}
+	//bool previous_voxel_visible = false;
 
 
-
+	// Testing for greedy meshing:
+	std::vector<VertexAndNormals> left_vertex;
+	std::vector<VertexAndNormals> right_vertex;
+	std::vector<VertexAndNormals> top_vertex;
+	std::vector<VertexAndNormals> bottom_vertex;
+	std::vector<VertexAndNormals> front_vertex;
+	std::vector<VertexAndNormals> back_vertex;	
+	
 	std::vector<VertexAndNormals> vertex;
 	for (signed char x = 0; x < CX; x++) {
-		for (signed char y = 0; y < CY; y++) {
+		for (signed char y = 0; y < CY; y++) {			
 			for (signed char z = 0; z < CZ; z++) {
 				const signed char type = m_block_types[x][y][z];
 
+
+				
+				//Print::print(std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z));
+				
 				// Skip Empty Blocks
 				if (type == 0) {
 					continue;
 				}
-
-				//TODO I can probably change this: if (x > 0 && m_block_types[x - 1][y][z] == 0)
-				//TODO to this: m_block_types[x - 1][y][z] == 0
 
 				// left face (negative x)		
 				if (x == 0) {
@@ -113,12 +96,12 @@ void OpenGL::OpenGLChunk::update() {
 						// Check edge of adjacent chunk (right edge)
 						// If the adjacent chunk right edge is not being drawn, draw left edge of current chunk
 						if (adjacent_chunk->get(CX - 1, y, z) == 0) {
-							emplace_left_face(vertex, x, y, z, type);
+							emplace_left_face(left_vertex, x, y, z, type);
 						}
 					} else {
 
 						// If drawing left edge and there is no chunk to our left, draw left edge of current chunk						
-						emplace_left_face(vertex, x, y, z, type);
+						emplace_left_face(left_vertex, x, y, z, type);
 					}
 				} else {
 
@@ -128,171 +111,110 @@ void OpenGL::OpenGLChunk::update() {
 
 						// If the block within our current chunk to our left is not being drawn,
 						// draw left edge of current block
-						emplace_left_face(vertex, x, y, z, type);
+						emplace_left_face(left_vertex, x, y, z, type);
 					}
 				}
-
-
+				
 				// right face (positive x)
 				if (x == CX - 1) {
 					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::RIGHT)) {
-
-						// If drawing right edge and a chunk exists to our right:
-						// Get adjacent chunk:
 						const std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::RIGHT);
-
-						// Check edge of adjacent chunk (left edge)
-						// If the adjacent chunk left edge is not being drawn, draw right edge of current chunk:
 						if (adjacent_chunk->get(0, y, z) == 0) {
-							emplace_right_face(vertex, x, y, z, type);
+							emplace_right_face(right_vertex, x, y, z, type);
 						}
-
 					} else {
-
-						// If drawing right edge and no chunk exists to our right, draw right edge of current chunk
-						emplace_right_face(vertex, x, y, z, type);
+						emplace_right_face(right_vertex, x, y, z, type);
 					}
-
 				} else {
-
-					// Since we aren't on the right edge of our chunk, we only need to compare
-					// with the current chunk:
-
-					// If the block within our current chunk to our right is not being drawn,
-					// draw right edge of current chunk
 					if (m_block_types[x + 1][y][z] == 0) {
-						emplace_right_face(vertex, x, y, z, type);
+						emplace_right_face(right_vertex, x, y, z, type);
 					}
-
-
 				}
 
-
 				// front face (positive z)
-				//if ((z > 0 && m_block_types[x][y][z - 1] == 0) || (z == 0)) {
-				//
-				//
-
-				// front face (positive z)
-
 				if (z == CZ - 1) {
-
 					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::FRONT)) {
 						const std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::FRONT);
-
-						if (adjacent_chunk == nullptr) {
-							FatalError::fatal_error("This shouldn't be a nullptr!!");
-						}
-
 						if (adjacent_chunk->get(x, y, 0) == 0) {
-							emplace_front_face(vertex, x, y, z, type);
+							emplace_front_face(front_vertex, x, y, z, type);
 						}
-
 					} else {
-						emplace_front_face(vertex, x, y, z, type);
+						emplace_front_face(front_vertex, x, y, z, type);
 					}
-
-
 				} else {
 					if (m_block_types[x][y][z + 1] == 0) {
-						emplace_front_face(vertex, x, y, z, type);
+						emplace_front_face(front_vertex, x, y, z, type);
 					}
 				}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 				// back face (negative z)
-
 				if (z == 0) {
-
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BACK)) {
+					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BACK)) {						
 						const std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::BACK);
-						if (adjacent_chunk == nullptr) {
-							FatalError::fatal_error("This shouldn't be a nullptr!!");
-						}
-
 						if (adjacent_chunk->get(x, y, CZ - 1) == 0) {
-							emplace_back_face(vertex, x, y, z, type);
+							emplace_back_face(back_vertex, x, y, z, type);
 						}
-
 					} else {
-						emplace_back_face(vertex, x, y, z, type);
+						emplace_back_face(back_vertex, x, y, z, type);
 					}
-
-
 				} else {
 					if (m_block_types[x][y][z - 1] == 0) {
-						emplace_back_face(vertex, x, y, z, type);
+						emplace_back_face(back_vertex, x, y, z, type);
 					}
 				}
-
-
-
 
 				// top face (positive y)
 				if (y == CY - 1) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::TOP)) {
+					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::TOP)) {						
 						const std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::TOP);
 						if (adjacent_chunk->get(x, 0, z) == 0) {
-							emplace_top_face(vertex, x, y, z, type);
+							emplace_top_face(top_vertex, x, y, z, type);
 						}
 					} else {
-						emplace_top_face(vertex, x, y, z, type);
+						emplace_top_face(top_vertex, x, y, z, type);
 					}
 				} else {
 					if (m_block_types[x][y + 1][z] == 0) {
-						emplace_top_face(vertex, x, y, z, type);
+						emplace_top_face(top_vertex, x, y, z, type);
 					}
 				}
 
 				// bottom face (negative y)
 				if (y == 0) {
 					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BOTTOM)) {
-
-						// If drawing bottom edge of current chunk and there exists a chunk below:
-
-						// Get adjacent chunk
 						const std::shared_ptr<IChunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::BOTTOM);
-
-						// Check edge of the adjacent chunk (top edge)
-						// If the adjacent chunk top edge is not being drawn, draw the bottom edge of the current chunk:
 						if (adjacent_chunk->get(x, CY - 1, z) == 0) {
-							emplace_bottom_face(vertex, x, y, z, type);
+							emplace_bottom_face(bottom_vertex, x, y, z, type);
 						}
-
 					} else {
-
-						// If drawing bottom edge and there is no chunk below, draw current chunk:
-						emplace_bottom_face(vertex, x, y, z, type);
-
+						emplace_bottom_face(bottom_vertex, x, y, z, type);
 					}
-
-
-
 				} else {
 
 					// Since we aren't on the outer bottom edge of our chunk, we only need to compare
 					// with the current chunk
 					if (m_block_types[x][y - 1][z] == 0) {
-						emplace_bottom_face(vertex, x, y, z, type);
+						emplace_bottom_face(bottom_vertex, x, y, z, type);
 					}
 				}
-			}
+				
+			}			
 		}
 	}
+
+	// TODO Greedy meshing here?
+	//std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
+	std::vector<VertexAndNormals> new_left_vertex = left_vertex;
+
+	// Combine into one vertex
+	vertex.reserve(new_left_vertex.size() + right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());
+	vertex.insert(vertex.end(), new_left_vertex.begin(), new_left_vertex.end());
+	vertex.insert(vertex.end(), right_vertex.begin(), right_vertex.end());
+	vertex.insert(vertex.end(), front_vertex.begin(), front_vertex.end());
+	vertex.insert(vertex.end(), back_vertex.begin(), back_vertex.end());
+	vertex.insert(vertex.end(), top_vertex.begin(), top_vertex.end());
+	vertex.insert(vertex.end(), bottom_vertex.begin(), bottom_vertex.end());
+	
 
 	m_vertex_qty = static_cast<int>(vertex.size());
 
@@ -302,10 +224,6 @@ void OpenGL::OpenGLChunk::update() {
 	if(m_vertex_qty == 0){
 		return;
 	}
-	//what is faster/better? &vertex.front() will work and not crash.  However, its probalby faster to still do the return and
-	//exit early since we don't need to send anything to the gpu.
-
-	
 
 	// Bind Buffers
 	glBindVertexArray(m_vao);

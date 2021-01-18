@@ -1,7 +1,7 @@
 #pragma once
-#define CX 4
-#define CY 4
-#define CZ 4
+#define CX 1
+#define CY 20
+#define CZ 20
 
 #include "../Neutral/WorldPosition.h"
 #include "../Neutral/VertexAndNormals.h"
@@ -36,6 +36,10 @@ protected:
 	
 	static void emplace_top_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
 	static void emplace_bottom_face(std::vector<VertexAndNormals>& vertex, signed char x, signed char y, signed char z, signed char type);
+
+
+	static std::vector<VertexAndNormals> merge_left_faces(std::vector<VertexAndNormals>& vertex);
+	
 	
 
 	signed char m_block_types[CX][CY][CZ];

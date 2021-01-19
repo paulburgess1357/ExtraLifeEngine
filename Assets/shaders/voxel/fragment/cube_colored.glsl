@@ -44,6 +44,7 @@ uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
 // Vertex Variables
 in vec3 frag_cube_normals;
 in vec3 fragment_world_position;
+in float frag_color_type_test;
 
 // Output
 out vec4 fragment_color;
@@ -68,21 +69,27 @@ void main() {
     vec3 normalized_frag_cube_normals = normalize(frag_cube_normals);
     vec3 view_direction = normalize(camera_world_position - fragment_world_position);
 
+    // Temp for testing (diffuse_material in the functions has been replaced by diffuse_material_temp for testing)
+    DiffuseMaterial diffuse_material_temp;
+    diffuse_material_temp.m_sampler.x = diffuse_material.m_sampler.x/frag_color_type_test;
+    diffuse_material_temp.m_sampler.y = diffuse_material.m_sampler.y/frag_color_type_test;
+    diffuse_material_temp.m_sampler.z = diffuse_material.m_sampler.z/frag_color_type_test;
+
     // Lighting
     vec3 result = vec3(0.0f);
 
     // Directional
     for(int i = 0; i <= active_dirlight_qty; i++) {
-        result += calc_directional_light_no_texture(dirlight[i], diffuse_material, scenelight, normalized_frag_cube_normals, view_direction);
+        result += calc_directional_light_no_texture(dirlight[i], diffuse_material_temp, scenelight, normalized_frag_cube_normals, view_direction);
     }
 
     // Point
     for(int i = 0; i <= active_pointlight_qty; i++){
-        result += calc_point_light_no_texture(pointlight[i], diffuse_material, scenelight, normalized_frag_cube_normals, view_direction, fragment_world_position);
+        result += calc_point_light_no_texture(pointlight[i], diffuse_material_temp, scenelight, normalized_frag_cube_normals, view_direction, fragment_world_position);
     }
 
     if(result.x == 0.0f && result.y==0.0f && result.z==0.0f){
-       result = scenelight.ambient  * diffuse_material.m_sampler;
+       result = scenelight.ambient  * diffuse_material_temp.m_sampler;
     }
 
     fragment_color = vec4(result, 1.0);

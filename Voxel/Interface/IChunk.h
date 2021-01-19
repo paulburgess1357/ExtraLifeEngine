@@ -1,5 +1,5 @@
 #pragma once
-#define CX 1
+#define CX 5
 #define CY 20
 #define CZ 20
 

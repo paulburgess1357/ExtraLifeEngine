@@ -80,8 +80,8 @@ void OpenGL::OpenGLChunk::update() {
 				
 				//Print::print(std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z));
 				
-				// Skip Empty Blocks
-				if (type == 0) {
+				// Skip Empty Blocks (Removed during the greedy mesh step)
+				if (type == 0) {			
 					continue;
 				}
 
@@ -203,8 +203,8 @@ void OpenGL::OpenGLChunk::update() {
 	}
 
 	// TODO Greedy meshing here?
-	//std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
-	std::vector<VertexAndNormals> new_left_vertex = left_vertex;
+	std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
+	//std::vector<VertexAndNormals> new_left_vertex = left_vertex;
 
 	// Combine into one vertex
 	vertex.reserve(new_left_vertex.size() + right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());

@@ -40,7 +40,7 @@ void IChunk::initialize_types() {
 				//	m_block_types[x][y][z] = 1;
 				//}
 
-				m_block_types[x][y][z] = 1;
+				m_block_types[x][y][z] = RANDOMVALUE;
 			}
 		}
 	}
@@ -117,15 +117,15 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 		return vertex;
 	};
 
-	std::vector<VertexAndNormals> merged_vector;
+	std::vector<VertexAndNormals> merged_row_vector;
 
 	// Push back first face; This becomes our 'start' face
-	merged_vector.push_back(vertex.at(0));
-	merged_vector.push_back(vertex.at(1));
-	merged_vector.push_back(vertex.at(2));
-	merged_vector.push_back(vertex.at(3));
-	merged_vector.push_back(vertex.at(4));
-	merged_vector.push_back(vertex.at(5));
+	merged_row_vector.push_back(vertex.at(0));
+	merged_row_vector.push_back(vertex.at(1));
+	merged_row_vector.push_back(vertex.at(2));
+	merged_row_vector.push_back(vertex.at(3));
+	merged_row_vector.push_back(vertex.at(4));
+	merged_row_vector.push_back(vertex.at(5));
 
 	// Iterate over all faces (ignoring the first face) and merge
 	// Increment by 6 as each face as 6 vertices
@@ -133,9 +133,9 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 
 		// Requirements to merge face:
 		// Same type, x, and y (for now)
-		const size_t merged_vector_size = merged_vector.size();
+		const size_t merged_vector_size = merged_row_vector.size();
 
-		const VertexAndNormals start_bottom_right = merged_vector.at(merged_vector_size - 5);
+		const VertexAndNormals start_bottom_right = merged_row_vector.at(merged_vector_size - 5);
 		const VertexAndNormals next_bottom_right = vertex.at(i + 1);
 
 		const bool types_match = start_bottom_right.m_w == next_bottom_right.m_w;;
@@ -158,52 +158,168 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 			// Merge (note that we only need to merge the 'next' face
 			// into our 'start face' slot.  Rather than putting all 6 new
 			// faces into the vector, we only need the 3 new ones:
-
-			// merged_vector.at() = merged_vector.at(merged_vector_size - 6); // Start bottom left
-			merged_vector.at(merged_vector_size - 5) = vertex.at(i + 1);      // Next bottom right
-			// merged_vector.at() = merged_vector.at(merged_vector_size - 4); // Start top left
-			// merged_vector.at() = merged_vector.at(merged_vector_size - 3); // Start top left
-			merged_vector.at(merged_vector_size - 2) = vertex.at(i + 1);      // Next bottom right
-			merged_vector.at(merged_vector_size - 1) = vertex.at(i + 5);      // Next top right
+			
+			merged_row_vector.at(merged_vector_size - 5) = vertex.at(i + 1);      // Next bottom right
+			merged_row_vector.at(merged_vector_size - 2) = vertex.at(i + 1);      // Next bottom right
+			merged_row_vector.at(merged_vector_size - 1) = vertex.at(i + 5);      // Next top right
 
 		} else {
 
 			// Faces cannot be merged. Push back current face into merged
 			// vector. This becomes the new 'start face'
-			merged_vector.push_back(vertex.at(i));
-			merged_vector.push_back(vertex.at(i + 1));
-			merged_vector.push_back(vertex.at(i + 2));
-			merged_vector.push_back(vertex.at(i + 3));
-			merged_vector.push_back(vertex.at(i + 4));
-			merged_vector.push_back(vertex.at(i + 5));
+			merged_row_vector.push_back(vertex.at(i));
+			merged_row_vector.push_back(vertex.at(i + 1));
+			merged_row_vector.push_back(vertex.at(i + 2));
+			merged_row_vector.push_back(vertex.at(i + 3));
+			merged_row_vector.push_back(vertex.at(i + 4));
+			merged_row_vector.push_back(vertex.at(i + 5));
 		}
 
 	}
 
-	// Faces have now been merged along the z axis.  Now we can compare
+	return(merged_row_vector);
+
+	// TODO make sure i can do my face 'type' comparisons correctly...
+	// TODO I think I can...
+	
+	// Faces have now been merged per row.  Now we can compare
 	// the merged faces across the y axis.  If x and z are identical for 2
 	// faces, we can merge upward.
 
-	if(merged_vector.size() <= 6){
-		return merged_vector;
+	if(merged_row_vector.size() <= 6){
+		return merged_row_vector;
 	}
 
 	std::vector<VertexAndNormals> merged_y_vector;
-	merged_y_vector.push_back(merged_vector.at(0));
-	merged_y_vector.push_back(merged_vector.at(1));
-	merged_y_vector.push_back(merged_vector.at(2));
-	merged_y_vector.push_back(merged_vector.at(3));
-	merged_y_vector.push_back(merged_vector.at(4));
-	merged_y_vector.push_back(merged_vector.at(5));
-
+	//merged_y_vector.push_back(merged_row_vector.at(0));
+	//merged_y_vector.push_back(merged_row_vector.at(1));
+	//merged_y_vector.push_back(merged_row_vector.at(2));
+	//merged_y_vector.push_back(merged_row_vector.at(3));
+	//merged_y_vector.push_back(merged_row_vector.at(4));
+	//merged_y_vector.push_back(merged_row_vector.at(5));
 	
-	for(size_t i = 0; i < merged_vector.size(); i++){
+	// Keep track of merged faces.  If a face has been merged, we can skip it
+	std::vector<bool> has_been_merged (merged_row_vector.size(), false );
 
+	for(size_t i = 0; i < merged_row_vector.size(); i+=6){
 
+		// Check if face has been merged.  If it has, we can skip to the next face
+		if (has_been_merged.at(i)) {
+			continue;
+		}
 		
-	}
-	
+		bool face_can_merge = false;
+		VertexAndNormals next_top_left;
+		VertexAndNormals next_top_right;
+		
+		const size_t start_bottom_left_idx = i;
+		const size_t start_bottom_right_idx = i + 1;
+		const size_t start_top_left_idx = i + 2;
+		const size_t start_top_left_idx_second = i + 3;
+		const size_t start_bottom_right_idx_second = i + 4;
+		const size_t start_top_right_idx = i + 5;
 
-	return merged_vector;
+		const VertexAndNormals start_bottom_left = merged_row_vector.at(start_bottom_left_idx);
+		const VertexAndNormals start_bottom_right = merged_row_vector.at(start_bottom_right_idx);
+		VertexAndNormals start_top_left = merged_row_vector.at(start_top_left_idx);
+		VertexAndNormals start_top_right = merged_row_vector.at(start_top_right_idx);
+		const signed char start_type = start_bottom_left.m_w;
+
+
+		for(size_t j = i + 6; j < merged_row_vector.size(); j+=6){
+
+			const size_t next_bottom_left_idx = j;
+			const size_t next_bottom_right_idx = j + 1;
+			const size_t next_top_left_idx = j + 2;
+			const size_t next_top_right_idx = j + 5;
+
+			// Next face (to see if we can merge)
+			const VertexAndNormals next_bottom_left = merged_row_vector.at(next_bottom_left_idx);
+			const VertexAndNormals next_bottom_right = merged_row_vector.at(next_bottom_right_idx);
+			next_top_left = merged_row_vector.at(next_top_left_idx);
+			next_top_right = merged_row_vector.at(next_top_right_idx);
+			const signed char next_type = next_bottom_left.m_w;
+
+			// Merged faces must be the same type.  If the start face and
+			// next face are not the same type, we can continue on to the
+			// next 'next' face
+			if(start_type != next_type){
+				continue;
+			}
+			
+			// Check if face has been merged.  If it has, we can skip to the next face
+			if(has_been_merged.at(next_bottom_left_idx)){
+				continue;
+			}
+
+			// Check is we are at the same depth (x) as our start face.  If
+			// we are not at the same depth, faces cannot be merged and we can
+			// break out of the 'look for faces to merge' loop
+			if(start_bottom_left.m_x != next_bottom_left.m_x){
+				break;
+			}
+			
+			// Check if start face and next face are adjacent (y).  This is
+			// the top of the start face and bottom of the next face.  If they
+			// are not adjacent (y), move on to the next 'next' face
+			if (start_top_right.m_y > next_bottom_right.m_y) {
+				continue;
+			}
+
+			// Check if the start face and next are within one row of each
+			// other if they aren't, it means we are above the necessary row
+			// for merging and can break from the loop
+			if (start_top_right.m_y < next_bottom_right.m_y) {
+				break;
+			}
+
+			// At this point, the start face and next face must be adjacent
+			// in the 'y' direction.  Before merging, we must check if the
+			// both corners are aligned:
+
+			// If the 'next' block (which is above us at this point),
+			// left corner is greater than the start block left corner,
+			// there are no faces left to merge
+			if (next_bottom_left.m_z > start_bottom_left.m_z) {
+				break;
+			}
+
+			// If the next block and current block are aligned then merge:
+			if(start_bottom_left.m_z == next_bottom_left.m_z && start_bottom_right.m_z == next_bottom_right.m_z){
+				
+				// Update start variables
+				start_top_left = next_top_left;
+				start_top_right = next_top_right;
+
+				// Flag merge vector (Allows us to skip this face for
+				// consideration of future merges)
+				has_been_merged.at(next_bottom_left_idx) = true;
+				face_can_merge = true;
+			}
+			
+		}
+
+		// If we have exited the inner loop, its either because a face was
+		// merged or not.
+		if(face_can_merge){
+			merged_y_vector.push_back(start_bottom_left);
+			merged_y_vector.push_back(start_bottom_right);
+			merged_y_vector.push_back(next_top_left);
+			merged_y_vector.push_back(next_top_left);
+			merged_y_vector.push_back(start_bottom_right);
+			merged_y_vector.push_back(next_top_right);
+
+		} else{
+			merged_y_vector.push_back(start_bottom_left);
+			merged_y_vector.push_back(start_bottom_right);
+			merged_y_vector.push_back(start_top_left);
+			merged_y_vector.push_back(start_top_left);
+			merged_y_vector.push_back(start_bottom_right);
+			merged_y_vector.push_back(start_top_right);
+		}
+						
+	}			
+
+	return merged_y_vector;
 
 }

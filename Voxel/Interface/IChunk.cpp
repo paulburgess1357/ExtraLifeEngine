@@ -32,7 +32,7 @@ void IChunk::initialize_types() {
 	for (signed char x = 0; x < CX; x++) {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
-				int RANDOMVALUE = rand() % 3;
+				int RANDOMVALUE = rand() % 2;
 
 				//if(RANDOMVALUE <= 0){
 				//	m_block_types[x][y][z] = 0;
@@ -177,7 +177,7 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 
 	}
 
-	return(merged_row_vector);
+	//return(merged_row_vector);
 
 	// TODO make sure i can do my face 'type' comparisons correctly...
 	// TODO I think I can...
@@ -284,6 +284,8 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 				break;
 			}
 
+
+
 			// If the next block and current block are aligned then merge:
 			if(start_bottom_left.m_z == next_bottom_left.m_z && start_bottom_right.m_z == next_bottom_right.m_z){
 				
@@ -302,12 +304,20 @@ std::vector<VertexAndNormals> IChunk::merge_left_faces(std::vector<VertexAndNorm
 		// If we have exited the inner loop, its either because a face was
 		// merged or not.
 		if(face_can_merge){
+
+			// In the merge loop we update the 'start' top variables.
+			// This allows the inner j loop to continue looking for
+			// more faces after a merge.  However, when we want to
+			// merge, we now need to use the updated 'start'
+			// faces, because they are based on the 'next' faces that they
+			// were able to merge to
+			
 			merged_y_vector.push_back(start_bottom_left);
 			merged_y_vector.push_back(start_bottom_right);
-			merged_y_vector.push_back(next_top_left);
-			merged_y_vector.push_back(next_top_left);
+			merged_y_vector.push_back(start_top_left);
+			merged_y_vector.push_back(start_top_left);
 			merged_y_vector.push_back(start_bottom_right);
-			merged_y_vector.push_back(next_top_right);
+			merged_y_vector.push_back(start_top_right);
 
 		} else{
 			merged_y_vector.push_back(start_bottom_left);

@@ -225,6 +225,9 @@
     <ClCompile Include="Voxel\OpenGL\OpenGLChunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Voxel\Neutral\GreedyMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -546,6 +549,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\Neutral\WorldPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\GreedyMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\FaceType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\Neutral\Face.h">

@@ -1,5 +1,6 @@
 #include "OpenGLChunk.h"
 #include "../Neutral/VertexAndNormals.h"
+#include "../Neutral/GreedyMesh.h"
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
@@ -57,9 +58,6 @@ void OpenGL::OpenGLChunk::update() {
 	// VertexAndNormals vertex[CX * CY * CZ * 6 * 6];  However, this is
 	// created on the stack and you will quickly run into memory issues when
 	// creating chunks larger than 15x15x15.
-
-
-	//bool previous_voxel_visible = false;
 
 
 	// Testing for greedy meshing:
@@ -203,13 +201,26 @@ void OpenGL::OpenGLChunk::update() {
 	}
 
 	// TODO Greedy meshing here?
-	std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
+
+	std::vector<VertexAndNormals> new_left_vertex = GreedyMesh::merge_faces(left_vertex, FaceType::LEFT);
+	
+	//
+	// 
+	//std::vector<VertexAndNormals> row_merged_left = GreedyMesh::rowwise_merge_faces(left_vertex, FaceType::LEFT);
+	//std::vector<VertexAndNormals> new_left_vertex = GreedyMesh::across_rows_merge_faces(row_merged_left, FaceType::LEFT);
+	
+	 
+	//std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
+	//std::vector<VertexAndNormals> new_right_vertex = merge_right_faces(right_vertex);
+
+
 	//std::vector<VertexAndNormals> new_left_vertex = left_vertex;
+	std::vector<VertexAndNormals> new_right_vertex = right_vertex;
 
 	// Combine into one vertex
-	vertex.reserve(new_left_vertex.size() + right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());
+	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());
 	vertex.insert(vertex.end(), new_left_vertex.begin(), new_left_vertex.end());
-	vertex.insert(vertex.end(), right_vertex.begin(), right_vertex.end());
+	vertex.insert(vertex.end(), new_right_vertex.begin(), new_right_vertex.end());
 	vertex.insert(vertex.end(), front_vertex.begin(), front_vertex.end());
 	vertex.insert(vertex.end(), back_vertex.begin(), back_vertex.end());
 	vertex.insert(vertex.end(), top_vertex.begin(), top_vertex.end());

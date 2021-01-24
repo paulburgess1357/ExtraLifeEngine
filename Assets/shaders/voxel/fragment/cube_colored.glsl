@@ -71,9 +71,49 @@ void main() {
 
     // Temp for testing (diffuse_material in the functions has been replaced by diffuse_material_temp for testing)
     DiffuseMaterial diffuse_material_temp;
-    diffuse_material_temp.m_sampler.x = diffuse_material.m_sampler.x/frag_color_type_test;
-    diffuse_material_temp.m_sampler.y = diffuse_material.m_sampler.y/frag_color_type_test;
-    diffuse_material_temp.m_sampler.z = diffuse_material.m_sampler.z/frag_color_type_test;
+    
+    float r = 0;
+    float g = 0;
+    float b = 0;
+
+    if(frag_color_type_test <= 1.1f){
+        r = 0;
+        g = 1;
+        b = 0;
+    } else if(frag_color_type_test <= 2.1f) {
+        r = 1;
+        g = 0;
+        b = 0;
+    } else if(frag_color_type_test <= 3.1f){
+        r = 0;
+        g = 0;
+        b = 1;
+    } else if(frag_color_type_test <= 4.1f){
+        r = 1;
+        g = 1;
+        b = 0;
+    } else if(frag_color_type_test <= 5.1f){
+        r = 0;
+        g = 1;
+        b = 1;
+    } else if(frag_color_type_test <= 6.1f){
+        r = 1;
+        g = 0;
+        b = 1;
+    } else {
+        r = 1;
+        b = 1;
+        g = 1;
+    }
+    diffuse_material_temp.m_sampler.x = r;
+    diffuse_material_temp.m_sampler.y = g;
+    diffuse_material_temp.m_sampler.z = b;
+    
+
+
+//    diffuse_material_temp.m_sampler.x = diffuse_material.m_sampler.x/frag_color_type_test;
+//    diffuse_material_temp.m_sampler.y = diffuse_material.m_sampler.y/frag_color_type_test;
+//    diffuse_material_temp.m_sampler.z = diffuse_material.m_sampler.z/frag_color_type_test;
 
     // Lighting
     vec3 result = vec3(0.0f);

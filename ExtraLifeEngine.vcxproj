@@ -162,6 +162,7 @@
     <ClCompile Include="ExternalResources\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Voxel\Neutral\GreedyMesh.cpp" />
     <ClCompile Include="Interface\ImGuiInterface.cpp" />
     <ClCompile Include="Utility\Vector3D.cpp" />
     <ClCompile Include="Voxel\Interface\IChunk.cpp" />
@@ -236,11 +237,13 @@
     <ClInclude Include="ExternalResources\imgui\imstb_rectpack.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
+    <ClInclude Include="Voxel\Neutral\Face.h" />
+    <ClInclude Include="Voxel\Neutral\GreedyMesh.h" />
     <ClInclude Include="Interface\ImGuiInterface.h" />
     <ClInclude Include="Utility\Vector3D.h" />
     <ClInclude Include="Voxel\Interface\IChunk.h" />
     <ClInclude Include="Voxel\Interface\ChunkManager.h" />
-    <ClInclude Include="Voxel\Neutral\Face.h" />
+    <ClInclude Include="Voxel\Neutral\FaceType.h" />
     <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h" />
     <ClInclude Include="Camera\CameraType.h" />
     <ClInclude Include="Camera\Camera.h" />

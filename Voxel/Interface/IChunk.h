@@ -1,7 +1,7 @@
 #pragma once
 #define CX 1
-#define CY 20
-#define CZ 20
+#define CY 10
+#define CZ 10
 
 #include "../Neutral/WorldPosition.h"
 #include "../Neutral/VertexAndNormals.h"

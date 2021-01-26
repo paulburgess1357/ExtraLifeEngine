@@ -228,6 +228,12 @@
     <ClCompile Include="Voxel\Neutral\GreedyMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Voxel\Neutral\GreedyFacePerRowMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\Neutral\GreedyRowPerSideMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -558,6 +564,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\Neutral\Face.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\GreedyFacePerRowMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\GreedyRowPerSideMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

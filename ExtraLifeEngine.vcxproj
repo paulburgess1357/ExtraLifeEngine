@@ -162,6 +162,8 @@
     <ClCompile Include="ExternalResources\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Voxel\Neutral\GreedyRowPerSideMesh.cpp" />
+    <ClCompile Include="Voxel\Neutral\GreedyFacePerRowMesh.cpp" />
     <ClCompile Include="Voxel\Neutral\GreedyMesh.cpp" />
     <ClCompile Include="Interface\ImGuiInterface.cpp" />
     <ClCompile Include="Utility\Vector3D.cpp" />
@@ -237,6 +239,8 @@
     <ClInclude Include="ExternalResources\imgui\imstb_rectpack.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
+    <ClInclude Include="Voxel\Neutral\GreedyRowPerSideMesh.h" />
+    <ClInclude Include="Voxel\Neutral\GreedyFacePerRowMesh.h" />
     <ClInclude Include="Voxel\Neutral\Face.h" />
     <ClInclude Include="Voxel\Neutral\GreedyMesh.h" />
     <ClInclude Include="Interface\ImGuiInterface.h" />

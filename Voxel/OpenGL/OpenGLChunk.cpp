@@ -1,8 +1,17 @@
 #include "OpenGLChunk.h"
 #include "../Neutral/VertexAndNormals.h"
 #include "../Neutral/GreedyMesh.h"
+#include "../Neutral/GreedyFacePerRowMesh.h"
+#include "../Neutral/GreedyRowPerSideMesh.h"
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
+
+// TODO Optimization
+// Move the chunk vector loading into IChunk (and rename this to possilbly chunk)
+// When the chunk is initiated, get and store the adjacent chunks.  That way
+// when checking faces on adjacent chunks, the pointers are already created and I
+// don't have to do the lookup again (e.g. does it exist, etc.).  Its done right
+// when the chunk is created.
 
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position,
                                  const std::shared_ptr<IShaderProgram>& shader_program,
@@ -73,8 +82,6 @@ void OpenGL::OpenGLChunk::update() {
 		for (signed char y = 0; y < CY; y++) {			
 			for (signed char z = 0; z < CZ; z++) {
 				const signed char type = m_block_types[x][y][z];
-
-
 				
 				//Print::print(std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z));
 				
@@ -201,20 +208,11 @@ void OpenGL::OpenGLChunk::update() {
 	}
 
 	// TODO Greedy meshing here?
-
-	std::vector<VertexAndNormals> new_left_vertex = GreedyMesh::merge_faces(left_vertex, FaceType::LEFT);
-	
-	//
-	// 
-	//std::vector<VertexAndNormals> row_merged_left = GreedyMesh::rowwise_merge_faces(left_vertex, FaceType::LEFT);
-	//std::vector<VertexAndNormals> new_left_vertex = GreedyMesh::across_rows_merge_faces(row_merged_left, FaceType::LEFT);
-	
-	 
-	//std::vector<VertexAndNormals> new_left_vertex = merge_left_faces(left_vertex);
-	//std::vector<VertexAndNormals> new_right_vertex = merge_right_faces(right_vertex);
+	std::vector<VertexAndNormals> row_merged_left_vertex = GreedyFacePerRowMesh::merge_all_faces(left_vertex, FaceType::LEFT);
+	std::vector<VertexAndNormals> final_merged_left_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_left_vertex, FaceType::LEFT);		
 
 
-	//std::vector<VertexAndNormals> new_left_vertex = left_vertex;
+	std::vector<VertexAndNormals> new_left_vertex = final_merged_left_vertex;		
 	std::vector<VertexAndNormals> new_right_vertex = right_vertex;
 
 	// Combine into one vertex

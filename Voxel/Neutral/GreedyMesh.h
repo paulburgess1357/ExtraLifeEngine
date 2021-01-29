@@ -6,10 +6,7 @@
 
 class GreedyMesh{
 
-public:
-	
 protected:
-
 	static Face get_face(const std::vector<VertexAndNormals>& vertex, const size_t start_idx);
 	static void pushback_face(std::vector<VertexAndNormals>& fill_vector, const Face& face);
 	

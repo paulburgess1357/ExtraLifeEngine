@@ -26,10 +26,14 @@ bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, co
 	bool height_match = false;
 
 	switch (face_type) {
+
 		case FaceType::LEFT: {
 			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+			break;
+		}
 
-
+		case FaceType::RIGHT:{
+			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
 			break;
 		}
 
@@ -52,8 +56,11 @@ bool GreedyMesh::depths_match(const Face& start_face, const Face& next_face, con
 	switch (face_type) {
 		case FaceType::LEFT: {
 			depth_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x;
+			break;
+		}
 
-
+		case FaceType::RIGHT:{
+			depth_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x;
 			break;
 		}
 
@@ -71,8 +78,11 @@ bool GreedyMesh::widths_match(const Face& start_face, const Face& next_face, con
 	switch (face_type) {
 		case FaceType::LEFT: {
 			widths_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
+			break;
+		}
 
-
+		case FaceType::RIGHT:{
+			widths_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
 			break;
 		}
 
@@ -83,83 +93,3 @@ bool GreedyMesh::widths_match(const Face& start_face, const Face& next_face, con
 
 	return widths_match;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TODO does widths match replace this?
-//bool GreedyMesh::corners_aligned(const Face& start_face, const Face& next_face, const FaceType face_type){
-//	bool corners_aligned = false;
-//
-//	switch (face_type) {
-//		case FaceType::LEFT: {
-//			corners_aligned = z_width_match(start_face, next_face);
-//			//corners_aligned = start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
-//			break;
-//		}
-//
-//		default: {
-//			break;
-//		}
-//	}
-//
-//	return corners_aligned;
-//}
-
-//bool GreedyMesh::z_width_match(const Face& start_face, const Face& next_face) {
-//	return start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z &&
-//		   start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
-//}
-
-//bool GreedyMesh::y_match(const Face& start_face, const Face& next_face){
-//	return start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && 
-//		   start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-//}
-
-//bool GreedyMesh::x_match(const Face& start_face, const Face& next_face){
-//	return start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x &&
-//		start_face.get_top_left().m_x == next_face.get_top_left().m_x;
-//}
-
-
-
-
-
-
-//bool GreedyMesh::top_start_and_bottom_next_corner_too_far_apart(const Face& start_face, const Face& next_face, const FaceType face_type){
-//	bool too_far_apart = false;
-//
-//	switch (face_type) {
-//		case FaceType::LEFT: {
-//			too_far_apart = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
-//
-//
-//			break;
-//		}
-//
-//		default: {
-//			break;
-//		}
-//	}
-//
-//	return too_far_apart;
-//}
-
-
-
-//std::vector<VertexAndNormals> GreedyMesh::merge_faces(const std::vector<VertexAndNormals>& vertex, const FaceType face_type){
-//	std::vector<VertexAndNormals> merged_rows = rowwise_merge_faces(vertex, face_type);
-//	std::vector<VertexAndNormals> merged_across_rows = across_rows_merge_faces(merged_rows, face_type);
-//	return merged_across_rows;
-//}

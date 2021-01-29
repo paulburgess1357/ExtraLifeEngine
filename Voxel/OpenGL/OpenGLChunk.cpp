@@ -210,10 +210,12 @@ void OpenGL::OpenGLChunk::update() {
 	// TODO Greedy meshing here?
 	std::vector<VertexAndNormals> row_merged_left_vertex = GreedyFacePerRowMesh::merge_all_faces(left_vertex, FaceType::LEFT);
 	std::vector<VertexAndNormals> final_merged_left_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_left_vertex, FaceType::LEFT);		
-
-
-	std::vector<VertexAndNormals> new_left_vertex = final_merged_left_vertex;		
-	std::vector<VertexAndNormals> new_right_vertex = right_vertex;
+	std::vector<VertexAndNormals> new_left_vertex = final_merged_left_vertex;
+	
+	std::vector<VertexAndNormals> row_merged_right_vertex = GreedyFacePerRowMesh::merge_all_faces(right_vertex, FaceType::RIGHT);
+	std::vector<VertexAndNormals> new_right_vertex = row_merged_right_vertex;
+			
+	
 
 	// Combine into one vertex
 	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());

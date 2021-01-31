@@ -32,7 +32,7 @@ void IChunk::initialize_types() {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
 				int RANDOMVALUE = rand() % 3;
-				m_block_types[x][y][z] = RANDOMVALUE;
+				m_block_types[x][y][z] = 1;
 			}
 		}
 	}
@@ -47,7 +47,7 @@ void IChunk::emplace_left_face(std::vector<VertexAndNormals> & vertex, signed ch
 	vertex.emplace_back(x, y + 1, z + 1, type, -1, 0, 0); // top right
 }
 
-void IChunk::emplace_right_face(std::vector<VertexAndNormals> & vertex, signed char x, signed char y, signed char z, signed char type) {
+void IChunk::emplace_right_face(std::vector<VertexAndNormals> & vertex, signed char x, signed char y, signed char z, signed char type) {	
 	vertex.emplace_back(x + 1, y,     z + 1, type, 1, 0, 0); // bottom left
 	vertex.emplace_back(x + 1, y,     z,     type, 1, 0, 0); // bottom right
 	vertex.emplace_back(x + 1, y + 1, z + 1, type, 1, 0, 0); // top left

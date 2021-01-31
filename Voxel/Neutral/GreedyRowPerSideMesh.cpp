@@ -111,6 +111,11 @@ bool GreedyRowPerSideMesh::past_merge_row(const Face& start_face, const Face& ne
 			break;
 		}
 
+		case FaceType::RIGHT:{
+			past_merge_row = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -125,12 +130,15 @@ bool GreedyRowPerSideMesh::block_too_early(const Face& start_face, const Face& n
 	switch (face_type) {
 		case FaceType::LEFT: {
 			too_early = next_face.get_bottom_left().m_z < start_face.get_bottom_left().m_z;
-
-
 			break;
 		}
 
-		default: {
+		case FaceType::RIGHT: {
+			too_early = next_face.get_bottom_left().m_z < start_face.get_bottom_left().m_z;
+			break;
+		}
+
+		default: {			
 			break;
 		}
 	}
@@ -143,6 +151,11 @@ bool GreedyRowPerSideMesh::past_merge_location(const Face& start_face, const Fac
 
 	switch (face_type) {
 		case FaceType::LEFT: {
+			past_merge_location = next_face.get_bottom_left().m_z > start_face.get_bottom_left().m_z;
+			break;
+		}
+
+		case FaceType::RIGHT:{
 			past_merge_location = next_face.get_bottom_left().m_z > start_face.get_bottom_left().m_z;
 			break;
 		}
@@ -161,8 +174,11 @@ bool GreedyRowPerSideMesh::correct_row_to_merge(const Face& start_face, const Fa
 	switch (face_type) {
 		case FaceType::LEFT: {
 			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
+			break;
+		}
 
-
+		case FaceType::RIGHT:{
+			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
 			break;
 		}
 

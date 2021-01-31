@@ -213,7 +213,8 @@ void OpenGL::OpenGLChunk::update() {
 	std::vector<VertexAndNormals> new_left_vertex = final_merged_left_vertex;
 	
 	std::vector<VertexAndNormals> row_merged_right_vertex = GreedyFacePerRowMesh::merge_all_faces(right_vertex, FaceType::RIGHT);
-	std::vector<VertexAndNormals> new_right_vertex = row_merged_right_vertex;
+	std::vector<VertexAndNormals> final_merged_right_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_right_vertex, FaceType::RIGHT);	
+	std::vector<VertexAndNormals> new_right_vertex = final_merged_right_vertex;
 			
 	
 

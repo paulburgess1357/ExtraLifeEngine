@@ -1,5 +1,37 @@
 #include "GreedyMesh.h"
 
+std::vector<Face> GreedyMesh::convert_vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex){
+
+	std::vector<Face> face_vector;
+	face_vector.reserve(vertex.size() / 6);
+
+	for(size_t i = 0; i < vertex.size(); i+=6){
+		face_vector.push_back(get_face(vertex, i));	
+	}
+
+	return face_vector;
+	
+}
+
+std::vector<VertexAndNormals> GreedyMesh::convert_faces_vertor_to_vertexnormals(const std::vector<Face>& faces){
+
+	std::vector<VertexAndNormals> vertex;
+	vertex.reserve(faces.size() * 6);
+
+	for(const auto& face : faces){
+		vertex.push_back(face.get_bottom_left());
+		vertex.push_back(face.get_bottom_right());
+		vertex.push_back(face.get_top_left());
+		vertex.push_back(face.get_top_left());
+		vertex.push_back(face.get_bottom_right());
+		vertex.push_back(face.get_top_right());
+	}
+
+	return vertex;
+}
+
+
+
 Face GreedyMesh::get_face(const std::vector<VertexAndNormals>& vertex, const size_t start_idx) {
 	return Face{
 		vertex.at(start_idx),     // Bottom Left
@@ -25,6 +57,9 @@ bool GreedyMesh::types_match(const Face& start_face, const Face& next_face) {
 bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, const FaceType face_type) {
 	bool height_match = false;
 
+	//TODO can optimize this by only checking one height (since row merge is done first)
+	// TODO can possibly set default to be what the left/right/front/back expect.  That way I only have special cases for top/bottom since height isn't y.
+	
 	switch (face_type) {
 
 		case FaceType::LEFT: {
@@ -32,7 +67,17 @@ bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, co
 			break;
 		}
 
-		case FaceType::RIGHT:{
+		case FaceType::RIGHT: {
+			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+			break;
+		}
+
+		case FaceType::FRONT: {
+			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+			break;
+		}
+
+		case FaceType::BACK: {
 			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
 			break;
 		}
@@ -64,6 +109,16 @@ bool GreedyMesh::depths_match(const Face& start_face, const Face& next_face, con
 			break;
 		}
 
+		case FaceType::FRONT:{
+			depth_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z;
+			break;
+		}
+
+		case FaceType::BACK:{
+			depth_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z;
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -83,6 +138,16 @@ bool GreedyMesh::widths_match(const Face& start_face, const Face& next_face, con
 
 		case FaceType::RIGHT:{
 			widths_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
+			break;
+		}
+
+		case FaceType::FRONT:{
+			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
+			break;
+		}
+
+		case FaceType::BACK: {
+			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
 			break;
 		}
 

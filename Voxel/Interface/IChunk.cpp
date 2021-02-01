@@ -31,7 +31,7 @@ void IChunk::initialize_types() {
 	for (signed char x = 0; x < CX; x++) {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
-				int RANDOMVALUE = rand() % 3;
+				int RANDOMVALUE = rand() % 2;
 				m_block_types[x][y][z] = 1;
 			}
 		}

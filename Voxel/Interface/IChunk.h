@@ -1,6 +1,6 @@
 #pragma once
-#define CX 2
-#define CY 10
+#define CX 20
+#define CY 20
 #define CZ 20
 
 #include "../Neutral/WorldPosition.h"

@@ -5,6 +5,7 @@
 #include "../Neutral/GreedyRowPerSideMesh.h"
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
+#include <algorithm>
 
 // TODO Optimization
 // Move the chunk vector loading into IChunk (and rename this to possilbly chunk)
@@ -76,8 +77,7 @@ void OpenGL::OpenGLChunk::update() {
 	std::vector<VertexAndNormals> bottom_vertex;
 	std::vector<VertexAndNormals> front_vertex;
 	std::vector<VertexAndNormals> back_vertex;	
-	
-	std::vector<VertexAndNormals> vertex;
+		
 	for (signed char x = 0; x < CX; x++) {
 		for (signed char y = 0; y < CY; y++) {			
 			for (signed char z = 0; z < CZ; z++) {
@@ -216,14 +216,31 @@ void OpenGL::OpenGLChunk::update() {
 	std::vector<VertexAndNormals> final_merged_right_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_right_vertex, FaceType::RIGHT);	
 	std::vector<VertexAndNormals> new_right_vertex = final_merged_right_vertex;
 			
+
+	std::vector<Face> front_face_vector = GreedyMesh::convert_vertex_vector_to_face_vector(front_vertex);
+	std::sort(front_face_vector.begin(), front_face_vector.end(), less_than_front_faces());
+	std::vector<VertexAndNormals> front_face_vector_after_sort = GreedyMesh::convert_faces_vertor_to_vertexnormals(front_face_vector);
+	std::vector<VertexAndNormals> row_merged_front_vertex = GreedyFacePerRowMesh::merge_all_faces(front_face_vector_after_sort, FaceType::FRONT);
+	std::vector<VertexAndNormals> final_merged_front_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_front_vertex, FaceType::FRONT);
+	std::vector<VertexAndNormals> new_front_vertex = final_merged_front_vertex;
+
+	
+	std::vector<Face> back_face_vector = GreedyMesh::convert_vertex_vector_to_face_vector(back_vertex);
+	std::sort(back_face_vector.begin(), back_face_vector.end(), less_than_front_faces());
+	std::vector<VertexAndNormals> back_face_vector_after_sort = GreedyMesh::convert_faces_vertor_to_vertexnormals(back_face_vector);
+	std::vector<VertexAndNormals> row_merged_back_vertex = GreedyFacePerRowMesh::merge_all_faces(back_face_vector_after_sort, FaceType::BACK);
+	std::vector<VertexAndNormals> final_merged_back_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_back_vertex, FaceType::BACK);
+
+	std::vector<VertexAndNormals> new_back_vertex = final_merged_back_vertex;
 	
 
 	// Combine into one vertex
-	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + front_vertex.size() + back_vertex.size() + top_vertex.size() + bottom_vertex.size());
+	std::vector<VertexAndNormals> vertex;
+	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + new_front_vertex.size() + new_back_vertex.size() + top_vertex.size() + bottom_vertex.size());
 	vertex.insert(vertex.end(), new_left_vertex.begin(), new_left_vertex.end());
 	vertex.insert(vertex.end(), new_right_vertex.begin(), new_right_vertex.end());
-	vertex.insert(vertex.end(), front_vertex.begin(), front_vertex.end());
-	vertex.insert(vertex.end(), back_vertex.begin(), back_vertex.end());
+	vertex.insert(vertex.end(), new_front_vertex.begin(), new_front_vertex.end());
+	vertex.insert(vertex.end(), new_back_vertex.begin(), new_back_vertex.end());
 	vertex.insert(vertex.end(), top_vertex.begin(), top_vertex.end());
 	vertex.insert(vertex.end(), bottom_vertex.begin(), bottom_vertex.end());
 	

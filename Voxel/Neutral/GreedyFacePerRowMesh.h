@@ -7,6 +7,10 @@
 
 class GreedyFacePerRowMesh : public GreedyMesh {
 
+	// Merge faces per for (.e.g left to right or right to left)
+	// TODO change name.  Rows are merged for left/right
+	// TODO columns are merged for front/back
+	
 public:
 	static std::vector<VertexAndNormals> merge_all_faces(const std::vector<VertexAndNormals>& vertex, const FaceType face_type);
 

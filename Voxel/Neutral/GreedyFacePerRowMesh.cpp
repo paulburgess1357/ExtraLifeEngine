@@ -80,6 +80,20 @@ void GreedyFacePerRowMesh::merge_face(std::vector<VertexAndNormals>& merged_vect
 			break;
 		}
 
+		case FaceType::FRONT:{
+			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
+			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
+			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
+			break;
+		}
+
+		case FaceType::BACK:{
+			merged_vector.at(merged_vector_size - 6) = next_face.get_bottom_left();
+			merged_vector.at(merged_vector_size - 4) = next_face.get_top_left();
+			merged_vector.at(merged_vector_size - 3) = next_face.get_top_left();
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -93,12 +107,22 @@ bool GreedyFacePerRowMesh::is_adjacent(const Face& start_face, const Face& next_
 
 	switch (face_type) {
 		case FaceType::LEFT: {
-			adjacent = start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z - 1;
+			adjacent = start_face.get_bottom_right().m_z == next_face.get_bottom_left().m_z;
 			break;
 		}
 
-		case FaceType::RIGHT:{
-			adjacent = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z - 1;
+		case FaceType::RIGHT: {
+			adjacent = start_face.get_bottom_left().m_z == next_face.get_bottom_right().m_z;
+			break;
+		}
+
+		case FaceType::FRONT:{
+			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
+			break;
+		}
+
+		case FaceType::BACK:{
+			adjacent = start_face.get_bottom_left().m_x == next_face.get_bottom_right().m_x;
 			break;
 		}
 

@@ -7,6 +7,8 @@
 #include <vector>
 
 class GreedyRowPerSideMesh : public GreedyMesh{
+
+	// Merge multiple rows (that have already had their faces merged)
 	
 public:
 	static std::vector<VertexAndNormals> merge_rows(const std::vector<VertexAndNormals>& merged_row_vector, const FaceType face_type);

@@ -230,9 +230,10 @@ void OpenGL::OpenGLChunk::update() {
 	std::vector<VertexAndNormals> back_face_vector_after_sort = GreedyMesh::convert_faces_vertor_to_vertexnormals(back_face_vector);
 	std::vector<VertexAndNormals> row_merged_back_vertex = GreedyFacePerRowMesh::merge_all_faces(back_face_vector_after_sort, FaceType::BACK);
 	std::vector<VertexAndNormals> final_merged_back_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_back_vertex, FaceType::BACK);
-
 	std::vector<VertexAndNormals> new_back_vertex = final_merged_back_vertex;
-	
+
+	std::vector<Face> top_face_vector = GreedyMesh::convert_vertex_vector_to_face_vector(top_vertex);
+	std::sort(top_face_vector.begin(), top_face_vector.end(), less_than_top_bottom_faces());
 
 	// Combine into one vertex
 	std::vector<VertexAndNormals> vertex;

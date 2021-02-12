@@ -31,11 +31,11 @@ void IChunk::initialize_types() {
 	for (signed char x = 0; x < CX; x++) {
 		for (signed char y = 0; y < CY; y++) {
 			for (signed char z = 0; z < CZ; z++) {
-				int RANDOMVALUE = rand() % 5;
-				if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
-					RANDOMVALUE = 0;
-				}
-				m_block_types[x][y][z] = 1;
+				int RANDOMVALUE = rand() % 4;
+				//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
+				//	RANDOMVALUE = 0;
+				//}
+				m_block_types[x][y][z] = RANDOMVALUE;
 			}
 		}
 	}

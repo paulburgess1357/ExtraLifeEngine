@@ -87,6 +87,11 @@ bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, co
 			break;
 		}
 
+		case FaceType::BOTTOM:{
+			height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -129,6 +134,11 @@ bool GreedyMesh::depths_match(const Face& start_face, const Face& next_face, con
 			break;
 		}
 
+		case FaceType::BOTTOM:{
+			depth_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y;
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -162,6 +172,11 @@ bool GreedyMesh::widths_match(const Face& start_face, const Face& next_face, con
 		}
 
 		case FaceType::TOP:{
+			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
+			break;
+		}
+
+		case FaceType::BOTTOM: {
 			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
 			break;
 		}

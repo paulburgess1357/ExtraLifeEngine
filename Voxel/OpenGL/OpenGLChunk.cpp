@@ -238,16 +238,24 @@ void OpenGL::OpenGLChunk::update() {
 	std::vector<VertexAndNormals> row_merged_top_vertex = GreedyFacePerRowMesh::merge_all_faces(top_face_vector_after_sort, FaceType::TOP);	
 	std::vector<VertexAndNormals> final_merged_top_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_top_vertex, FaceType::TOP);
 	std::vector<VertexAndNormals> new_top_vertex = final_merged_top_vertex;
+
+	std::vector<Face> bottom_face_vector = GreedyMesh::convert_vertex_vector_to_face_vector(bottom_vertex);
+	std::sort(bottom_face_vector.begin(), bottom_face_vector.end(), less_than_top_bottom_faces());
+	std::vector<VertexAndNormals> bottom_face_vector_after_sort = GreedyMesh::convert_faces_vertor_to_vertexnormals(bottom_face_vector);
+	std::vector<VertexAndNormals> row_merged_bottom_vertex = GreedyFacePerRowMesh::merge_all_faces(bottom_face_vector_after_sort, FaceType::BOTTOM);
+	std::vector<VertexAndNormals> final_merged_bottom_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_bottom_vertex, FaceType::BOTTOM);
+	std::vector<VertexAndNormals> new_bottom_vertex = final_merged_bottom_vertex;
+	
 	
 	// Combine into one vertex
 	std::vector<VertexAndNormals> vertex;
-	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + new_front_vertex.size() + new_back_vertex.size() + new_top_vertex.size() + bottom_vertex.size());
+	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + new_front_vertex.size() + new_back_vertex.size() + new_top_vertex.size() + new_bottom_vertex.size());
 	vertex.insert(vertex.end(), new_left_vertex.begin(), new_left_vertex.end());
 	vertex.insert(vertex.end(), new_right_vertex.begin(), new_right_vertex.end());
 	vertex.insert(vertex.end(), new_front_vertex.begin(), new_front_vertex.end());
 	vertex.insert(vertex.end(), new_back_vertex.begin(), new_back_vertex.end());
 	vertex.insert(vertex.end(), new_top_vertex.begin(), new_top_vertex.end());
-	vertex.insert(vertex.end(), bottom_vertex.begin(), bottom_vertex.end());
+	vertex.insert(vertex.end(), new_bottom_vertex.begin(), new_bottom_vertex.end());
 	
 
 	m_vertex_qty = static_cast<int>(vertex.size());

@@ -16,7 +16,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.0029f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.29f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	
@@ -78,7 +78,7 @@ void GameManager::initialize_scene(){
 	dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
-	TEMP_CHUNK_MANAGER->load(1, 1, 1, shader_program);
+	TEMP_CHUNK_MANAGER->load(16, 16, 16, shader_program);
 	
 		
 	//SceneLoader::cubemap(m_registry);

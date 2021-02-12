@@ -100,6 +100,12 @@ void GreedyFacePerRowMesh::merge_face(std::vector<VertexAndNormals>& merged_vect
 			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
 		}
 
+		case FaceType::BOTTOM: {
+			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
+			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
+			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
+		}
+
 		default: {
 			break;
 		}
@@ -133,6 +139,11 @@ bool GreedyFacePerRowMesh::is_adjacent(const Face& start_face, const Face& next_
 		}
 
 		case FaceType::TOP:{
+			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
+			break;
+		}
+
+		case FaceType::BOTTOM:{
 			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
 			break;
 		}

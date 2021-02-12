@@ -234,15 +234,19 @@ void OpenGL::OpenGLChunk::update() {
 
 	std::vector<Face> top_face_vector = GreedyMesh::convert_vertex_vector_to_face_vector(top_vertex);
 	std::sort(top_face_vector.begin(), top_face_vector.end(), less_than_top_bottom_faces());
-
+	std::vector<VertexAndNormals> top_face_vector_after_sort = GreedyMesh::convert_faces_vertor_to_vertexnormals(top_face_vector);	
+	std::vector<VertexAndNormals> row_merged_top_vertex = GreedyFacePerRowMesh::merge_all_faces(top_face_vector_after_sort, FaceType::TOP);	
+	std::vector<VertexAndNormals> final_merged_top_vertex = GreedyRowPerSideMesh::merge_rows(row_merged_top_vertex, FaceType::TOP);
+	std::vector<VertexAndNormals> new_top_vertex = final_merged_top_vertex;
+	
 	// Combine into one vertex
 	std::vector<VertexAndNormals> vertex;
-	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + new_front_vertex.size() + new_back_vertex.size() + top_vertex.size() + bottom_vertex.size());
+	vertex.reserve(new_left_vertex.size() + new_right_vertex.size() + new_front_vertex.size() + new_back_vertex.size() + new_top_vertex.size() + bottom_vertex.size());
 	vertex.insert(vertex.end(), new_left_vertex.begin(), new_left_vertex.end());
 	vertex.insert(vertex.end(), new_right_vertex.begin(), new_right_vertex.end());
 	vertex.insert(vertex.end(), new_front_vertex.begin(), new_front_vertex.end());
 	vertex.insert(vertex.end(), new_back_vertex.begin(), new_back_vertex.end());
-	vertex.insert(vertex.end(), top_vertex.begin(), top_vertex.end());
+	vertex.insert(vertex.end(), new_top_vertex.begin(), new_top_vertex.end());
 	vertex.insert(vertex.end(), bottom_vertex.begin(), bottom_vertex.end());
 	
 

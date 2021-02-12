@@ -17,6 +17,7 @@ private:
 	static bool correct_row_to_merge(const Face& start_face, const Face& next_face, const FaceType face_type);
 	static bool block_too_early(const Face& start_face, const Face& next_face, const FaceType face_type);
 	static bool past_merge_location(const Face& start_face, const Face& next_face, const FaceType face_type);
-	static bool past_merge_row(const Face& start_face, const Face& next_face, const FaceType face_type);	
+	static bool past_merge_row(const Face& start_face, const Face& next_face, const FaceType face_type);
+	static void merge_rows(Face& start_face, const Face& next_face, const FaceType face_type);
 };
 

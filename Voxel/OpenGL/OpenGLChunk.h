@@ -1,5 +1,5 @@
 #pragma once
-#include "../Interface/IChunk.h"
+#include "../Interface/Chunk.h"
 #include "../Interface/ChunkManager.h"
 #include "../Neutral/WorldPosition.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
@@ -7,7 +7,7 @@
 
 namespace OpenGL{
 	
-	class OpenGLChunk : public IChunk {
+	class OpenGLChunk : public Chunk {
 
 	public:
 		OpenGLChunk(const WorldPosition& starting_world_position, 
@@ -23,7 +23,6 @@ namespace OpenGL{
 			
 		unsigned int m_vbo;
 		unsigned int m_vao;
-		std::shared_ptr<ChunkManager> m_chunkmanager;
 	};
 	
 } // namespace OpenGL

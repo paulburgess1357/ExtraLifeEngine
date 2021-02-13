@@ -1,5 +1,5 @@
 #pragma once
-#include "../Neutral/GreedyMesh.h"
+#include "GreedyMesh.h"
 #include "../Neutral/VertexAndNormals.h"
 #include "../Neutral/FaceType.h"
 #include "../Neutral/Face.h"

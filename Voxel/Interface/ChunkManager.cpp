@@ -46,7 +46,7 @@ void ChunkManager::render() const {
 	}
 }
 
-std::shared_ptr<IChunk> ChunkManager::get(const WorldPosition& world_position) const{
+std::shared_ptr<Chunk> ChunkManager::get(const WorldPosition& world_position) const{
 	return m_chunkmap.at(world_position);
 }
 
@@ -89,7 +89,7 @@ bool ChunkManager::adjacent_chunk_exists(const WorldPosition& world_position, Ad
 }
 
 
-std::shared_ptr<IChunk> ChunkManager::get_adjacent_chunk(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const{
+std::shared_ptr<Chunk> ChunkManager::get_adjacent_chunk(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const{
 
 	WorldPosition adjacent_world_position;
 	

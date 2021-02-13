@@ -1,5 +1,5 @@
 #pragma once
-#include "IChunk.h"
+#include "Chunk.h"
 #include "../Neutral/WorldPosition.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <unordered_map>
@@ -25,10 +25,10 @@ public:
 	ChunkManager() = default;
 	virtual ~ChunkManager() = default;		
 
-	std::shared_ptr<IChunk> get(const WorldPosition& world_position) const;
+	std::shared_ptr<Chunk> get(const WorldPosition& world_position) const;
 
 	bool adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const;
-	std::shared_ptr<IChunk> get_adjacent_chunk(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const;
+	std::shared_ptr<Chunk> get_adjacent_chunk(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const;
 	
 	void update() const;
 	void render() const;
@@ -44,5 +44,5 @@ private:
 
 
 private:
-	std::unordered_map<WorldPosition, std::shared_ptr<IChunk>, WorldPositionHash> m_chunkmap;
+	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
 };

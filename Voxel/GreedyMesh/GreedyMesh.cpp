@@ -57,7 +57,7 @@ bool GreedyMesh::types_match(const Face& start_face, const Face& next_face) {
 bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, const FaceType face_type) {
 	bool height_match = false;
 
-	//TODO can optimize this by only checking one height (since row merge is done first)
+	// TODO can optimize this by only checking one height (since row merge is done first)
 	// TODO can possibly set default to be what the left/right/front/back expect.  That way I only have special cases for top/bottom since height isn't y.
 	
 	switch (face_type) {

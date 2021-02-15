@@ -74,11 +74,11 @@ void OpenGL::OpenGLChunk::update() {
 	glBufferData(GL_ARRAY_BUFFER, chunk_data.size() * sizeof(VertexAndNormals), &chunk_data.front(), GL_STATIC_DRAW);
 
 	// Vertex Data
-	glVertexAttribPointer(0, 4, GL_BYTE, GL_FALSE, 7 * sizeof(signed char), (void*)0);
+	glVertexAttribPointer(0, 4, GL_BYTE, GL_FALSE, 7 * sizeof(unsigned char), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// Normals
-	glVertexAttribPointer(1, 3, GL_BYTE, GL_FALSE, 7 * sizeof(signed char), (void*)(4 * sizeof(signed char)));
+	glVertexAttribPointer(1, 3, GL_BYTE, GL_FALSE, 7 * sizeof(unsigned char), (void*)(4 * sizeof(unsigned char)));
 	glEnableVertexAttribArray(1);
 
 	// Unbind

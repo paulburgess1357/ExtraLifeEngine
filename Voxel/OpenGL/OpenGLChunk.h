@@ -1,6 +1,6 @@
 #pragma once
-#include "../Interface/Chunk.h"
-#include "../Interface/ChunkManager.h"
+#include "../Chunk/Chunk.h"
+#include "../Chunk/ChunkManager.h"
 #include "../Neutral/WorldPosition.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <memory>

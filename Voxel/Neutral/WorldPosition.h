@@ -7,8 +7,8 @@ struct WorldPosition {
 	
 	WorldPosition(const int pos_x, const int pos_y, const int pos_z)
 		:x{ pos_x },
-		y{ pos_y },
-		z{ pos_z }{
+		 y{ pos_y },
+		 z{ pos_z }{
 	}
 
 	glm::vec3 get_vec3() const{

@@ -168,8 +168,8 @@
     <ClCompile Include="Voxel\GreedyMesh\GreedyMesh.cpp" />
     <ClCompile Include="Interface\ImGuiInterface.cpp" />
     <ClCompile Include="Utility\Vector3D.cpp" />
-    <ClCompile Include="Voxel\Interface\Chunk.cpp" />
-    <ClCompile Include="Voxel\Interface\ChunkManager.cpp" />
+    <ClCompile Include="Voxel\Chunk\Chunk.cpp" />
+    <ClCompile Include="Voxel\Chunk\ChunkManager.cpp" />
     <ClCompile Include="Voxel\OpenGL\OpenGLChunk.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\CameraData.cpp" />
@@ -244,12 +244,13 @@
     <ClInclude Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyFacePerRowMesh.h" />
     <ClInclude Include="Voxel\GreedyMesh\SortFaces.hpp" />
+    <ClInclude Include="Voxel\Neutral\AdjacentChunkPosition.h" />
     <ClInclude Include="Voxel\Neutral\Face.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyMesh.h" />
     <ClInclude Include="Interface\ImGuiInterface.h" />
     <ClInclude Include="Utility\Vector3D.h" />
-    <ClInclude Include="Voxel\Interface\Chunk.h" />
-    <ClInclude Include="Voxel\Interface\ChunkManager.h" />
+    <ClInclude Include="Voxel\Chunk\Chunk.h" />
+    <ClInclude Include="Voxel\Chunk\ChunkManager.h" />
     <ClInclude Include="Voxel\Neutral\FaceType.h" />
     <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h" />
     <ClInclude Include="Camera\CameraType.h" />

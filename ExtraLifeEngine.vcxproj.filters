@@ -216,13 +216,7 @@
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Voxel\Interface\ChunkManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Voxel\OpenGL\OpenGLChunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Voxel\Interface\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Voxel\GreedyMesh\GreedyFacePerRowMesh.cpp">
@@ -235,6 +229,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Voxel\GreedyMesh\GreedyMeshExecutor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\Chunk\Chunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel\Chunk\ChunkManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -545,9 +545,6 @@
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\Interface\ChunkManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Voxel\OpenGL\OpenGLChunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -563,9 +560,6 @@
     <ClInclude Include="Voxel\Neutral\Face.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\Interface\Chunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -579,6 +573,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\GreedyMesh\SortFaces.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Chunk\Chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Chunk\ChunkManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\AdjacentChunkPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

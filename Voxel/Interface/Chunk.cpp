@@ -5,16 +5,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Chunk::Chunk(const WorldPosition& starting_world_position,
-	const std::shared_ptr<IShaderProgram>& shader_program,
-	const std::shared_ptr<ChunkManager>& chunk_manager)
+	const std::shared_ptr<IShaderProgram>& shader_program)
 	:m_block_types{},
 	m_vertex_qty{ 0 },
 	m_update_required{ true },
 	m_model_matrix{ glm::translate(glm::mat4(1), starting_world_position.get_vec3()) },
 	m_normal_matrix{ MatrixFunctions::get_normal_matrix(m_model_matrix) },
 	m_world_position{ starting_world_position },
-	m_shader_program{ shader_program },
-	m_chunkmanager{ chunk_manager }{
+	m_shader_program{ shader_program }{
 	initialize_types();	
 }
 
@@ -68,42 +66,41 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 				if (type == 0) {
 					continue;
 				}
-
-				// Left face (negative x)		
+				std::shared_ptr<Chunk> test = nullptr;
+				// Left face (negative x)				
 				if (x == 0) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::LEFT)) {
+					if (m_left_chunk != nullptr) {
 
 						// If drawing left edge of current chunk and there exists a chunk to our left:
-						// Get adjacent chunk:
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::LEFT);
-
 						// Check edge of adjacent chunk (right edge)
 						// If the adjacent chunk right edge is not being drawn, draw left edge of current chunk
-						if (adjacent_chunk->get(CX - 1, y, z) == 0) {
+						
+						if (m_left_chunk->get(CX - 1, y, z) == 0) {
 							emplace_left_face(left_faces, x, y, z, type);
 						}
 					} else {
-
+						
 						// If drawing left edge and there is no chunk to our left, draw left edge of current chunk						
 						emplace_left_face(left_faces, x, y, z, type);
 					}
 				} else {
 
 					// Since we aren't on the outer left edge of our chunk, we only need to compare
-					// within the current chunk
+					// within the current chunk (The adjacent chunk as not impact)
+					
 					if (m_block_types[x - 1][y][z] == 0) {
 
 						// If the block within our current chunk to our left is not being drawn,
 						// draw left edge of current block
+						
 						emplace_left_face(left_faces, x, y, z, type);
 					}
 				}
 
 				// Right face (positive x)
 				if (x == CX - 1) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::RIGHT)) {
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::RIGHT);
-						if (adjacent_chunk->get(0, y, z) == 0) {
+					if (m_right_chunk != nullptr) {
+						if (m_right_chunk->get(0, y, z) == 0) {
 							emplace_right_face(right_faces, x, y, z, type);
 						}
 					} else {
@@ -117,9 +114,8 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 
 				// Front face (positive z)
 				if (z == CZ - 1) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::FRONT)) {
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::FRONT);
-						if (adjacent_chunk->get(x, y, 0) == 0) {
+					if (m_front_chunk != nullptr) {
+						if (m_front_chunk->get(x, y, 0) == 0) {
 							emplace_front_face(front_faces, x, y, z, type);
 						}
 					} else {
@@ -133,9 +129,8 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 
 				// Back face (negative z)
 				if (z == 0) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BACK)) {
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::BACK);
-						if (adjacent_chunk->get(x, y, CZ - 1) == 0) {
+					if (m_back_chunk != nullptr) {
+						if (m_back_chunk->get(x, y, CZ - 1) == 0) {
 							emplace_back_face(back_faces, x, y, z, type);
 						}
 					} else {
@@ -149,9 +144,8 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 
 				// Top face (positive y)
 				if (y == CY - 1) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::TOP)) {
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::TOP);
-						if (adjacent_chunk->get(x, 0, z) == 0) {
+					if (m_top_chunk != nullptr) {
+						if (m_top_chunk->get(x, 0, z) == 0) {
 							emplace_top_face(top_faces, x, y, z, type);
 						}
 					} else {
@@ -165,9 +159,8 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 
 				// Bottom face (negative y)
 				if (y == 0) {
-					if (m_chunkmanager->adjacent_chunk_exists(m_world_position, AdjacentChunkPosition::BOTTOM)) {
-						const std::shared_ptr<Chunk> adjacent_chunk = m_chunkmanager->get_adjacent_chunk(m_world_position, AdjacentChunkPosition::BOTTOM);
-						if (adjacent_chunk->get(x, CY - 1, z) == 0) {
+					if (m_bottom_chunk != nullptr) {
+						if (m_bottom_chunk->get(x, CY - 1, z) == 0) {
 							emplace_bottom_face(bottom_faces, x, y, z, type);
 						}
 					} else {
@@ -246,4 +239,28 @@ void Chunk::print_world_position(const WorldPosition& starting_world_position) c
 	Print::print("World Position: " + std::to_string(starting_world_position.x) + ";" +
 		std::to_string(starting_world_position.y) + ";" +
 		std::to_string(starting_world_position.z));
+}
+
+void Chunk::set_left_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_left_chunk = chunk;
+}
+
+void Chunk::set_right_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_right_chunk = chunk;
+}
+
+void Chunk::set_top_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_top_chunk = chunk;
+}
+
+void Chunk::set_bottom_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_bottom_chunk = chunk;
+}
+
+void Chunk::set_front_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_front_chunk = chunk;
+}
+
+void Chunk::set_back_chunk(const std::shared_ptr<Chunk>& chunk) {
+	m_back_chunk = chunk;
 }

@@ -11,9 +11,8 @@
 // when the chunk is created.
 
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position,
-                                 const std::shared_ptr<IShaderProgram>& shader_program,
-                                 const std::shared_ptr<ChunkManager>& chunk_manager)
-	:Chunk(starting_world_position, shader_program, chunk_manager),
+                                 const std::shared_ptr<IShaderProgram>& shader_program)
+	:Chunk(starting_world_position, shader_program),
 	m_vbo{ 99 },
 	m_vao{ 99 }{
 	initialize_vbo_vao();

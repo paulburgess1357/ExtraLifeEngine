@@ -3,6 +3,8 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
+//TODO look at neighboring chunks to see if pointers set correctly
+
 void ChunkManager::load(const int size_x, const int size_y, const int size_z, const std::shared_ptr<IShaderProgram>& shader_program){
 
 	// As chunks are loaded they check chunks next to them and draw vertices
@@ -16,13 +18,55 @@ void ChunkManager::load(const int size_x, const int size_y, const int size_z, co
 				load(WorldPosition{ x * CX, y * CY, z * CZ }, shader_program);
 			}
 		}
+	}
+	
+	set_adjacent_chunk_addresses();	
+}
+
+void ChunkManager::set_adjacent_chunk_addresses() {
+	for(auto & chunk : m_chunkmap){
+		set_adjacent_chunk_addresses(chunk.first, chunk.second);
 	}	
+}
+
+void ChunkManager::set_adjacent_chunk_addresses(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk) const{
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::LEFT)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::LEFT);
+		chunk->set_left_chunk(adjacent_chunk);
+	}
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::RIGHT)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::RIGHT);
+		chunk->set_right_chunk(adjacent_chunk);
+	}
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::TOP)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::TOP);
+		chunk->set_top_chunk(adjacent_chunk);
+	}
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::BOTTOM)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::BOTTOM);
+		chunk->set_bottom_chunk(adjacent_chunk);
+	}
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::FRONT)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::FRONT);
+		chunk->set_front_chunk(adjacent_chunk);
+	}
+
+	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::BACK)) {
+		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::BACK);
+		chunk->set_back_chunk(adjacent_chunk);
+	}
+	
 }
 
 void ChunkManager::load(const WorldPosition& world_position, const std::shared_ptr<IShaderProgram>& shader_program) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position, shader_program, shared_from_this());
+		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position, shader_program);
 		return;
 	}
 
@@ -125,9 +169,6 @@ std::shared_ptr<Chunk> ChunkManager::get_adjacent_chunk(const WorldPosition& wor
 
 	return get(adjacent_world_position);	
 }
-
-
-
 
 bool ChunkManager::chunk_exists(const WorldPosition& world_position) const{
 	return m_chunkmap.count(world_position);

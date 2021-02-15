@@ -11,8 +11,7 @@ namespace OpenGL{
 
 	public:
 		OpenGLChunk(const WorldPosition& starting_world_position, 
-			const std::shared_ptr<IShaderProgram>& shader_program,
-			const std::shared_ptr<ChunkManager>& chunk_manager);
+			const std::shared_ptr<IShaderProgram>& shader_program);
 		~OpenGLChunk();
 		
 		void update() override;
@@ -23,6 +22,7 @@ namespace OpenGL{
 			
 		unsigned int m_vbo;
 		unsigned int m_vao;
+		// std::shared_ptr<ChunkManager> m_chunkmanager;
 	};
 	
 } // namespace OpenGL

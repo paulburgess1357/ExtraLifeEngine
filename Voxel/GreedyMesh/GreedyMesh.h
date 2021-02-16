@@ -17,6 +17,5 @@ protected:
 	static bool types_match(const Face& start_face, const Face& next_face);
 	static bool depths_match(const Face& start_face, const Face& next_face, const FaceType face_type);
 	static bool heights_match(const Face& start_face, const Face& next_face, const FaceType face_type);
-	static bool widths_match(const Face& start_face, const Face& next_face, const FaceType face_type);	
-					
+	static bool widths_match(const Face& start_face, const Face& next_face, const FaceType face_type);						
 };

@@ -7,7 +7,7 @@ std::vector<VertexAndNormals> GreedyFacePerRowMesh::merge_all_faces(const std::v
 	//TODO when I reach that point, I do the merge.  This would save some time
 	//TODO as I can do one merge only when its more than 2 blocks.  For example.
 	//TODO if it was 6 blocks, that would be five merges.  However, if I do it
-	//TODO more efficient, I can do that in one merge.  I jsut have to mkae sure
+	//TODO more efficient, I can do that in one merge.  I just have to make sure
 	//TODO blocks are the same type and sequential in between
 
 
@@ -60,97 +60,50 @@ void GreedyFacePerRowMesh::merge_face(std::vector<VertexAndNormals>& merged_vect
 	// top left: merged_vector_size - 3
 	// bottom right: merged_vector_size - 2
 	// top right: merged_vector_size - 1
-
 	
 	const size_t merged_vector_size = merged_vector.size();
-	
-	switch (face_type) {
 
-		case FaceType::LEFT: {
-			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();						
-			break;
-		}		
-
-		case FaceType::RIGHT: {
-			merged_vector.at(merged_vector_size - 6) = next_face.get_bottom_left();
-			merged_vector.at(merged_vector_size - 4) = next_face.get_top_left();
-			merged_vector.at(merged_vector_size - 3) = next_face.get_top_left();															
-			break;
-		}
-
-		case FaceType::FRONT:{
+	switch(face_type){
+		case FaceType::LEFT:
+		case FaceType::FRONT:
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
 			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
 			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
 			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
 			break;
-		}
-
-		case FaceType::BACK:{
+		case FaceType::RIGHT:
+		case FaceType::BACK:
 			merged_vector.at(merged_vector_size - 6) = next_face.get_bottom_left();
 			merged_vector.at(merged_vector_size - 4) = next_face.get_top_left();
 			merged_vector.at(merged_vector_size - 3) = next_face.get_top_left();
 			break;
-		}
-
-		case FaceType::TOP:{			
-			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
-		}
-
-		case FaceType::BOTTOM: {
-			merged_vector.at(merged_vector_size - 5) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 2) = next_face.get_bottom_right();
-			merged_vector.at(merged_vector_size - 1) = next_face.get_top_right();
-		}
-
-		default: {
-			break;
-		}
 	}
-
+	
 }
 
 bool GreedyFacePerRowMesh::is_adjacent(const Face& start_face, const Face& next_face, const FaceType face_type) {
 
 	bool adjacent = false;
 
-	switch (face_type) {
-		case FaceType::LEFT: {
-			adjacent = start_face.get_bottom_right().m_z == next_face.get_bottom_left().m_z;
-			break;
-		}
+	switch(face_type){
+	case FaceType::LEFT:
+		adjacent = start_face.get_bottom_right().m_z == next_face.get_bottom_left().m_z;
+		break;
+	case FaceType::RIGHT:
+		adjacent = start_face.get_bottom_left().m_z == next_face.get_bottom_right().m_z;
+		break;
+	case FaceType::TOP:
+	case FaceType::BOTTOM:
+	case FaceType::FRONT:
+		adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
+		break;
+	case FaceType::BACK:
+		adjacent = start_face.get_bottom_left().m_x == next_face.get_bottom_right().m_x;
+		break;
 
-		case FaceType::RIGHT: {
-			adjacent = start_face.get_bottom_left().m_z == next_face.get_bottom_right().m_z;
-			break;
-		}
-
-		case FaceType::FRONT:{
-			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
-			break;
-		}
-
-		case FaceType::BACK:{
-			adjacent = start_face.get_bottom_left().m_x == next_face.get_bottom_right().m_x;
-			break;
-		}
-
-		case FaceType::TOP:{
-			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
-			break;
-		}
-
-		case FaceType::BOTTOM:{
-			adjacent = start_face.get_bottom_right().m_x == next_face.get_bottom_left().m_x;
-			break;
-		}
-
-		default: {
-			break;
-		}
+	default:
+		break;
 	}
 
 	return adjacent;

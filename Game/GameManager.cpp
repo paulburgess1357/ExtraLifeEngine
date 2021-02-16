@@ -78,7 +78,7 @@ void GameManager::initialize_scene(){
 	dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
 	LightResource::load("dirlight", dirlight);
 	shader_program->attach_directional_light("dirlight");
-	TEMP_CHUNK_MANAGER->load_all_chunks(3, 3, 3, shader_program);
+	TEMP_CHUNK_MANAGER->load_all_chunks(1, 1, 1, shader_program);
 	
 		
 	//SceneLoader::cubemap(m_registry);

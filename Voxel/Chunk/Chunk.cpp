@@ -59,7 +59,7 @@ void Chunk::initialize_types() {
 				//	RANDOMVALUE = 0;
 				//}
 				// m_block_types[x][y][z] = 1;
-				set_block_type(x, y, z, 1);
+				set_block_type(x, y, z, RANDOMVALUE);
 			}
 		}
 	}

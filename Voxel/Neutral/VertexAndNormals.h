@@ -4,9 +4,9 @@ struct VertexAndNormals {
 
 	VertexAndNormals() = default;
 
-	VertexAndNormals(const signed char x, const signed char y, 
-		const signed char z, const signed char w, const signed char n1, 
-		const signed char n2, const signed char n3)
+	VertexAndNormals(const unsigned char x, const unsigned char y, 
+		const unsigned char z, const unsigned char w, const unsigned char n1, 
+		const unsigned char n2, const unsigned char n3)
 		:m_x{ x },
 		m_y{ y },
 		m_z{ z },
@@ -17,15 +17,15 @@ struct VertexAndNormals {
 	}
 
 	// position
-	signed char m_x = 0;
-	signed char m_y = 0;
-	signed char m_z = 0;
+	unsigned char m_x = 0;
+	unsigned char m_y = 0;
+	unsigned char m_z = 0;
 
 	// type
-	signed char m_w = 0;
+	unsigned char m_w = 0;
 
 	// normals
-	signed char m_n1 = 0;
-	signed char m_n2 = 0;
-	signed char m_n3 = 0;
+	unsigned char m_n1 = 0;
+	unsigned char m_n2 = 0;
+	unsigned char m_n3 = 0;
 };

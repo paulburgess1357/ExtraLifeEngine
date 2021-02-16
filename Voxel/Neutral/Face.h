@@ -28,7 +28,7 @@ struct Face{
 		return m_top_right_corner;
 	}
 
-	[[nodiscard]] signed char get_type() const{
+	[[nodiscard]] unsigned char get_type() const{
 		return m_bottom_left_corner.m_w;
 	}
 

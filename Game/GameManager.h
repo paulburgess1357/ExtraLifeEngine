@@ -13,7 +13,7 @@
 
 
 // TEMP
-#include "../Voxel/Interface/ChunkManager.h"
+#include "../Voxel/Chunk/ChunkManager.h"
 class GameManager {
 	
 public:

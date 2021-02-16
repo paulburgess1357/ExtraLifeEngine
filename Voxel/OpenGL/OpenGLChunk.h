@@ -1,18 +1,17 @@
 #pragma once
-#include "../Interface/IChunk.h"
-#include "../Interface/ChunkManager.h"
+#include "../Chunk/Chunk.h"
+#include "../Chunk/ChunkManager.h"
 #include "../Neutral/WorldPosition.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <memory>
 
 namespace OpenGL{
 	
-	class OpenGLChunk : public IChunk {
+	class OpenGLChunk : public Chunk {
 
 	public:
 		OpenGLChunk(const WorldPosition& starting_world_position, 
-			const std::shared_ptr<IShaderProgram>& shader_program,
-			const std::shared_ptr<ChunkManager>& chunk_manager);
+			const std::shared_ptr<IShaderProgram>& shader_program);
 		~OpenGLChunk();
 		
 		void update() override;
@@ -23,7 +22,7 @@ namespace OpenGL{
 			
 		unsigned int m_vbo;
 		unsigned int m_vao;
-		std::shared_ptr<ChunkManager> m_chunkmanager;
+		// std::shared_ptr<ChunkManager> m_chunkmanager;
 	};
 	
 } // namespace OpenGL

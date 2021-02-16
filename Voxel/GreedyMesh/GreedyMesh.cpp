@@ -1,7 +1,6 @@
 #include "GreedyMesh.h"
 
 std::vector<Face> GreedyMesh::convert_vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex){
-
 	std::vector<Face> face_vector;
 	face_vector.reserve(vertex.size() / 6);
 
@@ -9,8 +8,16 @@ std::vector<Face> GreedyMesh::convert_vertex_vector_to_face_vector(const std::ve
 		face_vector.push_back(get_face(vertex, i));	
 	}
 
-	return face_vector;
-	
+	return face_vector;	
+}
+
+Face GreedyMesh::get_face(const std::vector<VertexAndNormals>& vertex, const size_t start_idx) {
+	return Face{
+		vertex.at(start_idx),     // Bottom Left
+		vertex.at(start_idx + 1), // Bottom Right
+		vertex.at(start_idx + 2), // Top left
+		vertex.at(start_idx + 5)  // Top Right
+	};
 }
 
 std::vector<VertexAndNormals> GreedyMesh::convert_faces_vertor_to_vertexnormals(const std::vector<Face>& faces){
@@ -30,17 +37,6 @@ std::vector<VertexAndNormals> GreedyMesh::convert_faces_vertor_to_vertexnormals(
 	return vertex;
 }
 
-
-
-Face GreedyMesh::get_face(const std::vector<VertexAndNormals>& vertex, const size_t start_idx) {
-	return Face{
-		vertex.at(start_idx),     // Bottom Left
-		vertex.at(start_idx + 1), // Bottom Right
-		vertex.at(start_idx + 2), // Top left
-		vertex.at(start_idx + 5)  // Top Right
-	};
-}
-
 void GreedyMesh::pushback_face(std::vector<VertexAndNormals>& fill_vector, const Face& face) {
 	fill_vector.push_back(face.get_bottom_left());
 	fill_vector.push_back(face.get_bottom_right());
@@ -57,45 +53,58 @@ bool GreedyMesh::types_match(const Face& start_face, const Face& next_face) {
 bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, const FaceType face_type) {
 	bool height_match = false;
 
-	//TODO can optimize this by only checking one height (since row merge is done first)
-	// TODO can possibly set default to be what the left/right/front/back expect.  That way I only have special cases for top/bottom since height isn't y.
-	
-	switch (face_type) {
-
-		case FaceType::LEFT: {
+	switch (face_type){
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
+		case FaceType::FRONT:
+		case FaceType::BACK:
 			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
 			break;
-		}
-
-		case FaceType::RIGHT: {
-			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-			break;
-		}
-
-		case FaceType::FRONT: {
-			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-			break;
-		}
-
-		case FaceType::BACK: {
-			height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-			break;
-		}
-
-		case FaceType::TOP:{
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
 			height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
 			break;
-		}
-
-		case FaceType::BOTTOM:{
-			height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
+		default:
 			break;
-		}
-
-		default: {
-			break;
-		}
 	}
+
+	
+	//switch (face_type) {
+
+	//	case FaceType::LEFT: {
+	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+	//		break;
+	//	}
+
+	//	case FaceType::RIGHT: {
+	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+	//		break;
+	//	}
+
+	//	case FaceType::FRONT: {
+	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+	//		break;
+	//	}
+
+	//	case FaceType::BACK: {
+	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
+	//		break;
+	//	}
+
+	//	case FaceType::TOP:{
+	//		height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
+	//		break;
+	//	}
+
+	//	case FaceType::BOTTOM:{
+	//		height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
+	//		break;
+	//	}
+
+	//	default: {
+	//		break;
+	//	}
+	//}
 
 	return height_match;
 }

@@ -7,8 +7,8 @@
 class GreedyMesh{
 	
 public:
-	static std::vector<Face> convert_vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex);
-	static std::vector<VertexAndNormals> convert_faces_vertor_to_vertexnormals(const std::vector<Face>& faces);
+	static std::vector<Face> vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex);
+	static std::vector<VertexAndNormals> face_vertor_to_vertex(const std::vector<Face>& faces);
 	
 protected:
 	static Face get_face(const std::vector<VertexAndNormals>& vertex, const size_t start_idx);

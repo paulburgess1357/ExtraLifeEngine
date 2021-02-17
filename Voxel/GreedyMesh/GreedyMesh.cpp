@@ -1,6 +1,6 @@
 #include "GreedyMesh.h"
 
-std::vector<Face> GreedyMesh::convert_vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex){
+std::vector<Face> GreedyMesh::vertex_vector_to_face_vector(const std::vector<VertexAndNormals>& vertex){
 	std::vector<Face> face_vector;
 	face_vector.reserve(vertex.size() / 6);
 
@@ -20,7 +20,7 @@ Face GreedyMesh::get_face(const std::vector<VertexAndNormals>& vertex, const siz
 	};
 }
 
-std::vector<VertexAndNormals> GreedyMesh::convert_faces_vertor_to_vertexnormals(const std::vector<Face>& faces){
+std::vector<VertexAndNormals> GreedyMesh::face_vertor_to_vertex(const std::vector<Face>& faces){
 
 	std::vector<VertexAndNormals> vertex;
 	vertex.reserve(faces.size() * 6);
@@ -68,44 +68,6 @@ bool GreedyMesh::heights_match(const Face& start_face, const Face& next_face, co
 			break;
 	}
 
-	
-	//switch (face_type) {
-
-	//	case FaceType::LEFT: {
-	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-	//		break;
-	//	}
-
-	//	case FaceType::RIGHT: {
-	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-	//		break;
-	//	}
-
-	//	case FaceType::FRONT: {
-	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-	//		break;
-	//	}
-
-	//	case FaceType::BACK: {
-	//		height_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y && start_face.get_top_left().m_y == next_face.get_top_left().m_y;
-	//		break;
-	//	}
-
-	//	case FaceType::TOP:{
-	//		height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
-	//		break;
-	//	}
-
-	//	case FaceType::BOTTOM:{
-	//		height_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_top_left().m_z == next_face.get_top_left().m_z;
-	//		break;
-	//	}
-
-	//	default: {
-	//		break;
-	//	}
-	//}
-
 	return height_match;
 }
 
@@ -114,86 +76,44 @@ bool GreedyMesh::depths_match(const Face& start_face, const Face& next_face, con
 	// Since no merging is done across depths (i.e. across 'slices' of the chunk),
 	// only one value of the depth is necessary to check.  If they are not equal,
 	// it means we are on different slices.
-	
 	bool depth_match = false;
-
-	switch (face_type) {
-		case FaceType::LEFT: {
+	
+	switch (face_type){
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
 			depth_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x;
 			break;
-		}
-
-		case FaceType::RIGHT:{
-			depth_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x;
-			break;
-		}
-
-		case FaceType::FRONT:{
+		case FaceType::FRONT:
+		case FaceType::BACK:
 			depth_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z;
 			break;
-		}
-
-		case FaceType::BACK:{
-			depth_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z;
-			break;
-		}
-
-		case FaceType::TOP:{
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
 			depth_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y;
 			break;
-		}
-
-		case FaceType::BOTTOM:{
-			depth_match = start_face.get_bottom_left().m_y == next_face.get_bottom_left().m_y;
-			break;
-		}
-
-		default: {
-			break;
-		}
+		default:break;
 	}
 
 	return depth_match;
 }
 
 bool GreedyMesh::widths_match(const Face& start_face, const Face& next_face, const FaceType face_type) {
-	bool widths_match = false;
-
-	switch (face_type) {
-		case FaceType::LEFT: {
-			widths_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
+	bool width_match = false;
+	
+	switch(face_type){
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
+			width_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
 			break;
-		}
-
-		case FaceType::RIGHT:{
-			widths_match = start_face.get_bottom_left().m_z == next_face.get_bottom_left().m_z && start_face.get_bottom_right().m_z == next_face.get_bottom_right().m_z;
+		case FaceType::FRONT:
+		case FaceType::BACK:
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
+			width_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
 			break;
-		}
-
-		case FaceType::FRONT:{
-			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
-			break;
-		}
-
-		case FaceType::BACK: {
-			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
-			break;
-		}
-
-		case FaceType::TOP:{
-			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
-			break;
-		}
-
-		case FaceType::BOTTOM: {
-			widths_match = start_face.get_bottom_left().m_x == next_face.get_bottom_left().m_x && start_face.get_bottom_right().m_x == next_face.get_bottom_right().m_x;
-			break;
-		}
-
-		default: {
-			break;
-		}
+		default:
+			break;				
 	}
 
-	return widths_match;
+	return width_match;
 }

@@ -5,7 +5,10 @@ struct Face{
 
 	Face() = default;
 	
-	Face(const VertexAndNormals& bottom_left_corner, const VertexAndNormals& bottom_right_corner, const VertexAndNormals& top_left_corner, const VertexAndNormals& top_right_corner)
+	Face(const VertexAndNormals& bottom_left_corner, 
+		const VertexAndNormals& bottom_right_corner, 
+		const VertexAndNormals& top_left_corner, 
+		const VertexAndNormals& top_right_corner)
 		:m_bottom_left_corner{ bottom_left_corner },
 		 m_bottom_right_corner{ bottom_right_corner },
 		 m_top_left_corner{ top_left_corner },

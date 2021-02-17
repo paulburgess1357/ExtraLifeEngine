@@ -6,12 +6,12 @@
 
 Chunk::Chunk(const WorldPosition& starting_world_position,
 	const std::shared_ptr<IShaderProgram>& shader_program)
-	:m_block_types{},
-	m_vertex_qty{ 0 },
+	:m_vertex_qty{ 0 },
 	m_update_required{ true },
 	m_model_matrix{ glm::translate(glm::mat4(1), starting_world_position.get_vec3()) },
 	m_normal_matrix{ MatrixFunctions::get_normal_matrix(m_model_matrix) },
-	m_shader_program{ shader_program }{
+	m_shader_program{ shader_program },
+	m_block_types{}{
 	initialize_types();	
 }
 

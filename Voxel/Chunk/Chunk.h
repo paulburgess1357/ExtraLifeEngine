@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-constexpr unsigned char x_block_qty = 1;
+constexpr unsigned char x_block_qty = 8;
 constexpr unsigned char y_block_qty = 8;
 constexpr unsigned char z_block_qty = 8;
 

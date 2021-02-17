@@ -3,13 +3,6 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-// TODO Optimization
-// Move the chunk vector loading into Chunk (and rename this to possilbly chunk)
-// When the chunk is initiated, get and store the adjacent chunks.  That way
-// when checking faces on adjacent chunks, the pointers are already created and I
-// don't have to do the lookup again (e.g. does it exist, etc.).  Its done right
-// when the chunk is created.
-
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position,
                                  const std::shared_ptr<IShaderProgram>& shader_program)
 	:Chunk(starting_world_position, shader_program),
@@ -53,15 +46,10 @@ void OpenGL::OpenGLChunk::update() {
 	if (!m_update_required) {
 		return;
 	}
-
-	//Print::print("Loading Chunk Data...");
+	
 	m_update_required = false;
-
 	std::vector<VertexAndNormals> chunk_data = load_chunk_data();
 
-	// TODO keep an eye on this for future bugs/crashes...
-	// When a chunk is completely surrounded, it may not have any data at all to send to the gpu.  This causes
-	// a crash when doing vertex[0] (below), as there is nothing in the vector that you are accessing.
 	if(m_vertex_qty == 0){
 		return;
 	}

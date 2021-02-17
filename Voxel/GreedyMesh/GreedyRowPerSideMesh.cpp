@@ -9,11 +9,10 @@ std::vector<VertexAndNormals> GreedyRowPerSideMesh::merge_rows(const std::vector
 	if (merged_row_vector.size() <= 6) {
 		return merged_row_vector;
 	}
-
-	// Keep track of merged faces.  If a face has been merged, we can skip it
-	std::vector<bool> has_been_merged(merged_row_vector.size(), false);
-
+	
 	std::vector<VertexAndNormals> merged_y_vector;
+	std::vector<bool> has_been_merged(merged_row_vector.size(), false);
+	
 	for (size_t i = 0; i < merged_row_vector.size(); i += 6) {
 
 		// Check if face has been merged.  If it has, we can skip to the next face
@@ -30,7 +29,7 @@ std::vector<VertexAndNormals> GreedyRowPerSideMesh::merge_rows(const std::vector
 			next_face = get_face(merged_row_vector, j);
 
 			// Check if the start face and next are within one row of each
-			// other if they aren't, it means we are above the necessary row
+			// other. If they aren't, it means we are above the necessary row
 			// for merging and can break from the loop
 			if (past_merge_row(start_face, next_face, face_type)) {
 				break;
@@ -86,9 +85,6 @@ std::vector<VertexAndNormals> GreedyRowPerSideMesh::merge_rows(const std::vector
 				// a single block)
 
 				merge_rows(start_face, next_face, face_type);
-				
-				//start_face.set_top_left(next_face.get_top_left());
-				//start_face.set_top_right(next_face.get_top_right());
 
 				// Flag merge vector
 				has_been_merged.at(j) = true;
@@ -104,130 +100,69 @@ std::vector<VertexAndNormals> GreedyRowPerSideMesh::merge_rows(const std::vector
 
 }
 
-void GreedyRowPerSideMesh::merge_rows(Face& start_face, const Face& next_face, const FaceType face_type){
-	switch (face_type) {
-		case FaceType::LEFT: {
-			start_face.set_top_left(next_face.get_top_left());
-			start_face.set_top_right(next_face.get_top_right());
-			break;
-		}
-
-		case FaceType::RIGHT: {
-			start_face.set_top_left(next_face.get_top_left());
-			start_face.set_top_right(next_face.get_top_right());
-			break;
-		}
-
-		case FaceType::FRONT: {
-			start_face.set_top_left(next_face.get_top_left());
-			start_face.set_top_right(next_face.get_top_right());
-			break;
-		}
-
-		case FaceType::BACK: {
-			start_face.set_top_left(next_face.get_top_left());
-			start_face.set_top_right(next_face.get_top_right());
-			break;
-		}
-
-		case FaceType::TOP: {
-			start_face.set_bottom_left(next_face.get_bottom_left());
-			start_face.set_bottom_right(next_face.get_bottom_right());
-			break;
-		}
-
-		case FaceType::BOTTOM: {
-			start_face.set_top_left(next_face.get_top_left());
-			start_face.set_top_right(next_face.get_top_right());
-			break;
-		}
-
-		default: {
-			break;
-		}
-	}
-}
-
-
 bool GreedyRowPerSideMesh::past_merge_row(const Face& start_face, const Face& next_face, const FaceType face_type) {
 	bool past_merge_row = false;
 
-	switch (face_type) {
-		case FaceType::LEFT: {
+	switch(face_type){
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
+		case FaceType::FRONT:
+		case FaceType::BACK:
 			past_merge_row = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
 			break;
-		}
-
-		case FaceType::RIGHT:{
-			past_merge_row = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::FRONT:{
-			past_merge_row = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::BACK:{
-			past_merge_row = start_face.get_top_right().m_y < next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::TOP:{
+		case FaceType::TOP:
 			past_merge_row = start_face.get_bottom_right().m_z < next_face.get_top_right().m_z;
 			break;
-		}
-
-		case FaceType::BOTTOM:{
+		case FaceType::BOTTOM:
 			past_merge_row = start_face.get_top_right().m_z < next_face.get_bottom_right().m_z;
 			break;
-		}
-		
-		default: {
+		default:
 			break;
-		}
-	}
+		
+	}	
 
 	return past_merge_row;
+}
+
+bool GreedyRowPerSideMesh::correct_row_to_merge(const Face& start_face, const Face& next_face, const FaceType face_type) {
+	bool same_height = false;
+
+	switch (face_type) {
+	case FaceType::LEFT:
+	case FaceType::RIGHT:
+	case FaceType::FRONT:
+	case FaceType::BACK:
+		same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
+		break;
+	case FaceType::TOP:
+		same_height = start_face.get_bottom_right().m_z == next_face.get_top_right().m_z;
+		break;
+	case FaceType::BOTTOM:
+		same_height = start_face.get_top_right().m_z == next_face.get_bottom_right().m_z;
+		break;
+	default:
+		break;
+	}
+
+	return same_height;
 }
 
 bool GreedyRowPerSideMesh::block_too_early(const Face& start_face, const Face& next_face, const FaceType face_type) {
 	bool too_early = false;
 
 	switch (face_type) {
-		case FaceType::LEFT: {
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
 			too_early = next_face.get_bottom_left().m_z < start_face.get_bottom_left().m_z;
 			break;
-		}
-
-		case FaceType::RIGHT: {
-			too_early = next_face.get_bottom_left().m_z < start_face.get_bottom_left().m_z;
-			break;
-		}
-
-		case FaceType::FRONT:{
+		case FaceType::FRONT:
+		case FaceType::BACK:
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
 			too_early = next_face.get_bottom_left().m_x < start_face.get_bottom_left().m_x;
 			break;
-		}
-
-		case FaceType::BACK: {
-			too_early = next_face.get_bottom_left().m_x < start_face.get_bottom_left().m_x;
+		default:
 			break;
-		}
-
-		case FaceType::TOP:{
-			too_early = next_face.get_bottom_left().m_x < start_face.get_bottom_left().m_x;
-			break;
-		}
-
-		case FaceType::BOTTOM: {
-			too_early = next_face.get_bottom_left().m_x < start_face.get_bottom_left().m_x;
-			break;
-		}
-
-		default: {			
-			break;
-		}
 	}
 
 	return too_early;
@@ -237,82 +172,39 @@ bool GreedyRowPerSideMesh::past_merge_location(const Face& start_face, const Fac
 	bool past_merge_location = false;
 
 	switch (face_type) {
-		case FaceType::LEFT: {
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
 			past_merge_location = next_face.get_bottom_left().m_z > start_face.get_bottom_left().m_z;
 			break;
-		}
-
-		case FaceType::RIGHT:{
-			past_merge_location = next_face.get_bottom_left().m_z > start_face.get_bottom_left().m_z;
-			break;
-		}
-
-		case FaceType::FRONT:{
+		case FaceType::FRONT:
+		case FaceType::BACK:
+		case FaceType::TOP:
+		case FaceType::BOTTOM:
 			past_merge_location = next_face.get_bottom_left().m_x > start_face.get_bottom_left().m_x;
 			break;
-		}
-
-		case FaceType::BACK:{
-			past_merge_location = next_face.get_bottom_left().m_x > start_face.get_bottom_left().m_x;
+		default:
 			break;
-		}
-
-		case FaceType::TOP:{
-			past_merge_location = next_face.get_bottom_left().m_x > start_face.get_bottom_left().m_x;
-			break;
-		}
-
-		case FaceType::BOTTOM: {
-			past_merge_location = next_face.get_bottom_left().m_x > start_face.get_bottom_left().m_x;
-			break;
-		}
-
-		default: {
-			break;
-		}
 	}
 
 	return past_merge_location;
 }
 
-bool GreedyRowPerSideMesh::correct_row_to_merge(const Face& start_face, const Face& next_face, const FaceType face_type) {
-	bool same_height = false;
+void GreedyRowPerSideMesh::merge_rows(Face& start_face, const Face& next_face, const FaceType face_type) {
 
 	switch (face_type) {
-		case FaceType::LEFT: {
-			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::RIGHT:{
-			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::FRONT:{
-			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::BACK:{
-			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
-			break;
-		}
-
-		case FaceType::TOP:{
-			same_height = start_face.get_bottom_right().m_z == next_face.get_top_right().m_z;
-			break;
-		}
-
-		case FaceType::BOTTOM: {
-			same_height = start_face.get_top_right().m_z == next_face.get_bottom_right().m_z;
-			break;
-		}
-
-		default: {
-			break;
-		}
+	case FaceType::LEFT:
+	case FaceType::RIGHT:
+	case FaceType::FRONT:
+	case FaceType::BACK:
+	case FaceType::BOTTOM:
+		start_face.set_top_left(next_face.get_top_left());
+		start_face.set_top_right(next_face.get_top_right());
+		break;
+	case FaceType::TOP:
+		start_face.set_bottom_left(next_face.get_bottom_left());
+		start_face.set_bottom_right(next_face.get_bottom_right());
+		break;
+	default:
+		break;
 	}
-
-	return same_height;
 }

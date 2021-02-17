@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "GreedyMesh.h"
 #include "../Neutral/VertexAndNormals.h"
 #include "../Neutral/FaceType.h"
@@ -8,7 +7,7 @@
 
 class GreedyRowPerSideMesh : public GreedyMesh{
 
-	// Merge multiple rows (that have already had their faces merged)
+	// Takes merged faces and merges across rows (vertically)
 	
 public:
 	static std::vector<VertexAndNormals> merge_rows(const std::vector<VertexAndNormals>& merged_row_vector, const FaceType face_type);

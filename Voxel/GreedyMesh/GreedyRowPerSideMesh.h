@@ -5,10 +5,9 @@
 #include "../Neutral/Face.h"
 #include <vector>
 
+// Takes merged faces and merges across rows (vertically)
 class GreedyRowPerSideMesh : public GreedyMesh{
-
-	// Takes merged faces and merges across rows (vertically)
-	
+		
 public:
 	static std::vector<VertexAndNormals> merge_rows(const std::vector<VertexAndNormals>& merged_row_vector, const FaceType face_type);
 	

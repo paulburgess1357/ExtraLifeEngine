@@ -20,7 +20,7 @@ Face GreedyMesh::get_face(const std::vector<VertexAndNormals>& vertex, const siz
 	};
 }
 
-std::vector<VertexAndNormals> GreedyMesh::face_vertor_to_vertex(const std::vector<Face>& faces){
+std::vector<VertexAndNormals> GreedyMesh::face_vector_to_vertex(const std::vector<Face>& faces){
 
 	std::vector<VertexAndNormals> vertex;
 	vertex.reserve(faces.size() * 6);

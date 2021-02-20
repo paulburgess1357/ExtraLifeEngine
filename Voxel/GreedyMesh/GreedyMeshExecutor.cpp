@@ -50,25 +50,25 @@ std::vector<VertexAndNormals> GreedyMeshExecutor::sort_faces(const std::vector<V
 		case FaceType::FRONT: {
 			std::vector<Face> face_vector = GreedyMesh::vertex_vector_to_face_vector(faces);
 			std::sort(face_vector.begin(), face_vector.end(), sort_front_back_faces());
-			return GreedyMesh::face_vertor_to_vertex(face_vector);
+			return GreedyMesh::face_vector_to_vertex(face_vector);
 		}
 
 		case FaceType::BACK: {
 			std::vector<Face> face_vector = GreedyMesh::vertex_vector_to_face_vector(faces);
 			std::sort(face_vector.begin(), face_vector.end(), sort_front_back_faces());
-			return GreedyMesh::face_vertor_to_vertex(face_vector);
+			return GreedyMesh::face_vector_to_vertex(face_vector);
 		}
 
 		case FaceType::TOP: {
 			std::vector<Face> face_vector = GreedyMesh::vertex_vector_to_face_vector(faces);
 			std::sort(face_vector.begin(), face_vector.end(), sort_top_bottom_faces());
-			return GreedyMesh::face_vertor_to_vertex(face_vector);
+			return GreedyMesh::face_vector_to_vertex(face_vector);
 		}
 
 		case FaceType::BOTTOM: {
 			std::vector<Face> face_vector = GreedyMesh::vertex_vector_to_face_vector(faces);
 			std::sort(face_vector.begin(), face_vector.end(), sort_top_bottom_faces());
-			return GreedyMesh::face_vertor_to_vertex(face_vector);
+			return GreedyMesh::face_vector_to_vertex(face_vector);
 		}
 
 		default: {

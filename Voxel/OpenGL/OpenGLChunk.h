@@ -22,7 +22,6 @@ namespace OpenGL{
 			
 		unsigned int m_vbo;
 		unsigned int m_vao;
-		// std::shared_ptr<ChunkManager> m_chunkmanager;
 	};
 	
 } // namespace OpenGL

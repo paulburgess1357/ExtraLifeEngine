@@ -128,20 +128,20 @@ bool GreedyRowPerSideMesh::correct_row_to_merge(const Face& start_face, const Fa
 	bool same_height = false;
 
 	switch (face_type) {
-	case FaceType::LEFT:
-	case FaceType::RIGHT:
-	case FaceType::FRONT:
-	case FaceType::BACK:
-		same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
-		break;
-	case FaceType::TOP:
-		same_height = start_face.get_bottom_right().m_z == next_face.get_top_right().m_z;
-		break;
-	case FaceType::BOTTOM:
-		same_height = start_face.get_top_right().m_z == next_face.get_bottom_right().m_z;
-		break;
-	default:
-		break;
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
+		case FaceType::FRONT:
+		case FaceType::BACK:
+			same_height = start_face.get_top_right().m_y == next_face.get_bottom_right().m_y;
+			break;
+		case FaceType::TOP:
+			same_height = start_face.get_bottom_right().m_z == next_face.get_top_right().m_z;
+			break;
+		case FaceType::BOTTOM:
+			same_height = start_face.get_top_right().m_z == next_face.get_bottom_right().m_z;
+			break;
+		default:
+			break;
 	}
 
 	return same_height;
@@ -192,19 +192,19 @@ bool GreedyRowPerSideMesh::past_merge_location(const Face& start_face, const Fac
 void GreedyRowPerSideMesh::merge_rows(Face& start_face, const Face& next_face, const FaceType face_type) {
 
 	switch (face_type) {
-	case FaceType::LEFT:
-	case FaceType::RIGHT:
-	case FaceType::FRONT:
-	case FaceType::BACK:
-	case FaceType::BOTTOM:
-		start_face.set_top_left(next_face.get_top_left());
-		start_face.set_top_right(next_face.get_top_right());
-		break;
-	case FaceType::TOP:
-		start_face.set_bottom_left(next_face.get_bottom_left());
-		start_face.set_bottom_right(next_face.get_bottom_right());
-		break;
-	default:
-		break;
+		case FaceType::LEFT:
+		case FaceType::RIGHT:
+		case FaceType::FRONT:
+		case FaceType::BACK:
+		case FaceType::BOTTOM:
+			start_face.set_top_left(next_face.get_top_left());
+			start_face.set_top_right(next_face.get_top_right());
+			break;
+		case FaceType::TOP:
+			start_face.set_bottom_left(next_face.get_bottom_left());
+			start_face.set_bottom_right(next_face.get_bottom_right());
+			break;
+		default:
+			break;
 	}
 }

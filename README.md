@@ -9,6 +9,8 @@ Entity Component System Game Engine (In Progress)
 - Flexible Architecture
   - Modern OpenGL 3.3+
   - Future Vulkan Support
+- Voxels
+  - Greedy Meshing 
 ## Dependencies (Included in repo)
 - OpenGL
 - Assimp

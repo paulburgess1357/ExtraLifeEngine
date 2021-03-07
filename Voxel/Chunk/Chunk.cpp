@@ -17,6 +17,14 @@ Chunk::Chunk(const WorldPosition& starting_world_position,
 
 Chunk::~Chunk() = default;
 
+bool Chunk::is_empty() const{
+	if(m_vertex_qty == 0){
+		return true;
+	}
+	return false;
+}
+
+
 unsigned char Chunk::get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const {
 	return m_block_types[x][y][z];
 }
@@ -285,4 +293,23 @@ void Chunk::print_world_position(const WorldPosition& starting_world_position) c
 		std::to_string(starting_world_position.y) + ";" +
 		std::to_string(starting_world_position.z));
 }
+
+std::shared_ptr<IShaderProgram> Chunk::get_shader_program() const {
+	return m_shader_program;
+}
+
+int Chunk::get_vertex_qty() const{
+	return m_vertex_qty;
+}
+
+glm::mat4 Chunk::get_model_matrix() const{
+	return m_model_matrix;
+}
+
+glm::mat3 Chunk::get_normal_matrix() const{
+	return m_normal_matrix;
+}
+
+
+
 

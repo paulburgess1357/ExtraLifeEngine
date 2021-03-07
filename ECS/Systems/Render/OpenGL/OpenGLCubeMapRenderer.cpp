@@ -7,6 +7,8 @@ void OpenGL::OpenGLCubeMapRenderer::render(entt::registry& registry, Camera& cam
 
 	auto view = registry.view<ShaderComponent, CubeMapComponent>();
 
+	// TODO Test Remove the depth function calls!
+	
 	glDepthFunc(GL_LEQUAL);
 	
 	for (auto entity : view){		

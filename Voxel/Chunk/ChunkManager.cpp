@@ -169,8 +169,8 @@ void ChunkManager::update() const{
 	}
 }
 
-void ChunkManager::render() const {
-	for (const auto& chunk : m_chunkmap) {
-		chunk.second->render();
-	}
-}
+//void ChunkManager::render() const {
+//	for (const auto& chunk : m_chunkmap) {
+//		chunk.second->render();
+//	}
+//}

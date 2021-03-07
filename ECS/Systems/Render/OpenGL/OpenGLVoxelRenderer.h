@@ -1,14 +1,14 @@
 #pragma once
-#include "../../../../Camera/Camera.h"
-#include "../Interfaces/ICubeMapRenderer.h"
+#include "../Interfaces/IVoxelRenderer.h"
 
 namespace OpenGL{
 
-	class OpenGLCubeMapRenderer : public ICubeMapRenderer {		
+	class OpenGLVoxelRenderer : public IVoxelRenderer {
 	public:
 		void render(entt::registry& registry, Camera& camera) const override;		
 	};
 	
 } // namespace OpenGL
+
 
 

@@ -16,7 +16,7 @@ public:
 		  const std::shared_ptr<IShaderProgram>& shader_program);
 	virtual ~Chunk();
 	virtual void update() = 0;
-	virtual void render() const = 0;
+	[[nodiscard]] bool is_empty() const;
 
 	[[nodiscard]] unsigned char get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const;
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
@@ -27,6 +27,11 @@ public:
 	void set_bottom_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_front_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
+
+	[[nodiscard]] std::shared_ptr<IShaderProgram> get_shader_program() const;
+	[[nodiscard]] int get_vertex_qty() const;
+	[[nodiscard]] glm::mat4 get_model_matrix() const;
+	[[nodiscard]] glm::mat3 get_normal_matrix() const;
 	
 protected:
 	void initialize_types();

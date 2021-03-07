@@ -6,6 +6,7 @@
 #include "../ResourceManagement/LightResource.h"
 #include "../ResourceManagement/ShaderResource.h"
 #include "../ResourceManagement/TextureResource.h"
+#include "../ResourceManagement/ChunkResource.h"
 #include "../Tests/GraphicsTesting/Cube/CubeResource.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
@@ -62,23 +63,26 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
+
+	SceneLoader::voxels(m_registry);
+	
 	//SceneLoader::grid(m_registry);
     //SceneLoader::single_cube(m_registry);
 	//SceneLoader::single_cube_textured(m_registry);
 	//SceneLoader::single_model(m_registry);
 
 
-	TEMP_CHUNK_MANAGER = std::make_shared<ChunkManager>();
-	
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
-	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
+	//TEMP_CHUNK_MANAGER = std::make_shared<ChunkManager>();
+	//
+	//std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	//shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 
 	// Copied from scene loader to test.... ===========
-	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
-	LightResource::load("dirlight", dirlight);
-	shader_program->attach_directional_light("dirlight");
-	TEMP_CHUNK_MANAGER->load_all_chunks(1, 1, 1, shader_program);
+	//DirectionalLight dirlight;
+	//dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
+	//LightResource::load("dirlight", dirlight);
+	//shader_program->attach_directional_light("dirlight");
+	//TEMP_CHUNK_MANAGER->load_all_chunks(1, 1, 1, shader_program);
 	
 		
 	//SceneLoader::cubemap(m_registry);
@@ -123,7 +127,8 @@ void GameManager::destroy() const {
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
-	ModelResource::destroy_all();	
+	ModelResource::destroy_all();
+	ChunkResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

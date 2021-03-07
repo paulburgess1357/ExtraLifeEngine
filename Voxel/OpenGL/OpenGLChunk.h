@@ -15,7 +15,7 @@ namespace OpenGL{
 		~OpenGLChunk();
 		
 		void update() override;
-		void render() const override;
+		//void render() const override;
 		
 	private:		
 		void initialize_vbo_vao();

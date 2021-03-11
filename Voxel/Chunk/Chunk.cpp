@@ -1,17 +1,13 @@
 #include "Chunk.h"
 #include "../GreedyMesh/GreedyMeshExecutor.h"
 #include "../../Utility/Print.h"
-#include "../../Matrix/MatrixFunctions.h"
-#include <glm/gtc/matrix_transform.hpp>
 
 Chunk::Chunk(const WorldPosition& starting_world_position,
 	const std::shared_ptr<IShaderProgram>& shader_program)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
-	m_model_matrix{ glm::translate(glm::mat4(1), starting_world_position.get_vec3()) },
-	m_normal_matrix{ MatrixFunctions::get_normal_matrix(m_model_matrix) },
-	m_shader_program{ shader_program },
-	m_block_types{}{
+	m_block_types{},
+	m_starting_world_position{ starting_world_position } {
 	initialize_types();	
 }
 
@@ -294,20 +290,12 @@ void Chunk::print_world_position(const WorldPosition& starting_world_position) c
 		std::to_string(starting_world_position.z));
 }
 
-std::shared_ptr<IShaderProgram> Chunk::get_shader_program() const {
-	return m_shader_program;
-}
-
 int Chunk::get_vertex_qty() const{
 	return m_vertex_qty;
 }
 
-glm::mat4 Chunk::get_model_matrix() const{
-	return m_model_matrix;
-}
-
-glm::mat3 Chunk::get_normal_matrix() const{
-	return m_normal_matrix;
+WorldPosition Chunk::get_starting_world_position() const{
+	return m_starting_world_position;
 }
 
 

@@ -602,5 +602,11 @@
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Shader\VoxelShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

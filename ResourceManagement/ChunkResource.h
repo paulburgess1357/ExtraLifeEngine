@@ -5,12 +5,11 @@
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <unordered_map>
 
-// TODO destroy function?
 
 class ChunkResource{
 
 public:	
-	static void load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty, const std::shared_ptr<IShaderProgram>& shader_program);
+	static void load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty);
 	static void destroy_all();
 
 	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
@@ -18,7 +17,7 @@ public:
 private:	
 	[[nodiscard]] static std::shared_ptr<Chunk> get_chunk(const WorldPosition& world_position);
 	
-	static void load_individual_chunk(const WorldPosition& world_position, const std::shared_ptr<IShaderProgram>& shader_program);
+	static void load_individual_chunk(const WorldPosition& world_position);
 	static void set_all_chunk_neighbors();
 	static void set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk);
 	

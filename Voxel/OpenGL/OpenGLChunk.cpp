@@ -3,9 +3,8 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position,
-                                 const std::shared_ptr<IShaderProgram>& shader_program)
-	:Chunk(starting_world_position, shader_program),
+OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position)
+	:Chunk(starting_world_position),
 	m_vbo{ 99 },
 	m_vao{ 99 }{
 	initialize_vbo_vao();
@@ -22,24 +21,6 @@ void OpenGL::OpenGLChunk::initialize_vbo_vao() {
 	glGenBuffers(1, &m_vbo);
 	glGenVertexArrays(1, &m_vao);
 }
-
-//void OpenGL::OpenGLChunk::render() const {
-//
-//	// Skip drawing empty chunks
-//	if (m_vertex_qty == 0) {
-//		return;
-//	}
-//
-//	m_shader_program->set_uniform("model_matrix", m_model_matrix);
-//	m_shader_program->set_uniform("normal_matrix", m_normal_matrix);
-//	m_shader_program->bind();
-//
-//	glBindVertexArray(m_vao);
-//	glDrawArrays(GL_TRIANGLES, 0, m_vertex_qty);
-//	glBindVertexArray(0);
-//
-//	m_shader_program->unbind();
-//}
 
 void OpenGL::OpenGLChunk::update() {
 

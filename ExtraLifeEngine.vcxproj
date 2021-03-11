@@ -235,6 +235,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
+    <ClInclude Include="ECS\Components\Shader\VoxelShader.h" />
+    <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.h" />
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.h" />
     <ClInclude Include="ResourceManagement\ChunkResource.h" />

@@ -12,8 +12,7 @@ constexpr unsigned char z_block_qty = 8;
 class Chunk {
 
 public:
-	Chunk(const WorldPosition& starting_world_position, 
-		  const std::shared_ptr<IShaderProgram>& shader_program);
+	Chunk(const WorldPosition& starting_world_position);
 	virtual ~Chunk();
 	virtual void update() = 0;
 	[[nodiscard]] bool is_empty() const;
@@ -30,19 +29,15 @@ public:
 
 	[[nodiscard]] std::shared_ptr<IShaderProgram> get_shader_program() const;
 	[[nodiscard]] int get_vertex_qty() const;
-	[[nodiscard]] glm::mat4 get_model_matrix() const;
-	[[nodiscard]] glm::mat3 get_normal_matrix() const;
+	[[nodiscard]] WorldPosition get_starting_world_position() const;
 	
 protected:
 	void initialize_types();
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
-	
+
+	// TODO possible to make this private?
 	int m_vertex_qty;
 	bool m_update_required;
-
-	glm::mat4 m_model_matrix;
-	glm::mat3 m_normal_matrix;
-	std::shared_ptr<IShaderProgram> m_shader_program;
 
 private:
 	void load_left_face(std::vector<VertexAndNormals>& left_faces, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
@@ -70,4 +65,5 @@ private:
 	std::shared_ptr<Chunk> m_back_chunk = nullptr;
 
 	unsigned char m_block_types[x_block_qty][y_block_qty][z_block_qty];
+	WorldPosition m_starting_world_position;
 };

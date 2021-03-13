@@ -1,18 +1,13 @@
 #include "GameManager.h"
 #include "../Matrix/ProjectionMatrix.h"
-#include "../Input/Command/ControlCommands.h"
 #include "../Interface/ImGuiInterface.h"
-#include "../ResourceManagement/ModelResource.h"
-#include "../ResourceManagement/LightResource.h"
-#include "../ResourceManagement/ShaderResource.h"
-#include "../ResourceManagement/TextureResource.h"
-#include "../ResourceManagement/ChunkResource.h"
-#include "../Tests/GraphicsTesting/Cube/CubeResource.h"
+#include "../Input/Command/ControlCommands.h"
+#include "../ResourceManagement/IncludeResources.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
-#include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
-#include "../Environment/OpenGL/Shader/OpenGLUniformBlock.h"
+#include "../ECS/Systems/Transform/TransformSystem.h"
+#include "../ECS/Systems/Voxel/VoxelSystem.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
@@ -92,6 +87,7 @@ void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer();
 }
 
 void GameManager::gameloop() {
@@ -107,8 +103,8 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	Transform::TransformSystem::update(m_registry);	
-	TEMP_CHUNK_MANAGER->update();
+	Transform::TransformSystem::update(m_registry);
+	Voxel::VoxelSystem::update(m_registry);
 	ImGuiInterface::update();
 }
 
@@ -116,7 +112,7 @@ void GameManager::render(){
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
-	TEMP_CHUNK_MANAGER->render();
+	m_voxel_renderer->render(m_registry, m_camera);
 	ImGuiInterface::render();
 }
 

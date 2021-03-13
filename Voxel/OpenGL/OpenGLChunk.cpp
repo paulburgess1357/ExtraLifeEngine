@@ -55,3 +55,7 @@ void OpenGL::OpenGLChunk::update() {
 	glBindVertexArray(0);
 }
 
+unsigned int OpenGL::OpenGLChunk::get_vao() const{
+	return m_vao;
+}
+

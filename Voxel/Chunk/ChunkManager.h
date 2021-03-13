@@ -11,14 +11,14 @@ public:
 	ChunkManager() = default; 
 	~ChunkManager() = default;		
 
-	void load_all_chunks(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty, const std::shared_ptr<IShaderProgram>& shader_program); // Resource
+	void load_all_chunks(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty); // Resource
 	[[nodiscard]] std::shared_ptr<Chunk> get_chunk(const WorldPosition& world_position) const;	// Resource
 
 	void update() const;
 	//void render() const;	
 		
 private:
-	void load_individual_chunk(const WorldPosition& world_position, const std::shared_ptr<IShaderProgram>& shader_program);		
+	void load_individual_chunk(const WorldPosition& world_position);		
 
 	[[nodiscard]] std::shared_ptr<Chunk> get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const; // Resource
 	[[nodiscard]] bool adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) const; // Resource

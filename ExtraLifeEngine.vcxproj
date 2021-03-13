@@ -158,6 +158,7 @@
     <ClCompile Include="AssimpProcessor\AssimpProcessor.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.cpp" />
+    <ClCompile Include="ECS\Systems\Voxel\VoxelSystem.cpp" />
     <ClCompile Include="ResourceManagement\ChunkResource.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_demo.cpp" />
@@ -235,10 +236,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpProcessor\AssimpProcessor.h" />
+    <ClInclude Include="ECS\Components\IncludeComponents.h" />
     <ClInclude Include="ECS\Components\Shader\VoxelShader.h" />
     <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h" />
+    <ClInclude Include="ECS\Components\Voxel\OpenGLChunkComponent.h" />
+    <ClInclude Include="ECS\Components\Voxel\VulkanChunkComponent.h" />
+    <ClInclude Include="ECS\Systems\Render\Interfaces\IncludeRenderers.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.h" />
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.h" />
+    <ClInclude Include="ECS\Systems\Voxel\VoxelSystem.h" />
     <ClInclude Include="ResourceManagement\ChunkResource.h" />
     <ClInclude Include="ExternalResources\imgui\imconfig.h" />
     <ClInclude Include="ExternalResources\imgui\imgui.h" />
@@ -248,6 +254,7 @@
     <ClInclude Include="ExternalResources\imgui\imstb_rectpack.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
+    <ClInclude Include="ResourceManagement\IncludeResources.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyMeshExecutor.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyFacePerRowMesh.h" />

@@ -1,25 +1,8 @@
 #include "SceneLoader.h"
-
-#include "../Cube/CubeResource.h"
-#include "../../ResourceManagement/LightResource.h"
-#include "../../ResourceManagement/ModelResource.h"
-#include "../../ResourceManagement/ShaderResource.h"
-#include "../../ResourceManagement/TextureResource.h"
-#include "../../ResourceManagement/ChunkResource.h"
-#include "../../GraphicsTesting/Cube/CubeComponent.h"
-#include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
-#include "../../Environment/Interfaces/Shader/IShaderProgram.h"
-
-#include "../../ECS/Components/Model/ModelComponent.h"
-#include "../../ECS/Components/Shader/ShaderComponent.h"
-#include "../../ECS/Components/CubeMap/CubeMapComponent.h"
-#include "../../ECS/Components/Transform/ScaleComponent.h"
-#include "../../ECS/Components/Transform/RotationComponent.h"
-#include "../../ECS/Components/Transform/TransformComponent.h"
-#include "../../ECS/Components/Transform/OrbitComponent.h"
-#include "../../ECS/Components/Voxel/ChunkComponent.h"
-#include "../../ECS/Components/Shader/VoxelShader.h"
-#include <GLFW/glfw3.h>
+#include "../../ECS/Components/IncludeComponents.h"
+#include "../../ResourceManagement/IncludeResources.h"
+#include "../../Environment/Neutral/API/GraphicsAPI.h"
+#include "../../../Utility/FatalError.h"
 
 // Shaders
 // Model Shaders
@@ -115,6 +98,7 @@ void SceneLoader::voxels(entt::registry& registry){
 	// Load chunks into entities.  Each entity is a single chunk:
 	load_chunks_into_entities(registry);
 
+	// TODO Create Voxel System under ECS/Systems
 
 	
 }
@@ -126,14 +110,15 @@ void SceneLoader::load_chunks_into_entities(entt::registry& registry){
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 	attach_basic_lighting(shader_program);
 	//TODO attach texture map here using the shader attach texture function
-	
-	for(const auto& chunk : ChunkResource::m_chunkmap){
+
+	//TODO this can't be const? const auto& chunk fails.
+	for(auto& chunk : ChunkResource::m_chunkmap){
 
 		const entt::entity chunk_entity = registry.create();
 
-		// Load chunk ptr
-		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);
-
+		// Load Chunk Components
+		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);// ---------------------------------------------------------------- error loading here??
+						
 		// Load chunk model matrix
 		registry.emplace<TransformComponent>(chunk_entity, chunk.second->get_starting_world_position().get_vec3());
 		

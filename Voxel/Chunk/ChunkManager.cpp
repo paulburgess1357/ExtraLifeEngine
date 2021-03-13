@@ -3,7 +3,7 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
-void ChunkManager::load_all_chunks(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty, const std::shared_ptr<IShaderProgram>& shader_program){
+void ChunkManager::load_all_chunks(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty){
 
 	// As chunks are loaded they check chunks next to them and draw vertices
 	// based on the adjacent chunk values.  This means that the chunk variable
@@ -13,7 +13,7 @@ void ChunkManager::load_all_chunks(const int x_chunk_qty, const int y_chunk_qty,
 	for(int x = 0; x < x_chunk_qty; x++){
 		for(int y = 0; y< y_chunk_qty; y++){
 			for(int z = 0; z < z_chunk_qty; z++){
-				load_individual_chunk(WorldPosition{ x * x_block_qty, y * y_block_qty, z * z_block_qty }, shader_program);
+				load_individual_chunk(WorldPosition{ x * x_block_qty, y * y_block_qty, z * z_block_qty });
 			}
 		}
 	}
@@ -21,10 +21,10 @@ void ChunkManager::load_all_chunks(const int x_chunk_qty, const int y_chunk_qty,
 	set_all_chunk_neighbors();
 }
 
-void ChunkManager::load_individual_chunk(const WorldPosition& world_position, const std::shared_ptr<IShaderProgram>& shader_program) {
+void ChunkManager::load_individual_chunk(const WorldPosition& world_position) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position, shader_program);
+		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position);
 		return;
 	}
 

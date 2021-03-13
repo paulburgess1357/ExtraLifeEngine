@@ -2,8 +2,7 @@
 #include "../GreedyMesh/GreedyMeshExecutor.h"
 #include "../../Utility/Print.h"
 
-Chunk::Chunk(const WorldPosition& starting_world_position,
-	const std::shared_ptr<IShaderProgram>& shader_program)
+Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
 	m_block_types{},
@@ -19,7 +18,6 @@ bool Chunk::is_empty() const{
 	}
 	return false;
 }
-
 
 unsigned char Chunk::get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const {
 	return m_block_types[x][y][z];

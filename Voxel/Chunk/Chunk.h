@@ -16,6 +16,7 @@ public:
 	virtual ~Chunk();
 	virtual void update() = 0;
 	[[nodiscard]] bool is_empty() const;
+	[[nodiscard]] virtual unsigned int get_vao() const = 0;	
 
 	[[nodiscard]] unsigned char get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const;
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);

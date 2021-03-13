@@ -12,5 +12,3 @@ struct TransformComponent {
 	glm::mat4 m_model_matrix;
 	
 };
-
-

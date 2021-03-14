@@ -295,7 +295,3 @@ int Chunk::get_vertex_qty() const{
 WorldPosition Chunk::get_starting_world_position() const{
 	return m_starting_world_position;
 }
-
-
-
-

@@ -4,7 +4,7 @@
 #include "../Utility/Print.h"
 #include <glad/glad.h>
 
-void ImGuiInterface::initialize(std::shared_ptr<IWindow>& window){
+void ImGui::ImGuiInterface::initialize(std::shared_ptr<IWindow>& window){
 
     // TODO query this:
     const char* glsl_version = "#version 330";
@@ -19,14 +19,14 @@ void ImGuiInterface::initialize(std::shared_ptr<IWindow>& window){
     ImGui::StyleColorsClassic();
 }
 
-void ImGuiInterface::update() {
+void ImGui::ImGuiInterface::update() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     debug_menu();
 }
 
-void ImGuiInterface::debug_menu() {
+void ImGui::ImGuiInterface::debug_menu() {
     ImGui::Begin("Extra Life Debug");
     // TODO: Extremely old API for font scaling.  Update method to be correct
     ImGui::SetWindowFontScale(1.5);
@@ -35,11 +35,11 @@ void ImGuiInterface::debug_menu() {
     ImGui::End();
 }
 
-void ImGuiInterface::fps() {
+void ImGui::ImGuiInterface::fps() {
     ImGui::Text("FPS: %.0f", ImGui::GetIO().Framerate);
 }
 
-void ImGuiInterface::globals() {
+void ImGui::ImGuiInterface::globals() {
 
     // Lifetime Static
     static float clr_color[4]{ 0.08f, 0.08f, 0.08f, 1.0f };
@@ -52,12 +52,12 @@ void ImGuiInterface::globals() {
     glClearColor(clr_color[0], clr_color[1], clr_color[2], clr_color[3]);
 }
 
-void ImGuiInterface::render() {
+void ImGui::ImGuiInterface::render() {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void ImGuiInterface::destroy() {
+void ImGui::ImGuiInterface::destroy() {
     Print::print("Destroying ImGuiCLass Assets");
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

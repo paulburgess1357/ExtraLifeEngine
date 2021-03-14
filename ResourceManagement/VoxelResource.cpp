@@ -1,11 +1,11 @@
-#include "ChunkResource.h"
+#include "VoxelResource.h"
 #include "../Voxel/OpenGL/OpenGLChunk.h"
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 
-std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> ChunkResource::m_chunkmap;
+std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
 
-void ChunkResource::load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
+void VoxelResource::load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
 
 	// As chunks are loaded they check chunks next to them and draw vertices
 	// based on the adjacent chunk values.  This means that the chunk variable
@@ -23,7 +23,7 @@ void ChunkResource::load(const int x_chunk_qty, const int y_chunk_qty, const int
 	set_all_chunk_neighbors();
 }
 
-void ChunkResource::load_individual_chunk(const WorldPosition& world_position) {
+void VoxelResource::load_individual_chunk(const WorldPosition& world_position) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
 		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position);
@@ -38,7 +38,7 @@ void ChunkResource::load_individual_chunk(const WorldPosition& world_position) {
 	FatalError::fatal_error("Unknown graphics API type.  Cannot create chunk for chunk manager.");
 }
 
-void ChunkResource::set_all_chunk_neighbors() {
+void VoxelResource::set_all_chunk_neighbors() {
 
 	// Each individual chunk is surrounded by neighbors.  This sets
 	// pointers inside each chunk towards its neighbors
@@ -48,7 +48,7 @@ void ChunkResource::set_all_chunk_neighbors() {
 	}
 }
 
-void ChunkResource::set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk) {
+void VoxelResource::set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk) {
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::LEFT)) {
 		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::LEFT);
@@ -82,7 +82,7 @@ void ChunkResource::set_individual_chunk_neighbors(const WorldPosition& world_po
 
 }
 
-bool ChunkResource::adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) {
+bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) {
 
 	bool chunk_exists_result = false;
 
@@ -120,7 +120,7 @@ bool ChunkResource::adjacent_chunk_exists(const WorldPosition& world_position, A
 
 }
 
-std::shared_ptr<Chunk> ChunkResource::get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) {
+std::shared_ptr<Chunk> VoxelResource::get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) {
 
 	WorldPosition adjacent_world_position;
 
@@ -157,15 +157,19 @@ std::shared_ptr<Chunk> ChunkResource::get_adjacent_chunk(const WorldPosition& wo
 	return get_chunk(adjacent_world_position);
 }
 
-bool ChunkResource::chunk_exists(const WorldPosition& world_position) {
+bool VoxelResource::chunk_exists(const WorldPosition& world_position) {
 	return m_chunkmap.count(world_position);
 }
 
-std::shared_ptr<Chunk> ChunkResource::get_chunk(const WorldPosition& world_position) {
+std::shared_ptr<Chunk> VoxelResource::get_chunk(const WorldPosition& world_position) {
 	return m_chunkmap.at(world_position);
 }
 
-void ChunkResource::destroy_all(){
+std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& VoxelResource::get_chunkmap(){
+	return m_chunkmap;
+}
+
+void VoxelResource::destroy_all(){
 	// Chunk destructor(s) are called (i.e. based on Graphics API)
 	m_chunkmap.clear();
 }

@@ -11,8 +11,6 @@
 #include "./Transform/OrbitComponent.h"
 #include "./Transform/RotationComponent.h"
 #include "./Transform/MovementVelocityComponent.h"
-#include "./Voxel/OpenGLChunkComponent.h"
-#include "./Voxel/VulkanChunkComponent.h"
 #include "./Voxel/ChunkComponent.h"
 #include "../../GraphicsTesting/Cube/CubeComponent.h"
 #include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"

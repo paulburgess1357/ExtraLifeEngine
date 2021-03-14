@@ -15,7 +15,7 @@ std::shared_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(){
 		return voxel_renderer;
 	}
 
-	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return cubemap renderer.");
+	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return voxel renderer.");
 	std::shared_ptr<IVoxelRenderer> voxel_renderer = nullptr;
 	return voxel_renderer;
 	

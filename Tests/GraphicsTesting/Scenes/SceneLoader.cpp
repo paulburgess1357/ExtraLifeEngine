@@ -1,7 +1,6 @@
 #include "SceneLoader.h"
 #include "../../ECS/Components/IncludeComponents.h"
 #include "../../ResourceManagement/IncludeResources.h"
-#include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../../Utility/FatalError.h"
 
 // Shaders
@@ -64,7 +63,6 @@ void SceneLoader::grid(entt::registry& registry){
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }
 
-
 void SceneLoader::single_model(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
@@ -93,13 +91,10 @@ void SceneLoader::cubemap(entt::registry& registry){
 void SceneLoader::voxels(entt::registry& registry){
 
 	// Load starting chunks
-	ChunkResource::load(16, 16, 16);
+	VoxelResource::load(1, 1, 1);
 
 	// Load chunks into entities.  Each entity is a single chunk:
 	load_chunks_into_entities(registry);
-
-	// TODO Create Voxel System under ECS/Systems
-
 	
 }
 
@@ -111,20 +106,18 @@ void SceneLoader::load_chunks_into_entities(entt::registry& registry){
 	attach_basic_lighting(shader_program);
 	//TODO attach texture map here using the shader attach texture function
 
-	//TODO this can't be const? const auto& chunk fails.
-	for(auto& chunk : ChunkResource::m_chunkmap){
+	for(auto& chunk : VoxelResource::get_chunkmap()){
 
 		const entt::entity chunk_entity = registry.create();
 
 		// Load Chunk Components
-		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);// ---------------------------------------------------------------- error loading here??
+		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);
 						
 		// Load chunk model matrix
 		registry.emplace<TransformComponent>(chunk_entity, chunk.second->get_starting_world_position().get_vec3());
 		
 		// Load shader program
 		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);
-		
 	}
 }
 

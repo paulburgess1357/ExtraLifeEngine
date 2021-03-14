@@ -234,12 +234,6 @@
     <ClCompile Include="Voxel\Chunk\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Voxel\Chunk\ChunkManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManagement\ChunkResource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -247,6 +241,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Systems\Voxel\VoxelSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagement\VoxelResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -590,13 +587,7 @@
     <ClInclude Include="Voxel\Chunk\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\Chunk\ChunkManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Voxel\Neutral\AdjacentChunkPosition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManagement\ChunkResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.h">
@@ -606,12 +597,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components\Shader\VoxelShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\Components\Voxel\OpenGLChunkComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\Components\Voxel\VulkanChunkComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components\IncludeComponents.h">
@@ -627,6 +612,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\VoxelResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,15 +15,14 @@ public:
 	virtual ~Chunk();
 
 	[[nodiscard]] bool is_empty() const;	
-	[[nodiscard]] unsigned char get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const;
-	[[nodiscard]] int get_vertex_qty() const;
 	[[nodiscard]] bool update_required() const;
+	[[nodiscard]] unsigned char get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const;
 	[[nodiscard]] WorldPosition get_starting_world_position() const;
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
-	
+
+	[[nodiscard]] int get_vertex_qty() const;
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
-	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
-	
+	[[nodiscard]] virtual unsigned int get_vbo() const = 0;	
 	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	void set_update_required(const bool update_required);

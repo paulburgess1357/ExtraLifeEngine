@@ -91,7 +91,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 void SceneLoader::voxels(entt::registry& registry){
 
 	// Load starting chunks
-	VoxelResource::load(16, 16, 16);
+	VoxelResource::load(3, 3, 3);
 
 	// Load chunks into entities.  Each entity is a single chunk:
 	load_chunks_into_entities(registry);

@@ -7,7 +7,6 @@
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
-#include "../ECS/Systems/Voxel/VoxelSystem.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },

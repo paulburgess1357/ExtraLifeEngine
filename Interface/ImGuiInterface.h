@@ -2,18 +2,23 @@
 #include "../Environment/Interfaces/Window/IWindow.h"
 #include <memory>
 
-class ImGuiInterface {
-public:
+namespace ImGui{
+	
+	class ImGuiInterface {
 
-	static void initialize(std::shared_ptr<IWindow>& window);
-	static void update();
-	static void render();
-	static void destroy();
-private:
-	ImGuiInterface() = default;
-	~ImGuiInterface() = default;
-	static void debug_menu();
-	static void fps();
-	static void globals();
-};
+	public:
+		static void initialize(std::shared_ptr<IWindow>& window);
+		static void update();
+		static void render();
+		static void destroy();
+	private:
+		ImGuiInterface() = default;
+		~ImGuiInterface() = default;
+		static void debug_menu();
+		static void fps();
+		static void globals();
+	};
+	
+} // namespace ImGui
+
 

@@ -1,29 +1,39 @@
 #include "Chunk.h"
 #include "../GreedyMesh/GreedyMeshExecutor.h"
 #include "../../Utility/Print.h"
-#include "../../Matrix/MatrixFunctions.h"
-#include <glm/gtc/matrix_transform.hpp>
 
-Chunk::Chunk(const WorldPosition& starting_world_position,
-	const std::shared_ptr<IShaderProgram>& shader_program)
+Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
-	m_model_matrix{ glm::translate(glm::mat4(1), starting_world_position.get_vec3()) },
-	m_normal_matrix{ MatrixFunctions::get_normal_matrix(m_model_matrix) },
-	m_shader_program{ shader_program },
-	m_block_types{}{
+	m_block_types{},
+	m_starting_world_position{ starting_world_position } {
 	initialize_types();	
 }
 
 Chunk::~Chunk() = default;
 
-unsigned char Chunk::get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const {
-	return m_block_types[x][y][z];
+void Chunk::initialize_types() {
+	for (unsigned char x = 0; x < x_block_qty; x++) {
+		for (unsigned char y = 0; y < y_block_qty; y++) {
+			for (unsigned char z = 0; z < z_block_qty; z++) {
+				int RANDOMVALUE = rand() % 4;
+				//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
+				//	RANDOMVALUE = 0;
+				//}
+				// m_block_types[x][y][z] = 1;
+				set_block_type(x, y, z, RANDOMVALUE);
+			}
+		}
+	}
 }
 
 void Chunk::set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type) {
 	m_block_types[x][y][z] = type;
 	m_update_required = true;
+}
+
+unsigned char Chunk::get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const {
+	return m_block_types[x][y][z];
 }
 
 void Chunk::set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
@@ -50,19 +60,11 @@ void Chunk::set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
 	m_back_chunk = chunk;
 }
 
-void Chunk::initialize_types() {
-	for (unsigned char x = 0; x < x_block_qty; x++) {
-		for (unsigned char y = 0; y < y_block_qty; y++) {
-			for (unsigned char z = 0; z < z_block_qty; z++) {
-				int RANDOMVALUE = rand() % 4;
-				//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
-				//	RANDOMVALUE = 0;
-				//}
-				// m_block_types[x][y][z] = 1;
-				set_block_type(x, y, z, RANDOMVALUE);
-			}
-		}
+bool Chunk::is_empty() const{
+	if(m_vertex_qty == 0){
+		return true;
 	}
+	return false;
 }
 
 std::vector<VertexAndNormals> Chunk::load_chunk_data() {
@@ -286,3 +288,18 @@ void Chunk::print_world_position(const WorldPosition& starting_world_position) c
 		std::to_string(starting_world_position.z));
 }
 
+int Chunk::get_vertex_qty() const{
+	return m_vertex_qty;
+}
+
+bool Chunk::update_required() const{
+	return m_update_required;
+}
+
+WorldPosition Chunk::get_starting_world_position() const {
+	return m_starting_world_position;
+}
+
+void Chunk::set_update_required(const bool update_required){
+	m_update_required = update_required;
+}

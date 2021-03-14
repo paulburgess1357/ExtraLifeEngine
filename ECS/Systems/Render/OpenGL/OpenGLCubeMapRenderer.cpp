@@ -6,7 +6,7 @@
 void OpenGL::OpenGLCubeMapRenderer::render(entt::registry& registry, Camera& camera) const{
 
 	auto view = registry.view<ShaderComponent, CubeMapComponent>();
-
+	
 	glDepthFunc(GL_LEQUAL);
 	
 	for (auto entity : view){		

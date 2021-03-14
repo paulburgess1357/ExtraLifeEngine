@@ -1,25 +1,19 @@
 #include "GameManager.h"
 #include "../Matrix/ProjectionMatrix.h"
-#include "../Input/Command/ControlCommands.h"
 #include "../Interface/ImGuiInterface.h"
-#include "../ResourceManagement/ModelResource.h"
-#include "../ResourceManagement/LightResource.h"
-#include "../ResourceManagement/ShaderResource.h"
-#include "../ResourceManagement/TextureResource.h"
-#include "../Tests/GraphicsTesting/Cube/CubeResource.h"
+#include "../Input/Command/ControlCommands.h"
+#include "../ResourceManagement/IncludeResources.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
-#include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
-#include "../Environment/OpenGL/Shader/OpenGLUniformBlock.h"
+#include "../ECS/Systems/Transform/TransformSystem.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
 	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.29f, 0.05f} },
 	m_input_handler{ m_camera },
-	m_mouse_handler{ m_camera } {
-	
+	m_mouse_handler{ m_camera } {	
 }
 
 GameManager::~GameManager(){
@@ -38,6 +32,7 @@ void GameManager::run(){
 	initialize_controls();
 	initialize_scene();
 	initialize_renderers();
+	initialize_updaters();
 	gameloop();
 }
 
@@ -46,7 +41,7 @@ void GameManager::initialize_window(){
 }
 
 void GameManager::initialize_imgui(){
-	ImGuiInterface::initialize(m_window);
+	ImGui::ImGuiInterface::initialize(m_window);
 }
 
 void GameManager::initialize_uniform_block_handler(){
@@ -62,32 +57,25 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene(){
-	//SceneLoader::grid(m_registry);
-    //SceneLoader::single_cube(m_registry);
-	//SceneLoader::single_cube_textured(m_registry);
-	//SceneLoader::single_model(m_registry);
 
-
-	TEMP_CHUNK_MANAGER = std::make_shared<ChunkManager>();
+	SceneLoader::voxels(m_registry);
 	
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
-	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
-
-	// Copied from scene loader to test.... ===========
-	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(-0.50f, 1.0f, 0.3f);
-	LightResource::load("dirlight", dirlight);
-	shader_program->attach_directional_light("dirlight");
-	TEMP_CHUNK_MANAGER->load_all_chunks(16, 16, 16, shader_program);
-	
-		
-	//SceneLoader::cubemap(m_registry);
+	// SceneLoader::grid(m_registry);
+    // SceneLoader::single_cube(m_registry);
+	// SceneLoader::single_cube_textured(m_registry);
+	// SceneLoader::single_model(m_registry);	
+	// SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer();
+}
+
+void GameManager::initialize_updaters(){
+	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
 }
 
 void GameManager::gameloop() {
@@ -103,27 +91,28 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	Transform::TransformSystem::update(m_registry);	
-	TEMP_CHUNK_MANAGER->update();
-	ImGuiInterface::update();
+	m_voxel_updater->update(m_registry);
+	Transform::TransformSystem::update(m_registry);
+	ImGui::ImGuiInterface::update();
 }
 
 void GameManager::render(){	
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
-	TEMP_CHUNK_MANAGER->render();
-	ImGuiInterface::render();
+	m_voxel_renderer->render(m_registry, m_camera);
+	ImGui::ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	Print::print_separator(true, true);
-	ImGuiInterface::destroy();
+	ImGui::ImGuiInterface::destroy();
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
-	ModelResource::destroy_all();	
+	ModelResource::destroy_all();
+	VoxelResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

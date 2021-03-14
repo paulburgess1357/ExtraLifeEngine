@@ -3,12 +3,10 @@
 #include "entt/entity/registry.hpp"
 #include <memory>
 
-class ICubeMapRenderer{
+class IVoxelRenderer{
 	
 public:
-	virtual ~ICubeMapRenderer() = default;
+	virtual ~IVoxelRenderer() = default;
 	virtual void render(entt::registry& registry, Camera& camera) const = 0;
-	static std::shared_ptr<ICubeMapRenderer> get_cube_renderer();
-	
+	static std::shared_ptr<IVoxelRenderer> get_voxel_renderer();
 };
-

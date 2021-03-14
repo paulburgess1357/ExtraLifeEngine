@@ -1,22 +1,7 @@
 #include "SceneLoader.h"
-
-#include "../Cube/CubeResource.h"
-#include "../../ResourceManagement/LightResource.h"
-#include "../../ResourceManagement/ModelResource.h"
-#include "../../ResourceManagement/ShaderResource.h"
-#include "../../ResourceManagement/TextureResource.h"
-#include "../../GraphicsTesting/Cube/CubeComponent.h"
-#include "../../GraphicsTesting/Cube/TexturedCubeComponent.h"
-#include "../../Environment/Interfaces/Shader/IShaderProgram.h"
-
-#include "../../ECS/Components/Model/ModelComponent.h"
-#include "../../ECS/Components/Shader/ShaderComponent.h"
-#include "../../ECS/Components/CubeMap/CubeMapComponent.h"
-#include "../../ECS/Components/Transform/ScaleComponent.h"
-#include "../../ECS/Components/Transform/RotationComponent.h"
-#include "../../ECS/Components/Transform/TransformComponent.h"
-#include "../../ECS/Components/Transform/OrbitComponent.h"
-#include <GLFW/glfw3.h>
+#include "../../ECS/Components/IncludeComponents.h"
+#include "../../ResourceManagement/IncludeResources.h"
+#include "../../../Utility/FatalError.h"
 
 // Shaders
 // Model Shaders
@@ -37,22 +22,15 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
-	//for (int x = 0; x < 16; x++) {
-	//	for (int y = 0; y < 16; y++) {
-	//		for (int z = 0; z < 16; z++) {
-				const entt::entity cube_entity = registry.create();
-				registry.emplace<ShaderComponent>(cube_entity, shader_program);
-				registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
-				registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
+	const entt::entity cube_entity = registry.create();
+	registry.emplace<ShaderComponent>(cube_entity, shader_program);
+	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
+	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
 
-				const entt::entity cube_entity2 = registry.create();
-				registry.emplace<ShaderComponent>(cube_entity2, shader_program);
-				registry.emplace<CubeComponent>(cube_entity2, CubeResource::get("cube_normal"));
-				registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 6, 0, 0 });
-	//		}
-	//	}
-	//}
-
+	const entt::entity cube_entity2 = registry.create();
+	registry.emplace<ShaderComponent>(cube_entity2, shader_program);
+	registry.emplace<CubeComponent>(cube_entity2, CubeResource::get("cube_normal"));
+	registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 6, 0, 0 });
 	
 }
 
@@ -85,7 +63,6 @@ void SceneLoader::grid(entt::registry& registry){
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }
 
-
 void SceneLoader::single_model(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
@@ -110,6 +87,40 @@ void SceneLoader::cubemap(entt::registry& registry){
 	registry.emplace<CubeMapComponent>(cubemap_entity, CubeResource::get("cubemap"));
 	
 }
+
+void SceneLoader::voxels(entt::registry& registry){
+
+	// Load starting chunks
+	VoxelResource::load(3, 3, 3);
+
+	// Load chunks into entities.  Each entity is a single chunk:
+	load_chunks_into_entities(registry);
+	
+}
+
+void SceneLoader::load_chunks_into_entities(entt::registry& registry){
+
+	// Voxel Shader:
+	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
+	attach_basic_lighting(shader_program);
+	//TODO attach texture map here using the shader attach texture function
+
+	for(auto& chunk : VoxelResource::get_chunkmap()){
+
+		const entt::entity chunk_entity = registry.create();
+
+		// Load Chunk Components
+		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);
+						
+		// Load chunk model matrix
+		registry.emplace<TransformComponent>(chunk_entity, chunk.second->get_starting_world_position().get_vec3());
+		
+		// Load shader program
+		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);
+	}
+}
+
 
 void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){
 	DirectionalLight dirlight;

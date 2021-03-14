@@ -2,7 +2,6 @@
 Entity Component System Game Engine (In Progress)
 
 ![](Assets/textures/progress_screenshot.png)
-
 ![](Assets/textures/progress_screenshot2.png)
 
 ## Features

@@ -2,6 +2,7 @@
 #include "../Voxel/OpenGL/OpenGLChunk.h"
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
+#include "../Utility/Print.h"
 
 std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
 
@@ -169,7 +170,8 @@ std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& Vo
 	return m_chunkmap;
 }
 
-void VoxelResource::destroy_all(){
+void VoxelResource::destroy_all(){	
 	// Chunk destructor(s) are called (i.e. based on Graphics API)
+	Print::print("Destroying Voxels");
 	m_chunkmap.clear();
 }

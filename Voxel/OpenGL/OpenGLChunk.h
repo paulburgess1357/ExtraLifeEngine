@@ -8,9 +8,10 @@ namespace OpenGL{
 
 	public:
 		OpenGLChunk(const WorldPosition& starting_world_position);
-		~OpenGLChunk();		
-		void update() override;
+		~OpenGLChunk();
+		
 		[[nodiscard]] unsigned int get_vao() const override;
+		[[nodiscard]] unsigned int get_vbo() const override;
 		
 	private:		
 		void initialize_vbo_vao();

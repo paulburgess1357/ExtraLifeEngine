@@ -4,7 +4,6 @@
 #include "../../../../Utility/FatalError.h"
 
 std::shared_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(){
-
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
 		return std::make_shared<OpenGL::OpenGLVoxelRenderer>();
 	}
@@ -17,7 +16,6 @@ std::shared_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(){
 
 	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return voxel renderer.");
 	std::shared_ptr<IVoxelRenderer> voxel_renderer = nullptr;
-	return voxel_renderer;
-	
+	return voxel_renderer;	
 }
 

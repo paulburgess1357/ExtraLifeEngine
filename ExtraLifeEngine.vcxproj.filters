@@ -246,6 +246,12 @@
     <ClCompile Include="ResourceManagement\VoxelResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECS\Systems\Voxel\IVoxelUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Systems\Voxel\OpenGLVoxelUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -615,6 +621,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManagement\VoxelResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Systems\Voxel\IVoxelUpdater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Systems\Voxel\OpenGLVoxelUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

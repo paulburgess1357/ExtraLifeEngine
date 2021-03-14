@@ -292,6 +292,14 @@ int Chunk::get_vertex_qty() const{
 	return m_vertex_qty;
 }
 
+bool Chunk::update_required() const{
+	return m_update_required;
+}
+
+void Chunk::set_update_required(const bool update_required){
+	m_update_required = update_required;
+}
+
 WorldPosition Chunk::get_starting_world_position() const{
 	return m_starting_world_position;
 }

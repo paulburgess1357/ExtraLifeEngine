@@ -1,7 +1,6 @@
 #pragma once
 #include "../Neutral/WorldPosition.h"
 #include "../Neutral/VertexAndNormals.h"
-#include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <memory>
 #include <vector>
 
@@ -14,17 +13,21 @@ class Chunk {
 public:
 	Chunk(const WorldPosition& starting_world_position);
 	virtual ~Chunk();
-	virtual void update() = 0;
 
-	[[nodiscard]] bool is_empty() const;
-	[[nodiscard]] virtual unsigned int get_vao() const = 0;	
+	[[nodiscard]] bool is_empty() const;	
 	[[nodiscard]] unsigned char get_block_type(const unsigned char x, const unsigned char y, const unsigned char z) const;
 	[[nodiscard]] int get_vertex_qty() const;
+	[[nodiscard]] bool update_required() const;
 	[[nodiscard]] WorldPosition get_starting_world_position() const;
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
 	
+	[[nodiscard]] virtual unsigned int get_vao() const = 0;
+	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
+	
+	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
-
+	void set_update_required(const bool update_required);
+	
 	void set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_top_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
@@ -32,11 +35,7 @@ public:
 	void set_front_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	
-protected:	
-	int m_vertex_qty;
-	bool m_update_required;
-
-private:
+private:	
 	void initialize_types();
 	
 	void load_left_face(std::vector<VertexAndNormals>& left_faces, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
@@ -54,6 +53,9 @@ private:
 	static void emplace_bottom_face(std::vector<VertexAndNormals>& vertex, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	
 	void print_world_position(const WorldPosition& starting_world_position) const;
+
+	int m_vertex_qty;
+	bool m_update_required;
 	
 	// Adjacent Chunks
 	std::shared_ptr<Chunk> m_left_chunk = nullptr;

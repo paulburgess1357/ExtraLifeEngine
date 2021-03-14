@@ -33,6 +33,7 @@ void GameManager::run(){
 	initialize_controls();
 	initialize_scene();
 	initialize_renderers();
+	initialize_updaters();
 	gameloop();
 }
 
@@ -75,6 +76,10 @@ void GameManager::initialize_renderers(){
 	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer();
 }
 
+void GameManager::initialize_updaters(){
+	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
+}
+
 void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
 		m_input_handler.hande_input();		
@@ -88,8 +93,8 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
+	m_voxel_updater->update(m_registry);
 	Transform::TransformSystem::update(m_registry);
-	Voxel::VoxelSystem::update(m_registry);
 	ImGui::ImGuiInterface::update();
 }
 

@@ -6,6 +6,7 @@
 #include "../Environment/Interfaces/Window/IWindow.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
 #include "../ECS/Systems/Render/Interfaces/IncludeRenderers.h"
+#include "../ECS/Systems/Voxel/IVoxelUpdater.h"
 #include "entt/entity/registry.hpp"
 #include <memory>
 
@@ -24,7 +25,8 @@ private:
 	void initialize_projection_matrix() const;
 	void initialize_controls();
 	void initialize_scene();
-	void initialize_renderers();	
+	void initialize_renderers();
+	void initialize_updaters();
 	
 	void gameloop();
 	void update();
@@ -43,6 +45,8 @@ private:
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
+
+	std::shared_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
 };
 
 

@@ -29,11 +29,11 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool
 	shader_program->init_texture_handler();	
 	shader_program->init_light_handler();
 
-	if(set_default_lights){
-		
-		// Set light uniforms to -1 (inactive)
-		shader_program->set_uniform("active_dirlight_qty", -1);
-		shader_program->set_uniform("active_pointlight_qty", -1);
+	// Set light uniforms to -1 (inactive)
+	shader_program->set_uniform("active_dirlight_qty", -1);
+	shader_program->set_uniform("active_pointlight_qty", -1);
+	
+	if(set_default_lights){		
 
 		// Set default scene lighting (i.e. ambient light levels)
 		const SceneLight scenelight;

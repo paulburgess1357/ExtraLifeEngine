@@ -108,12 +108,6 @@ void main() {
     diffuse_material_temp.m_sampler.x = r;
     diffuse_material_temp.m_sampler.y = g;
     diffuse_material_temp.m_sampler.z = b;
-    
-
-
-//    diffuse_material_temp.m_sampler.x = diffuse_material.m_sampler.x/frag_color_type_test;
-//    diffuse_material_temp.m_sampler.y = diffuse_material.m_sampler.y/frag_color_type_test;
-//    diffuse_material_temp.m_sampler.z = diffuse_material.m_sampler.z/frag_color_type_test;
 
     // Lighting
     vec3 result = vec3(0.0f);
@@ -181,20 +175,3 @@ vec3 calc_point_light_no_texture(PointLight pointlight,
 
     return (ambient + diffuse);
 } 
-
-//// Voxel
-//
-//// Vertex Variables
-//in vec3 fragment_world_position;
-//in vec4 texcoord;
-//
-//// Output
-//out vec4 fragment_color;
-//
-//
-//// Shader
-//void main() {        
-//
-//    //fragment_color = vec4(texcoord.w / 128.0, texcoord.w / 256.0, texcoord.w / 512.0, 1.0);
-//    fragment_color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-//}

@@ -129,16 +129,16 @@ void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_
 	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 
-	//PointLight pointlight1;
-	//pointlight1.m_position = glm::vec3(0.0f, -2.0f, -6.0f);
-	//LightResource::load("pointlight1", pointlight1);
+	// PointLight pointlight1;
+	// pointlight1.m_position = glm::vec3(0.0f, -2.0f, -5.0f);
+	// LightResource::load("pointlight1", pointlight1);
 
-	//PointLight pointlight2;
-	//pointlight2.m_position = glm::vec3(0.0f, 8.0f, 0.0f);
-	//LightResource::load("pointlight2", pointlight2);
+	// PointLight pointlight2;
+	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
+	// LightResource::load("pointlight2", pointlight2);
 
 	shader_program->attach_directional_light("dirlight");
-	//shader_program->attach_point_light("pointlight1");
-	//shader_program->attach_point_light("pointlight2");
+	// shader_program->attach_point_light("pointlight1");
+	// shader_program->attach_point_light("pointlight2");
 }
 

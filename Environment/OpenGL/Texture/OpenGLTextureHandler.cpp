@@ -1,26 +1,27 @@
-#include "../../Environment/OpenGL/Shader/OpenGLShaderProgram.h"
 #include "OpenGLTextureHandler.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 #include "../../ResourceManagement/TextureResource.h"
+#include "../../Environment/OpenGL/Shader/OpenGLShaderProgram.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLTextureHandler::OpenGLTextureHandler()
-	:m_available_tex_unit { 0 },
+	:ITextureHandler{nullptr},
+	 m_available_tex_unit { 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
      m_current_normal{ 0 },
-	 m_current_cubemap{ 0 },
-	 m_shader_program{ nullptr }{	
+	 m_current_cubemap{ 0 }{
+	
 }
 
 OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(const std::shared_ptr<IShaderProgram>& shader_program)
-	:m_available_tex_unit{ 0 },
+	:ITextureHandler{shader_program},
+	 m_available_tex_unit{ 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
 	 m_current_normal{ 0 },
-	 m_current_cubemap{ 0 },
-     m_shader_program{shader_program}{	
+	 m_current_cubemap{ 0 }{
 }
 
 
@@ -104,7 +105,6 @@ void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const std::string& tex
 	}
 	
 }
-
 
 void OpenGL::OpenGLTextureHandler::bind_textures() const{
 	bind_diffuse_textures();
@@ -221,9 +221,3 @@ void OpenGL::OpenGLTextureHandler::check_texture_qty(const unsigned qty){
 		FatalError::fatal_error("Texture quantity is >= 1 (0 is the starting count for your texture quantity)!  Shaders are currently not coded to accept more than one type of texture per shader.");
 	}
 }
-
-void OpenGL::OpenGLTextureHandler::set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program){
-	m_shader_program = shader_program;
-}
-
-

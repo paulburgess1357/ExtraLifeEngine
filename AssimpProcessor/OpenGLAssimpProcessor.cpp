@@ -2,8 +2,7 @@
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
 
-void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* assimp_mesh, const aiScene* scene, const std::string& directory, OpenGLMesh& mesh){
-	
+void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* assimp_mesh, const aiScene* scene, const std::string& directory, OpenGLMesh& mesh){	
 	aiMaterial* material = scene->mMaterials[assimp_mesh->mMaterialIndex];	
 	load_material(material, aiTextureType_DIFFUSE, directory, mesh);
 	load_material(material, aiTextureType_SPECULAR, directory, mesh);

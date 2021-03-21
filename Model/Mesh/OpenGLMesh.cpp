@@ -1,11 +1,9 @@
 #include "OpenGLMesh.h"
 #include <glad/glad.h>
-
 #include "../../Utility/Print.h"
 
 OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, const std::shared_ptr<IShaderProgram>& shader_program)
-	:m_vertices{ vertices },
-	 m_indices{ indices },
+    :IMesh{ vertices, indices },
      m_vao{ 99 },
 	 m_vbo{ 99 },
 	 m_ebo{ 99 }{
@@ -52,18 +50,6 @@ void OpenGL::OpenGLMesh::setup(){
 	
 }
 
-void OpenGL::OpenGLMesh::draw() const{
-    
-    m_texture_handler->bind_textures();
-
-	glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-
-    m_texture_handler->unbind_textures();
-	
-}
-
 void OpenGL::OpenGLMesh::destroy(){
     glDeleteBuffers(1, &m_vbo);
     glDeleteVertexArrays(1, &m_vao);
@@ -85,8 +71,3 @@ void OpenGL::OpenGLMesh::attach_specular_texture(const std::string& texture_name
 unsigned int OpenGL::OpenGLMesh::get_vao() const{
     return m_vao;
 }
-
-size_t OpenGL::OpenGLMesh::get_indices_size() const{
-    return m_indices.size();
-}
-

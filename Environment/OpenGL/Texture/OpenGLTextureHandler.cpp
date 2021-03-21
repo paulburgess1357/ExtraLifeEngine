@@ -106,7 +106,6 @@ void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const std::string& tex
 	
 }
 
-
 void OpenGL::OpenGLTextureHandler::bind_textures() const{
 	bind_diffuse_textures();
 	bind_specular_textures();
@@ -222,7 +221,3 @@ void OpenGL::OpenGLTextureHandler::check_texture_qty(const unsigned qty){
 		FatalError::fatal_error("Texture quantity is >= 1 (0 is the starting count for your texture quantity)!  Shaders are currently not coded to accept more than one type of texture per shader.");
 	}
 }
-
-
-
-

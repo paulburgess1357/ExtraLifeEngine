@@ -58,13 +58,13 @@ void GameManager::initialize_controls() {
 
 void GameManager::initialize_scene(){
 
-	//SceneLoader::voxels(m_registry);
+	// SceneLoader::voxels(m_registry);
 	
 	// SceneLoader::grid(m_registry);
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
 	SceneLoader::single_model(m_registry);	
-	//SceneLoader::cubemap(m_registry);
+	// SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){

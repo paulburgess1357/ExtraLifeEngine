@@ -1,14 +1,17 @@
 #include "OpenGLMesh.h"
 #include <glad/glad.h>
 
+#include "../../Utility/Print.h"
+
 OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, const std::shared_ptr<IShaderProgram>& shader_program)
 	:m_vertices{ vertices },
-	 m_indicies{ indices },
-     m_texture_handler{ shader_program },
+	 m_indices{ indices },
      m_vao{ 99 },
 	 m_vbo{ 99 },
 	 m_ebo{ 99 }{
-    setup();	
+     m_texture_handler = std::make_shared<OpenGLTextureHandler>(shader_program);
+	
+     setup();	
 }
 
 void OpenGL::OpenGLMesh::setup(){
@@ -23,7 +26,7 @@ void OpenGL::OpenGLMesh::setup(){
     glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vertex), &m_vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indicies.size() * sizeof(unsigned int), &m_indicies[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), &m_indices[0], GL_STATIC_DRAW);
 
     // Vertex Positions
     glEnableVertexAttribArray(0);
@@ -51,15 +54,14 @@ void OpenGL::OpenGLMesh::setup(){
 
 void OpenGL::OpenGLMesh::draw() const{
     
-    m_texture_handler.bind_textures();
+    m_texture_handler->bind_textures();
 
 	glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indicies.size()), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    m_texture_handler.unbind_textures();
-
-
+    m_texture_handler->unbind_textures();
+	
 }
 
 void OpenGL::OpenGLMesh::destroy(){
@@ -69,15 +71,22 @@ void OpenGL::OpenGLMesh::destroy(){
 }
 
 void OpenGL::OpenGLMesh::attach_diffuse_texture(const std::string& texture_name){
-    m_texture_handler.attach_diffuse_texture(texture_name);
+    m_texture_handler->attach_diffuse_texture(texture_name);
 }
 
 void OpenGL::OpenGLMesh::attach_normal_texture(const std::string& texture_name){
-    m_texture_handler.attach_normal_texture(texture_name);
+    m_texture_handler->attach_normal_texture(texture_name);
 }
 
 void OpenGL::OpenGLMesh::attach_specular_texture(const std::string& texture_name, const float shininess){
-    m_texture_handler.attach_specular_texture(texture_name, shininess);
+    m_texture_handler->attach_specular_texture(texture_name, shininess);
 }
 
+unsigned int OpenGL::OpenGLMesh::get_vao() const{
+    return m_vao;
+}
+
+size_t OpenGL::OpenGLMesh::get_indices_size() const{
+    return m_indices.size();
+}
 

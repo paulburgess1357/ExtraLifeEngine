@@ -41,6 +41,7 @@ void ModelResource::load_model(const std::string& model_name, const std::string&
 
 
 void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name, const bool assimp_flip_uvs) {
+	
 	const std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get(shader_name);
 	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path, shader_program, assimp_flip_uvs };
 	m_model_cache[model_name] = std::make_shared<OpenGL::OpenGLModel>(model_loader);
@@ -73,6 +74,7 @@ void ModelResource::destroy_all(){
 	for(auto& model : m_model_cache){
 		Print::print("Destroying Model: " + model.first);
 		model.second->destroy();
+		model.second->destroy_mesh_vector();
 	}	
 }
 

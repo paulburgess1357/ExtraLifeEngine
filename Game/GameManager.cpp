@@ -11,7 +11,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.29f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.3f, -1.0f), 0.003f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {	
 }
@@ -58,13 +58,13 @@ void GameManager::initialize_controls() {
 
 void GameManager::initialize_scene(){
 
-	SceneLoader::voxels(m_registry);
+	//SceneLoader::voxels(m_registry);
 	
 	// SceneLoader::grid(m_registry);
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
-	// SceneLoader::single_model(m_registry);	
-	// SceneLoader::cubemap(m_registry);
+	SceneLoader::single_model(m_registry);	
+	//SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){

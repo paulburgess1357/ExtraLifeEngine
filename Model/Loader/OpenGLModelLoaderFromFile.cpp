@@ -16,6 +16,7 @@ std::vector<OpenGL::OpenGLMesh> OpenGL::OpenGLModelLoaderFromFile::load(){
 
 	AssimpProcessor assimp_processor;
 	const aiScene* scene = assimp_processor.create_scene_loader(m_path, m_assimp_flip_uv);
+	
 	process_node(scene->mRootNode, scene);
 
 	return m_mesh_vector;

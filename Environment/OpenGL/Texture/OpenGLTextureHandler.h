@@ -1,29 +1,28 @@
 #pragma once
-#include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include "../Texture/TextureShaderData.h"
+#include "../../Environment/Interfaces/Shader/IShaderProgram.h"
+#include "../../Environment/Interfaces/Texture/ITextureHandler.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
 
 namespace OpenGL{
 	
-	class OpenGLTextureHandler{
+	class OpenGLTextureHandler : public ITextureHandler{
 
 	public:
 		OpenGLTextureHandler();
 		OpenGLTextureHandler(const std::shared_ptr<IShaderProgram>& shader_program);
 
-		void attach_diffuse_texture(const std::string& texture_name);
-		void attach_normal_texture(const std::string& texture_name);
-		void attach_specular_texture(const std::string& texture_name, const float shininess);
-		void attach_cubemap_texture(const std::string& texture_name);
+		void attach_diffuse_texture(const std::string& texture_name) override;
+		void attach_normal_texture(const std::string& texture_name) override;
+		void attach_specular_texture(const std::string& texture_name, const float shininess) override;
+		void attach_cubemap_texture(const std::string& texture_name) override;
 		
-		void bind_textures() const;
-		void unbind_textures() const;
-		void set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program);
+		void bind_textures() const override;
+		void unbind_textures() const override;
 		
 	private:
-
 		void bind_diffuse_textures() const;
 		void bind_specular_textures() const;
 		void bind_normal_textures() const;
@@ -51,10 +50,7 @@ namespace OpenGL{
 		std::unordered_map<std::string, TextureShaderData> m_normal_texture_map;
 
 		unsigned int m_current_cubemap;
-		std::unordered_map<std::string, TextureShaderData> m_cubemap_texture_map;
-
-		std::shared_ptr<IShaderProgram> m_shader_program;
-		
+		std::unordered_map<std::string, TextureShaderData> m_cubemap_texture_map;		
 	};
 	
 } // namespace OpenGL

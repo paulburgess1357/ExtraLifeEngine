@@ -66,14 +66,16 @@ void SceneLoader::grid(entt::registry& registry){
 void SceneLoader::single_model(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
+	
 	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader", false);
+	
 	attach_basic_lighting(shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.2f, 0.0f, 0.0f);
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.02f, 0.0f, 0.0f);
 }
 
 void SceneLoader::cubemap(entt::registry& registry){

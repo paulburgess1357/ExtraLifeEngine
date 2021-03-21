@@ -1,18 +1,16 @@
 #include "OpenGLModel.h"
 
 OpenGL::OpenGLModel::OpenGLModel(OpenGLModelLoaderFromFile& model_loader){
-	m_mesh_vector = model_loader.load();	
-}
 
-void OpenGL::OpenGLModel::draw() const{
-	for(const auto& mesh : m_mesh_vector){
-		mesh.draw();		
+	for(const auto& mesh : model_loader.load()){
+		m_mesh_vector.push_back(std::make_shared<OpenGLMesh>(mesh));
 	}
+	
 }
 
 void OpenGL::OpenGLModel::destroy(){
 	for (auto& mesh : m_mesh_vector){
-		mesh.destroy();
+		mesh->destroy();
 	}
 	m_mesh_vector.clear();
 }

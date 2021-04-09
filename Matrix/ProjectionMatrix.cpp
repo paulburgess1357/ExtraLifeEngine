@@ -12,7 +12,7 @@ glm::mat4 ProjectionMatrix::m_projection_matrix = glm::mat4{ 1.0f };
 
 const float ProjectionMatrix::DEFAULT_FOV{ 45.0f };
 const float ProjectionMatrix::DEFAULT_ZNEAR{ 0.1f };
-const float ProjectionMatrix::DEFAULT_ZFAR{ 100.0f };
+const float ProjectionMatrix::DEFAULT_ZFAR{ 1000.0f };
 
 std::shared_ptr<IWindow> ProjectionMatrix::m_window_ptr = nullptr;
 

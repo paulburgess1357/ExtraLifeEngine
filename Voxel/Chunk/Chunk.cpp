@@ -1,6 +1,7 @@
 #include "Chunk.h"
 #include "../GreedyMesh/GreedyMeshExecutor.h"
 #include "../../Utility/Print.h"
+#include <noise/noise.h>
 
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
@@ -13,18 +14,101 @@ Chunk::Chunk(const WorldPosition& starting_world_position)
 Chunk::~Chunk() = default;
 
 void Chunk::initialize_types() {
-	for (unsigned char x = 0; x < x_block_qty; x++) {
-		for (unsigned char y = 0; y < y_block_qty; y++) {
-			for (unsigned char z = 0; z < z_block_qty; z++) {
-				int RANDOMVALUE = rand() % 4;
-				//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
-				//	RANDOMVALUE = 0;
-				//}
-				// m_block_types[x][y][z] = 1;
-				set_block_type(x, y, z, RANDOMVALUE);
+
+	// This shouldn't impact the chunk optimizations because the LOAD order
+	// is the same.  The block types are set before loading.  This means the
+	// direction of the faces is the same.
+
+	noise::module::Perlin perlin_noise;
+	glm::vec3 start_position = m_starting_world_position.get_vec3();
+
+	
+	for (int x = 0; x < x_block_qty; x++) {
+		for (int z = 0; z < z_block_qty; z++) {
+
+			//int RANDOMVALUE = rand() % 4;
+			//if(RANDOMVALUE == 0){
+			//	RANDOMVALUE = 1;
+			//}
+			
+			const float nx = (static_cast<float>(x + start_position.x) / x_block_qty - 0.5f);
+			const float nz = (static_cast<float>(z + start_position.z) / z_block_qty - 0.5f);
+			
+			int height = (perlin_noise.GetValue(nx, 0.0f, nz) / 2.0f + 0.5f) * y_block_qty + 2; // + 8 makes tabletops			
+			
+			if(height > y_block_qty){
+				height = y_block_qty;
 			}
+
+			if(height < 1){
+				height = 1;
+			}
+			//
+			for(int y = 0; y < height; y++){
+				set_block_type(x, y, z, 1);
+			}
+
 		}
 	}
+
+	
+	
+	//for (unsigned char x = 0; x < x_block_qty; x++) {
+	//	for (unsigned char z = 0; z < z_block_qty; z++) {
+	//		for (unsigned char y = 0; y < y_block_qty; y++) {
+
+	//			
+	//			// Test 1 =================================================================				
+	//			//int RANDOMVALUE = rand() % 4;
+	//			//
+	//			//float new_x = (start_position.x + x) / static_cast<float>(x_block_qty);
+	//			//float new_y = (start_position.y + y) / static_cast<float>(y_block_qty);
+	//			//float new_z = (start_position.z + z) / static_cast<float>(z_block_qty);
+
+	//			//
+	//			//double val = perlin_nose.GetValue(new_x, new_y, new_z);
+	//			////std::cout << std::to_string(val) << std::endl;
+
+	//			//if(RANDOMVALUE == 0){
+	//			//	RANDOMVALUE = 1;
+	//			//}
+	//			//
+	//			//if(val > 0.4){					
+	//			//	set_block_type(x, y, z, RANDOMVALUE);
+	//			//}
+
+	//			// =======================================================================================
+
+
+
+
+
+	//			
+	//			// Original ==============================================================================
+	//			// int RANDOMVALUE = rand() % 4;				
+	//			//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
+	//			//	RANDOMVALUE = 0;
+	//			//}
+	//			// m_block_types[x][y][z] = 1;
+	//			//set_block_type(x, y, z, 1);
+	//			// =========================================================================================
+	//		}
+	//	}
+	//}
+
+	
+	//for (unsigned char x = 0; x < x_block_qty; x++) {
+	//	for (unsigned char y = 0; y < y_block_qty; y++) {
+	//		for (unsigned char z = 0; z < z_block_qty; z++) {
+	//			//int RANDOMVALUE = rand() % 4;
+	//			//if(RANDOMVALUE == 0 || RANDOMVALUE == 1 || RANDOMVALUE == 2){
+	//			//	RANDOMVALUE = 0;
+	//			//}
+	//			// m_block_types[x][y][z] = 1;
+	//			set_block_type(x, y, z, 1);
+	//		}
+	//	}
+	//}
 }
 
 void Chunk::set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type) {

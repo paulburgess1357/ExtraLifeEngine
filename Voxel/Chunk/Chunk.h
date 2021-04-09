@@ -5,7 +5,7 @@
 #include <vector>
 
 constexpr unsigned char x_block_qty = 16;
-constexpr unsigned char y_block_qty = 16;
+constexpr unsigned char y_block_qty = 12;
 constexpr unsigned char z_block_qty = 16;
 
 class Chunk {

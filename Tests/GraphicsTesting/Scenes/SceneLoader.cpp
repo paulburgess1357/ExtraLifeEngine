@@ -93,7 +93,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 void SceneLoader::voxels(entt::registry& registry){
 
 	// Load starting chunks
-	VoxelResource::load(1, 1, 1);
+	VoxelResource::load(32, 1, 32);
 
 	// Load chunks into entities.  Each entity is a single chunk:
 	load_chunks_into_entities(registry);
@@ -126,19 +126,19 @@ void SceneLoader::load_chunks_into_entities(entt::registry& registry){
 
 void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){
 	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+	dirlight.m_direction = glm::vec3(1.0f, 0.5f, 0.0f);
 	LightResource::load("dirlight", dirlight);
 
-	// PointLight pointlight1;
-	// pointlight1.m_position = glm::vec3(0.0f, -2.0f, -5.0f);
-	// LightResource::load("pointlight1", pointlight1);
+	PointLight pointlight1;
+	pointlight1.m_position = glm::vec3(128.0f, 20.0f, 128.0f);
+	LightResource::load("pointlight1", pointlight1);
 
 	// PointLight pointlight2;
 	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
 	// LightResource::load("pointlight2", pointlight2);
 
-	shader_program->attach_directional_light("dirlight");
-	// shader_program->attach_point_light("pointlight1");
+	//shader_program->attach_directional_light("dirlight");
+	shader_program->attach_point_light("pointlight1");
 	// shader_program->attach_point_light("pointlight2");
 }
 

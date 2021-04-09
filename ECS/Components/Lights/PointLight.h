@@ -10,9 +10,13 @@ struct PointLight {
 	glm::vec3 m_position { 0.0f, 4.0f, 0.0f };
 
 	// Attenuation
-	float m_constant { 1.0f };
-	float m_linear { 0.45f };
-	float m_quadratic { 0.0075f };
+	//float m_constant { 1.0f };
+	//float m_linear { 0.45f };
+	//float m_quadratic { 0.0075f };
+
+	float m_constant{ 1.0f };
+	float m_linear{ 0.0014f };
+	float m_quadratic{ 0.000007f };
 
 };
 

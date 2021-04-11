@@ -255,6 +255,9 @@
     <ClCompile Include="Model\Mesh\IMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Voxel\Neutral\TerrainGeneration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -630,6 +633,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Interfaces\Texture\ITextureHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel\Neutral\TerrainGeneration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

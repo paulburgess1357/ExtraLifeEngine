@@ -169,6 +169,7 @@
     <ClCompile Include="ExternalResources\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Voxel\Neutral\TerrainGeneration.cpp" />
     <ClCompile Include="Voxel\GreedyMesh\GreedyMeshExecutor.cpp" />
     <ClCompile Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.cpp" />
     <ClCompile Include="Voxel\GreedyMesh\GreedyFacePerRowMesh.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
     <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
     <ClInclude Include="ResourceManagement\IncludeResources.h" />
+    <ClInclude Include="Voxel\Neutral\TerrainGeneration.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyMeshExecutor.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyFacePerRowMesh.h" />

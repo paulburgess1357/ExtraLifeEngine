@@ -21,11 +21,14 @@ public:
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
 
 	[[nodiscard]] int get_vertex_qty() const;
+	[[nodiscard]] bool get_in_camera_range() const;
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
-	[[nodiscard]] virtual unsigned int get_vbo() const = 0;	
+	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
+	
 	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	void set_update_required(const bool update_required);
+	void set_in_camera_range(const bool in_camera_range);
 	
 	void set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
@@ -33,6 +36,8 @@ public:
 	void set_bottom_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_front_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
+
+	void print_world_position() const;
 	
 private:	
 	void initialize_types();
@@ -50,11 +55,10 @@ private:
 	static void emplace_back_face(std::vector<VertexAndNormals>& vertex, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	static void emplace_top_face(std::vector<VertexAndNormals>& vertex, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	static void emplace_bottom_face(std::vector<VertexAndNormals>& vertex, const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
-	
-	void print_world_position(const WorldPosition& starting_world_position) const;
 
 	int m_vertex_qty;
 	bool m_update_required;
+	bool m_in_camera_range;
 	
 	// Adjacent Chunks
 	std::shared_ptr<Chunk> m_left_chunk = nullptr;

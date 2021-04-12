@@ -9,19 +9,23 @@ void OpenGL::OpenGLVoxelRenderer::render(entt::registry& registry, Camera& camer
 
 	registry.view<ChunkComponent, TransformComponent, VoxelShaderComponent>().each([](auto& chunk, auto& transform, auto& shader) {
 
-		const int vertex_qty = chunk.m_chunk->get_vertex_qty();
-		if (vertex_qty != 0) {
+		if (chunk.m_chunk->get_in_camera_range()) {
 
-			shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
-			shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
+			const int vertex_qty = chunk.m_chunk->get_vertex_qty();
+			if (vertex_qty != 0) {
 
-			shader.m_shader_program->bind();
+				shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
+				shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
 
-			glBindVertexArray(chunk.m_chunk->get_vao());
-			glDrawArrays(GL_TRIANGLES, 0, vertex_qty);
-			glBindVertexArray(0);
+				shader.m_shader_program->bind();
 
-			shader.m_shader_program->unbind();
+				glBindVertexArray(chunk.m_chunk->get_vao());
+				glDrawArrays(GL_TRIANGLES, 0, vertex_qty);
+				glBindVertexArray(0);
+
+				shader.m_shader_program->unbind();
+			}
+
 		}
 
 	});

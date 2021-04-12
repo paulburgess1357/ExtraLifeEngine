@@ -6,9 +6,10 @@
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
+    m_in_camera_range{ false },
 	m_block_types{},
 	m_starting_world_position{ starting_world_position } {
-	initialize_types();	
+	initialize_types();
 }
 
 Chunk::~Chunk() = default;
@@ -293,10 +294,10 @@ void Chunk::emplace_bottom_face(std::vector<VertexAndNormals> & vertex, const un
 	vertex.emplace_back(x + 1, y,     z + 1, type, 0, -1, 0); // top right
 }
 
-void Chunk::print_world_position(const WorldPosition& starting_world_position) const {
-	Print::print("World Position: " + std::to_string(starting_world_position.x) + ";" +
-		std::to_string(starting_world_position.y) + ";" +
-		std::to_string(starting_world_position.z));
+void Chunk::print_world_position() const {
+	Print::print("World Position: " + std::to_string(m_starting_world_position.x) + ";" +
+		std::to_string(m_starting_world_position.y) + ";" +
+		std::to_string(m_starting_world_position.z));
 }
 
 int Chunk::get_vertex_qty() const{
@@ -311,6 +312,15 @@ WorldPosition Chunk::get_starting_world_position() const {
 	return m_starting_world_position;
 }
 
+bool Chunk::get_in_camera_range() const{
+	return m_in_camera_range;
+}
+
+
 void Chunk::set_update_required(const bool update_required){
 	m_update_required = update_required;
+}
+
+void Chunk::set_in_camera_range(const bool in_camera_range){
+	m_in_camera_range = in_camera_range;
 }

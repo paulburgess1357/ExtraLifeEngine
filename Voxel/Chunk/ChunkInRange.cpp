@@ -6,22 +6,26 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-int ChunkInRange::m_range_qty = 10;
+int ChunkInRange::m_range_qty = 20;
 std::vector<WorldPosition> ChunkInRange::m_chunks_in_camera_range;
 
 void ChunkInRange::set_chunks_in_range(const Camera& camera) {
 
 	const glm::vec3 camera_position = camera.get_camera_position();
 
-	const int nearest_x_chunk = static_cast<int>(camera_position.x / x_block_qty) * x_block_qty;
-	const int nearest_y_chunk = static_cast<int>(camera_position.y / y_block_qty) * y_block_qty;
-	const int nearest_z_chunk = static_cast<int>(camera_position.z / z_block_qty) * z_block_qty;
+	const int nearest_x_chunk = static_cast<int>(camera_position.x) / x_block_qty * x_block_qty;
+	const int nearest_y_chunk = static_cast<int>(camera_position.y) / y_block_qty * y_block_qty;
+	const int nearest_z_chunk = static_cast<int>(camera_position.z) / z_block_qty * z_block_qty;
+	
+	
 
 	const WorldPosition base_position{nearest_x_chunk, nearest_y_chunk, nearest_z_chunk};
-	const std::vector<WorldPosition> chunks_in_range = get_chunks_in_range(base_position);
+	
+	//std::cout << "base position: " << base_position.x << "," << base_position.y << "," << base_position.z << std::endl;
+	std::vector<WorldPosition> chunks_in_range = get_chunks_in_range(base_position); //TODO Make const
 
 	m_chunks_in_camera_range = chunks_in_range;
-
+	std::sort(chunks_in_range.begin(), chunks_in_range.end(), less_than_key_REMOVE_ME());
 	//TODO Remove when complete.  Temp dupe check
 	
 	//for(int i = 0; i < chunks_in_range.size(); i++){
@@ -64,8 +68,18 @@ std::vector<WorldPosition> ChunkInRange::get_chunks_in_range(const WorldPosition
 	for(int x = 0; x < range_qty_loop; x++){
 		for(int y = 0; y < range_qty_loop; y++){
 			for(int z = 0; z < range_qty_loop; z++){
+				
 				chunks_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z + (z_block_qty * z));
-				chunks_in_range.emplace_back(base_position.x - (x_block_qty * x), base_position.y - (y_block_qty * y), base_position.z - (z_block_qty * z));
+
+				chunks_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y - (y_block_qty * y), base_position.z - (z_block_qty * z));
+				chunks_in_range.emplace_back(base_position.x - (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z - (z_block_qty * z));
+				chunks_in_range.emplace_back(base_position.x - (x_block_qty * x), base_position.y - (y_block_qty * y), base_position.z + (z_block_qty * z));
+
+				chunks_in_range.emplace_back(base_position.x - (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z + (z_block_qty * z));
+				chunks_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y - (y_block_qty * y), base_position.z + (z_block_qty * z));
+				chunks_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z - (z_block_qty * z));
+
+				chunks_in_range.emplace_back(base_position.x - (x_block_qty * x), base_position.y - (y_block_qty * y), base_position.z - (z_block_qty * z));												
 			}
 		}
 	}

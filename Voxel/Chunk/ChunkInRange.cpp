@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-int ChunkInRange::m_range_qty = 12;
+int ChunkInRange::m_range_qty = 16;
 std::vector<WorldPosition> ChunkInRange::m_chunks_in_camera_range;
 
 void ChunkInRange::set_chunks_in_range(const Camera& camera) {
@@ -22,10 +22,10 @@ void ChunkInRange::set_chunks_in_range(const Camera& camera) {
 	const WorldPosition base_position{nearest_x_chunk, nearest_y_chunk, nearest_z_chunk};
 	
 	//std::cout << "base position: " << base_position.x << "," << base_position.y << "," << base_position.z << std::endl;
-	std::vector<WorldPosition> chunks_in_range = get_chunks_in_range(base_position); //TODO Make const
+	m_chunks_in_camera_range = get_chunks_in_range(base_position); //TODO Make const
 
-	m_chunks_in_camera_range = chunks_in_range;
-	std::sort(chunks_in_range.begin(), chunks_in_range.end(), less_than_key_REMOVE_ME());
+	//m_chunks_in_camera_range = chunks_in_range;
+	//std::sort(chunks_in_range.begin(), chunks_in_range.end(), less_than_key_REMOVE_ME());
 	//TODO Remove when complete.  Temp dupe check
 	
 	//for(int i = 0; i < chunks_in_range.size(); i++){

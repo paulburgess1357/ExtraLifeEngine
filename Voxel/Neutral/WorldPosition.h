@@ -19,6 +19,10 @@ struct WorldPosition {
 		return world_position.x == x && world_position.y == y && world_position.z == z;
 	}
 
+	bool operator!=(const WorldPosition& world_position) const {
+		return world_position.x != x || world_position.y != y || world_position.z != z;
+	}
+
 	int x = 0;
 	int y = 0;
 	int z = 0;

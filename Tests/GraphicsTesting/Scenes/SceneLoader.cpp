@@ -93,7 +93,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 void SceneLoader::voxels(entt::registry& registry){
 
 	// Load starting chunks
-	VoxelResource::load(20, 1, 20);
+	VoxelResource::load(60, 1, 60);
 
 	// Load chunks into entities.  Each entity is a single chunk:
 	load_chunks_into_entities(registry);
@@ -137,7 +137,7 @@ void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_
 	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
 	// LightResource::load("pointlight2", pointlight2);
 
-	//shader_program->attach_directional_light("dirlight");
+	// shader_program->attach_directional_light("dirlight");
 	shader_program->attach_point_light("pointlight1");
 	// shader_program->attach_point_light("pointlight2");
 }

@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-int ChunkInRange::m_range_qty = 10;
+int ChunkInRange::m_range_qty = 12;
 std::vector<WorldPosition> ChunkInRange::m_chunks_in_camera_range;
 
 void ChunkInRange::set_chunks_in_range(const Camera& camera) {

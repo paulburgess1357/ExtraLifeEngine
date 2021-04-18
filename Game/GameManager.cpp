@@ -3,6 +3,7 @@
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
 #include "../ResourceManagement/IncludeResources.h"
+#include "../ECS/Systems/Voxel/VoxelInRangeUpdater.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
@@ -11,7 +12,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0.0f, 0, -2.0f), glm::vec3(0.0f, -0.03f, -1.0f), 0.3f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(64, 32, 64), glm::vec3(0.0f, -0.03f, -1.0f), 0.5f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {	
 }
@@ -64,7 +65,7 @@ void GameManager::initialize_scene(){
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
 	// SceneLoader::single_model(m_registry);	
-	// SceneLoader::cubemap(m_registry);
+	SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -91,9 +92,10 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
+	VoxelInRangeUpdater::set_all_chunks_in_range(m_camera);
 	m_voxel_updater->update(m_registry);
 	Transform::TransformSystem::update(m_registry);
-	ImGui::ImGuiInterface::update();
+	ImGui::ImGuiInterface::update();	
 }
 
 void GameManager::render(){	

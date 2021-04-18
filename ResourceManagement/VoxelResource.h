@@ -23,6 +23,5 @@ private:
 	static void set_all_chunk_neighbors();
 	static void set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk);		
 
-	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
-		
+	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;		
 };

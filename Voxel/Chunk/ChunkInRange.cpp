@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-int ChunkInRange::m_range_qty = 12;
+int ChunkInRange::m_range_qty = 10;
 WorldPosition ChunkInRange::m_camera_position;
 std::vector<WorldPosition> ChunkInRange::m_chunks_in_camera_range;
 
@@ -19,6 +19,7 @@ void ChunkInRange::set_chunks_in_range(const Camera& camera) {
 
 	// Update chunks in range only if camera is at a new chunk
 	if(m_camera_position != new_camera_position){
+		std::cout << "updating camera position" << std::endl;
 		m_camera_position = new_camera_position;
 		m_chunks_in_camera_range = get_chunks_in_range(m_camera_position);
 	}

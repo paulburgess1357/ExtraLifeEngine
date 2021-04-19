@@ -92,7 +92,7 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	VoxelInRangeUpdater::set_all_chunks_in_range(m_camera);
+	VoxelInRangeUpdater::set_all_chunks_in_range(m_camera, 10);
 	m_voxel_updater->update(m_registry);
 	Transform::TransformSystem::update(m_registry);
 	ImGui::ImGuiInterface::update();	

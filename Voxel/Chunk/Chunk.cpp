@@ -28,7 +28,7 @@ void Chunk::initialize_types() {
 			//	RANDOMVALUE = 1;
 			//}
 			
-			const int height = TerrainGeneration::generate_top_layer(m_starting_world_position, x, z, x_block_qty, y_block_qty, z_block_qty);
+			const int height = TerrainGeneration::generate_top_layer2(m_starting_world_position, x, z, x_block_qty, y_block_qty, z_block_qty);
 
 			for(int y = 0; y < height; y++){
 				set_block_type(x, y, z, 1);

@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 Camera::Camera(const glm::vec3& camera_position, const glm::vec3& camera_forward, float movement_speed, float look_sensitivity)
 	:CameraData(camera_position, camera_forward),

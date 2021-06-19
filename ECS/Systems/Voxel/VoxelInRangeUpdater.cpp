@@ -8,7 +8,7 @@ void VoxelInRangeUpdater::set_all_chunks_in_range(const Camera& camera, const in
 	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
 	
 	// Set all chunks in range to false
-	for(auto chunk : chunkmap){
+	for(auto& chunk : chunkmap){
 		chunk.second->set_in_camera_range(false);				
 	}
 

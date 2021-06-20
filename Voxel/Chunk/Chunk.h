@@ -25,6 +25,12 @@ public:
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
 	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
 	
+	[[nodiscard]] std::shared_ptr<Chunk> get_left_adjacent_chunk() const;
+	[[nodiscard]] std::shared_ptr<Chunk> get_right_adjacent_chunk() const;
+	[[nodiscard]] std::shared_ptr<Chunk> get_top_adjacent_chunk() const;
+	[[nodiscard]] std::shared_ptr<Chunk> get_bottom_adjacent_chunk() const;
+	[[nodiscard]] std::shared_ptr<Chunk> get_front_adjacent_chunk() const;
+	[[nodiscard]] std::shared_ptr<Chunk> get_back_adjacent_chunk() const;
 	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	void set_update_required(const bool update_required);

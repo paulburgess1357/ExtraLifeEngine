@@ -12,7 +12,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },	
-	m_camera{ Camera{ glm::vec3(0, 50, -40), glm::vec3(0.51f, -0.38f, 0.76f), 0.02f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0, 50, -40), glm::vec3(0.51f, 0.0f, 0.76f), 0.15f, 0.05f} }, //-.38 for y look
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {	
 }
@@ -64,7 +64,7 @@ void GameManager::initialize_scene(){
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
 	// SceneLoader::single_model(m_registry);	
-	// SceneLoader::cubemap(m_registry);
+	SceneLoader::cubemap(m_registry);
 }
 
 void GameManager::initialize_renderers(){
@@ -91,7 +91,11 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	VoxelInRangeUpdater::set_all_chunks_in_range(m_camera, 10);
+
+	// THIS IS IN TESTING MODE (All chunks are being set to true, not just chunks in camera range);
+	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 7);
+
+	
 	m_voxel_updater->update(m_registry);
 	Transform::TransformSystem::update(m_registry);
 	ImGui::ImGuiInterface::update();	

@@ -39,6 +39,30 @@ void Chunk::initialize_types() {
 			
 }
 
+std::shared_ptr<Chunk> Chunk::get_left_adjacent_chunk() const{
+	return m_left_chunk;
+}
+
+std::shared_ptr<Chunk> Chunk::get_right_adjacent_chunk() const{
+	return m_right_chunk;
+}
+
+std::shared_ptr<Chunk> Chunk::get_top_adjacent_chunk() const{
+	return m_top_chunk;
+}
+
+std::shared_ptr<Chunk> Chunk::get_bottom_adjacent_chunk() const{
+	return m_bottom_chunk;
+}
+
+std::shared_ptr<Chunk> Chunk::get_front_adjacent_chunk() const{
+	return m_front_chunk;
+}
+
+std::shared_ptr<Chunk> Chunk::get_back_adjacent_chunk() const{
+	return m_back_chunk;
+}
+
 void Chunk::set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type) {
 	m_block_types[x][y][z] = type;
 	m_update_required = true;
@@ -315,7 +339,6 @@ WorldPosition Chunk::get_starting_world_position() const {
 bool Chunk::get_in_camera_range() const{
 	return m_in_camera_range;
 }
-
 
 void Chunk::set_update_required(const bool update_required){
 	m_update_required = update_required;

@@ -14,6 +14,5 @@ public:
 	
 private:
 	static void attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program);
-	static void load_chunks_into_entities(entt::registry& registry);
 };
 

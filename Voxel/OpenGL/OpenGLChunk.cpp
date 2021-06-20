@@ -16,7 +16,7 @@ OpenGL::OpenGLChunk::~OpenGLChunk() {
 }
 
 void OpenGL::OpenGLChunk::initialize_vbo_vao() {
-	Print::print("Initializing Chunk VBO and VAO");
+	// Print::print("Initializing Chunk VBO and VAO");
 	glGenBuffers(1, &m_vbo);
 	glGenVertexArrays(1, &m_vao);
 }

@@ -244,7 +244,7 @@
     <ClInclude Include="ECS\Systems\Voxel\VoxelInRangeUpdater.h" />
     <ClInclude Include="Voxel\Chunk\ChunkInRange.h" />
     <ClInclude Include="ECS\Components\IncludeComponents.h" />
-    <ClInclude Include="ECS\Components\Shader\VoxelShader.h" />
+    <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h" />
     <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IncludeRenderers.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.h" />

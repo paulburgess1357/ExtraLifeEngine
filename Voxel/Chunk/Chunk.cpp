@@ -23,17 +23,25 @@ void Chunk::initialize_types() {
 	for (int x = 0; x < x_block_qty; x++) {
 		for (int z = 0; z < z_block_qty; z++) {
 
+			if (m_starting_world_position.y == 0) {
+				const int height = TerrainGeneration::generate_top_layer2(m_starting_world_position, x, z, x_block_qty, y_block_qty, z_block_qty);
+				for (int y = 0; y < height; y++) {
+					set_block_type(x, y, z, 1);
+				}
+			} else {
+				for (int y = 0; y < y_block_qty; y++) {
+					if(m_starting_world_position.y < 0){
+						set_block_type(x, y, z, 1);
+					} else{
+						set_block_type(x, y, z, 0);
+					}
+				}
+			}
+			
 			//int RANDOMVALUE = rand() % 2;
 			//if(RANDOMVALUE == 0){
 			//	RANDOMVALUE = 1;
-			//}
-			
-			const int height = TerrainGeneration::generate_top_layer2(m_starting_world_position, x, z, x_block_qty, y_block_qty, z_block_qty);
-
-			for(int y = 0; y < height; y++){
-				set_block_type(x, y, z, 1);
-			}
-
+			//}			
 		}
 	}
 			
@@ -141,6 +149,11 @@ std::vector<VertexAndNormals> Chunk::load_chunk_data() {
 
 	const std::vector<VertexAndNormals> meshed_faces = GreedyMeshExecutor::run_greedy_mesh(left_faces, right_faces, top_faces, bottom_faces, front_faces, back_faces);
 	m_vertex_qty = static_cast<int>(meshed_faces.size());
+
+	if (is_empty()) {
+		set_update_required(false);
+	}
+	
 	return meshed_faces;
 }
 

@@ -7,7 +7,7 @@
 class VoxelInRangeUpdater{
 	
 public:
-	static void load_in_range_chunks(const Camera& camera, entt::registry& registry, const int range);
+	static void load_in_range_chunks(const Camera& camera, entt::registry& registry, const int x_range, const int y_range, const int z_range);
 	
 private:
 	static std::vector<WorldPosition> filter_to_new_world_positions(std::vector<WorldPosition>& chunks_in_range);

@@ -14,15 +14,10 @@ WorldPosition VoxelInRangeUpdater::m_camera_chunk_coords{ -99, -99, -99 };
 
 
 //TODO rename this to reflect that it loads chunks into the resource
-void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::registry& registry, const int range) {
+void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::registry& registry, const int x_range, const int y_range, const int z_range) {
 
 	const WorldPosition camera_chunk_coords = get_nearest_chunk_coords_to_camera(camera);
 
-	//TODO change the update to based on range of coords within camera? Right now it udpates it if the camera changes
-	//TODO to any new chunk. However, it might be smoother if this is done with say a chunks in range of 4 or so.  Store
-	//TODO chunks in range in a hashmap.  If current camera coords in map, dont update.  If current camera coords not
-	//TODO in the map, update both the chunks in range for camera coords, as well as run the part below...
-	
 	// Only update 'chunks in range' if the camera position has changed
 	if (m_camera_chunk_coords != camera_chunk_coords) {
 		m_camera_chunk_coords = camera_chunk_coords;
@@ -31,7 +26,7 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 		set_all_chunks_range_attribute(false);
 
 		// Get a 'sphere' of chunks in range and set to in camera range
-		std::vector<WorldPosition> world_positions_in_range = ChunkInRange::get_world_positions_in_range(m_camera_chunk_coords, range, true);			
+		std::vector<WorldPosition> world_positions_in_range = ChunkInRange::get_world_positions_in_range(m_camera_chunk_coords, x_range, y_range, z_range);
 
 		// Filter to only new world positions (no old chunks allowed!)
 		std::vector<WorldPosition> new_world_positions_in_range = filter_to_new_world_positions(world_positions_in_range);

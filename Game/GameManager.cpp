@@ -93,7 +93,7 @@ void GameManager::update(){
 	m_shader_uniform_block_handler->update(m_camera);
 
 	// THIS IS IN TESTING MODE (All chunks are being set to true, not just chunks in camera range);
-	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 10);
+	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 7);
 
 	
 	m_voxel_updater->update(m_registry);

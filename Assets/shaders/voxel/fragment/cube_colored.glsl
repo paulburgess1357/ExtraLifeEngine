@@ -77,9 +77,9 @@ void main() {
     float b = 0;
 
     if(frag_color_type_test <= 1.1f){
-        r = 0;
-        g = 1;
-        b = 0;
+        r = .12;
+        g = .7;
+        b = .42;
     } else if(frag_color_type_test <= 2.1f) {
         r = 1;
         g = 0;

@@ -93,35 +93,10 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 void SceneLoader::voxels(entt::registry& registry){
 
-	// Load starting chunks
-	VoxelResource::load(5, 1, 5);
-
-	// Load chunks into entities.  Each entity is a single chunk:
-	load_chunks_into_entities(registry);
-	
-}
-
-void SceneLoader::load_chunks_into_entities(entt::registry& registry){
-
-	// Voxel Shader:
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
-	attach_basic_lighting(shader_program);
 	//TODO attach texture map here using the shader attach texture function
-
-	for(auto& chunk : VoxelResource::get_chunkmap()){
-
-		const entt::entity chunk_entity = registry.create();
-
-		// Load Chunk Components
-		registry.emplace<ChunkComponent>(chunk_entity, chunk.second);
-						
-		// Load chunk model matrix
-		registry.emplace<TransformComponent>(chunk_entity, chunk.second->get_starting_world_position().get_vec3());
-		
-		// Load shader program
-		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);
-	}
+	attach_basic_lighting(shader_program);
 }
 
 void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){

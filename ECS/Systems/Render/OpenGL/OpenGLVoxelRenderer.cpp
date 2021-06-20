@@ -1,6 +1,6 @@
 #include "OpenGLVoxelRenderer.h"
 #include "../../Matrix/MatrixFunctions.h"
-#include "../../../Components/Shader/VoxelShader.h"
+#include "../../../Components/Shader/VoxelShaderComponent.h"
 #include "../../../Components/Voxel/ChunkComponent.h"
 #include "../../../Components/Transform/TransformComponent.h"
 #include <glad/glad.h>

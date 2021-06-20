@@ -614,9 +614,6 @@
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Shader\VoxelShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\Components\IncludeComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -648,6 +645,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\VoxelInRangeUpdater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

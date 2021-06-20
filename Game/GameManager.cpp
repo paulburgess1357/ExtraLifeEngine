@@ -91,11 +91,7 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-
-	// THIS IS IN TESTING MODE (All chunks are being set to true, not just chunks in camera range);
-	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 7);
-
-	
+	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 7, 3, 7);	
 	m_voxel_updater->update(m_registry);
 	Transform::TransformSystem::update(m_registry);
 	ImGui::ImGuiInterface::update();	

@@ -1,27 +1,25 @@
 #include "ChunkInRange.h"
 #include "Chunk.h"
 
-std::vector<WorldPosition> ChunkInRange::get_world_positions_in_range(const WorldPosition& base_position, const int range, const bool clamp_height_at_zero){
+std::vector<WorldPosition> ChunkInRange::get_world_positions_in_range(const WorldPosition& base_position, const int x_range, const int y_range, const int z_range){
 	std::vector<WorldPosition> world_positions_in_range;
-	
-	const int range_qty_start = range * -1;
-	const int range_qty_end = range + 1;
 
-	if(clamp_height_at_zero){
-		for (int x = range_qty_start; x < range_qty_end; x++) {
-			for (int z = range_qty_start; z < range_qty_end; z++) {
-				world_positions_in_range.emplace_back(base_position.x + (x_block_qty * x), 0, base_position.z + (z_block_qty * z));
+	const int x_range_qty_start = x_range * -1;
+	const int x_range_qty_end = x_range + 1;
+
+	const int y_range_qty_start = y_range * -1;
+	const int y_range_qty_end = y_range + 1;
+
+	const int z_range_qty_start = z_range * -1;
+	const int z_range_qty_end = z_range + 1;
+	
+	for (int x = x_range_qty_start; x < x_range_qty_end; x++) {
+		for (int y = y_range_qty_start; y < y_range_qty_end; y++) {
+			for (int z = z_range_qty_start; z < z_range_qty_end; z++) {
+				world_positions_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z + (z_block_qty * z));
 			}
 		}
-	} else{
-		for (int x = range_qty_start; x < range_qty_end; x++) {
-			for (int y = range_qty_start; y < range_qty_end; y++) {
-				for (int z = range_qty_start; z < range_qty_end; z++) {
-					world_positions_in_range.emplace_back(base_position.x + (x_block_qty * x), base_position.y + (y_block_qty * y), base_position.z + (z_block_qty * z));
-				}
-			}
-		}
-	}	
+	}
 
 	return world_positions_in_range;
 }

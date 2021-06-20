@@ -1,10 +1,7 @@
 #include "VoxelInRangeUpdater.h"
-
-#include "../../../Utility/Print.h"
 #include "../../Voxel/Chunk/ChunkInRange.h"
 #include "../../ResourceManagement/VoxelResource.h"
 #include "../../ResourceManagement/ShaderResource.h"
-
 #include "../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"

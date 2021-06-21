@@ -11,10 +11,11 @@ void OpenGL::OpenGLVoxelUpdater::update(entt::registry& registry) const{
 			
 			if (chunk.m_chunk->update_required()) {
 				chunk.m_chunk->set_update_required(false);
-
+				
 				std::vector<VertexAndNormals> chunk_data = chunk.m_chunk->load_chunk_data();
 
 				if (chunk.m_chunk->get_vertex_qty() != 0) {
+
 					// Bind Buffers
 					glBindVertexArray(chunk.m_chunk->get_vao());
 					glBindBuffer(GL_ARRAY_BUFFER, chunk.m_chunk->get_vbo());

@@ -29,18 +29,18 @@ public:
 	virtual void attach_point_light(const std::string& pointlight_name) = 0;
 	
 	// Single Value Uniforms
-	virtual void set_uniform(const std::string& uniform_name, const int value) = 0;
-	virtual void set_uniform(const std::string& uniform_name, const unsigned int value) = 0;
-	virtual void set_uniform(const std::string& uniform_name, const float value) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const unsigned int value, const bool apply_binds = true) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const float value, const bool apply_binds = true) = 0;
 
 	// Vector Uniforms
-	virtual void set_uniform(const std::string& uniform_name, const glm::vec2& value) = 0;
-	virtual void set_uniform(const std::string& uniform_name, const glm::vec3& value) = 0;
-	virtual void set_uniform(const std::string& uniform_name, const glm::vec4& value) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const glm::vec2& value, const bool apply_binds = true) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const glm::vec3& value, const bool apply_binds = true) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const glm::vec4& value, const bool apply_binds = true) = 0;
 
 	// Matrix Uniforms		
-	virtual void set_uniform(const std::string& uniform_name, const glm::mat3& value) = 0;
-	virtual void set_uniform(const std::string& uniform_name, const glm::mat4& value) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const glm::mat3& value, const bool apply_binds = true) = 0;
+	virtual void set_uniform(const std::string& uniform_name, const glm::mat4& value, const bool apply_binds = true) = 0;
 
 	// Handler Initialization
 	virtual void init_texture_handler() = 0;

@@ -12,6 +12,8 @@ namespace OpenGL{
 		
 		[[nodiscard]] unsigned int get_vao() const override;
 		[[nodiscard]] unsigned int get_vbo() const override;
+
+		void destroy() const override;
 		
 	private:		
 		void initialize_vbo_vao();

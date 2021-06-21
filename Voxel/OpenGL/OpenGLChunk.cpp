@@ -29,3 +29,9 @@ unsigned OpenGL::OpenGLChunk::get_vbo() const{
 	return m_vbo;
 }
 
+void OpenGL::OpenGLChunk::destroy() const{
+	glDeleteBuffers(1, &m_vbo);
+	glDeleteVertexArrays(1, &m_vao);
+}
+
+

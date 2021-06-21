@@ -31,18 +31,18 @@ namespace OpenGL{
 		void attach_point_light(const std::string& pointlight_name) override;
 
 		// Single Value Uniforms
-		void set_uniform(const std::string& uniform_name, const int value) override;
-		void set_uniform(const std::string& uniform_name, const unsigned int value) override;
-		void set_uniform(const std::string& uniform_name, const float value) override;
+		void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) override;
+		void set_uniform(const std::string& uniform_name, const unsigned int value, const bool apply_binds = true) override;
+		void set_uniform(const std::string& uniform_name, const float value, const bool apply_binds = true) override;
 
 		// Vector Uniforms
-		void set_uniform(const std::string& uniform_name, const glm::vec2& value) override;
-		void set_uniform(const std::string& uniform_name, const glm::vec3& value) override;
-		void set_uniform(const std::string& uniform_name, const glm::vec4& value) override;
+		void set_uniform(const std::string& uniform_name, const glm::vec2& value, const bool apply_binds = true) override;
+		void set_uniform(const std::string& uniform_name, const glm::vec3& value, const bool apply_binds = true) override;
+		void set_uniform(const std::string& uniform_name, const glm::vec4& value, const bool apply_binds = true) override;
 
 		// Matrix Uniforms		
-		void set_uniform(const std::string& uniform_name, const glm::mat3& value) override;
-		void set_uniform(const std::string& uniform_name, const glm::mat4& value) override;
+		void set_uniform(const std::string& uniform_name, const glm::mat3& value, const bool apply_binds = true) override;
+		void set_uniform(const std::string& uniform_name, const glm::mat4& value, const bool apply_binds = true) override;
 
 		// Handler initialization
 		void init_texture_handler() override;

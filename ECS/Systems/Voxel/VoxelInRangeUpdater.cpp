@@ -9,17 +9,12 @@
 
 WorldPosition VoxelInRangeUpdater::m_camera_chunk_coords{ -99, -99, -99 };
 
-
-//TODO make more efficient neighbor checker (e.g. get neighbors in the range of the new chunk that was loaded... this might be more efficient than updating all neigbors each time... - limit range to 1 (since each chunk only has one neighbor; probalby don't clamp height)
-
-
-//TODO rename this to reflect that it loads chunks into the resource
 void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::registry& registry, const int x_range, const int y_range, const int z_range) {
 
 	const WorldPosition camera_chunk_coords = get_nearest_chunk_coords_to_camera(camera);
 
 	// Only update 'chunks in range' if the camera position has changed
-	if (m_camera_chunk_coords != camera_chunk_coords) {
+	if (m_camera_chunk_coords != camera_chunk_coords) {		
 		m_camera_chunk_coords = camera_chunk_coords;
 
 		// Reset all chunks to not being within range
@@ -37,14 +32,11 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 
 		// Update chunk neighbors for both brand new chunks and existing
 		// old chunks that are adjacent to the new chunks
-		VoxelResource::set_specific_chunk_neighbors(new_world_positions_in_range);
-		
-	}
-
+		VoxelResource::set_specific_chunk_neighbors(new_world_positions_in_range);		
+	}	
 }
 
-WorldPosition VoxelInRangeUpdater::get_nearest_chunk_coords_to_camera(const Camera& camera){
-	
+WorldPosition VoxelInRangeUpdater::get_nearest_chunk_coords_to_camera(const Camera& camera){	
 	const glm::vec3 camera_position = camera.get_camera_position();
 
 	const int nearest_x_chunk = static_cast<int>(camera_position.x) / x_block_qty * x_block_qty;
@@ -69,26 +61,6 @@ void VoxelInRangeUpdater::set_specific_chunks_in_range_attribute(std::vector<Wor
 	}
 }
 
-void VoxelInRangeUpdater::load_new_chunks_in_range(entt::registry& registry, std::vector<WorldPosition>& chunks_in_range){
-
-	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
-	
-	for(const auto& world_position : chunks_in_range){
-
-		VoxelResource::load_individual_chunk(world_position);
-
-		// Set up entity for chunk processing
-		std::shared_ptr<Chunk> chunk = VoxelResource::get_chunk(world_position);
-		std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get("voxel_shader");
-
-		// Load Chunk Entity
-		const entt::entity chunk_entity = registry.create();
-		registry.emplace<ChunkComponent>(chunk_entity, chunk);
-		registry.emplace<TransformComponent>(chunk_entity, chunk->get_starting_world_position().get_vec3());
-		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);			
-	}	
-}
-
 std::vector<WorldPosition> VoxelInRangeUpdater::filter_to_new_world_positions(std::vector<WorldPosition>& chunks_in_range){
 
 	std::vector<WorldPosition> newchunks_positions;
@@ -101,4 +73,24 @@ std::vector<WorldPosition> VoxelInRangeUpdater::filter_to_new_world_positions(st
 	}
 
 	return newchunks_positions;	
+}
+
+void VoxelInRangeUpdater::load_new_chunks_in_range(entt::registry& registry, std::vector<WorldPosition>& chunks_in_range) {
+
+	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
+
+	for (const auto& world_position : chunks_in_range) {
+
+		VoxelResource::load_individual_chunk(world_position);
+
+		// Set up entity for chunk processing
+		std::shared_ptr<Chunk> chunk = VoxelResource::get_chunk(world_position);
+		std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get("voxel_shader");
+
+		// Load Chunk Entity
+		const entt::entity chunk_entity = registry.create();
+		registry.emplace<ChunkComponent>(chunk_entity, chunk);
+		registry.emplace<TransformComponent>(chunk_entity, chunk->get_starting_world_position().get_vec3());
+		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);
+	}
 }

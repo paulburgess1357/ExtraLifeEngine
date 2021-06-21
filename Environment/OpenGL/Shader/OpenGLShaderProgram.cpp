@@ -57,52 +57,84 @@ void OpenGL::OpenGLShaderProgram::attach_point_light(const std::string& pointlig
 	m_light_handler.attach_point_light(pointlight_name);
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const int value) {
-	bind();
-	glUniform1i(get_uniform(uniform_name), value);
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const int value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniform1i(get_uniform(uniform_name), value);
+		unbind();
+	} else{
+		glUniform1i(get_uniform(uniform_name), value);
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const unsigned int value) {
-	bind();
-	glUniform1i(get_uniform(uniform_name), static_cast<int>(value));
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const unsigned int value, const bool apply_binds) {
+	if (apply_binds) {
+		bind();
+		glUniform1i(get_uniform(uniform_name), static_cast<int>(value));
+		unbind();
+	} else{
+		glUniform1i(get_uniform(uniform_name), static_cast<int>(value));
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const float value) {
-	bind();
-	glUniform1f(get_uniform(uniform_name), value);
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const float value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniform1f(get_uniform(uniform_name), value);
+		unbind();
+	} else{
+		glUniform1f(get_uniform(uniform_name), value);
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec2& value) {
-	bind();
-	glUniform2f(get_uniform(uniform_name), value.x, value.y);
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec2& value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniform2f(get_uniform(uniform_name), value.x, value.y);
+		unbind();
+	} else{
+		glUniform2f(get_uniform(uniform_name), value.x, value.y);
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec3& value) {
-	bind();
-	glUniform3f(get_uniform(uniform_name), value.x, value.y, value.z);
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec3& value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniform3f(get_uniform(uniform_name), value.x, value.y, value.z);
+		unbind();
+	} else{
+		glUniform3f(get_uniform(uniform_name), value.x, value.y, value.z);
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec4& value) {
-	bind();
-	glUniform4f(get_uniform(uniform_name), value.x, value.y, value.z, value.w);
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::vec4& value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniform4f(get_uniform(uniform_name), value.x, value.y, value.z, value.w);
+		unbind();
+	} else{
+		glUniform4f(get_uniform(uniform_name), value.x, value.y, value.z, value.w);
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::mat3& value) {
-	bind();	
-	glUniformMatrix3fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::mat3& value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniformMatrix3fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
+		unbind();
+	} else{
+		glUniformMatrix3fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
+	}
 }
 
-void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::mat4& value) {
-	bind();
-	glUniformMatrix4fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
-	unbind();
+void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const glm::mat4& value, const bool apply_binds) {
+	if(apply_binds){
+		bind();
+		glUniformMatrix4fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
+		unbind();
+	} else{
+		glUniformMatrix4fv(get_uniform(uniform_name), 1, GL_FALSE, glm::value_ptr(value));
+	}
 }
 
 void OpenGL::OpenGLShaderProgram::init_texture_handler(){

@@ -11,12 +11,8 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	m_window{ nullptr },	
-<<<<<<< HEAD
-	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 10.03f, 0.05f} },
-=======
+	m_window{ nullptr },
 	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 2.08f, 0.05f} },
->>>>>>> voxel_render_no_ecs_test
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {	
 }
@@ -96,11 +92,7 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	VoxelInRangeUpdater::load_in_range_chunks(m_camera, m_registry, 7, 3, 7);	// 7 3 7
-<<<<<<< HEAD
-	m_voxel_updater->update(m_registry);
-=======
 	m_voxel_updater->update();
->>>>>>> voxel_render_no_ecs_test
 	Transform::TransformSystem::update(m_registry);
 	ImGui::ImGuiInterface::update();	
 }

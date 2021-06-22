@@ -4,7 +4,6 @@
 #include "../../ECS/Systems/Voxel/VoxelInRangeUpdater.h"
 #include <glad/glad.h>
 
-
 void OpenGL::OpenGLVoxelRenderer::render() const{
 
 	const std::shared_ptr<IShaderProgram> voxel_shader = ShaderResource::get("voxel_shader");

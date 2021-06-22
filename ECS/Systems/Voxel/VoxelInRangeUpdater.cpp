@@ -2,12 +2,15 @@
 #include "../../Voxel/Chunk/ChunkInRange.h"
 #include "../../ResourceManagement/VoxelResource.h"
 #include "../../ResourceManagement/ShaderResource.h"
-#include "../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
-#include "../../ECS/Components/Shader/VoxelShaderComponent.h"
 
 WorldPosition VoxelInRangeUpdater::m_camera_chunk_coords{ -99, -99, -99 };
+std::vector<WorldPosition> VoxelInRangeUpdater::m_chunks_in_range;
+
+std::vector<WorldPosition> VoxelInRangeUpdater::get_chunks_in_range(){
+	return m_chunks_in_range;
+}
 
 void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::registry& registry, const int x_range, const int y_range, const int z_range) {
 
@@ -17,9 +20,6 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 	if (m_camera_chunk_coords != camera_chunk_coords) {		
 		m_camera_chunk_coords = camera_chunk_coords;
 
-		// Reset all chunks to not being within range
-		set_all_chunks_range_attribute(false);
-
 		// Get a 'sphere' of chunks in range and set to in camera range
 		std::vector<WorldPosition> world_positions_in_range = ChunkInRange::get_world_positions_in_range(m_camera_chunk_coords, x_range, y_range, z_range);
 
@@ -27,12 +27,12 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 		std::vector<WorldPosition> new_world_positions_in_range = filter_to_new_world_positions(world_positions_in_range);
 
 		// Load new chunks into ecs and voxel resource
-		load_new_chunks_in_range(registry, new_world_positions_in_range);
-		set_specific_chunks_in_range_attribute(world_positions_in_range, true);
+		load_new_chunks_in_range(new_world_positions_in_range);
 
 		// Update chunk neighbors for both brand new chunks and existing
 		// old chunks that are adjacent to the new chunks
-		VoxelResource::set_specific_chunk_neighbors(new_world_positions_in_range);		
+		VoxelResource::set_specific_chunk_neighbors(new_world_positions_in_range);
+		m_chunks_in_range = world_positions_in_range;
 	}	
 }
 
@@ -75,22 +75,9 @@ std::vector<WorldPosition> VoxelInRangeUpdater::filter_to_new_world_positions(st
 	return newchunks_positions;	
 }
 
-void VoxelInRangeUpdater::load_new_chunks_in_range(entt::registry& registry, std::vector<WorldPosition>& chunks_in_range) {
-
+void VoxelInRangeUpdater::load_new_chunks_in_range(std::vector<WorldPosition>& chunks_in_range) {
 	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
-
 	for (const auto& world_position : chunks_in_range) {
-
 		VoxelResource::load_individual_chunk(world_position);
-
-		// Set up entity for chunk processing
-		std::shared_ptr<Chunk> chunk = VoxelResource::get_chunk(world_position);
-		std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get("voxel_shader");
-
-		// Load Chunk Entity
-		const entt::entity chunk_entity = registry.create();
-		registry.emplace<ChunkComponent>(chunk_entity, chunk);
-		registry.emplace<TransformComponent>(chunk_entity, chunk->get_starting_world_position().get_vec3());
-		registry.emplace<VoxelShaderComponent>(chunk_entity, shader_program);
 	}
 }

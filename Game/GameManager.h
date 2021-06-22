@@ -38,7 +38,7 @@ private:
 	std::shared_ptr<IWindow> m_window;
 	Camera m_camera;
 	InputHandler m_input_handler;
-	MouseHandler m_mouse_handler;
+	MouseHandler m_mouse_handler;	
 
     std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	

@@ -6,6 +6,7 @@
 #include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
 #include "../../ECS/Components/Shader/VoxelShaderComponent.h"
+#include <iostream>
 
 WorldPosition VoxelInRangeUpdater::m_camera_chunk_coords{ -99, -99, -99 };
 
@@ -16,7 +17,7 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 	// Only update 'chunks in range' if the camera position has changed
 	if (m_camera_chunk_coords != camera_chunk_coords) {		
 		m_camera_chunk_coords = camera_chunk_coords;
-
+		
 		// Reset all chunks to not being within range
 		set_all_chunks_range_attribute(false);
 

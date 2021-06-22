@@ -5,7 +5,7 @@
 namespace OpenGL {
 
 	class OpenGLVoxelUpdater : public IVoxelUpdater {
-		void update(entt::registry& registry) const override;		
+		void update() const override;		
 	};
 
 } // namespace OpenGL

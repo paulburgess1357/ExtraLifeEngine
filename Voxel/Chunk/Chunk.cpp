@@ -6,7 +6,6 @@
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
-    m_in_camera_range{ false },
 	m_block_types{},
 	m_starting_world_position{ starting_world_position } {
 	initialize_types();
@@ -348,15 +347,6 @@ bool Chunk::update_required() const{
 WorldPosition Chunk::get_starting_world_position() const {
 	return m_starting_world_position;
 }
-
-bool Chunk::get_in_camera_range() const{
-	return m_in_camera_range;
-}
-
 void Chunk::set_update_required(const bool update_required){
 	m_update_required = update_required;
-}
-
-void Chunk::set_in_camera_range(const bool in_camera_range){
-	m_in_camera_range = in_camera_range;
 }

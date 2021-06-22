@@ -4,6 +4,7 @@
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ECS/Components/Transform/TransformComponent.h"
+#include <iostream>
 
 WorldPosition VoxelInRangeUpdater::m_camera_chunk_coords{ -99, -99, -99 };
 std::vector<WorldPosition> VoxelInRangeUpdater::m_chunks_in_range;
@@ -14,11 +15,12 @@ std::vector<WorldPosition> VoxelInRangeUpdater::get_chunks_in_range(){
 
 void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::registry& registry, const int x_range, const int y_range, const int z_range) {
 
-	const WorldPosition camera_chunk_coords = get_nearest_chunk_coords_to_camera(camera);
+	const WorldPosition camera_chunk_coords = get_nearest_chunk_coords_to_camera(camera);	
 
 	// Only update 'chunks in range' if the camera position has changed
 	if (m_camera_chunk_coords != camera_chunk_coords) {		
 		m_camera_chunk_coords = camera_chunk_coords;
+		std::cout << m_camera_chunk_coords.x << "," << m_camera_chunk_coords.y << "," << m_camera_chunk_coords.z << std::endl;
 
 		// Get a 'sphere' of chunks in range and set to in camera range
 		std::vector<WorldPosition> world_positions_in_range = ChunkInRange::get_world_positions_in_range(m_camera_chunk_coords, x_range, y_range, z_range);
@@ -45,20 +47,6 @@ WorldPosition VoxelInRangeUpdater::get_nearest_chunk_coords_to_camera(const Came
 
 	const WorldPosition new_camera_position = WorldPosition{ nearest_x_chunk, nearest_y_chunk, nearest_z_chunk };
 	return new_camera_position;
-}
-
-void VoxelInRangeUpdater::set_all_chunks_range_attribute(const bool in_range){
-	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
-	for (auto& chunk : chunkmap) {
-		chunk.second->set_in_camera_range(in_range);
-	}
-}
-
-void VoxelInRangeUpdater::set_specific_chunks_in_range_attribute(std::vector<WorldPosition>& chunks_in_range, const bool in_range){
-	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();	
-	for(const auto& world_position : chunks_in_range){
-		chunkmap[world_position]->set_in_camera_range(true);
-	}
 }
 
 std::vector<WorldPosition> VoxelInRangeUpdater::filter_to_new_world_positions(std::vector<WorldPosition>& chunks_in_range){

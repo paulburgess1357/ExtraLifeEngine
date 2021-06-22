@@ -21,7 +21,6 @@ public:
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
 
 	[[nodiscard]] int get_vertex_qty() const;
-	[[nodiscard]] bool get_in_camera_range() const;
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
 	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
 	
@@ -36,7 +35,6 @@ public:
 	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	void set_update_required(const bool update_required);
-	void set_in_camera_range(const bool in_camera_range);
 	
 	void set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
@@ -66,7 +64,6 @@ private:
 
 	int m_vertex_qty;
 	bool m_update_required;
-	bool m_in_camera_range;
 	
 	// Adjacent Chunks
 	std::shared_ptr<Chunk> m_left_chunk = nullptr;

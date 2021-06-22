@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-constexpr unsigned char x_block_qty = 32;
-constexpr unsigned char y_block_qty = 32;
-constexpr unsigned char z_block_qty = 32;
+constexpr unsigned char x_block_qty = 16;
+constexpr unsigned char y_block_qty = 16;
+constexpr unsigned char z_block_qty = 16;
 
 class Chunk {
 
@@ -20,6 +20,9 @@ public:
 	[[nodiscard]] WorldPosition get_starting_world_position() const;
 	[[nodiscard]] std::vector<VertexAndNormals> load_chunk_data();
 
+	[[nodiscard]] glm::mat4 get_model_matrx() const;
+	[[nodiscard]] glm::mat3 get_normal_matrx() const;
+	
 	[[nodiscard]] int get_vertex_qty() const;
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
 	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
@@ -75,4 +78,6 @@ private:
 
 	unsigned char m_block_types[x_block_qty][y_block_qty][z_block_qty];
 	WorldPosition m_starting_world_position;
+	glm::mat4 m_model_matrix;
+	glm::mat3 m_normal_matrix;
 };

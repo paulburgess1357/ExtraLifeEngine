@@ -1,11 +1,9 @@
 #include "OpenGLVoxelRenderer.h"
 #include "../../ResourceManagement/ShaderResource.h"
-#include "../../../Components/Shader/VoxelShaderComponent.h"
+#include "../../ResourceManagement/VoxelResource.h"
 #include "../../ECS/Systems/Voxel/VoxelInRangeUpdater.h"
 #include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
-#include "../../Matrix/MatrixFunctions.h"
-#include "../../ResourceManagement/VoxelResource.h"
+
 
 void OpenGL::OpenGLVoxelRenderer::render() const{
 
@@ -20,9 +18,8 @@ void OpenGL::OpenGLVoxelRenderer::render() const{
 		const int vertex_qty = current_chunk->get_vertex_qty();
 
 		if(vertex_qty != 0){
-			glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), world_position.get_vec3());
-			voxel_shader->set_uniform("model_matrix", model_matrix, false);
-			voxel_shader->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(model_matrix), false);
+			voxel_shader->set_uniform("model_matrix", current_chunk->get_model_matrx(), false);
+			voxel_shader->set_uniform("normal_matrix", current_chunk->get_normal_matrx(), false);
 
 			glBindVertexArray(current_chunk->get_vao());
 			glDrawArrays(GL_TRIANGLES, 0, vertex_qty);

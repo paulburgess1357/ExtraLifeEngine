@@ -20,7 +20,6 @@ void VoxelInRangeUpdater::load_in_range_chunks(const Camera& camera, entt::regis
 	// Only update 'chunks in range' if the camera position has changed
 	if (m_camera_chunk_coords != camera_chunk_coords) {		
 		m_camera_chunk_coords = camera_chunk_coords;
-		std::cout << m_camera_chunk_coords.x << "," << m_camera_chunk_coords.y << "," << m_camera_chunk_coords.z << std::endl;
 
 		// Get a 'sphere' of chunks in range and set to in camera range
 		std::vector<WorldPosition> world_positions_in_range = ChunkInRange::get_world_positions_in_range(m_camera_chunk_coords, x_range, y_range, z_range);

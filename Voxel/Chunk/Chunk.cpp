@@ -2,14 +2,19 @@
 #include "../Neutral/TerrainGeneration.h"
 #include "../GreedyMesh/GreedyMeshExecutor.h"
 #include "../../Utility/Print.h"
+#include "../../Matrix/MatrixFunctions.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
-    m_in_camera_range{ false },
 	m_block_types{},
-	m_starting_world_position{ starting_world_position } {
+	m_starting_world_position{ starting_world_position },
+	m_model_matrix{ glm::mat4(1) },
+	m_normal_matrix{ glm::mat3(1) }{
 	initialize_types();
+	m_model_matrix = glm::translate(glm::mat4(1.0f), m_starting_world_position.get_vec3());
+	m_normal_matrix = MatrixFunctions::get_normal_matrix(m_model_matrix);
 }
 
 Chunk::~Chunk() = default;
@@ -45,6 +50,18 @@ void Chunk::initialize_types() {
 		}
 	}
 			
+}
+
+glm::mat4 Chunk::get_model_matrx() const{
+	return m_model_matrix;
+}
+
+glm::mat3 Chunk::get_normal_matrx() const{
+	return m_normal_matrix;
+}
+
+int Chunk::get_vertex_qty() const {
+	return m_vertex_qty;
 }
 
 std::shared_ptr<Chunk> Chunk::get_left_adjacent_chunk() const{
@@ -337,10 +354,6 @@ void Chunk::print_world_position() const {
 		std::to_string(m_starting_world_position.z));
 }
 
-int Chunk::get_vertex_qty() const{
-	return m_vertex_qty;
-}
-
 bool Chunk::update_required() const{
 	return m_update_required;
 }
@@ -349,14 +362,6 @@ WorldPosition Chunk::get_starting_world_position() const {
 	return m_starting_world_position;
 }
 
-bool Chunk::get_in_camera_range() const{
-	return m_in_camera_range;
-}
-
 void Chunk::set_update_required(const bool update_required){
 	m_update_required = update_required;
-}
-
-void Chunk::set_in_camera_range(const bool in_camera_range){
-	m_in_camera_range = in_camera_range;
 }

@@ -24,6 +24,5 @@ private:
 	[[nodiscard]] static bool chunk_exists(const WorldPosition& world_position);
 		
 	static void set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk);		
-
-	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;		
+	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
 };

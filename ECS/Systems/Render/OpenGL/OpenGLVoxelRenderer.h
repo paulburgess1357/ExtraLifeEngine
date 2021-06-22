@@ -5,7 +5,7 @@ namespace OpenGL{
 
 	class OpenGLVoxelRenderer : public IVoxelRenderer {
 	public:
-		void render(entt::registry& registry, Camera& camera) const override;		
+		void render() const override;		
 	};
 	
 } // namespace OpenGL

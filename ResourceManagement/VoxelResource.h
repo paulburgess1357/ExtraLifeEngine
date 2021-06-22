@@ -9,6 +9,7 @@ class VoxelResource{
 public:	
 	static void load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty);
 	static void load_individual_chunk(const WorldPosition& world_position);
+	static void load_multiple_chunks(const std::vector<WorldPosition>& world_positions);
 	static void set_all_chunk_neighbors();
 	static void set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions);
 	[[nodiscard]] static std::shared_ptr<Chunk> get_chunk(const WorldPosition& world_position);

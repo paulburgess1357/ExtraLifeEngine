@@ -40,6 +40,12 @@ void VoxelResource::load_individual_chunk(const WorldPosition& world_position) {
 	FatalError::fatal_error("Unknown graphics API type.  Cannot create chunk for chunk manager.");
 }
 
+void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions){
+	for (const auto& world_position : world_positions) {
+		load_individual_chunk(world_position);
+	}
+}
+
 void VoxelResource::set_all_chunk_neighbors() {
 
 	// Each individual chunk is surrounded by neighbors.  This sets

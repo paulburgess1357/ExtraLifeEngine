@@ -258,9 +258,6 @@
     <ClCompile Include="Voxel\Neutral\TerrainGeneration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Voxel\Chunk\ChunkInRange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ECS\Systems\Voxel\VoxelInRangeUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -639,9 +636,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\Neutral\TerrainGeneration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Voxel\Chunk\ChunkInRange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\VoxelInRangeUpdater.h">

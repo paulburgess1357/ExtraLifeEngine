@@ -9,7 +9,7 @@ void OpenGL::OpenGLVoxelRenderer::render() const{
 	const std::shared_ptr<IShaderProgram> voxel_shader = ShaderResource::get("voxel_shader");
 	voxel_shader->bind();
 
-	std::vector<WorldPosition> chunks_in_range = VoxelInRangeUpdater::get_chunks_in_range();
+	std::vector<WorldPosition> chunks_in_range = VoxelInRangeUpdater::get_world_positions_in_camera_range();
 	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
 	
 	for(const auto& world_position : chunks_in_range){

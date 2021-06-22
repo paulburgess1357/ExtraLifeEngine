@@ -40,7 +40,7 @@ void IWindowCreator::init_callbacks() const {
 }
 
 void IWindowCreator::init_vsync() {
-	glfwSwapInterval(true);
+	// glfwSwapInterval(true);
 }
 
 void IWindowCreator::center_mouse() const{

@@ -10,9 +10,9 @@ int ProjectionMatrix::m_window_height = 0;
 bool ProjectionMatrix::m_is_resizeable = true;
 glm::mat4 ProjectionMatrix::m_projection_matrix = glm::mat4{ 1.0f };
 
-const float ProjectionMatrix::DEFAULT_FOV{ 45.0f };
+const float ProjectionMatrix::DEFAULT_FOV{ 60.0f };
 const float ProjectionMatrix::DEFAULT_ZNEAR{ 0.1f };
-const float ProjectionMatrix::DEFAULT_ZFAR{ 100.0f };
+const float ProjectionMatrix::DEFAULT_ZFAR{ 135.0f };
 
 std::shared_ptr<IWindow> ProjectionMatrix::m_window_ptr = nullptr;
 

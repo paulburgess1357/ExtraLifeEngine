@@ -6,7 +6,7 @@
 
 std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
 
-void VoxelResource::load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
+void VoxelResource::load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
 
 	// As chunks are loaded they check chunks next to them and draw vertices
 	// based on the adjacent chunk values.  This means that the chunk variable
@@ -15,8 +15,7 @@ void VoxelResource::load(const int x_chunk_qty, const int y_chunk_qty, const int
 
 	for (int x = 0; x < x_chunk_qty; x++) {
 		for (int y = 0; y < y_chunk_qty; y++) {
-			for (int z = 0; z < z_chunk_qty; z++) {
-				
+			for (int z = 0; z < z_chunk_qty; z++) {				
 				load_individual_chunk(WorldPosition{ x * x_block_qty, y * y_block_qty, z * z_block_qty });
 			}
 		}
@@ -46,10 +45,17 @@ void VoxelResource::set_all_chunk_neighbors() {
 	// pointers inside each chunk towards its neighbors
 
 	for (auto& chunk : m_chunkmap) {
-		set_individual_chunk_neighbors(chunk.first, chunk.second);
+		set_individual_chunk_neighbors(chunk.second);
 		chunk.second->set_update_required(true);
 	}
 }
+
+void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions) {
+	for (const auto& world_position : world_positions) {
+		load_individual_chunk(world_position);
+	}
+}
+
 
 void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions){
 	for(const auto& position : chunk_positions){
@@ -66,56 +72,58 @@ void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition
 			
 			// Current Chunk
 			std::shared_ptr<Chunk> chunk = m_chunkmap[position];
-			set_individual_chunk_neighbors(position, chunk);
+			set_individual_chunk_neighbors(chunk);
 			chunk->set_update_required(true);
 
 			// Left
 			std::shared_ptr<Chunk> left_chunk = chunk->get_left_adjacent_chunk();
 			if(left_chunk != nullptr){
-				set_individual_chunk_neighbors(left_chunk->get_starting_world_position(), left_chunk);
+				set_individual_chunk_neighbors(left_chunk);
 				left_chunk->set_update_required(true);
 			}
 
 			// Right 
 			std::shared_ptr<Chunk> right_chunk = chunk->get_right_adjacent_chunk();
 			if(right_chunk != nullptr){
-				set_individual_chunk_neighbors(right_chunk->get_starting_world_position(), right_chunk);
+				set_individual_chunk_neighbors(right_chunk);
 				right_chunk->set_update_required(true);
 			}
 
 			// Top
 			std::shared_ptr<Chunk> top_chunk = chunk->get_top_adjacent_chunk();
 			if(top_chunk != nullptr){
-				set_individual_chunk_neighbors(top_chunk->get_starting_world_position(), top_chunk);
+				set_individual_chunk_neighbors(top_chunk);
 				top_chunk->set_update_required(true);
 			}
 			
 			// Bottom
 			std::shared_ptr<Chunk> bottom_chunk = chunk->get_bottom_adjacent_chunk();
 			if(bottom_chunk != nullptr){
-				set_individual_chunk_neighbors(bottom_chunk->get_starting_world_position(), bottom_chunk);
+				set_individual_chunk_neighbors(bottom_chunk);
 				bottom_chunk->set_update_required(true);
 			}
 
 			// Front
 			std::shared_ptr<Chunk> front_chunk = chunk->get_front_adjacent_chunk();
 			if(front_chunk != nullptr){
-				set_individual_chunk_neighbors(front_chunk->get_starting_world_position(), front_chunk);
+				set_individual_chunk_neighbors(front_chunk);
 				front_chunk->set_update_required(true);
 			}
 
 			// Back
 			std::shared_ptr<Chunk> back_chunk = chunk->get_back_adjacent_chunk();
 			if(back_chunk != nullptr){
-				set_individual_chunk_neighbors(back_chunk->get_starting_world_position(), back_chunk);
+				set_individual_chunk_neighbors(back_chunk);
 				back_chunk->set_update_required(true);
 			}					
 		}		
 	}
 }
 
-void VoxelResource::set_individual_chunk_neighbors(const WorldPosition& world_position, std::shared_ptr<Chunk>& chunk) {
+void VoxelResource::set_individual_chunk_neighbors(std::shared_ptr<Chunk>& chunk) {
 
+	const WorldPosition world_position = chunk->get_starting_world_position();
+	
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::LEFT)) {
 		const std::shared_ptr<Chunk> adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::LEFT);
 		chunk->set_left_adjacent_chunk(adjacent_chunk);
@@ -148,7 +156,7 @@ void VoxelResource::set_individual_chunk_neighbors(const WorldPosition& world_po
 
 }
 
-bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, AdjacentChunkPosition adjacent_chunk) {
+bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) {
 
 	bool chunk_exists_result = false;
 

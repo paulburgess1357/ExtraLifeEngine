@@ -6,7 +6,7 @@
 
 std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
 
-void VoxelResource::load(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
+void VoxelResource::load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
 
 	// As chunks are loaded they check chunks next to them and draw vertices
 	// based on the adjacent chunk values.  This means that the chunk variable
@@ -15,8 +15,7 @@ void VoxelResource::load(const int x_chunk_qty, const int y_chunk_qty, const int
 
 	for (int x = 0; x < x_chunk_qty; x++) {
 		for (int y = 0; y < y_chunk_qty; y++) {
-			for (int z = 0; z < z_chunk_qty; z++) {
-				
+			for (int z = 0; z < z_chunk_qty; z++) {				
 				load_individual_chunk(WorldPosition{ x * x_block_qty, y * y_block_qty, z * z_block_qty });
 			}
 		}
@@ -40,12 +39,6 @@ void VoxelResource::load_individual_chunk(const WorldPosition& world_position) {
 	FatalError::fatal_error("Unknown graphics API type.  Cannot create chunk for chunk manager.");
 }
 
-void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions){
-	for (const auto& world_position : world_positions) {
-		load_individual_chunk(world_position);
-	}
-}
-
 void VoxelResource::set_all_chunk_neighbors() {
 
 	// Each individual chunk is surrounded by neighbors.  This sets
@@ -56,6 +49,13 @@ void VoxelResource::set_all_chunk_neighbors() {
 		chunk.second->set_update_required(true);
 	}
 }
+
+void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions) {
+	for (const auto& world_position : world_positions) {
+		load_individual_chunk(world_position);
+	}
+}
+
 
 void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions){
 	for(const auto& position : chunk_positions){

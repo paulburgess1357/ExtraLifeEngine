@@ -3,11 +3,11 @@
 #include "../Enums/Keyboard.h"
 #include <GLFW/glfw3.h>
 
-#include "../../Utility/Print.h"
-
 InputHandler::InputHandler(Camera& camera)
 	:m_camera{ camera },
-	m_exit_command{ nullptr }{	
+	 m_exit_command{ nullptr },
+	 m_mouse_control_command{ nullptr }{
+	
 }
 
 void InputHandler::hande_input() const{
@@ -21,6 +21,10 @@ void InputHandler::hande_input() const{
 
 	if (InputManager<Keyboard>::is_initial_press(Keyboard::F)) {
 		m_camera.toggle_camera_type();
+	}
+
+	if(InputManager<Keyboard>::is_initial_press(Keyboard::F8)){
+		m_mouse_control_command->execute();
 	}
 }
 
@@ -50,12 +54,12 @@ void InputHandler::handle_camera_movement() const{
 		m_camera.move(Direction::VERTICAL_UP);
 	}
 
-	//if (InputManager<Keyboard>::is_initial_press(Keyboard::F)) {		
-	//	m_camera.toggle_camera_type(); // causing crash
-	//		
-	//}
 }
 
 void InputHandler::set_exit(const std::shared_ptr<ICommand>& exit_command){
 	m_exit_command = exit_command;
+}
+
+void InputHandler::set_mouse_control(const std::shared_ptr<ICommand>& mouse_control_command){
+	m_mouse_control_command = mouse_control_command;
 }

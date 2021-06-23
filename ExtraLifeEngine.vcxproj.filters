@@ -644,5 +644,8 @@
     <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\Command\MouseControlCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

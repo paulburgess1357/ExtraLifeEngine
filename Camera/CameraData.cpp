@@ -6,7 +6,6 @@ CameraData::CameraData(const glm::vec3& camera_position, const glm::vec3& camera
 	m_camera_forward{ camera_forward },
 	m_camera_up{ 0.0f, 1.0f, 0.0f },
 	m_camera_right{ glm::normalize(glm::cross(m_camera_up, m_camera_forward)) },
-
 	m_world_up{ 0.0f, 1.0f, 0.0f },
 	m_view_matrix{ 1.0f },
 	m_view_matrix_needs_update{ true } {

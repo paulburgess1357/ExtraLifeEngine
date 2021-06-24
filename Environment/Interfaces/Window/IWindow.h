@@ -13,13 +13,19 @@ public:
 	static int get_width();
 	static int get_height();
 	static bool is_resizeable();
+	static void toggle_mouse();
+	static bool get_mouse_enabled();
 
 protected:
-	IWindow(const int width, const int height, const bool is_resizeable, GLFWwindow* window);
+	IWindow(const int width, const int height, const bool is_resizeable, const bool mouse_enabled, GLFWwindow* window);
 	static int m_width;
 	static int m_height;
 	static bool m_is_resizeable;
 	static bool m_mouse_enabled;
 	static GLFWwindow* m_window;
+
+private:
+	static void enable_mouse();
+	static void disable_mouse();
 	
 };

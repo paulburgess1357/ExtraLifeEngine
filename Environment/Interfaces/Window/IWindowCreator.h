@@ -8,7 +8,7 @@ public:
 	IWindowCreator();	
 	virtual ~IWindowCreator() = default;
 	[[nodiscard]] virtual std::shared_ptr<IWindow> create_glfw_window() = 0;
-	[[nodiscard]] static std::shared_ptr<IWindow> create_window(const int width, const int height, const bool is_resizeable);
+	[[nodiscard]] static std::shared_ptr<IWindow> create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable);
 	
 protected:
 	static void init_glfw();
@@ -16,7 +16,6 @@ protected:
 	void init_glfw_input() const;
 	void init_callbacks() const;
 	static void init_vsync();
-	void center_mouse() const;
 
 	GLFWwindow* m_window;
 	

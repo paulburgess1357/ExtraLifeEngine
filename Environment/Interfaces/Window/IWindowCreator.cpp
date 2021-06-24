@@ -43,14 +43,10 @@ void IWindowCreator::init_vsync() {
 	// glfwSwapInterval(true);
 }
 
-void IWindowCreator::center_mouse() const{
-	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-std::shared_ptr<IWindow> IWindowCreator::create_window(const int width, const int height, const bool is_resizeable) {
+std::shared_ptr<IWindow> IWindowCreator::create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		std::unique_ptr<IWindowCreator> window_creator = std::make_unique<OpenGL::OpenGLWindowCreator>(width, height, is_resizeable);
+		std::unique_ptr<IWindowCreator> window_creator = std::make_unique<OpenGL::OpenGLWindowCreator>(width, height, mouse_enabled, is_resizeable);
 		return window_creator->create_glfw_window();
 	}
 

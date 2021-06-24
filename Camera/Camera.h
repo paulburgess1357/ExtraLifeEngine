@@ -11,7 +11,8 @@ public:
 	Camera(const glm::vec3& camera_position, const glm::vec3& camera_forward, float movement_speed, float look_sensitivity);
 	void move(const Direction direction);
 	void rotate(const glm::vec2& current_mouse_coords);
-	void toggle_camera_type();	
+	void toggle_camera_type();
+	void reset_first_rotation_movement();
 		
 private:
 	void pitch(const float angle_offset);

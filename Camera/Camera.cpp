@@ -109,6 +109,11 @@ void Camera::rotate(const glm::vec2& current_mouse_coords) {
 	m_old_mouse_coords = current_mouse_coords;	
 }
 
+void Camera::reset_first_rotation_movement(){
+	m_first_rotation_movement = true;
+}
+
+
 void Camera::set_first_mouse_movement(const glm::vec2& current_mouse_coords){
 	if (current_mouse_coords.x != 0 && current_mouse_coords.y != 0) {
 		m_first_rotation_movement = false;

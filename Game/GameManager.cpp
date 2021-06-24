@@ -38,7 +38,7 @@ void GameManager::run(){
 }
 
 void GameManager::initialize_window(){
-	m_window = IWindowCreator::create_window(1920, 1080, false);
+	m_window = IWindowCreator::create_window(1920, 1080, false, false);
 }
 
 void GameManager::initialize_imgui(){
@@ -55,6 +55,7 @@ void GameManager::initialize_projection_matrix() const{
 
 void GameManager::initialize_controls() {
 	m_input_handler.set_exit(std::make_shared<ExitCommand>(*this));
+	m_input_handler.set_mouse_control(std::make_shared<MouseControlCommmand>(m_window, m_mouse_handler));
 }
 
 void GameManager::initialize_scene(){
@@ -80,8 +81,8 @@ void GameManager::initialize_updaters(){
 
 void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
-		m_input_handler.hande_input();		
-		m_mouse_handler.handle_input();		
+		m_input_handler.hande_input();
+		m_mouse_handler.handle_input();
 		m_window->clear_color();
 		update();
 		render();

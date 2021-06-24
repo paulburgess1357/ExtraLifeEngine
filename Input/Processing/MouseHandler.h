@@ -1,6 +1,5 @@
 #pragma once
 #include "../Command/ICommand.h"
-#include "../Command/NullCommand.h"
 #include "../../Camera/Camera.h"
 #include <memory>
 
@@ -12,11 +11,15 @@ public:
 	void handle_input() const;
 	void set_left_button(const std::shared_ptr<ICommand>& command);
 	void set_right_button(const std::shared_ptr<ICommand>& command);
+
+	void set_mouse_enabled(const bool mouse_enabled);
+	void reset_camera_first_rotation_movement() const;
 	
 private:
-	static void handle_camera_movement(Camera& camera);
+	static void handle_camera_movement(Camera& camera);	
 	Camera& m_camera;
 	std::shared_ptr<ICommand> m_left_button_command;
 	std::shared_ptr<ICommand> m_right_button_command;
+	bool m_mouse_enabled;
 };
 

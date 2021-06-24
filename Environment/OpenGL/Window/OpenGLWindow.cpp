@@ -1,8 +1,8 @@
 #include "OpenGLWindow.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLWindow::OpenGLWindow(const int window_width, const int window_height, const bool is_resizeable, GLFWwindow* window)
-	:IWindow{ window_width, window_height, is_resizeable, window } {
+OpenGL::OpenGLWindow::OpenGLWindow(const int window_width, const int window_height, const bool is_resizeable, const bool mouse_enabled, GLFWwindow* window)
+	:IWindow{ window_width, window_height, is_resizeable, mouse_enabled, window } {
 }
 
 void OpenGL::OpenGLWindow::swap_buffer() const{

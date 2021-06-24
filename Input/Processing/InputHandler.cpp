@@ -6,8 +6,7 @@
 InputHandler::InputHandler(Camera& camera)
 	:m_camera{ camera },
 	 m_exit_command{ nullptr },
-	 m_mouse_control_command{ nullptr }{
-	
+	 m_mouse_control_command{ nullptr }{	
 }
 
 void InputHandler::hande_input() const{
@@ -24,7 +23,7 @@ void InputHandler::hande_input() const{
 	}
 
 	if(InputManager<Keyboard>::is_initial_press(Keyboard::F8)){
-		m_mouse_control_command->execute();
+		m_mouse_control_command->execute();		
 	}
 }
 

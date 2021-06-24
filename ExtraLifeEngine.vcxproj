@@ -251,6 +251,7 @@
     <ClInclude Include="ECS\Systems\Voxel\OpenGLVoxelUpdater.h" />
     <ClInclude Include="Environment\Interfaces\Texture\ITextureHandler.h" />
     <ClInclude Include="Input\Command\MouseControlCommand.h" />
+    <ClInclude Include="Input\Command\OpenGLWireframe.hpp" />
     <ClInclude Include="ResourceManagement\VoxelResource.h" />
     <ClInclude Include="ExternalResources\imgui\imconfig.h" />
     <ClInclude Include="ExternalResources\imgui\imgui.h" />

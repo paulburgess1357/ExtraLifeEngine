@@ -2,3 +2,4 @@
 #include "ExitCommand.h"
 #include "MouseControlCommand.h"
 #include "MouseCommandTest.h"
+#include "OpenGLWireframe.hpp"

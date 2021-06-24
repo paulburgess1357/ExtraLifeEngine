@@ -25,6 +25,10 @@ void InputHandler::hande_input() const{
 	if(InputManager<Keyboard>::is_initial_press(Keyboard::F8)){
 		m_mouse_control_command->execute();		
 	}
+
+	if(InputManager<Keyboard>::is_initial_press(Keyboard::F7)){
+		m_wireframe_mode_command->execute();
+	}
 }
 
 void InputHandler::handle_camera_movement() const{
@@ -61,4 +65,8 @@ void InputHandler::set_exit(const std::shared_ptr<ICommand>& exit_command){
 
 void InputHandler::set_mouse_control(const std::shared_ptr<ICommand>& mouse_control_command){
 	m_mouse_control_command = mouse_control_command;
+}
+
+void InputHandler::set_wireframe_mode(const std::shared_ptr<ICommand>& wireframe_mode_command){
+	m_wireframe_mode_command = wireframe_mode_command;
 }

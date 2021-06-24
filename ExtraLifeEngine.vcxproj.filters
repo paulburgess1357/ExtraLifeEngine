@@ -647,5 +647,8 @@
     <ClInclude Include="Input\Command\MouseControlCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\Command\OpenGLWireframe.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

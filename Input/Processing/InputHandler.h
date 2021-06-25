@@ -11,6 +11,7 @@ public:
 	void set_exit(const std::shared_ptr<ICommand>& exit_command);
 	void set_mouse_control(const std::shared_ptr<ICommand>& mouse_control_command);
 	void set_wireframe_mode(const std::shared_ptr<ICommand>& wireframe_mode_command);
+	void set_imgui_display(const std::shared_ptr<ICommand>& imgui_display_command);
 	
 private:
 	void handle_camera_movement() const;
@@ -19,4 +20,5 @@ private:
 	std::shared_ptr<ICommand> m_camera_toggle_type_command;
 	std::shared_ptr<ICommand> m_mouse_control_command;
 	std::shared_ptr<ICommand> m_wireframe_mode_command;
+	std::shared_ptr<ICommand> m_imgui_display_command;
 };		

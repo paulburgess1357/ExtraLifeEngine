@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 
 std::shared_ptr<ImGuiNS::InterfaceCameraData> ImGuiNS::ImGuiInterface::m_interface_camera_data = nullptr;
+bool ImGuiNS::ImGuiInterface::m_display_interface = false;
 
 void ImGuiNS::ImGuiInterface::initialize_window(std::shared_ptr<IWindow>& window){
 
@@ -28,10 +29,12 @@ void ImGuiNS::ImGuiInterface::initialize_camera_data(const Camera& camera){
 
 
 void ImGuiNS::ImGuiInterface::update() {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-    debug_menu();
+	if(m_display_interface){
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        debug_menu();
+	}
 }
 
 void ImGuiNS::ImGuiInterface::debug_menu() {
@@ -65,8 +68,10 @@ void ImGuiNS::ImGuiInterface::globals() {
 }
 
 void ImGuiNS::ImGuiInterface::render() {
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	if(m_display_interface){
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
 }
 
 void ImGuiNS::ImGuiInterface::destroy() {
@@ -80,4 +85,8 @@ void ImGuiNS::ImGuiInterface::check_camera_interface() {
 	if(m_interface_camera_data == nullptr){
         FatalError::fatal_error("Camera data interface is null!  Unable to display camera data interface (called from ImGuiInterface::check_camera_interface())");
 	}
+}
+
+void ImGuiNS::ImGuiInterface::toggle_interface(){
+    m_display_interface = !m_display_interface;
 }

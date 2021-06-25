@@ -656,5 +656,8 @@
     <ClInclude Include="Interface\InterfaceCameraData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\Command\ImguiDisplayCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

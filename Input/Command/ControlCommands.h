@@ -3,3 +3,4 @@
 #include "MouseControlCommand.h"
 #include "MouseCommandTest.h"
 #include "OpenGLWireframe.hpp"
+#include "ImguiDisplayCommand.hpp"

@@ -58,6 +58,7 @@ void GameManager::initialize_controls() {
 	m_input_handler.set_exit(std::make_shared<ExitCommand>(*this));
 	m_input_handler.set_mouse_control(std::make_shared<MouseControlCommmand>(m_window, m_mouse_handler));
 	m_input_handler.set_wireframe_mode(std::make_shared<OpenGL::OpenGLWireFrame>());
+	m_input_handler.set_imgui_display(std::make_shared<ImGuiDisplayCommand>());
 }
 
 void GameManager::initialize_scene(){

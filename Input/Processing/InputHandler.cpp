@@ -6,7 +6,8 @@
 InputHandler::InputHandler(Camera& camera)
 	:m_camera{ camera },
 	 m_exit_command{ nullptr },
-	 m_mouse_control_command{ nullptr }{	
+	 m_mouse_control_command{ nullptr },
+	 m_imgui_display_command{ nullptr }{
 }
 
 void InputHandler::hande_input() const{
@@ -23,7 +24,8 @@ void InputHandler::hande_input() const{
 	}
 
 	if(InputManager<Keyboard>::is_initial_press(Keyboard::LEFT_CONTROL)){
-		m_mouse_control_command->execute();		
+		m_mouse_control_command->execute();
+		m_imgui_display_command->execute();
 	}
 
 	if(InputManager<Keyboard>::is_initial_press(Keyboard::F7)){
@@ -69,4 +71,8 @@ void InputHandler::set_mouse_control(const std::shared_ptr<ICommand>& mouse_cont
 
 void InputHandler::set_wireframe_mode(const std::shared_ptr<ICommand>& wireframe_mode_command){
 	m_wireframe_mode_command = wireframe_mode_command;
+}
+
+void InputHandler::set_imgui_display(const std::shared_ptr<ICommand>& imgui_display_command){
+	m_imgui_display_command = imgui_display_command;
 }

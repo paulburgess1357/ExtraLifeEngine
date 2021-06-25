@@ -14,6 +14,8 @@ namespace ImGuiNS {
 		static void update();
 		static void render();
 		static void destroy();
+
+		static void toggle_interface();
 		
 	private:
 		ImGuiInterface() = default;
@@ -24,6 +26,7 @@ namespace ImGuiNS {
 		static void check_camera_interface();
 
 		static std::shared_ptr<InterfaceCameraData> m_interface_camera_data;
+		static bool m_display_interface;
 	};
 	
 } // namespace ImGuiNS

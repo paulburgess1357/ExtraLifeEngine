@@ -38,11 +38,12 @@ void GameManager::run(){
 }
 
 void GameManager::initialize_window(){
-	m_window = IWindowCreator::create_window(1920, 1080, false, false);
+	m_window = IWindowCreator::create_window(1920, 1080, false, true);
 }
 
 void GameManager::initialize_imgui(){
-	ImGui::ImGuiInterface::initialize(m_window);
+	ImGuiNS::ImGuiInterface::initialize_window(m_window);
+	ImGuiNS::ImGuiInterface::initialize_camera_data(m_camera);
 }
 
 void GameManager::initialize_uniform_block_handler(){
@@ -96,7 +97,7 @@ void GameManager::update(){
 	VoxelInRangeUpdater::load_in_camera_range_chunks(m_camera, 10, 3, 10);
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
-	ImGui::ImGuiInterface::update();	
+	ImGuiNS::ImGuiInterface::update();
 }
 
 void GameManager::render(){	
@@ -104,12 +105,12 @@ void GameManager::render(){
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
-	ImGui::ImGuiInterface::render();
+	ImGuiNS::ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	Print::print_separator(true, true);
-	ImGui::ImGuiInterface::destroy();
+	ImGuiNS::ImGuiInterface::destroy();
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();

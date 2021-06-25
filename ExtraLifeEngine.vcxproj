@@ -162,6 +162,7 @@
     <ClCompile Include="ECS\Systems\Voxel\IVoxelUpdater.cpp" />
     <ClCompile Include="ECS\Systems\Voxel\OpenGLVoxelUpdater.cpp" />
     <ClCompile Include="Environment\Interfaces\Texture\ITextureHandler.cpp" />
+    <ClCompile Include="Interface\InterfaceCameraData.cpp" />
     <ClCompile Include="Model\Mesh\IMesh.cpp" />
     <ClCompile Include="ResourceManagement\VoxelResource.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="Environment\Interfaces\Texture\ITextureHandler.h" />
     <ClInclude Include="Input\Command\MouseControlCommand.h" />
     <ClInclude Include="Input\Command\OpenGLWireframe.hpp" />
+    <ClInclude Include="Interface\InterfaceCameraData.h" />
     <ClInclude Include="ResourceManagement\VoxelResource.h" />
     <ClInclude Include="ExternalResources\imgui\imconfig.h" />
     <ClInclude Include="ExternalResources\imgui\imgui.h" />

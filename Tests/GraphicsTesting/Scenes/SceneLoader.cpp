@@ -82,8 +82,8 @@ void SceneLoader::single_model(entt::registry& registry){
 void SceneLoader::cubemap(entt::registry& registry){
 
 	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);	
-	TextureResource::load_cubemap_textures("space_red", "Assets/cubemaps/milkyway");
-	shader_program->attach_cubemap_texture("space_red");
+	TextureResource::load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
+	shader_program->attach_cubemap_texture("blue_night");
 	
 	const entt::entity cubemap_entity = registry.create();
 	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);

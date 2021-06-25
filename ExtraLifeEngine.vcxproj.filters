@@ -261,6 +261,9 @@
     <ClCompile Include="ECS\Systems\Voxel\VoxelInRangeUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\InterfaceCameraData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -648,6 +651,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input\Command\OpenGLWireframe.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\InterfaceCameraData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

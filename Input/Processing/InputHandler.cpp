@@ -22,7 +22,7 @@ void InputHandler::hande_input() const{
 		m_camera.toggle_camera_type();
 	}
 
-	if(InputManager<Keyboard>::is_initial_press(Keyboard::F8)){
+	if(InputManager<Keyboard>::is_initial_press(Keyboard::LEFT_CONTROL)){
 		m_mouse_control_command->execute();		
 	}
 

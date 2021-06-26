@@ -6,7 +6,6 @@
 #include "../ECS/Systems/Voxel/VoxelInRangeUpdater.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
-#include "../ECS/Systems/Render/OpenGL/OpenGLCubeRenderer.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
 
 GameManager::GameManager()
@@ -14,7 +13,8 @@ GameManager::GameManager()
 	m_window{ nullptr },
 	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
 	m_input_handler{ m_camera },
-	m_mouse_handler{ m_camera } {	
+	m_mouse_handler{ m_camera } {
+	
 }
 
 GameManager::~GameManager(){
@@ -28,6 +28,7 @@ void GameManager::set_game_state(GameState gamestate) {
 void GameManager::run(){
 	initialize_window();
 	initialize_imgui();
+	initialize_pools();
 	initialize_uniform_block_handler();
 	initialize_projection_matrix();
 	initialize_controls();
@@ -44,6 +45,11 @@ void GameManager::initialize_window(){
 void GameManager::initialize_imgui(){
 	ImGuiNS::ImGuiInterface::initialize_window(m_window);
 	ImGuiNS::ImGuiInterface::initialize_camera_data(m_camera);
+}
+
+void GameManager::initialize_pools(){
+	m_vbo_vao_pool = IVboVaoPool::get_vbo_vao_pool();
+	VoxelResource::set_vao_vbo_pool(m_vbo_vao_pool->get_instance());
 }
 
 void GameManager::initialize_uniform_block_handler(){

@@ -7,6 +7,7 @@
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
 #include "../ECS/Systems/Render/Interfaces/IncludeRenderers.h"
 #include "../ECS/Systems/Voxel/IVoxelUpdater.h"
+#include "../ResourceManagement/IVboVaoPool.h"
 #include "entt/entity/registry.hpp"
 #include <memory>
 
@@ -21,6 +22,7 @@ public:
 private:
 	void initialize_window();
 	void initialize_imgui();
+	void initialize_pools();
 	void initialize_uniform_block_handler();
 	void initialize_projection_matrix() const;
 	void initialize_controls();
@@ -45,8 +47,8 @@ private:
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
-
 	std::shared_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
+	std::shared_ptr<IVboVaoPool> m_vbo_vao_pool = nullptr;
 };
 
 

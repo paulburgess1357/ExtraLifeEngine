@@ -7,7 +7,7 @@ namespace OpenGL{
 	class OpenGLChunk : public Chunk {
 
 	public:
-		OpenGLChunk(const WorldPosition& starting_world_position);
+		OpenGLChunk(const WorldPosition& starting_world_position, const unsigned int vbo, const unsigned int vao);
 		~OpenGLChunk();
 		
 		[[nodiscard]] unsigned int get_vao() const override;
@@ -15,11 +15,10 @@ namespace OpenGL{
 
 		void destroy() const override;
 		
-	private:		
-		void initialize_vbo_vao();
-			
+	private:					
 		unsigned int m_vbo;
 		unsigned int m_vao;
+				
 	};
 	
 } // namespace OpenGL

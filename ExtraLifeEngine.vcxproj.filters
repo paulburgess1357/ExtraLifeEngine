@@ -264,6 +264,12 @@
     <ClCompile Include="Interface\InterfaceCameraData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagement\IVboVaoPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -657,6 +663,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input\Command\ImguiDisplayCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\OpenGL\OpenGLConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\IVboVaoPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

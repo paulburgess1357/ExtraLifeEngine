@@ -2,6 +2,7 @@
 #include "../Voxel/Chunk/Chunk.h"
 #include "../Voxel/Neutral/WorldPosition.h"
 #include "../Voxel/Neutral/AdjacentChunkPosition.h"
+#include "IVboVaoPool.h"
 #include <unordered_map>
 
 class VoxelResource{
@@ -16,6 +17,8 @@ public:
 	
 	[[nodiscard]] static std::shared_ptr<Chunk> get_chunk(const WorldPosition& world_position);	
 	[[nodiscard]] static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& get_chunkmap();
+
+	static void set_vao_vbo_pool(std::shared_ptr<IVboVaoPool> pool);
 			
 private:	
 	VoxelResource() = default;
@@ -26,4 +29,6 @@ private:
 		
 	static void set_individual_chunk_neighbors(std::shared_ptr<Chunk>& chunk);		
 	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
+
+	static std::shared_ptr<IVboVaoPool> m_vao_vbo_pool;
 };

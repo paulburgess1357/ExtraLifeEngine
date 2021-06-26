@@ -4,8 +4,8 @@
 
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position)
 	:Chunk(starting_world_position),
-	m_vbo{ 99 },
-	m_vao{ 99 }{
+	m_vbo{ 999999 },
+	m_vao{ 999999 }{
 	initialize_vbo_vao();
 }
 

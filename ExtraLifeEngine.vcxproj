@@ -165,6 +165,7 @@
     <ClCompile Include="Interface\InterfaceCameraData.cpp" />
     <ClCompile Include="Model\Mesh\IMesh.cpp" />
     <ClCompile Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.cpp" />
+    <ClCompile Include="ResourceManagement\IVboVaoPool.cpp" />
     <ClCompile Include="ResourceManagement\VoxelResource.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui.cpp" />
     <ClCompile Include="ExternalResources\imgui\imgui_demo.cpp" />
@@ -256,8 +257,9 @@
     <ClInclude Include="Input\Command\MouseControlCommand.h" />
     <ClInclude Include="Input\Command\OpenGLWireframe.hpp" />
     <ClInclude Include="Interface\InterfaceCameraData.h" />
+    <ClInclude Include="ResourceManagement\OpenGL\OpenGLConstants.h" />
     <ClInclude Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.h" />
-    <ClInclude Include="ResourceManagement\VboVaoPool.h" />
+    <ClInclude Include="ResourceManagement\IVboVaoPool.h" />
     <ClInclude Include="ResourceManagement\VoxelResource.h" />
     <ClInclude Include="ExternalResources\imgui\imconfig.h" />
     <ClInclude Include="ExternalResources\imgui\imgui.h" />

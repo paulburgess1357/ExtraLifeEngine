@@ -3,8 +3,10 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../Utility/Print.h"
+#include <utility>
 
 std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
+std::shared_ptr<IVboVaoPool> VoxelResource::m_vao_vbo_pool = nullptr;
 
 void VoxelResource::load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
 
@@ -27,7 +29,8 @@ void VoxelResource::load_xyz_chunk_range(const int x_chunk_qty, const int y_chun
 void VoxelResource::load_individual_chunk(const WorldPosition& world_position) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position);
+		std::pair<unsigned int, unsigned int> vbo_vao = m_vao_vbo_pool->get_resource();
+		m_chunkmap[world_position] = std::make_shared<OpenGL::OpenGLChunk>(world_position, vbo_vao.first, vbo_vao.second);
 		return;
 	}
 
@@ -247,4 +250,8 @@ void VoxelResource::destroy_all(){
 	// Chunk destructor(s) are called (i.e. based on Graphics API)
 	Print::print("Destroying Voxels");
 	m_chunkmap.clear();
+}
+
+void VoxelResource::set_vao_vbo_pool(std::shared_ptr<IVboVaoPool> pool){
+	m_vao_vbo_pool = pool;
 }

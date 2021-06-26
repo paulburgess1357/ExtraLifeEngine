@@ -20,6 +20,8 @@ namespace OpenGL{
 			
 		unsigned int m_vbo;
 		unsigned int m_vao;
+
+		static unsigned int m_uninitialized_chunk_value;
 	};
 	
 } // namespace OpenGL

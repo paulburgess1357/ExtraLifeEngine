@@ -11,6 +11,12 @@ struct WorldPosition {
 		 z{ pos_z }{
 	}
 
+	WorldPosition(const glm::vec3& position)
+		:x{static_cast<int>(position.x)},
+		 y{static_cast<int>(position.y)},
+		 z{static_cast<int>(position.z)}{		
+	}
+
 	glm::vec3 get_vec3() const{
 		return glm::vec3{x, y, z};
 	}

@@ -1,8 +1,12 @@
 #include "VoxelInRangeUpdater.h"
 #include "../../ResourceManagement/VoxelResource.h"
 
-//TODO Instead of limiting to just voxels, use the inrange to limit any objects to be within camera range.
-//TODO Likely split this class up to have one that loads voxels, and another that simply tracks the world positions in range.
+// TODO
+// 1) Get m_new_world_positions_in_range working
+// 2) Separate in world positions in range class from loading voxel data
+// 3) Unload opengl resource
+// 4) Reuse resource
+// 5) Hope it improves things
 
 WorldPosition VoxelInRangeUpdater::m_camera_old_world_position{ -99, -99, -99 };
 WorldPosition VoxelInRangeUpdater::m_camera_new_world_position{ -99, -99, -99 };
@@ -74,10 +78,6 @@ void VoxelInRangeUpdater::load_non_loaded_voxel_data(){
 
 
 void VoxelInRangeUpdater::calculate_all_world_positions_in_camera_range() {
-
-	// remove me
-	WorldPosition new_wp = m_camera_new_world_position;
-	WorldPosition old_wp = m_camera_old_world_position;
 	
 	const WorldPosition world_position_difference = m_camera_new_world_position - m_camera_old_world_position;
 

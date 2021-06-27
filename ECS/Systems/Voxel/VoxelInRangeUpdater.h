@@ -19,7 +19,7 @@ private:
 	
 	static std::vector<WorldPosition> m_all_world_positions_in_range;
 	static std::vector<WorldPosition> m_new_world_positions_in_range;
-	static std::vector<WorldPosition> m_old_world_positions_in_range;
+	static std::vector<WorldPosition> m_old_world_positions_not_in_range;
 
 	static int m_x_range;
 	static int m_y_range;

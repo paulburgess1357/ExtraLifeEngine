@@ -15,9 +15,9 @@ std::vector<WorldPosition> VoxelInRangeUpdater::m_all_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_new_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_old_world_positions_not_in_range;
 
-int VoxelInRangeUpdater::m_x_range = 7;
+int VoxelInRangeUpdater::m_x_range = 10;
 int VoxelInRangeUpdater::m_y_range = 3;
-int VoxelInRangeUpdater::m_z_range = 7;
+int VoxelInRangeUpdater::m_z_range = 10;
 
 void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(const Camera& camera) {
 	
@@ -95,7 +95,13 @@ void VoxelInRangeUpdater::calculate_all_world_positions_in_camera_range() {
 			m_old_world_positions_not_in_range.emplace_back(old_world_position);
 		}
 		
-		const WorldPosition updated_world_position = old_world_position + world_position_difference;		
+		const WorldPosition updated_world_position = old_world_position + world_position_difference;
+		// Check if new position is in range of the old camera.  If it is not,
+		// place it in the 'm_new_world_positions_in_range' vector
+		if(!is_position_in_range(m_camera_old_world_position, updated_world_position)){
+			m_new_world_positions_in_range.emplace_back(updated_world_position);
+		}
+		
 		updated_world_positions_in_range.emplace_back(updated_world_position);
 	}
 

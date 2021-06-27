@@ -7,7 +7,7 @@ class VoxelInRangeUpdater{
 public:
 	static void initialize_world_positions_in_camera_range();
 	static std::vector<WorldPosition> get_world_positions_in_camera_range();
-	static void load_in_camera_range_chunks(const Camera& camera, const int x_range, const int y_range, const int z_range);
+	static void load_in_camera_range_chunks(const Camera& camera);
 		
 private:
 	static void calculate_new_old_world_positions_in_camera_range(const WorldPosition& old_world_position, const WorldPosition& new_world_position);
@@ -19,9 +19,9 @@ private:
 	static std::vector<WorldPosition> m_new_world_positions_in_range;
 	static std::vector<WorldPosition> m_old_world_positions_in_range;
 
-	static int x_range;
-	static int y_range;
-	static int z_range;
+	static int m_x_range;
+	static int m_y_range;
+	static int m_z_range;
 	
 };
 

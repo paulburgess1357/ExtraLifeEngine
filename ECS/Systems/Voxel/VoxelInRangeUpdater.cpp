@@ -1,6 +1,5 @@
 #include "VoxelInRangeUpdater.h"
 #include "../../ResourceManagement/VoxelResource.h"
-#include <iostream>
 
 //TODO Instead of limiting to just voxels, use the inrange to limit any objects to be within camera range.
 //TODO Likely split this class up to have one that loads voxels, and another that simply tracks the world positions in range.
@@ -10,15 +9,15 @@ std::vector<WorldPosition> VoxelInRangeUpdater::m_all_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_new_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_old_world_positions_in_range;
 
-int VoxelInRangeUpdater::x_range = 10;
-int VoxelInRangeUpdater::y_range = 3;
-int VoxelInRangeUpdater::z_range = 10;
+int VoxelInRangeUpdater::m_x_range = 10;
+int VoxelInRangeUpdater::m_y_range = 3;
+int VoxelInRangeUpdater::m_z_range = 10;
 
 std::vector<WorldPosition> VoxelInRangeUpdater::get_world_positions_in_camera_range(){
 	return m_all_world_positions_in_range;
 }
 
-void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera, const int x_range, const int y_range, const int z_range) {
+void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera) {
 	
 	const WorldPosition new_camera_chunk_world_position = get_nearest_world_position_to_camera(camera);	
 
@@ -46,14 +45,14 @@ void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera, cons
 
 void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(){
 
-	const int x_range_qty_start = x_range * -1;
-	const int x_range_qty_end = x_range + 1;
+	const int x_range_qty_start = m_x_range * -1;
+	const int x_range_qty_end = m_x_range + 1;
 
-	const int y_range_qty_start = y_range * -1;
-	const int y_range_qty_end = y_range + 1;
+	const int y_range_qty_start = m_y_range * -1;
+	const int y_range_qty_end = m_y_range + 1;
 
-	const int z_range_qty_start = z_range * -1;
-	const int z_range_qty_end = z_range + 1;
+	const int z_range_qty_start = m_z_range * -1;
+	const int z_range_qty_end = m_z_range + 1;
 
 	for (int x = x_range_qty_start; x < x_range_qty_end; x++) {
 		for (int y = y_range_qty_start; y < y_range_qty_end; y++) {

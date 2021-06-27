@@ -6,7 +6,7 @@
 
 void OpenGL::OpenGLVoxelUpdater::update() const{
 
-	std::vector<WorldPosition> chunks_in_range = VoxelInRangeUpdater::initialize_world_positions_in_camera_range();
+	std::vector<WorldPosition> chunks_in_range = VoxelInRangeUpdater::get_world_positions_in_camera_range();
 	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
 	
 	for(const auto& world_position : chunks_in_range){

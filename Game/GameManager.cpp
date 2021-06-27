@@ -86,6 +86,7 @@ void GameManager::initialize_renderers(){
 
 void GameManager::initialize_updaters(){
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
+	VoxelInRangeUpdater::initialize_world_positions_in_camera_range();
 }
 
 void GameManager::gameloop() {

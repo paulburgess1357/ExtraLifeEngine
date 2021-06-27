@@ -15,9 +15,9 @@ std::vector<WorldPosition> VoxelInRangeUpdater::m_all_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_new_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_old_world_positions_not_in_range;
 
-int VoxelInRangeUpdater::m_x_range = 3;
+int VoxelInRangeUpdater::m_x_range = 7;
 int VoxelInRangeUpdater::m_y_range = 3;
-int VoxelInRangeUpdater::m_z_range = 3;
+int VoxelInRangeUpdater::m_z_range = 7;
 
 void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(const Camera& camera) {
 	

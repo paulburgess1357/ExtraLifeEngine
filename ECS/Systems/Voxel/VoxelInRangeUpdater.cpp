@@ -15,40 +15,11 @@ int VoxelInRangeUpdater::m_x_range = 10;
 int VoxelInRangeUpdater::m_y_range = 3;
 int VoxelInRangeUpdater::m_z_range = 10;
 
-std::vector<WorldPosition> VoxelInRangeUpdater::get_world_positions_in_camera_range(){
-	return m_all_world_positions_in_range;
-}
-
-void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera) {
-	
-	const WorldPosition new_camera_chunk_world_position = get_nearest_world_position_to_camera(camera);	
-
-	// Only update 'chunks in range' if the camera position has changed
-	if (m_camera_new_world_position != new_camera_chunk_world_position) {		
-
-		m_camera_old_world_position = m_camera_new_world_position;
-		m_camera_new_world_position = new_camera_chunk_world_position;
-		
-		calculate_all_world_positions_in_camera_range();
-		// m_camera_new_world_position = new_camera_chunk_world_position;
-
-		// Filter to only new world positions (no old chunks allowed!)
-		const std::vector<WorldPosition> new_world_positions_in_range = filter_to_non_loaded_new_world_positions();
-
-		// Load new chunks into ecs and voxel resource
-		VoxelResource::load_multiple_chunks(new_world_positions_in_range);
-
-		// Update chunk neighbors for both brand new chunks and existing
-		// old chunks that are adjacent to the new chunks
-		VoxelResource::set_specific_chunk_neighbors(new_world_positions_in_range);
-	}	
-}
-
-void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(const WorldPosition& starting_camera_position){
+void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(const WorldPosition& starting_camera_position) {
 
 	m_camera_old_world_position = starting_camera_position;
 	m_camera_new_world_position = starting_camera_position;
-	
+
 	const int x_range_qty_start = m_x_range * -1;
 	const int x_range_qty_end = m_x_range + 1;
 
@@ -67,6 +38,33 @@ void VoxelInRangeUpdater::initialize_world_positions_in_camera_range(const World
 	}
 }
 
+std::vector<WorldPosition> VoxelInRangeUpdater::get_world_positions_in_camera_range(){
+	return m_all_world_positions_in_range;
+}
+
+void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera) {
+	
+	const WorldPosition new_camera_chunk_world_position = get_nearest_world_position_to_camera(camera);	
+
+	// Only update 'chunks in range' if the camera position has changed
+	if (m_camera_new_world_position != new_camera_chunk_world_position) {		
+
+		m_camera_old_world_position = m_camera_new_world_position;
+		m_camera_new_world_position = new_camera_chunk_world_position;
+		
+		calculate_all_world_positions_in_camera_range();
+
+		// Filter to only new world positions (no old chunks allowed!)
+		const std::vector<WorldPosition> non_loaded_world_positions = filter_to_non_loaded_new_world_positions();
+
+		// Load new chunks into ecs and voxel resource
+		VoxelResource::load_multiple_chunks(non_loaded_world_positions);
+
+		// Update chunk neighbors for both brand new chunks and existing
+		// old chunks that are adjacent to the new chunks
+		VoxelResource::set_specific_chunk_neighbors(non_loaded_world_positions);
+	}	
+}
 
 void VoxelInRangeUpdater::calculate_all_world_positions_in_camera_range() {
 	const WorldPosition world_position_difference = m_camera_new_world_position - m_camera_old_world_position;

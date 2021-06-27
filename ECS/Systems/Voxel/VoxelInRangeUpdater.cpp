@@ -9,7 +9,7 @@ WorldPosition VoxelInRangeUpdater::m_camera_new_world_position{ -99, -99, -99 };
 
 std::vector<WorldPosition> VoxelInRangeUpdater::m_all_world_positions_in_range;
 std::vector<WorldPosition> VoxelInRangeUpdater::m_new_world_positions_in_range;
-std::vector<WorldPosition> VoxelInRangeUpdater::m_old_world_positions_in_range;
+std::vector<WorldPosition> VoxelInRangeUpdater::m_old_world_positions_not_in_range;
 
 int VoxelInRangeUpdater::m_x_range = 10;
 int VoxelInRangeUpdater::m_y_range = 3;
@@ -69,14 +69,15 @@ void VoxelInRangeUpdater::load_in_camera_range_chunks(const Camera& camera) {
 void VoxelInRangeUpdater::calculate_all_world_positions_in_camera_range() {
 	const WorldPosition world_position_difference = m_camera_new_world_position - m_camera_old_world_position;
 	
-	std::vector<WorldPosition> new_world_positions_in_range;
-	new_world_positions_in_range.reserve(m_all_world_positions_in_range.size());
+	std::vector<WorldPosition> updated_world_positions_in_range;
+	updated_world_positions_in_range.reserve(m_all_world_positions_in_range.size());
 	
-	for(const auto& world_position : m_all_world_positions_in_range){
-		new_world_positions_in_range.emplace_back(world_position + world_position_difference);
+	for(const auto& old_world_position : m_all_world_positions_in_range){
+		const WorldPosition updated_world_position = old_world_position + world_position_difference;		
+		updated_world_positions_in_range.emplace_back(updated_world_position);
 	}
 
-	m_all_world_positions_in_range = new_world_positions_in_range;
+	m_all_world_positions_in_range = updated_world_positions_in_range;
 	
 }
 

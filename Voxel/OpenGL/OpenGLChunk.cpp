@@ -25,6 +25,21 @@ unsigned OpenGL::OpenGLChunk::get_vbo() const{
 	return m_vbo;
 }
 
+void OpenGL::OpenGLChunk::set_vbo(const unsigned int vbo) {
+	m_vbo = vbo;
+}
+
+void OpenGL::OpenGLChunk::set_vao(const unsigned int vao) {
+	m_vao = vao;
+}
+
+bool OpenGL::OpenGLChunk::vbo_vao_initialized() const{
+	if(m_vbo == OpenGL::UNINITIALIZED_CHUNK_VALUE || m_vao == OpenGL::UNINITIALIZED_CHUNK_VALUE){
+		return false;
+	}
+	return true;
+}
+
 void OpenGL::OpenGLChunk::destroy() const{
 	if (m_vbo != OpenGL::UNINITIALIZED_CHUNK_VALUE && m_vao != OpenGL::UNINITIALIZED_CHUNK_VALUE) {
 		glDeleteBuffers(1, &m_vbo);

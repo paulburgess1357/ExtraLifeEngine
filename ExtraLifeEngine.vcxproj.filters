@@ -270,7 +270,7 @@
     <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\Systems\Voxel\VoxelLoaderUpdater.cpp">
+    <ClCompile Include="ECS\Systems\Voxel\VoxelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -674,10 +674,10 @@
     <ClInclude Include="World\WorldPositionsInRangeUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Systems\Voxel\VoxelLoaderUpdater.h">
+    <ClInclude Include="World\WorldPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="World\WorldPosition.h">
+    <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

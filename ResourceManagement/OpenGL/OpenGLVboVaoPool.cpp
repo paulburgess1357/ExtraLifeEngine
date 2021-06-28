@@ -1,6 +1,7 @@
 #include "OpenGLVboVaoPool.h"
 #include "OpenGLConstants.h"
 #include <glad/glad.h>
+#include <iostream>
 
 std::shared_ptr<IVboVaoPool> OpenGL::OpenGLVboVaoPool::get_instance(){
 	if(m_pool_instance == nullptr){

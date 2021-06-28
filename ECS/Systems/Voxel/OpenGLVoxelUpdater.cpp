@@ -22,7 +22,7 @@ void OpenGL::OpenGLVoxelUpdater::update() const{
 				glBindBuffer(GL_ARRAY_BUFFER, current_chunk->get_vbo());
 
 				// Store Data
-				glBufferData(GL_ARRAY_BUFFER, chunk_data.size() * sizeof(VertexAndNormals), &chunk_data.front(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, chunk_data.size() * sizeof(VertexAndNormals), &chunk_data.front(), GL_DYNAMIC_DRAW);
 
 				// Vertex Data
 				glVertexAttribPointer(0, 4, GL_BYTE, GL_FALSE, 7 * sizeof(unsigned char), (void*)0);

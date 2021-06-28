@@ -26,6 +26,7 @@ public:
 	[[nodiscard]] int get_vertex_qty() const;
 	[[nodiscard]] virtual unsigned int get_vao() const = 0;
 	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
+	[[nodiscard]] virtual bool vbo_vao_initialized() const = 0;
 	
 	[[nodiscard]] std::shared_ptr<Chunk> get_left_adjacent_chunk() const;
 	[[nodiscard]] std::shared_ptr<Chunk> get_right_adjacent_chunk() const;
@@ -38,6 +39,9 @@ public:
 	
 	void set_block_type(const unsigned char x, const unsigned char y, const unsigned char z, const unsigned char type);
 	void set_update_required(const bool update_required);
+
+	virtual void set_vbo(const unsigned int vbo) = 0;
+	virtual void set_vao(const unsigned int vao) = 0;	
 	
 	void set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
 	void set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);

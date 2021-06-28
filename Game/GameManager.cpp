@@ -7,7 +7,7 @@
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
-#include "../ECS/Systems/Voxel/VoxelLoaderUpdater.h"
+#include "../ECS/Systems/Voxel/VoxelLoader.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
@@ -88,7 +88,7 @@ void GameManager::initialize_renderers(){
 void GameManager::initialize_updaters(){
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
 	WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(m_camera);
-	VoxelLoaderUpdater::initialize_all_world_positions_in_range();
+	VoxelLoader::initialize_all_world_positions_in_range();
 }
 
 void GameManager::gameloop() {
@@ -105,7 +105,23 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
-	VoxelLoaderUpdater::load_non_loaded_new_world_positions();	
+
+	// Unload chunks here for resource
+	//VoxelLoader::unload_vbo_vao_not_in_range();
+	VoxelLoader::load_non_loaded_new_world_positions();
+	VoxelLoader::load_vbo_vao_new_in_range();
+
+	// Set new chunks 'needs update' to true (because new chunks would be using a recycled vbo vao)
+	// The new chunks vector needs to pull form the vbo/vao resource as well.  Its possible that you haev no more chunks to load.  You then has new chunks in your
+	// vector of new chunk positions based on the camera.  Those new chunks are pulled from the map.  Those chunks would have given up their resource at some point
+	// Those chunks they their resource
+	
+	
+	// TODO need to set the 'needs_update' attribute to TRUE to any new chunk that is going to be rendered; Does not have to run if the camera position does not change.
+	
+
+
+
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();

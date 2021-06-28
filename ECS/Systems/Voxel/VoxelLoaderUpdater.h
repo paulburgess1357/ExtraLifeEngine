@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Voxel/Neutral/WorldPosition.h"
+#include "../../World/WorldPosition.h"
 #include <vector>
 //TODO move this to World Folder
 

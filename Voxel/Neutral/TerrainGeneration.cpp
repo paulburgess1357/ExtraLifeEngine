@@ -1,5 +1,4 @@
 #include "TerrainGeneration.h"
-#include <iostream>
 #include <cmath>
 
 noise::module::Perlin TerrainGeneration::m_perlin_noise;

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Neutral/WorldPosition.h"
+#include "../../World/WorldPosition.h"
 #include "../Neutral/VertexAndNormals.h"
 #include <memory>
 #include <vector>

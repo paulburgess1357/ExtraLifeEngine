@@ -1,7 +1,7 @@
 #pragma once
 #include "../Voxel/Chunk/Chunk.h"
-#include "../Voxel/Neutral/WorldPosition.h"
 #include "../Voxel/Neutral/AdjacentChunkPosition.h"
+#include "../../World/WorldPosition.h"
 #include "IVboVaoPool.h"
 #include <unordered_map>
 

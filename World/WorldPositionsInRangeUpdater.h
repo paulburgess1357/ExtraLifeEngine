@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Camera/Camera.h"
-#include "../../Voxel/Neutral/WorldPosition.h"
+#include "../../World/WorldPosition.h"
 
 class WorldPositionsInRangeUpdater{
 	

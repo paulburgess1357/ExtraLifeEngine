@@ -53,6 +53,8 @@ void VoxelLoader::load_vbo_vao_new_in_range(){
 
 		// Works with get_all_world_positions_in_camera_range
 		// Possibly calculating new_world_positions_in_camera_range incorrectly?
+		//TODO once i figure out the other bug, there may be a better wayt o do this.  Right now i am updating all the 'new chunk position' data.
+		//Possibly the update function is breaking things.  E.g. old chunk data -> update, new chunk data -> update... perhaps something is wrong there? More verticies/size problems updating? idk
         std::vector <WorldPosition> all_new_world_positions_in_range = WorldPositionsInRangeUpdater::get_new_world_positions_in_camera_range();
         // std::vector <WorldPosition> all_new_world_positions_in_range = WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range();
 

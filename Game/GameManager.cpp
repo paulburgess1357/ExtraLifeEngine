@@ -107,7 +107,7 @@ void GameManager::update(){
 	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
 
 	// Unload chunks here for resource
-	//VoxelLoader::unload_vbo_vao_not_in_range();
+	//VoxelLoader::unload_vbo_vao_not_in_range(); .... Something wrong with unload? Not fully sure.  Its possible my calculations of old/all/new is incorrect for old/all.  St
 	VoxelLoader::load_non_loaded_new_world_positions();
 	VoxelLoader::load_vbo_vao_new_in_range();
 

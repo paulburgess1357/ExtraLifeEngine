@@ -1,12 +1,12 @@
 #include "OpenGLVoxelUpdater.h"
-#include "VoxelInRangeUpdater.h"
+#include "../../World/WorldPositionsInRangeUpdater.h"
 #include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ResourceManagement/VoxelResource.h"
 #include <glad/glad.h>
 
 void OpenGL::OpenGLVoxelUpdater::update() const{
 
-	std::vector<WorldPosition> chunks_in_range = VoxelInRangeUpdater::get_world_positions_in_camera_range();
+	std::vector<WorldPosition> chunks_in_range = WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range();
 	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& chunkmap = VoxelResource::get_chunkmap();
 	
 	for(const auto& world_position : chunks_in_range){

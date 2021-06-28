@@ -3,15 +3,16 @@
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
 #include "../ResourceManagement/IncludeResources.h"
-#include "../ECS/Systems/Voxel/VoxelInRangeUpdater.h"
+#include "../World/WorldPositionsInRangeUpdater.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
+#include "../ECS/Systems/Voxel/VoxelLoaderUpdater.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },
-	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0, 50, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	
@@ -86,6 +87,8 @@ void GameManager::initialize_renderers(){
 
 void GameManager::initialize_updaters(){
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
+	WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(m_camera);
+	VoxelLoaderUpdater::initialize_all_world_positions_in_range();
 }
 
 void GameManager::gameloop() {
@@ -101,7 +104,8 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	VoxelInRangeUpdater::load_in_camera_range_chunks(m_camera, 10, 3, 10);
+	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
+	VoxelLoaderUpdater::load_non_loaded_new_world_positions();	
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();

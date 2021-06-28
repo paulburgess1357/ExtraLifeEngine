@@ -11,10 +11,24 @@ struct WorldPosition {
 		 z{ pos_z }{
 	}
 
+	WorldPosition(const glm::vec3& position)
+		:x{static_cast<int>(position.x)},
+		 y{static_cast<int>(position.y)},
+		 z{static_cast<int>(position.z)}{		
+	}
+
 	glm::vec3 get_vec3() const{
 		return glm::vec3{x, y, z};
 	}
 
+	WorldPosition operator+(const WorldPosition& rhs) const{
+		return WorldPosition{this->x + rhs.x, this->y + rhs.y, this->z + rhs.z};
+	}
+
+	WorldPosition operator-(const WorldPosition& rhs) const {
+		return WorldPosition{ this->x - rhs.x, this->y - rhs.y, this->z - rhs.z };
+	}
+	
 	bool operator==(const WorldPosition& world_position) const{
 		return world_position.x == x && world_position.y == y && world_position.z == z;
 	}

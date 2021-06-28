@@ -1,6 +1,5 @@
 #pragma once
 #include "IVoxelUpdater.h"
-#include "entt/entity/registry.hpp"
 
 namespace OpenGL {
 

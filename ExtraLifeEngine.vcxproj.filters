@@ -258,9 +258,6 @@
     <ClCompile Include="Voxel\Neutral\TerrainGeneration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\Systems\Voxel\VoxelInRangeUpdater.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\InterfaceCameraData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -268,6 +265,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManagement\IVboVaoPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Systems\Voxel\VoxelLoaderUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -647,9 +650,6 @@
     <ClInclude Include="Voxel\Neutral\TerrainGeneration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Systems\Voxel\VoxelInRangeUpdater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -672,6 +672,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManagement\IVboVaoPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WorldPositionsInRangeUpdater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Systems\Voxel\VoxelLoaderUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

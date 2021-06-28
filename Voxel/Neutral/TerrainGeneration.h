@@ -1,6 +1,6 @@
 #pragma once
 #include <noise/noise.h>
-#include "../Neutral/WorldPosition.h"
+#include "../../World/WorldPosition.h"
 
 class TerrainGeneration{
 	

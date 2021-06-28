@@ -587,9 +587,6 @@
     <ClInclude Include="Voxel\Neutral\VertexAndNormals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Voxel\Neutral\WorldPosition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Voxel\Neutral\FaceType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -678,6 +675,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoaderUpdater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WorldPosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include "../Chunk/Chunk.h"
-#include "../Neutral/WorldPosition.h"
+#include "../../World/WorldPosition.h"
 
 namespace OpenGL{
 	

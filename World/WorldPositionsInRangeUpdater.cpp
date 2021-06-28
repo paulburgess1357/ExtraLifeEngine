@@ -14,9 +14,9 @@ std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_all_world_positions_i
 std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_new_world_positions_in_range;
 std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_old_world_positions_not_in_range;
 
-int WorldPositionsInRangeUpdater::m_x_range = 10;
+int WorldPositionsInRangeUpdater::m_x_range = 7;
 int WorldPositionsInRangeUpdater::m_y_range = 3;
-int WorldPositionsInRangeUpdater::m_z_range = 10;
+int WorldPositionsInRangeUpdater::m_z_range = 7;
 bool WorldPositionsInRangeUpdater::m_camera_chunk_changed = true;
 
 void WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(const Camera& camera) {

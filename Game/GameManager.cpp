@@ -12,7 +12,7 @@
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_window{ nullptr },
-	m_camera{ Camera{ glm::vec3(0, 50, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera } {
 	
@@ -105,9 +105,9 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
-
+	
 	// Unload chunks here for resource
-	//VoxelLoader::unload_vbo_vao_not_in_range(); .... Something wrong with unload? Not fully sure.  Its possible my calculations of old/all/new is incorrect for old/all.  St
+	VoxelLoader::unload_vbo_vao_not_in_range();// .... Something wrong with unload? Not fully sure.  Its possible my calculations of old/all/new is incorrect for old/all.  St
 	VoxelLoader::load_non_loaded_new_world_positions();
 	VoxelLoader::load_vbo_vao_new_in_range();
 

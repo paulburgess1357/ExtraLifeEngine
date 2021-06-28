@@ -261,8 +261,8 @@ void VoxelResource::unload_vbo_vao_into_pool(const WorldPosition& world_position
 	unload_vbo_vao_into_pool(m_chunkmap[world_position]);
 }
 
-void VoxelResource::unload_vbo_vao_into_pool(std::shared_ptr<Chunk>& chunk){
-	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk->get_vbo(), chunk->get_vao());
+void VoxelResource::unload_vbo_vao_into_pool(std::shared_ptr<Chunk>& chunk){	
+	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk->get_vbo(), chunk->get_vao());	
 	chunk->set_vbo(OpenGL::UNINITIALIZED_CHUNK_VALUE);
 	chunk->set_vao(OpenGL::UNINITIALIZED_CHUNK_VALUE);
 	m_vao_vbo_pool->return_resource(vbo_vao);	
@@ -270,7 +270,7 @@ void VoxelResource::unload_vbo_vao_into_pool(std::shared_ptr<Chunk>& chunk){
 
 void VoxelResource::load_vbo_vao_into_chunk(const WorldPosition& world_position){
 	std::shared_ptr<Chunk> chunk = m_chunkmap[world_position];
-	const std::pair<unsigned int, unsigned int> vbo_vao = m_vao_vbo_pool->get_resource();
+	const std::pair<unsigned int, unsigned int> vbo_vao = m_vao_vbo_pool->get_resource();	
 	chunk->set_vbo(vbo_vao.first);
-	chunk->set_vbo(vbo_vao.second);
+	chunk->set_vao(vbo_vao.second);
 }

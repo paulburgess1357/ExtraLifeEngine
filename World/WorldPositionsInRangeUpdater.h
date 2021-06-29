@@ -36,5 +36,3 @@ private:
 	static bool m_camera_chunk_changed;
 	
 };
-
-

@@ -7,7 +7,7 @@ class InputHandler {
 
 public:
 	InputHandler(Camera& camera);
-	void hande_input() const;
+	void handle_input() const;
 	void set_exit(const std::shared_ptr<ICommand>& exit_command);
 	void set_mouse_control(const std::shared_ptr<ICommand>& mouse_control_command);
 	void set_wireframe_mode(const std::shared_ptr<ICommand>& wireframe_mode_command);

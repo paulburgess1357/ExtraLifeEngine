@@ -30,7 +30,6 @@ std::pair<unsigned, unsigned> OpenGL::OpenGLVboVaoPool::get_resource(){
 
 void OpenGL::OpenGLVboVaoPool::return_resource(std::pair<unsigned, unsigned> resource){
 	check_vbo_vao_value(resource);	
-	// TODO Call glDelete here?
 	m_vbo_vao_resources.emplace(resource);
 }
 
@@ -41,6 +40,3 @@ void OpenGL::OpenGLVboVaoPool::check_vbo_vao_value(const std::pair<unsigned int,
 		Print::print("VAO: " + std::to_string(vbo_vao.second));
 	}
 }
-
-
-

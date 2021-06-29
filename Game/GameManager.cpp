@@ -93,7 +93,7 @@ void GameManager::initialize_updaters(){
 
 void GameManager::gameloop() {
 	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
-		m_input_handler.hande_input();
+		m_input_handler.handle_input();
 		m_mouse_handler.handle_input();
 		m_window->clear_color();
 		update();
@@ -105,23 +105,7 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
-	
-	// Unload chunks here for resource
-	VoxelLoader::unload_vbo_vao_not_in_range();// .... Something wrong with unload? Not fully sure.  Its possible my calculations of old/all/new is incorrect for old/all.  St
-	VoxelLoader::load_non_loaded_new_world_positions();
-	VoxelLoader::load_vbo_vao_new_in_range();
-
-	// Set new chunks 'needs update' to true (because new chunks would be using a recycled vbo vao)
-	// The new chunks vector needs to pull form the vbo/vao resource as well.  Its possible that you haev no more chunks to load.  You then has new chunks in your
-	// vector of new chunk positions based on the camera.  Those new chunks are pulled from the map.  Those chunks would have given up their resource at some point
-	// Those chunks they their resource
-	
-	
-	// TODO need to set the 'needs_update' attribute to TRUE to any new chunk that is going to be rendered; Does not have to run if the camera position does not change.
-	
-
-
-
+	VoxelLoader::update();
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();

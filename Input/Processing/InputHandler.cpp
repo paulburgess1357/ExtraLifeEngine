@@ -10,7 +10,7 @@ InputHandler::InputHandler(Camera& camera)
 	 m_imgui_display_command{ nullptr }{
 }
 
-void InputHandler::hande_input() const{
+void InputHandler::handle_input() const{
 	glfwPollEvents();
 
 	if (InputManager<Keyboard>::is_pressed(Keyboard::ESCAPE)) {

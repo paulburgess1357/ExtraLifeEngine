@@ -14,5 +14,8 @@ public:
 		
 protected:
 	static std::shared_ptr<IVboVaoPool> m_pool_instance;
-	std::queue<std::pair<unsigned int, unsigned int>> m_vbo_vao_resources;	
+	std::queue<std::pair<unsigned int, unsigned int>> m_vbo_vao_resources;
+
+private:
+	virtual void check_vbo_vao_value(const std::pair<unsigned int, unsigned int>& vbo_vao) = 0;
 };

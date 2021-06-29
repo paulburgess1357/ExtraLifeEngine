@@ -1,11 +1,6 @@
 #include "WorldPositionsInRangeUpdater.h"
 #include "../Voxel/Chunk/Chunk.h"
 
-// TODO
-// 3) Unload opengl resource
-// 4) Reuse resource
-// 5) Hope it improves things
-
 WorldPosition WorldPositionsInRangeUpdater::m_camera_old_world_position{ -99, -99, -99 };
 WorldPosition WorldPositionsInRangeUpdater::m_camera_new_world_position{ -99, -99, -99 };
 
@@ -13,9 +8,10 @@ std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_all_world_positions_i
 std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_new_world_positions_in_range;
 std::vector<WorldPosition> WorldPositionsInRangeUpdater::m_old_world_positions_not_in_range;
 
-int WorldPositionsInRangeUpdater::m_x_range = 10;
+int WorldPositionsInRangeUpdater::m_x_range = 7;
 int WorldPositionsInRangeUpdater::m_y_range = 3;
-int WorldPositionsInRangeUpdater::m_z_range = 10;
+int WorldPositionsInRangeUpdater::m_z_range = 7;
+bool WorldPositionsInRangeUpdater::m_camera_chunk_changed = true;
 
 void WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(const Camera& camera) {
 	
@@ -41,22 +37,36 @@ void WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(co
 
 }
 
+void WorldPositionsInRangeUpdater::update_world_position_vectors(const Camera& camera) {
+
+	m_camera_chunk_changed = false;
+	const WorldPosition nearest_chunk_to_camera = get_nearest_world_position_to_camera(camera);
+
+	// Only update 'world position vectors' if the camera position has changed
+	if (m_camera_new_world_position != nearest_chunk_to_camera) {
+		m_camera_old_world_position = m_camera_new_world_position;
+		m_camera_new_world_position = nearest_chunk_to_camera;
+		m_camera_chunk_changed = true;
+		calculate_all_world_positions_in_camera_range();
+	}
+
+}
+
 std::vector<WorldPosition> WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range(){
 	return m_all_world_positions_in_range;
 }
 
-void WorldPositionsInRangeUpdater::update_world_position_vectors(const Camera& camera) {
-	
-	const WorldPosition new_camera_chunk_world_position = get_nearest_world_position_to_camera(camera);	
-
-	// Only update 'world position vectors' if the camera position has changed
-	if (m_camera_new_world_position != new_camera_chunk_world_position) {		
-		m_camera_old_world_position = m_camera_new_world_position;
-		m_camera_new_world_position = new_camera_chunk_world_position;
-		calculate_all_world_positions_in_camera_range();		
-	}	
+std::vector<WorldPosition> WorldPositionsInRangeUpdater::get_new_world_positions_in_camera_range() {
+	return m_new_world_positions_in_range;
 }
 
+std::vector<WorldPosition> WorldPositionsInRangeUpdater::get_old_world_positions_not_in_camera_range() {
+	return m_old_world_positions_not_in_range;
+}
+
+bool WorldPositionsInRangeUpdater::has_camera_chunk_changed() {
+	return m_camera_chunk_changed;
+}
 
 void WorldPositionsInRangeUpdater::calculate_all_world_positions_in_camera_range() {
 	
@@ -90,7 +100,7 @@ void WorldPositionsInRangeUpdater::calculate_all_world_positions_in_camera_range
 	
 }
 
-WorldPosition WorldPositionsInRangeUpdater::get_nearest_world_position_to_camera(const Camera& camera){	
+WorldPosition WorldPositionsInRangeUpdater::get_nearest_world_position_to_camera(const Camera& camera) {
 	const glm::vec3 camera_position = camera.get_camera_position();
 
 	const int nearest_x_chunk = static_cast<int>(camera_position.x) / x_block_qty * x_block_qty;
@@ -101,25 +111,15 @@ WorldPosition WorldPositionsInRangeUpdater::get_nearest_world_position_to_camera
 	return new_camera_position;
 }
 
-bool WorldPositionsInRangeUpdater::is_position_in_range(const WorldPosition& base_world_position, const WorldPosition& evaluated_world_position){
+bool WorldPositionsInRangeUpdater::is_position_in_range(const WorldPosition& base_world_position, const WorldPosition& evaluated_world_position) {
 	const bool x_in_range = is_position_in_range(base_world_position.x, evaluated_world_position.x, m_x_range, x_block_qty);
-    const bool y_in_range = is_position_in_range(base_world_position.y, evaluated_world_position.y, m_y_range, y_block_qty);
-	const bool z_in_range = is_position_in_range(base_world_position.z, evaluated_world_position.z, m_z_range, z_block_qty);	
-	return x_in_range && y_in_range && z_in_range;	
+	const bool y_in_range = is_position_in_range(base_world_position.y, evaluated_world_position.y, m_y_range, y_block_qty);
+	const bool z_in_range = is_position_in_range(base_world_position.z, evaluated_world_position.z, m_z_range, z_block_qty);
+	return x_in_range && y_in_range && z_in_range;
 }
-
 
 bool WorldPositionsInRangeUpdater::is_position_in_range(const int base_axis_value, const int evaluated_axis_value, const int axis_range, const int axis_block_qty){
 	const int min_axis_value = base_axis_value - (axis_range * axis_block_qty);
 	const int max_axis_value = base_axis_value + (axis_range * axis_block_qty);
 	return evaluated_axis_value >= min_axis_value && evaluated_axis_value <= max_axis_value;	
 }
-
-std::vector<WorldPosition> WorldPositionsInRangeUpdater::get_new_world_positions_in_camera_range(){
-	return m_new_world_positions_in_range;
-}
-
-std::vector<WorldPosition> WorldPositionsInRangeUpdater::get_old_world_positions_not_in_camera_range(){
-	return m_old_world_positions_not_in_range;
-}
-

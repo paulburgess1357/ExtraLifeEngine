@@ -1,11 +1,16 @@
 #pragma once
+#include "../../ResourceManagement/VoxelResource.h"
 #include "entt/entity/registry.hpp"
 #include <memory>
 
 class IVoxelRenderer{
 	
 public:
+	IVoxelRenderer(VoxelResource& voxel_resource);
 	virtual ~IVoxelRenderer() = default;
 	virtual void render() const = 0;
-	static std::shared_ptr<IVoxelRenderer> get_voxel_renderer();
+	static std::unique_ptr<IVoxelRenderer> get_voxel_renderer(VoxelResource& m_voxel_resource);
+
+protected:
+	VoxelResource& m_voxel_resource;
 };

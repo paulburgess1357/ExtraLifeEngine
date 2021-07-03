@@ -1,39 +1,41 @@
 #pragma once
+#include "./IVboVaoPool.h"
 #include "../Voxel/Chunk/Chunk.h"
 #include "../Voxel/Neutral/AdjacentChunkPosition.h"
-#include "../../World/WorldPosition.h"
-#include "IVboVaoPool.h"
+#include "../World/WorldPosition.h"
 #include <unordered_map>
 
 class VoxelResource{
 
-public:	
-	static void load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty);
-	static void load_multiple_chunks(const std::vector<WorldPosition>& world_positions);
-	static void load_individual_chunk(const WorldPosition& world_position);
-	static void set_all_chunk_neighbors();
-	static void set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions);
+public:
+	VoxelResource();
+	~VoxelResource();
 
-	static void load_vbo_vao_into_chunk(const WorldPosition& world_position);
-	static void unload_vbo_vao_into_pool(const WorldPosition& world_position);
-
-	static void destroy_all();
+	[[nodiscard]] Chunk* get_chunk(const WorldPosition& world_position) const;
+	[[nodiscard]] std::unordered_map<WorldPosition, std::unique_ptr<Chunk>, WorldPositionHash>& get_chunkmap();
 	
-	[[nodiscard]] static std::shared_ptr<Chunk> get_chunk(const WorldPosition& world_position);	
-	[[nodiscard]] static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& get_chunkmap();
+	void set_all_chunk_neighbors() const;
+	void set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions) const;
 
-	static void set_vao_vbo_pool(std::shared_ptr<IVboVaoPool> pool);
+	void load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty);
+	void load_multiple_chunks(const std::vector<WorldPosition>& world_positions);
+	void load_individual_chunk(const WorldPosition& world_position);
+
+	void load_vbo_vao_into_chunk(const WorldPosition& world_position) const;
+	void unload_vbo_vao_into_pool(const WorldPosition& world_position) const;
+
+	[[nodiscard]] bool is_world_position_loaded(const WorldPosition& world_position) const;
+	
+	void destroy_all();		
 			
-private:	
-	VoxelResource() = default;
+private:			
+	[[nodiscard]] Chunk* get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const;
+	void set_individual_chunk_neighbors(Chunk& chunk) const;
+
+	[[nodiscard]] bool adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const;
+	[[nodiscard]] bool chunk_exists(const WorldPosition& world_position) const;			
+	void unload_vbo_vao_into_pool(Chunk& chunk) const;
 	
-	[[nodiscard]] static std::shared_ptr<Chunk> get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk);
-	[[nodiscard]] static bool adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk);
-	[[nodiscard]] static bool chunk_exists(const WorldPosition& world_position);
-		
-	static void set_individual_chunk_neighbors(std::shared_ptr<Chunk>& chunk);
-	static void unload_vbo_vao_into_pool(std::shared_ptr<Chunk>& chunk);
-	
-	static std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
-	static std::shared_ptr<IVboVaoPool> m_vao_vbo_pool;
+	std::unordered_map<WorldPosition, std::unique_ptr<Chunk>, WorldPositionHash> m_chunkmap;
+	std::unique_ptr<IVboVaoPool> m_vao_vbo_pool;
 };

@@ -3,12 +3,17 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../Utility/FatalError.h"
 
-std::shared_ptr<IVoxelUpdater> IVoxelUpdater::get_voxel_updater(){
+IVoxelUpdater::IVoxelUpdater(VoxelResource& voxel_resource)
+	:m_voxel_resource(voxel_resource){
+}
 
-	std::shared_ptr<IVoxelUpdater> updater { nullptr };
+
+std::unique_ptr<IVoxelUpdater> IVoxelUpdater::get_voxel_updater(VoxelResource& m_voxel_resource){
+
+	std::unique_ptr<IVoxelUpdater> updater { nullptr };
 	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		updater = std::make_shared<OpenGL::OpenGLVoxelUpdater>();
+		updater = std::make_unique<OpenGL::OpenGLVoxelUpdater>(m_voxel_resource);
 	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {		
 		FatalError::fatal_error("Vulkan voxel updater does not exist!.");
 	} else{

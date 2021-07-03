@@ -14,7 +14,8 @@ GameManager::GameManager()
 	m_window{ nullptr },
 	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
 	m_input_handler{ m_camera },
-	m_mouse_handler{ m_camera } {
+	m_mouse_handler{ m_camera },
+	m_voxel_resource{ std::make_unique<VoxelResource>()}{
 	
 }
 
@@ -29,7 +30,6 @@ void GameManager::set_game_state(GameState gamestate) {
 void GameManager::run(){
 	initialize_window();
 	initialize_imgui();
-	initialize_pools();
 	initialize_uniform_block_handler();
 	initialize_projection_matrix();
 	initialize_controls();
@@ -46,11 +46,6 @@ void GameManager::initialize_window(){
 void GameManager::initialize_imgui(){
 	ImGuiNS::ImGuiInterface::initialize_window(m_window);
 	ImGuiNS::ImGuiInterface::initialize_camera_data(m_camera);
-}
-
-void GameManager::initialize_pools(){
-	m_vbo_vao_pool = IVboVaoPool::get_vbo_vao_pool();
-	VoxelResource::set_vao_vbo_pool(m_vbo_vao_pool->get_instance());
 }
 
 void GameManager::initialize_uniform_block_handler(){
@@ -82,13 +77,13 @@ void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer();
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource);	
 }
 
 void GameManager::initialize_updaters(){
-	m_voxel_updater = IVoxelUpdater::get_voxel_updater();
-	WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(m_camera);
-	VoxelLoader::initialize_all_world_positions_in_range();
+	WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(m_camera);	// Probably a good case as a singleton...
+	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource);
+	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource);
 }
 
 void GameManager::gameloop() {
@@ -105,7 +100,7 @@ void GameManager::gameloop() {
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
 	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
-	VoxelLoader::update();
+	m_voxel_loader->update();
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();
@@ -127,7 +122,7 @@ void GameManager::destroy() const {
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
 	ModelResource::destroy_all();
-	VoxelResource::destroy_all();
+	// VoxelResource::destroy_all(); // voxel resource destructor will call this
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

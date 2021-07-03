@@ -2,12 +2,12 @@
 #include "./OpenGL/OpenGLConstants.h"
 #include "../Voxel/OpenGL/OpenGLChunk.h"
 #include "../Utility/Print.h"
-#include "../../Utility/FatalError.h"
-#include "../../Environment/Neutral/API/GraphicsAPI.h"
+#include "../Utility/FatalError.h"
+#include "../Environment/Neutral/API/GraphicsAPI.h"
 #include <utility>
 
 VoxelResource::VoxelResource()
-	:m_vao_vbo_pool{ nullptr }{	
+	:m_vao_vbo_pool{ IVboVaoPool::create_vbo_vao_pool() }{
 }
 
 VoxelResource::~VoxelResource(){
@@ -68,7 +68,7 @@ void VoxelResource::set_all_chunk_neighbors() const{
 	// pointers inside each chunk towards its neighbors
 
 	for (auto& chunk : m_chunkmap) {
-		set_individual_chunk_neighbors(get_chunk(chunk.first));
+		set_individual_chunk_neighbors(*get_chunk(chunk.first));
 		chunk.second->set_update_required(true);
 	}
 }
@@ -88,86 +88,86 @@ void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition
 			
 			// Current Chunk
 			Chunk* chunk = get_chunk(position);
-			set_individual_chunk_neighbors(chunk);
+			set_individual_chunk_neighbors(*chunk);
 			chunk->set_update_required(true);
 
 			// Left
 			Chunk* left_chunk = chunk->get_left_adjacent_chunk();
 			if(left_chunk != nullptr){
-				set_individual_chunk_neighbors(left_chunk);
+				set_individual_chunk_neighbors(*left_chunk);
 				left_chunk->set_update_required(true);
 			}
 
 			// Right 
 			Chunk* right_chunk = chunk->get_right_adjacent_chunk();
 			if(right_chunk != nullptr){
-				set_individual_chunk_neighbors(right_chunk);
+				set_individual_chunk_neighbors(*right_chunk);
 				right_chunk->set_update_required(true);
 			}
 
 			// Top
 			Chunk* top_chunk = chunk->get_top_adjacent_chunk();
 			if(top_chunk != nullptr){
-				set_individual_chunk_neighbors(top_chunk);
+				set_individual_chunk_neighbors(*top_chunk);
 				top_chunk->set_update_required(true);
 			}
 			
 			// Bottom
 			Chunk* bottom_chunk = chunk->get_bottom_adjacent_chunk();
 			if(bottom_chunk != nullptr){
-				set_individual_chunk_neighbors(bottom_chunk);
+				set_individual_chunk_neighbors(*bottom_chunk);
 				bottom_chunk->set_update_required(true);
 			}
 
 			// Front
 			Chunk* front_chunk = chunk->get_front_adjacent_chunk();
 			if(front_chunk != nullptr){
-				set_individual_chunk_neighbors(front_chunk);
+				set_individual_chunk_neighbors(*front_chunk);
 				front_chunk->set_update_required(true);
 			}
 
 			// Back
 			Chunk* back_chunk = chunk->get_back_adjacent_chunk();
 			if(back_chunk != nullptr){
-				set_individual_chunk_neighbors(back_chunk);
+				set_individual_chunk_neighbors(*back_chunk);
 				back_chunk->set_update_required(true);
 			}					
 		}		
 	}
 }
 
-void VoxelResource::set_individual_chunk_neighbors(Chunk* chunk) const{
+void VoxelResource::set_individual_chunk_neighbors(Chunk& chunk) const{
 
-	const WorldPosition world_position = chunk->get_starting_world_position();
+	const WorldPosition world_position = chunk.get_starting_world_position();
 	
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::LEFT)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::LEFT);
-		chunk->set_left_adjacent_chunk(adjacent_chunk);
+		chunk.set_left_adjacent_chunk(adjacent_chunk);
 	}
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::RIGHT)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::RIGHT);
-		chunk->set_right_adjacent_chunk(adjacent_chunk);
+		chunk.set_right_adjacent_chunk(adjacent_chunk);
 	}
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::TOP)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::TOP);
-		chunk->set_top_adjacent_chunk(adjacent_chunk);
+		chunk.set_top_adjacent_chunk(adjacent_chunk);
 	}
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::BOTTOM)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::BOTTOM);
-		chunk->set_bottom_adjacent_chunk(adjacent_chunk);
+		chunk.set_bottom_adjacent_chunk(adjacent_chunk);
 	}
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::FRONT)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::FRONT);
-		chunk->set_front_adjacent_chunk(adjacent_chunk);
+		chunk.set_front_adjacent_chunk(adjacent_chunk);
 	}
 
 	if (adjacent_chunk_exists(world_position, AdjacentChunkPosition::BACK)) {
 		Chunk* adjacent_chunk = get_adjacent_chunk(world_position, AdjacentChunkPosition::BACK);
-		chunk->set_back_adjacent_chunk(adjacent_chunk);
+		chunk.set_back_adjacent_chunk(adjacent_chunk);
 	}
 
 }
@@ -257,19 +257,15 @@ void VoxelResource::destroy_all(){
 	m_chunkmap.clear();
 }
 
-void VoxelResource::set_vao_vbo_pool(const std::shared_ptr<IVboVaoPool>& pool){
-	m_vao_vbo_pool = pool;
-}
-
 void VoxelResource::unload_vbo_vao_into_pool(const WorldPosition& world_position) const{
-	unload_vbo_vao_into_pool(get_chunk(world_position));
+	unload_vbo_vao_into_pool(*get_chunk(world_position));
 }
 
-void VoxelResource::unload_vbo_vao_into_pool(Chunk* chunk) const{	
-	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk->get_vbo(), chunk->get_vao());	
-	chunk->set_vbo(OpenGL::UNINITIALIZED_CHUNK_VALUE);
-	chunk->set_vao(OpenGL::UNINITIALIZED_CHUNK_VALUE);
-	m_vao_vbo_pool->return_resource(vbo_vao);	
+void VoxelResource::unload_vbo_vao_into_pool(Chunk& chunk) const{	
+	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk.get_vbo(), chunk.get_vao());	
+	chunk.set_vbo(OpenGL::UNINITIALIZED_CHUNK_VALUE);
+	chunk.set_vao(OpenGL::UNINITIALIZED_CHUNK_VALUE);
+	m_vao_vbo_pool->return_resource(vbo_vao);
 }
 
 void VoxelResource::load_vbo_vao_into_chunk(const WorldPosition& world_position) const{
@@ -277,4 +273,8 @@ void VoxelResource::load_vbo_vao_into_chunk(const WorldPosition& world_position)
 	const std::pair<unsigned int, unsigned int> vbo_vao = m_vao_vbo_pool->get_resource();	
 	chunk->set_vbo(vbo_vao.first);
 	chunk->set_vao(vbo_vao.second);
+}
+
+bool VoxelResource::is_world_position_loaded(const WorldPosition& world_position) const{
+	return m_chunkmap.count(world_position) > 0;
 }

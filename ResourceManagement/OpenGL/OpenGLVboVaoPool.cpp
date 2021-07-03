@@ -4,13 +4,6 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-std::shared_ptr<IVboVaoPool> OpenGL::OpenGLVboVaoPool::get_instance(){
-	if(m_pool_instance == nullptr){
-		m_pool_instance = std::make_shared<OpenGLVboVaoPool>();
-	}
-	return m_pool_instance;
-}
-
 std::pair<unsigned, unsigned> OpenGL::OpenGLVboVaoPool::get_resource(){
 	if(m_vbo_vao_resources.empty()){
 		
@@ -22,13 +15,14 @@ std::pair<unsigned, unsigned> OpenGL::OpenGLVboVaoPool::get_resource(){
 		return std::make_pair(vbo, vao);
 						
 	}
+	
 	std::pair<unsigned int, unsigned int> result = m_vbo_vao_resources.front();
 	m_vbo_vao_resources.pop();
 	return result;
 	
 }
 
-void OpenGL::OpenGLVboVaoPool::return_resource(std::pair<unsigned, unsigned> resource){
+void OpenGL::OpenGLVboVaoPool::return_resource(const std::pair<unsigned, unsigned>& resource){
 	check_vbo_vao_value(resource);	
 	m_vbo_vao_resources.emplace(resource);
 }

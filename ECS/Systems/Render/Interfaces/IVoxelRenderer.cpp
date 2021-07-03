@@ -3,11 +3,12 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../../../Utility/FatalError.h"
 
-std::unique_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(VoxelResource* voxel_resource) {
+IVoxelRenderer::IVoxelRenderer(VoxelResource& voxel_resource)
+	:m_voxel_resource(voxel_resource){	
+}
 
-	if(voxel_resource == nullptr){
-		FatalError::fatal_error("Your voxel resource is a nullptr.  You need to initialize this before creating a VoxelRenderer!");
-	}
+
+std::unique_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(VoxelResource& voxel_resource) {
 	
 	std::unique_ptr<IVoxelRenderer> renderer { nullptr };
 	

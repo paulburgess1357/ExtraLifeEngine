@@ -6,10 +6,8 @@ namespace OpenGL{
 
 	class OpenGLVoxelRenderer : public IVoxelRenderer {
 	public:
-		OpenGLVoxelRenderer(VoxelResource* voxel_resource);
+		OpenGLVoxelRenderer(VoxelResource& voxel_resource);
 		void render() const override;
-	private:
-		VoxelResource* m_voxel_resource;
 	};
 	
 } // namespace OpenGL

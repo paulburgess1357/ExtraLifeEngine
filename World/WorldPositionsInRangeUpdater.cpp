@@ -9,7 +9,11 @@ WorldPositionsInRangeUpdater::WorldPositionsInRangeUpdater(const int x_range, co
 	 m_z_range{ z_range },
 	 m_camera_chunk_changed{ true }{
 
-	 initialize_world_positions_in_camera_range(camera);
+	 // Special use case (i.e. we don't want any voxels to be loaded/displayed)
+	 if(!(x_range == 0 && y_range == 0 && z_range == 0)){
+		 initialize_world_positions_in_camera_range(camera);
+	 }
+	 
 }
 
 

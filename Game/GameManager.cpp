@@ -75,7 +75,9 @@ void GameManager::initialize_scene(){
 }
 
 void GameManager::initialize_updaters(){
-	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(15, 3, 15, m_camera);	
+	
+	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);
+	
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource,  *m_world_positions_in_range_updater);
 }

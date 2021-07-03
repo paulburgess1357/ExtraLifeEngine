@@ -11,7 +11,7 @@ OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, c
 
 OpenGL::OpenGLChunk::~OpenGLChunk() {
 	if(m_vbo != OpenGL::UNINITIALIZED_CHUNK_VALUE && m_vao != OpenGL::UNINITIALIZED_CHUNK_VALUE){
-		Print::print("Destroying Chunk Data");
+		// Print::print("Destroying Chunk Data");
 		glDeleteBuffers(1, &m_vbo);
 		glDeleteVertexArrays(1, &m_vao);
 	}

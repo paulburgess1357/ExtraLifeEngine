@@ -4,13 +4,13 @@
 #include "../../ResourceManagement/VoxelResource.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLVoxelUpdater::OpenGLVoxelUpdater(VoxelResource& voxel_resource)
-	:IVoxelUpdater(voxel_resource){	
+OpenGL::OpenGLVoxelUpdater::OpenGLVoxelUpdater(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range_updater)
+	:IVoxelUpdater(voxel_resource, world_positions_in_range_updater){
 }
 
 void OpenGL::OpenGLVoxelUpdater::update() const{
 
-	std::vector<WorldPosition> chunks_in_range = WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range(); //TODO return reference to this instead...
+	const std::vector<WorldPosition>& chunks_in_range = m_world_positions_in_range_updater.get_all_world_positions_in_camera_range();
 	
 	for(const auto& world_position : chunks_in_range){
 		Chunk* current_chunk = m_voxel_resource.get_chunk(world_position);

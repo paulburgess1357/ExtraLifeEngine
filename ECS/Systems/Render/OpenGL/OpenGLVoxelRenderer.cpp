@@ -4,8 +4,8 @@
 #include "../../World/WorldPositionsInRangeUpdater.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLVoxelRenderer::OpenGLVoxelRenderer(VoxelResource& voxel_resource)
-	:IVoxelRenderer(voxel_resource){	
+OpenGL::OpenGLVoxelRenderer::OpenGLVoxelRenderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range)
+	:IVoxelRenderer{ voxel_resource, world_positions_in_range} {
 }
 
 void OpenGL::OpenGLVoxelRenderer::render() const{
@@ -13,7 +13,7 @@ void OpenGL::OpenGLVoxelRenderer::render() const{
 	const std::shared_ptr<IShaderProgram> voxel_shader = ShaderResource::get("voxel_shader");
 	voxel_shader->bind();
 
-	std::vector<WorldPosition> chunks_in_range = WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range();
+	const std::vector<WorldPosition>& chunks_in_range = m_world_positions_in_range_updater.get_all_world_positions_in_camera_range();
 	
 	for(const auto& world_position : chunks_in_range){
 		const Chunk* current_chunk = m_voxel_resource.get_chunk(world_position);

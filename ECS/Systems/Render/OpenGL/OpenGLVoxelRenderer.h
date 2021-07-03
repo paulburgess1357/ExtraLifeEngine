@@ -6,7 +6,7 @@ namespace OpenGL{
 
 	class OpenGLVoxelRenderer : public IVoxelRenderer {
 	public:
-		OpenGLVoxelRenderer(VoxelResource& voxel_resource);
+		OpenGLVoxelRenderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range);
 		void render() const override;
 	};
 	

@@ -1,19 +1,20 @@
 #include "VoxelLoader.h"
 #include "../../World/WorldPositionsInRangeUpdater.h"
 
-VoxelLoader::VoxelLoader(VoxelResource& voxel_resource)
-	:m_voxel_resource(voxel_resource){
-	initialize_all_world_positions_in_range();
+VoxelLoader::VoxelLoader(VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range)
+	:m_voxel_resource{ voxel_resource },
+	m_world_positions_in_range{ world_positions_in_range }{
+	load_initial_all_world_positions_in_range();
 }
 
-void VoxelLoader::initialize_all_world_positions_in_range() const{
-	const std::vector <WorldPosition> all_world_positions_in_range = WorldPositionsInRangeUpdater::get_all_world_positions_in_camera_range();
+void VoxelLoader::load_initial_all_world_positions_in_range() const{
+	const std::vector <WorldPosition>& all_world_positions_in_range = m_world_positions_in_range.get_all_world_positions_in_camera_range();
 	m_voxel_resource.load_multiple_chunks(all_world_positions_in_range);
 	m_voxel_resource.set_specific_chunk_neighbors(all_world_positions_in_range);
 }
 
 void VoxelLoader::update() const{
-	if(WorldPositionsInRangeUpdater::has_camera_chunk_changed()){
+	if(m_world_positions_in_range.has_camera_chunk_changed()){
 		unload_vbo_vao_not_in_range();
 		load_non_loaded_new_world_positions();
 		load_vbo_vao_new_in_range();
@@ -21,7 +22,7 @@ void VoxelLoader::update() const{
 }
 
 void VoxelLoader::unload_vbo_vao_not_in_range() const {
-	std::vector<WorldPosition> out_of_range_world_positions = WorldPositionsInRangeUpdater::get_old_world_positions_not_in_camera_range();
+	const std::vector<WorldPosition>& out_of_range_world_positions = m_world_positions_in_range.get_old_world_positions_not_in_camera_range();
 	for (const auto& world_position : out_of_range_world_positions) {
 		m_voxel_resource.unload_vbo_vao_into_pool(world_position);
 	}
@@ -43,8 +44,7 @@ void VoxelLoader::load_non_loaded_new_world_positions() const {
 
 void VoxelLoader::load_vbo_vao_new_in_range() const {
 
-	std::vector <WorldPosition> all_new_world_positions_in_range = WorldPositionsInRangeUpdater::get_new_world_positions_in_camera_range();
-
+	const std::vector <WorldPosition>& all_new_world_positions_in_range = m_world_positions_in_range.get_new_world_positions_in_camera_range();
 	for (const auto& world_position : all_new_world_positions_in_range) {
 		Chunk* chunk = m_voxel_resource.get_chunk(world_position);
 
@@ -59,7 +59,7 @@ void VoxelLoader::load_vbo_vao_new_in_range() const {
 
 std::vector<WorldPosition> VoxelLoader::get_non_loaded_new_world_positions() const {
 
-	std::vector <WorldPosition> all_new_world_positions_in_range = WorldPositionsInRangeUpdater::get_new_world_positions_in_camera_range();
+	const std::vector <WorldPosition>& all_new_world_positions_in_range = m_world_positions_in_range.get_new_world_positions_in_camera_range();
 	std::vector<WorldPosition> non_loaded_world_positions;
 	
 	for (const auto& world_position : all_new_world_positions_in_range) {

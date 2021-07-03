@@ -3,6 +3,7 @@
 #include "../Camera/Camera.h"
 #include "../Input/Processing/InputHandler.h"
 #include "../Input/Processing/MouseHandler.h"
+#include "../ResourceManagement/IncludeResources.h"
 #include "../Environment/Interfaces/Window/IWindow.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
 #include "../ECS/Systems/Render/Interfaces/IncludeRenderers.h"
@@ -40,7 +41,10 @@ private:
 	std::shared_ptr<IWindow> m_window;
 	Camera m_camera;
 	InputHandler m_input_handler;
-	MouseHandler m_mouse_handler;	
+	MouseHandler m_mouse_handler;
+
+	// Resources (must be before renderers/updaters)
+	std::unique_ptr<VoxelResource> m_voxel_resource;
 
     std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
@@ -48,7 +52,8 @@ private:
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
 	std::shared_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
-	std::shared_ptr<IVboVaoPool> m_vbo_vao_pool = nullptr;
+	std::shared_ptr<IVboVaoPool> m_vbo_vao_pool = nullptr;	
+	
 };
 
 

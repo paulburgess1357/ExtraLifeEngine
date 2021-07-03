@@ -14,7 +14,8 @@ GameManager::GameManager()
 	m_window{ nullptr },
 	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
 	m_input_handler{ m_camera },
-	m_mouse_handler{ m_camera } {
+	m_mouse_handler{ m_camera },
+	m_voxel_resource{ std::make_unique<VoxelResource>()}{
 	
 }
 
@@ -49,8 +50,9 @@ void GameManager::initialize_imgui(){
 }
 
 void GameManager::initialize_pools(){
+	//TODO update the pool to be unique ptr.... are both lines needed? Possible to make it cleaner with jsut one line?
 	m_vbo_vao_pool = IVboVaoPool::get_vbo_vao_pool();
-	VoxelResource::set_vao_vbo_pool(m_vbo_vao_pool->get_instance());
+	m_voxel_resource->set_vao_vbo_pool(m_vbo_vao_pool->get_instance());
 }
 
 void GameManager::initialize_uniform_block_handler(){
@@ -82,7 +84,9 @@ void GameManager::initialize_renderers(){
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer();
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(m_voxel_resource.get());
+
+	
 }
 
 void GameManager::initialize_updaters(){
@@ -127,7 +131,7 @@ void GameManager::destroy() const {
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
 	ModelResource::destroy_all();
-	VoxelResource::destroy_all();
+	// VoxelResource::destroy_all();
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

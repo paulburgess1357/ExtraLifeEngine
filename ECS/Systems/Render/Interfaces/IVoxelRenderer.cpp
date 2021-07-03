@@ -3,12 +3,16 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../../../Utility/FatalError.h"
 
-std::shared_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(){
+std::unique_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(VoxelResource* voxel_resource) {
 
-	std::shared_ptr<IVoxelRenderer> renderer { nullptr };
+	if(voxel_resource == nullptr){
+		FatalError::fatal_error("Your voxel resource is a nullptr.  You need to initialize this before creating a VoxelRenderer!");
+	}
+	
+	std::unique_ptr<IVoxelRenderer> renderer { nullptr };
 	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		renderer = std::make_shared<OpenGL::OpenGLVoxelRenderer>();
+		renderer = std::make_unique<OpenGL::OpenGLVoxelRenderer>(voxel_resource);
 	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan voxel renderer does not exist!.");
 	} else{

@@ -1,7 +1,6 @@
 #pragma once
 #include "../../World/WorldPosition.h"
 #include "../Neutral/VertexAndNormals.h"
-#include <memory>
 #include <vector>
 
 constexpr unsigned char x_block_qty = 16;
@@ -28,12 +27,12 @@ public:
 	[[nodiscard]] virtual unsigned int get_vbo() const = 0;
 	[[nodiscard]] virtual bool vbo_vao_initialized() const = 0;
 	
-	[[nodiscard]] std::shared_ptr<Chunk> get_left_adjacent_chunk() const;
-	[[nodiscard]] std::shared_ptr<Chunk> get_right_adjacent_chunk() const;
-	[[nodiscard]] std::shared_ptr<Chunk> get_top_adjacent_chunk() const;
-	[[nodiscard]] std::shared_ptr<Chunk> get_bottom_adjacent_chunk() const;
-	[[nodiscard]] std::shared_ptr<Chunk> get_front_adjacent_chunk() const;
-	[[nodiscard]] std::shared_ptr<Chunk> get_back_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_left_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_right_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_top_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_bottom_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_front_adjacent_chunk() const;
+	[[nodiscard]] Chunk* get_back_adjacent_chunk() const;
 
 	virtual void destroy() const = 0;
 	
@@ -43,12 +42,12 @@ public:
 	virtual void set_vbo(const unsigned int vbo) = 0;
 	virtual void set_vao(const unsigned int vao) = 0;	
 	
-	void set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
-	void set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
-	void set_top_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
-	void set_bottom_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
-	void set_front_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
-	void set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk);
+	void set_left_adjacent_chunk(Chunk* chunk);
+	void set_right_adjacent_chunk(Chunk* chunk);
+	void set_top_adjacent_chunk(Chunk* chunk);
+	void set_bottom_adjacent_chunk(Chunk* chunk);
+	void set_front_adjacent_chunk(Chunk* chunk);
+	void set_back_adjacent_chunk(Chunk* chunk);
 
 	void print_world_position() const;
 	
@@ -73,12 +72,12 @@ private:
 	bool m_update_required;
 	
 	// Adjacent Chunks
-	std::shared_ptr<Chunk> m_left_chunk = nullptr;
-	std::shared_ptr<Chunk> m_right_chunk = nullptr;
-	std::shared_ptr<Chunk> m_top_chunk = nullptr;
-	std::shared_ptr<Chunk> m_bottom_chunk = nullptr;
-	std::shared_ptr<Chunk> m_front_chunk = nullptr;
-	std::shared_ptr<Chunk> m_back_chunk = nullptr;
+	Chunk* m_left_chunk = nullptr;
+	Chunk* m_right_chunk = nullptr;
+	Chunk* m_top_chunk = nullptr;
+	Chunk* m_bottom_chunk = nullptr;
+	Chunk* m_front_chunk = nullptr;
+	Chunk* m_back_chunk = nullptr;
 
 	unsigned char m_block_types[x_block_qty][y_block_qty][z_block_qty];
 	WorldPosition m_starting_world_position;

@@ -64,27 +64,27 @@ int Chunk::get_vertex_qty() const {
 	return m_vertex_qty;
 }
 
-std::shared_ptr<Chunk> Chunk::get_left_adjacent_chunk() const{
+Chunk* Chunk::get_left_adjacent_chunk() const{
 	return m_left_chunk;
 }
 
-std::shared_ptr<Chunk> Chunk::get_right_adjacent_chunk() const{
+Chunk* Chunk::get_right_adjacent_chunk() const{
 	return m_right_chunk;
 }
 
-std::shared_ptr<Chunk> Chunk::get_top_adjacent_chunk() const{
+Chunk* Chunk::get_top_adjacent_chunk() const{
 	return m_top_chunk;
 }
 
-std::shared_ptr<Chunk> Chunk::get_bottom_adjacent_chunk() const{
+Chunk* Chunk::get_bottom_adjacent_chunk() const{
 	return m_bottom_chunk;
 }
 
-std::shared_ptr<Chunk> Chunk::get_front_adjacent_chunk() const{
+Chunk* Chunk::get_front_adjacent_chunk() const{
 	return m_front_chunk;
 }
 
-std::shared_ptr<Chunk> Chunk::get_back_adjacent_chunk() const{
+Chunk* Chunk::get_back_adjacent_chunk() const{
 	return m_back_chunk;
 }
 
@@ -97,27 +97,27 @@ unsigned char Chunk::get_block_type(const unsigned char x, const unsigned char y
 	return m_block_types[x][y][z];
 }
 
-void Chunk::set_left_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_left_adjacent_chunk(Chunk* chunk) {
 	m_left_chunk = chunk;
 }
 
-void Chunk::set_right_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_right_adjacent_chunk(Chunk* chunk) {
 	m_right_chunk = chunk;
 }
 
-void Chunk::set_top_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_top_adjacent_chunk(Chunk* chunk) {
 	m_top_chunk = chunk;
 }
 
-void Chunk::set_bottom_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_bottom_adjacent_chunk(Chunk* chunk) {
 	m_bottom_chunk = chunk;
 }
 
-void Chunk::set_front_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_front_adjacent_chunk(Chunk* chunk) {
 	m_front_chunk = chunk;
 }
 
-void Chunk::set_back_adjacent_chunk(const std::shared_ptr<Chunk>& chunk) {
+void Chunk::set_back_adjacent_chunk(Chunk* chunk) {
 	m_back_chunk = chunk;
 }
 

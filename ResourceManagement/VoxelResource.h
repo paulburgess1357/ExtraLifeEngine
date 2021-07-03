@@ -5,6 +5,8 @@
 #include "IVboVaoPool.h"
 #include <unordered_map>
 
+//TODO make pool raw pointer (and unique where its actually held).
+
 class VoxelResource{
 
 public:
@@ -12,7 +14,7 @@ public:
 	~VoxelResource();
 
 	[[nodiscard]] Chunk* get_chunk(const WorldPosition& world_position) const;
-	[[nodiscard]] std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& get_chunkmap();
+	[[nodiscard]] std::unordered_map<WorldPosition, std::unique_ptr<Chunk>, WorldPositionHash>& get_chunkmap();
 	
 	void set_all_chunk_neighbors() const;
 	void set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions) const;
@@ -29,12 +31,12 @@ public:
 			
 private:			
 	[[nodiscard]] Chunk* get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const;
-	void set_individual_chunk_neighbors(const Chunk* chunk) const;
+	void set_individual_chunk_neighbors(Chunk* chunk) const;
 
 	[[nodiscard]] bool adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const;
 	[[nodiscard]] bool chunk_exists(const WorldPosition& world_position) const;			
-	void unload_vbo_vao_into_pool(const Chunk* chunk) const;
+	void unload_vbo_vao_into_pool(Chunk* chunk) const;
 	
-	std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> m_chunkmap;
+	std::unordered_map<WorldPosition, std::unique_ptr<Chunk>, WorldPositionHash> m_chunkmap;
 	std::shared_ptr<IVboVaoPool> m_vao_vbo_pool;
 };

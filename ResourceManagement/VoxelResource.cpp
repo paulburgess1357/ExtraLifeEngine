@@ -6,8 +6,21 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include <utility>
 
-std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash> VoxelResource::m_chunkmap;
-std::shared_ptr<IVboVaoPool> VoxelResource::m_vao_vbo_pool = nullptr;
+VoxelResource::VoxelResource()
+	:m_vao_vbo_pool{ nullptr }{	
+}
+
+VoxelResource::~VoxelResource(){
+	destroy_all();
+}
+
+Chunk* VoxelResource::get_chunk(const WorldPosition& world_position) const{
+	return m_chunkmap.at(world_position).get();
+}
+
+std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& VoxelResource::get_chunkmap() {
+	return m_chunkmap;
+}
 
 void VoxelResource::load_xyz_chunk_range(const int x_chunk_qty, const int y_chunk_qty, const int z_chunk_qty) {
 
@@ -43,7 +56,13 @@ void VoxelResource::load_individual_chunk(const WorldPosition& world_position) {
 	FatalError::fatal_error("Unknown graphics API type.  Cannot create chunk for chunk manager.");
 }
 
-void VoxelResource::set_all_chunk_neighbors() {
+void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions) {
+	for (const auto& world_position : world_positions) {
+		load_individual_chunk(world_position);
+	}
+}
+
+void VoxelResource::set_all_chunk_neighbors() const{
 
 	// Each individual chunk is surrounded by neighbors.  This sets
 	// pointers inside each chunk towards its neighbors
@@ -54,14 +73,7 @@ void VoxelResource::set_all_chunk_neighbors() {
 	}
 }
 
-void VoxelResource::load_multiple_chunks(const std::vector<WorldPosition>& world_positions) {
-	for (const auto& world_position : world_positions) {
-		load_individual_chunk(world_position);
-	}
-}
-
-
-void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions){
+void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition>& chunk_positions) const{
 	for(const auto& position : chunk_positions){
 		if(m_chunkmap.count(position) != 0){
 
@@ -75,7 +87,7 @@ void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition
 			//   true, so the verticies sent to the GPU will be updated			
 			
 			// Current Chunk
-			std::shared_ptr<Chunk> chunk = m_chunkmap[position];
+			std::shared_ptr<Chunk> chunk = m_chunkmap.at(position);
 			set_individual_chunk_neighbors(chunk);
 			chunk->set_update_required(true);
 
@@ -124,7 +136,7 @@ void VoxelResource::set_specific_chunk_neighbors(const std::vector<WorldPosition
 	}
 }
 
-void VoxelResource::set_individual_chunk_neighbors(std::shared_ptr<Chunk>& chunk) {
+void VoxelResource::set_individual_chunk_neighbors(const std::shared_ptr<Chunk>& chunk) const{
 
 	const WorldPosition world_position = chunk->get_starting_world_position();
 	
@@ -160,7 +172,7 @@ void VoxelResource::set_individual_chunk_neighbors(std::shared_ptr<Chunk>& chunk
 
 }
 
-bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) {
+bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const {
 
 	bool chunk_exists_result = false;
 
@@ -198,7 +210,7 @@ bool VoxelResource::adjacent_chunk_exists(const WorldPosition& world_position, c
 
 }
 
-std::shared_ptr<Chunk> VoxelResource::get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) {
+std::shared_ptr<Chunk> VoxelResource::get_adjacent_chunk(const WorldPosition& world_position, const AdjacentChunkPosition adjacent_chunk) const {
 
 	WorldPosition adjacent_world_position;
 
@@ -235,16 +247,8 @@ std::shared_ptr<Chunk> VoxelResource::get_adjacent_chunk(const WorldPosition& wo
 	return get_chunk(adjacent_world_position);
 }
 
-bool VoxelResource::chunk_exists(const WorldPosition& world_position) {
+bool VoxelResource::chunk_exists(const WorldPosition& world_position) const{
 	return m_chunkmap.count(world_position);
-}
-
-std::shared_ptr<Chunk> VoxelResource::get_chunk(const WorldPosition& world_position) {
-	return m_chunkmap.at(world_position);
-}
-
-std::unordered_map<WorldPosition, std::shared_ptr<Chunk>, WorldPositionHash>& VoxelResource::get_chunkmap(){
-	return m_chunkmap;
 }
 
 void VoxelResource::destroy_all(){	
@@ -253,23 +257,23 @@ void VoxelResource::destroy_all(){
 	m_chunkmap.clear();
 }
 
-void VoxelResource::set_vao_vbo_pool(std::shared_ptr<IVboVaoPool> pool){
+void VoxelResource::set_vao_vbo_pool(const std::shared_ptr<IVboVaoPool>& pool){
 	m_vao_vbo_pool = pool;
 }
 
-void VoxelResource::unload_vbo_vao_into_pool(const WorldPosition& world_position){
-	unload_vbo_vao_into_pool(m_chunkmap[world_position]);
+void VoxelResource::unload_vbo_vao_into_pool(const WorldPosition& world_position) const{
+	unload_vbo_vao_into_pool(m_chunkmap.at(world_position));
 }
 
-void VoxelResource::unload_vbo_vao_into_pool(std::shared_ptr<Chunk>& chunk){	
+void VoxelResource::unload_vbo_vao_into_pool(const std::shared_ptr<Chunk>& chunk) const{	
 	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk->get_vbo(), chunk->get_vao());	
 	chunk->set_vbo(OpenGL::UNINITIALIZED_CHUNK_VALUE);
 	chunk->set_vao(OpenGL::UNINITIALIZED_CHUNK_VALUE);
 	m_vao_vbo_pool->return_resource(vbo_vao);	
 }
 
-void VoxelResource::load_vbo_vao_into_chunk(const WorldPosition& world_position){
-	std::shared_ptr<Chunk> chunk = m_chunkmap[world_position];
+void VoxelResource::load_vbo_vao_into_chunk(const WorldPosition& world_position) const{
+	std::shared_ptr<Chunk> chunk = m_chunkmap.at(world_position);
 	const std::pair<unsigned int, unsigned int> vbo_vao = m_vao_vbo_pool->get_resource();	
 	chunk->set_vbo(vbo_vao.first);
 	chunk->set_vao(vbo_vao.second);

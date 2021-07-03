@@ -1,13 +1,14 @@
 #pragma once
 #include "../../World/WorldPosition.h"
 #include "../../ResourceManagement/VoxelResource.h"
+#include "../../World/WorldPositionsInRangeUpdater.h"
 #include <vector>
 
 class VoxelLoader{
 	
 public:
-	VoxelLoader(VoxelResource& voxel_resource);
-	void initialize_all_world_positions_in_range() const;
+	VoxelLoader(VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range);
+	void load_initial_all_world_positions_in_range() const;
 	void update() const;	
 	
 private:
@@ -17,5 +18,6 @@ private:
 	[[nodiscard]] std::vector<WorldPosition> get_non_loaded_new_world_positions() const;
 
 	VoxelResource& m_voxel_resource;
+	const WorldPositionsInRangeUpdater& m_world_positions_in_range;
 		
 };

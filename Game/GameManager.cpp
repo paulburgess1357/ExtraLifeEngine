@@ -3,7 +3,6 @@
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
 #include "../ResourceManagement/IncludeResources.h"
-#include "../World/WorldPositionsInRangeUpdater.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
@@ -11,12 +10,9 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	m_window{ nullptr },
-	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
-	m_input_handler{ m_camera },
-	m_mouse_handler{ m_camera },
-	m_voxel_resource{ std::make_unique<VoxelResource>()}{
-	
+	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
+	 m_input_handler{ m_camera },
+	 m_mouse_handler{ m_camera }{	
 }
 
 GameManager::~GameManager(){
@@ -33,9 +29,10 @@ void GameManager::run(){
 	initialize_uniform_block_handler();
 	initialize_projection_matrix();
 	initialize_controls();
+	initialize_resources();
 	initialize_scene();
-	initialize_renderers();
 	initialize_updaters();
+	initialize_renderers();
 	gameloop();
 }
 
@@ -63,6 +60,10 @@ void GameManager::initialize_controls() {
 	m_input_handler.set_imgui_display(std::make_shared<ImGuiDisplayCommand>());
 }
 
+void GameManager::initialize_resources(){
+	m_voxel_resource = std::make_unique<VoxelResource>();
+}
+
 void GameManager::initialize_scene(){
 
 	SceneLoader::voxels(m_registry);	
@@ -73,17 +74,17 @@ void GameManager::initialize_scene(){
 	SceneLoader::cubemap(m_registry);
 }
 
-void GameManager::initialize_renderers(){
+void GameManager::initialize_updaters(){
+	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(15, 3, 15, m_camera);	
+	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
+	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource,  *m_world_positions_in_range_updater);
+}
+
+void GameManager::initialize_renderers() {
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource);	
-}
-
-void GameManager::initialize_updaters(){
-	WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(m_camera);	// Probably a good case as a singleton...
-	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource);
-	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource);
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater);
 }
 
 void GameManager::gameloop() {
@@ -99,7 +100,7 @@ void GameManager::gameloop() {
 
 void GameManager::update(){	
 	m_shader_uniform_block_handler->update(m_camera);
-	WorldPositionsInRangeUpdater::update_world_position_vectors(m_camera);
+	m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
 	m_voxel_loader->update();
 	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
@@ -115,14 +116,13 @@ void GameManager::render(){
 }
 
 void GameManager::destroy() const {
-	Print::print_separator(true, true);
 	ImGuiNS::ImGuiInterface::destroy();
 	ShaderResource::destroy_all();
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();
 	ModelResource::destroy_all();
-	// VoxelResource::destroy_all(); // voxel resource destructor will call this
+	// m_voxel_resource->destroy_all(); // Called when out of scope
 	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

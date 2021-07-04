@@ -9,10 +9,10 @@ void OpenGL::OpenGLModelRenderer::render(entt::registry& registry) const{
 	
 	registry.view<ModelComponent, TransformComponent, ShaderComponent>().each([](auto& model, auto& transform, auto& shader) {		
 		
-		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
-		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
+		shader.m_shader_program.set_uniform("model_matrix", transform.m_model_matrix);
+		shader.m_shader_program.set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
 
-		shader.m_shader_program->bind();
+		shader.m_shader_program.bind();
 
 		for(const auto& mesh : model.m_model->get_mesh_vector()){
 
@@ -27,7 +27,7 @@ void OpenGL::OpenGLModelRenderer::render(entt::registry& registry) const{
 			
 		}
 
-		shader.m_shader_program->unbind();
+		shader.m_shader_program.unbind();
 
 	});
 	

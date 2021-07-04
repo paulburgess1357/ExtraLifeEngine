@@ -4,14 +4,13 @@
 #include "../../World/WorldPositionsInRangeUpdater.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLVoxelRenderer::OpenGLVoxelRenderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range)
-	:IVoxelRenderer{ voxel_resource, world_positions_in_range} {
+OpenGL::OpenGLVoxelRenderer::OpenGLVoxelRenderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range, IShaderProgram& shader_program)
+	:IVoxelRenderer{ voxel_resource, world_positions_in_range, shader_program} {
 }
 
 void OpenGL::OpenGLVoxelRenderer::render() const{
 
-	const std::shared_ptr<IShaderProgram> voxel_shader = ShaderResource::get("voxel_shader");
-	voxel_shader->bind();
+	m_voxel_shader_program.bind();
 
 	const std::vector<WorldPosition>& chunks_in_range = m_world_positions_in_range_updater.get_all_world_positions_in_camera_range();
 	
@@ -20,8 +19,8 @@ void OpenGL::OpenGLVoxelRenderer::render() const{
 		const int vertex_qty = current_chunk->get_vertex_qty();
 
 		if(vertex_qty != 0){
-			voxel_shader->set_uniform("model_matrix", current_chunk->get_model_matrx(), false);
-			voxel_shader->set_uniform("normal_matrix", current_chunk->get_normal_matrx(), false);
+			m_voxel_shader_program.set_uniform("model_matrix", current_chunk->get_model_matrx(), false);
+			m_voxel_shader_program.set_uniform("normal_matrix", current_chunk->get_normal_matrx(), false);
 
 			glBindVertexArray(current_chunk->get_vao());
 			glDrawArrays(GL_TRIANGLES, 0, vertex_qty);
@@ -29,5 +28,5 @@ void OpenGL::OpenGLVoxelRenderer::render() const{
 		}		
 	}		
 
-	voxel_shader->unbind();		
+	m_voxel_shader_program.unbind();
 }

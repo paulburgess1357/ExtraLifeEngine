@@ -12,11 +12,15 @@
 	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
 
+SceneLoader::SceneLoader(ShaderResource& shader_resource)
+	:m_shader_resource{ shader_resource }{	
+}
 
 void SceneLoader::single_cube(entt::registry& registry) {
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
-	attach_basic_lighting(shader_program);
+	m_shader_resource.load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
+	attach_basic_lighting(*shader_program);
 		
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f));
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
@@ -36,12 +40,13 @@ void SceneLoader::single_cube(entt::registry& registry) {
 
 void SceneLoader::single_cube_textured(entt::registry& registry) {
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl");
+	m_shader_resource.load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("single_cube_textured");
 	
 	TextureResource::load("colorful_squares", "Assets/textures/colorful_squares.jpg");
 	//TextureResource::load("transparent_specular", "Assets/textures/transparent_specular.png");
 
-	attach_basic_lighting(shader_program);
+	attach_basic_lighting(*shader_program);
 	shader_program->attach_diffuse_texture("colorful_squares");
 	//shader_program->attach_specular_texture("transparent_specular", 32.0f);
 
@@ -53,9 +58,10 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 }
 
 void SceneLoader::grid(entt::registry& registry){
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");
 	ModelResource::load("grid", "Assets/models/metal_grid/metal_grid.obj", "grid_shader", false);
-	attach_basic_lighting(shader_program);
+	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("grid"));
@@ -65,11 +71,11 @@ void SceneLoader::grid(entt::registry& registry){
 
 void SceneLoader::single_model(entt::registry& registry){
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
+	m_shader_resource.load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("model_shader");
 	
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader", false);
-	
-	attach_basic_lighting(shader_program);
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader", false);	
+	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
@@ -81,7 +87,8 @@ void SceneLoader::single_model(entt::registry& registry){
 
 void SceneLoader::cubemap(entt::registry& registry){
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);	
+	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);
+	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
 	TextureResource::load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
 	shader_program->attach_cubemap_texture("blue_night");
 	
@@ -93,13 +100,14 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 void SceneLoader::voxels(entt::registry& registry){
 
-	std::shared_ptr<IShaderProgram> shader_program = ShaderResource::load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	m_shader_resource.load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("voxel_shader");
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 	//TODO attach texture map here using the shader attach texture function
-	attach_basic_lighting(shader_program);
+	attach_basic_lighting(*shader_program);
 }
 
-void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_program){
+void SceneLoader::attach_basic_lighting(IShaderProgram& shader_program){
 	DirectionalLight dirlight;
 	dirlight.m_direction = glm::vec3(1.0f, 0.5f, 0.0f);
 	LightResource::load("dirlight", dirlight);
@@ -112,7 +120,7 @@ void SceneLoader::attach_basic_lighting(std::shared_ptr<IShaderProgram>& shader_
 	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
 	// LightResource::load("pointlight2", pointlight2);
 
-	shader_program->attach_directional_light("dirlight");
+	shader_program.attach_directional_light("dirlight");
 	// shader_program->attach_point_light("pointlight1");
 	// shader_program->attach_point_light("pointlight2");
 }

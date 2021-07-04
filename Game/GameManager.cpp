@@ -2,8 +2,6 @@
 #include "../Matrix/ProjectionMatrix.h"
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
-#include "../ResourceManagement/IncludeResources.h"
-#include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../ECS/Systems/Voxel/VoxelLoader.h"
@@ -62,18 +60,21 @@ void GameManager::initialize_controls() {
 
 void GameManager::initialize_resources(){
 	m_voxel_resource = std::make_unique<VoxelResource>();
+	m_shader_resource = std::make_unique<ShaderResource>();
 }
 
 void GameManager::initialize_scene(){
 
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource);
+	
 	// TODO shader loader or some alternative for voxels?
-	SceneLoader::voxels(m_registry);
+	m_scene_loader->voxels(m_registry);
 	
 	// SceneLoader::grid(m_registry);
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
 	// SceneLoader::single_model(m_registry);	
-	SceneLoader::cubemap(m_registry);
+	m_scene_loader->cubemap(m_registry);
 }
 
 void GameManager::initialize_updaters(){	
@@ -86,7 +87,7 @@ void GameManager::initialize_renderers() {
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater);
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource->get("voxel_shader"));
 }
 
 void GameManager::gameloop() {
@@ -119,7 +120,7 @@ void GameManager::render(){
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
-	ShaderResource::destroy_all();
+	// m_shader_resource->destroy_all(); // should be called when out of scope
 	TextureResource::destroy_all();
 	CubeResource::destroy_all();
 	LightResource::destroy_all();

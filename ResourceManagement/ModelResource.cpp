@@ -5,22 +5,19 @@
 #include "../Environment/Neutral/API/GraphicsAPI.h"
 #include "../Environment/Neutral/API/GraphicsAPIType.h"
 
-std::unordered_map<std::string, std::shared_ptr<IModel>> ModelResource::m_model_cache;
+ModelResource::~ModelResource(){
+	destroy_all();
+}
 
-std::shared_ptr<IModel> ModelResource::load(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs){
+void ModelResource::load(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs){
 	if(!is_loaded(model_name)){		
 		Print::print("\nLoading Model: " + model_name + " (" + model_path + ")");
 		load_model(model_name, model_path, shader, assimp_flip_uvs);
 	}
-	return m_model_cache[model_name];
 }
 
-bool ModelResource::is_loaded(const std::string& model_name) {
-	const auto it = m_model_cache.find(model_name);
-	if (it == m_model_cache.end()) {
-		return false;
-	}
-	return true;
+bool ModelResource::is_loaded(const std::string& model_name) const{
+	return m_model_cache.count(model_name) > 0;
 }
 
 void ModelResource::load_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
@@ -41,18 +38,18 @@ void ModelResource::load_model(const std::string& model_name, const std::string&
 
 void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
 	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path, shader, assimp_flip_uvs };
-	m_model_cache[model_name] = std::make_shared<OpenGL::OpenGLModel>(model_loader);
+	m_model_cache[model_name] = std::make_unique<OpenGL::OpenGLModel>(model_loader);
 }
 
 void ModelResource::load_vulkan_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
 	FatalError::fatal_error("Vulkan model code is not set for the model resource loader!");
 }
 
-std::shared_ptr<IModel> ModelResource::get(const std::string& model_name){
+IModel* ModelResource::get(const std::string& model_name){
 	if (!is_loaded(model_name)) {
 		FatalError::fatal_error("Unable to locate model: " + model_name);
 	}
-	return m_model_cache.at(model_name);
+	return m_model_cache.at(model_name).get();
 }
 
 void ModelResource::destroy(const std::string& model_name){
@@ -72,5 +69,6 @@ void ModelResource::destroy_all(){
 		Print::print("Destroying Model: " + model.first);
 		model.second->destroy();
 		model.second->destroy_mesh_vector();
-	}	
+	}
+	m_model_cache.clear();
 }

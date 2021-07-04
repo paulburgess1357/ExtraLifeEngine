@@ -7,6 +7,6 @@ struct ShaderComponent {
 		:m_shader_program{ shader_program } {
 	}
 	
-	IShaderProgram* m_shader_program;
+	IShaderProgram* m_shader_program = nullptr;
 	
 };

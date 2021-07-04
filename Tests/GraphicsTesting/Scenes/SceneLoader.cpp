@@ -12,8 +12,9 @@
 	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
 
-SceneLoader::SceneLoader(ShaderResource& shader_resource)
-	:m_shader_resource{ shader_resource }{	
+SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource)
+	:m_shader_resource{ shader_resource },
+	 m_model_resource{ model_resource }{
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -27,7 +28,7 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
 	const entt::entity cube_entity = registry.create();
-	registry.emplace<ShaderComponent>(cube_entity, shader_program); //TODO ------------------------------> test with ref
+	registry.emplace<ShaderComponent>(cube_entity, shader_program);
 	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
 
@@ -60,11 +61,11 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 void SceneLoader::grid(entt::registry& registry){
 	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");	
-	ModelResource::load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, false);
+	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
-	registry.emplace<ModelComponent>(model_entity, ModelResource::get("grid"));
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("grid"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }
@@ -74,11 +75,11 @@ void SceneLoader::single_model(entt::registry& registry){
 	m_shader_resource.load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("model_shader");
 	
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, false);
+	m_model_resource.load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
-	registry.emplace<ModelComponent>(model_entity, ModelResource::get("backpack"));
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.005f, 0.0f, 0.0f);

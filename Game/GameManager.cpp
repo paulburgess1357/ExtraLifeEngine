@@ -70,10 +70,10 @@ void GameManager::initialize_scene(){
 	// TODO shader loader or some alternative for voxels?
 	m_scene_loader->voxels(m_registry);
 	
-	// SceneLoader::grid(m_registry);
-    // SceneLoader::single_cube(m_registry);
-	// SceneLoader::single_cube_textured(m_registry);
-	m_scene_loader->single_model(m_registry);	
+	m_scene_loader->grid(m_registry);
+	// m_scene_loader->single_cube(m_registry);
+	m_scene_loader->single_cube_textured(m_registry);
+	// m_scene_loader->single_model(m_registry);	
 	m_scene_loader->cubemap(m_registry);
 }
 

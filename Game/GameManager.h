@@ -44,18 +44,18 @@ private:
 		
 	std::shared_ptr<IWindow> m_window = nullptr;
 
-	std::unique_ptr<VoxelResource> m_voxel_resource;
+	std::unique_ptr<VoxelResource> m_voxel_resource;	
+	std::unique_ptr<WorldPositionsInRangeUpdater> m_world_positions_in_range_updater = nullptr;
+	std::unique_ptr<VoxelLoader> m_voxel_loader = nullptr;
+	std::unique_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
 	
-	std::unique_ptr<WorldPositionsInRangeUpdater> m_world_positions_in_range_updater = nullptr;	
-    std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;
-	
+    std::shared_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
 
-	std::unique_ptr<VoxelLoader> m_voxel_loader = nullptr;
-	std::unique_ptr<IVoxelUpdater> m_voxel_updater = nullptr;			
+		
 };
 
 

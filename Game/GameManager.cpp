@@ -66,7 +66,9 @@ void GameManager::initialize_resources(){
 
 void GameManager::initialize_scene(){
 
-	SceneLoader::voxels(m_registry);	
+	// TODO shader loader or some alternative for voxels?
+	SceneLoader::voxels(m_registry);
+	
 	// SceneLoader::grid(m_registry);
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
@@ -74,12 +76,10 @@ void GameManager::initialize_scene(){
 	SceneLoader::cubemap(m_registry);
 }
 
-void GameManager::initialize_updaters(){
-	
-	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);
-	
-	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
+void GameManager::initialize_updaters(){	
+	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);	
 	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource,  *m_world_positions_in_range_updater);
+	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 }
 
 void GameManager::initialize_renderers() {

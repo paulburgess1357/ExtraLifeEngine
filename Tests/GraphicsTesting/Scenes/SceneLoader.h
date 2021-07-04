@@ -1,12 +1,12 @@
 #pragma once
-#include "../../ResourceManagement/ShaderResource.h"
+#include "../../ResourceManagement/IncludeResources.h"
 #include "../../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include "entt/entity/registry.hpp"
 
 class SceneLoader{
 	
 public:
-	SceneLoader(ShaderResource& shader_resource);
+	SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource);
 	void grid(entt::registry& registry);
 	void single_cube(entt::registry& registry);	
 	void single_cube_textured(entt::registry& registry);
@@ -16,6 +16,7 @@ public:
 	
 private:
 	ShaderResource& m_shader_resource;
+	ModelResource& m_model_resource;
 	void attach_basic_lighting(IShaderProgram& shader_program);
 	
 };

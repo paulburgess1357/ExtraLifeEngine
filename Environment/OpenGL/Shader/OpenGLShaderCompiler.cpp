@@ -10,7 +10,7 @@ OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShader
 	:IShaderCompiler(shader_loader){	
 }
 
-std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool set_default_lights) const{	
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool set_default_lights) const{	
 	
 	Print::print("Compiling Shader");
 
@@ -18,12 +18,12 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool
 	const unsigned int fragment_shader_id = compile_glsl_shader(m_vertex_fragment_strings.second, ShaderType::FRAGMENT);	
 
 	// Create program to link the shaders		
-	std::shared_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
+	std::unique_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
 	
 	// Link uniform blocks (used across all shaders)
 	OpenGLUniformBlock opengl_uniform_block_allocator;
-	opengl_uniform_block_allocator.link_projection_view_block_to_shader(shader_program);
-	opengl_uniform_block_allocator.link_camera_position_block_to_shader(shader_program);
+	opengl_uniform_block_allocator.link_projection_view_block_to_shader(*shader_program);
+	opengl_uniform_block_allocator.link_camera_position_block_to_shader(*shader_program);
 
 	// Initialize Handlers
 	shader_program->init_texture_handler();	
@@ -77,7 +77,7 @@ void OpenGL::OpenGLShaderCompiler::check_vertex_frament_errors(const unsigned in
 	}
 }
 
-std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_program(const unsigned vertex_shader_id, const unsigned fragment_shader_id) const{
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_program(const unsigned vertex_shader_id, const unsigned fragment_shader_id) const{
 
 	unsigned int shader_program_handle = glCreateProgram();
 	glAttachShader(shader_program_handle, vertex_shader_id);
@@ -85,7 +85,7 @@ std::shared_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_pro
 	glLinkProgram(shader_program_handle);
 
 	Print::print("Shader Handle: " + std::to_string(shader_program_handle));
-	std::shared_ptr<IShaderProgram> shader_program = std::make_shared<OpenGL::OpenGLShaderProgram>(shader_program_handle);
+	std::unique_ptr<IShaderProgram> shader_program = std::make_unique<OpenGL::OpenGLShaderProgram>(shader_program_handle);
 
 	Print::print("Checking Shader Program for Errors");
 	check_shader_program_errors(shader_program_handle);

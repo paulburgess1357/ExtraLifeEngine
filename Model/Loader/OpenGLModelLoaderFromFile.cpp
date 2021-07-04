@@ -4,7 +4,7 @@
 #include "../../Utility/FatalError.h"
 #include "StringUtilities/FilePath/FilePath.hpp"
 
-OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program, const bool assimp_flip_uvs)
+OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, const bool assimp_flip_uvs)
 	:m_path{ path },
      m_assimp_flip_uv{ assimp_flip_uvs },
      m_directory{ StringUtil::FilePath::get_directory(m_path)},

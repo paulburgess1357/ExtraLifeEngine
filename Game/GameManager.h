@@ -3,8 +3,10 @@
 #include "../Camera/Camera.h"
 #include "../Input/Processing/InputHandler.h"
 #include "../Input/Processing/MouseHandler.h"
+#include "../ResourceManagement/IncludeResources.h"
 #include "../Environment/Interfaces/Window/IWindow.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
+#include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../ECS/Systems/Render/Interfaces/IncludeRenderers.h"
 #include "../ECS/Systems/Voxel/IVoxelUpdater.h"
 #include "../ECS/Systems/Voxel/VoxelLoader.h"
@@ -44,7 +46,11 @@ private:
 		
 	std::shared_ptr<IWindow> m_window = nullptr;
 
-	std::unique_ptr<VoxelResource> m_voxel_resource;	
+	std::unique_ptr<VoxelResource> m_voxel_resource = nullptr;
+	std::unique_ptr<ShaderResource> m_shader_resource = nullptr;
+
+	std::unique_ptr<SceneLoader> m_scene_loader = nullptr;
+	
 	std::unique_ptr<WorldPositionsInRangeUpdater> m_world_positions_in_range_updater = nullptr;
 	std::unique_ptr<VoxelLoader> m_voxel_loader = nullptr;
 	std::unique_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
@@ -53,9 +59,5 @@ private:
 	std::shared_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	std::shared_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::shared_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
-	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
-
-		
+	std::shared_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;		
 };
-
-

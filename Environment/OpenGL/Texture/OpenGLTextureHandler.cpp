@@ -6,16 +6,15 @@
 #include <glad/glad.h>
 
 OpenGL::OpenGLTextureHandler::OpenGLTextureHandler()
-	:ITextureHandler{nullptr},
+	:ITextureHandler{},
 	 m_available_tex_unit { 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
      m_current_normal{ 0 },
-	 m_current_cubemap{ 0 }{
-	
+	 m_current_cubemap{ 0 }{	
 }
 
-OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(const std::shared_ptr<IShaderProgram>& shader_program)
+OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(IShaderProgram& shader_program)
 	:ITextureHandler{shader_program},
 	 m_available_tex_unit{ 0 },
 	 m_current_diffuse{ 0 },
@@ -216,7 +215,7 @@ void OpenGL::OpenGLTextureHandler::check_tex_unit() const{
 	
 }
 
-void OpenGL::OpenGLTextureHandler::check_texture_qty(const unsigned qty){
+void OpenGL::OpenGLTextureHandler::check_texture_qty(const unsigned int qty){
 	if (qty == 1) {
 		FatalError::fatal_error("Texture quantity is >= 1 (0 is the starting count for your texture quantity)!  Shaders are currently not coded to accept more than one type of texture per shader.");
 	}

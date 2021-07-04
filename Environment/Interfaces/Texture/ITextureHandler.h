@@ -1,15 +1,14 @@
 #pragma once
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
-#include <memory>
 
 class ITextureHandler{
 	
 public:
 	ITextureHandler();
-	ITextureHandler(const std::shared_ptr<IShaderProgram>& shader_program);
+	ITextureHandler(IShaderProgram& shader_program);
 	virtual ~ITextureHandler() = default;
 
-	void set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program);
+	void set_shader_program(IShaderProgram& shader_program);
 	
 	virtual void bind_textures() const = 0;
 	virtual void unbind_textures() const = 0;
@@ -20,5 +19,6 @@ public:
 	virtual void attach_cubemap_texture(const std::string& texture_name) = 0;
 	
 protected:
-	std::shared_ptr<IShaderProgram> m_shader_program;
+	// Leaving as a pointer for future hot-reloading of shaders
+	IShaderProgram* m_shader_program;
 };

@@ -138,11 +138,11 @@ void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, c
 }
 
 void OpenGL::OpenGLShaderProgram::init_texture_handler(){
-	m_texture_handler.set_shader_program(shared_from_this());
+	m_texture_handler.set_shader_program(*this);
 }
 
 void OpenGL::OpenGLShaderProgram::init_light_handler(){
-	m_light_handler.set_shader_program(shared_from_this());
+	m_light_handler.set_shader_program(*this);
 }
 
 int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {

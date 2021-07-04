@@ -5,16 +5,17 @@
 #include "../Environment/OpenGL/Shader/OpenGLShaderCompiler.h"
 #include "../Utility/Print.h"
 
-std::unordered_map<std::string, std::shared_ptr<IShaderProgram>> ShaderResource::m_shader_cache;
+ShaderResource::~ShaderResource(){
+	destroy_all();
+}
 
-std::shared_ptr<IShaderProgram> ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool set_default_lights){
+void ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool set_default_lights){
 	if (!is_loaded(shader_name)) {
 		Print::print("\nLoading Shader: " + shader_name + " (" + vertex_shader_path + ") & (" + fragment_shader_path + ")");
 		const std::shared_ptr<IShaderLoader> shader_loader = std::make_shared<ShaderLoaderFromFile>(vertex_shader_path, fragment_shader_path);
 		const std::shared_ptr<IShaderCompiler> shader_compiler = IShaderCompiler::create_compiler(shader_loader);		
 		m_shader_cache[shader_name] = shader_compiler->compile(set_default_lights);
 	}	
-	return m_shader_cache[shader_name];
 }
 
 bool ShaderResource::is_loaded(const std::string& shader_name){
@@ -25,11 +26,11 @@ bool ShaderResource::is_loaded(const std::string& shader_name){
 	return true;
 }
 
-std::shared_ptr<IShaderProgram> ShaderResource::get(const std::string& shader_name){
+IShaderProgram* ShaderResource::get(const std::string& shader_name){
 	if (!is_loaded(shader_name)) {
 		FatalError::fatal_error("Unable to locate shader: " + shader_name);
 	}
-	return m_shader_cache.at(shader_name);
+	return m_shader_cache.at(shader_name).get();
 }
 
 void ShaderResource::destroy(const std::string& shader_name){

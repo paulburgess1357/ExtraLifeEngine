@@ -2,16 +2,15 @@
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
 #include "../Model/Model/OpenGLModel.h"
-#include "../ResourceManagement/ShaderResource.h"
 #include "../Environment/Neutral/API/GraphicsAPI.h"
 #include "../Environment/Neutral/API/GraphicsAPIType.h"
 
 std::unordered_map<std::string, std::shared_ptr<IModel>> ModelResource::m_model_cache;
 
-std::shared_ptr<IModel> ModelResource::load(const std::string& model_name, const std::string& model_path, const std::string& shader_name, const bool assimp_flip_uvs){
+std::shared_ptr<IModel> ModelResource::load(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs){
 	if(!is_loaded(model_name)){		
 		Print::print("\nLoading Model: " + model_name + " (" + model_path + ")");
-		load_model(model_name, model_path, shader_name, assimp_flip_uvs);
+		load_model(model_name, model_path, shader, assimp_flip_uvs);
 	}
 	return m_model_cache[model_name];
 }
@@ -24,15 +23,15 @@ bool ModelResource::is_loaded(const std::string& model_name) {
 	return true;
 }
 
-void ModelResource::load_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name, const bool assimp_flip_uvs) {
+void ModelResource::load_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		load_opengl_model(model_name, model_path, shader_name, assimp_flip_uvs);
+		load_opengl_model(model_name, model_path, shader, assimp_flip_uvs);
 		return;
 	}
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
-		load_vulkan_model(model_name, model_path, shader_name, assimp_flip_uvs);
+		load_vulkan_model(model_name, model_path, shader, assimp_flip_uvs);
 		return;
 	}
 
@@ -40,14 +39,12 @@ void ModelResource::load_model(const std::string& model_name, const std::string&
 }
 
 
-void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name, const bool assimp_flip_uvs) {
-	
-	const std::shared_ptr<IShaderProgram> shader_program = ShaderResource::get(shader_name);
-	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path, shader_program, assimp_flip_uvs };
+void ModelResource::load_opengl_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
+	OpenGL::OpenGLModelLoaderFromFile model_loader{ model_path, shader, assimp_flip_uvs };
 	m_model_cache[model_name] = std::make_shared<OpenGL::OpenGLModel>(model_loader);
 }
 
-void ModelResource::load_vulkan_model(const std::string& model_name, const std::string& model_path, const std::string& shader_name, const bool assimp_flip_uvs) {
+void ModelResource::load_vulkan_model(const std::string& model_name, const std::string& model_path, IShaderProgram& shader, const bool assimp_flip_uvs) {
 	FatalError::fatal_error("Vulkan model code is not set for the model resource loader!");
 }
 
@@ -77,5 +74,3 @@ void ModelResource::destroy_all(){
 		model.second->destroy_mesh_vector();
 	}	
 }
-
-

@@ -17,7 +17,7 @@ namespace OpenGL{
 		void attach_scene_light(const std::string& scenelight_name);
 		void attach_directional_light(const std::string& dirlight_name);
 		void attach_point_light(const std::string& pointlight_name);
-		void set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program);
+		void set_shader_program(IShaderProgram& shader_program);
 
 	private:
 		static std::string create_shader_variable_name(const std::string& name, const unsigned int index);
@@ -33,8 +33,9 @@ namespace OpenGL{
 		// Point light map
 		unsigned int m_current_pointlight;
 		std::unordered_map<std::string, std::pair<std::string, std::shared_ptr<PointLight>>> m_pointlight_map;
-		
-		std::shared_ptr<IShaderProgram> m_shader_program;
+
+		// Leaving as a pointer for future hot-reloading of shaders
+		IShaderProgram* m_shader_program;
 	};
 	
 } // namespace OpenGL

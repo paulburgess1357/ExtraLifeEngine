@@ -27,7 +27,7 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
 
 	const entt::entity cube_entity = registry.create();
-	registry.emplace<ShaderComponent>(cube_entity, shader_program);
+	registry.emplace<ShaderComponent>(cube_entity, shader_program); //TODO ------------------------------> test with ref
 	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
 
@@ -59,8 +59,8 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 
 void SceneLoader::grid(entt::registry& registry){
 	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
-	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");
-	ModelResource::load("grid", "Assets/models/metal_grid/metal_grid.obj", "grid_shader", false);
+	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");	
+	ModelResource::load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
@@ -74,7 +74,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	m_shader_resource.load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("model_shader");
 	
-	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", "model_shader", false);	
+	ModelResource::load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();

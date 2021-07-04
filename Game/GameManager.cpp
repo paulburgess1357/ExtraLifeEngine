@@ -8,7 +8,7 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
+	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.008f, 0.05f} },
 	 m_input_handler{ m_camera },
 	 m_mouse_handler{ m_camera }{	
 }
@@ -73,12 +73,12 @@ void GameManager::initialize_scene(){
 	// SceneLoader::grid(m_registry);
     // SceneLoader::single_cube(m_registry);
 	// SceneLoader::single_cube_textured(m_registry);
-	// SceneLoader::single_model(m_registry);	
+	m_scene_loader->single_model(m_registry);	
 	m_scene_loader->cubemap(m_registry);
 }
 
 void GameManager::initialize_updaters(){	
-	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);	
+	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(0, 0, 0, m_camera);	
 	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource,  *m_world_positions_in_range_updater);
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 }

@@ -4,14 +4,13 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <string>
-#include <memory>
 
 namespace OpenGL{
 
 	class OpenGLModelLoaderFromFile {
 
 	public:
-		OpenGLModelLoaderFromFile(const std::string& path, const std::shared_ptr<IShaderProgram> shader_program, const bool assimp_flip_uvs);
+		OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, const bool assimp_flip_uvs);
 		std::vector<OpenGLMesh> load();
 		
 	private:		
@@ -22,7 +21,7 @@ namespace OpenGL{
 		bool m_assimp_flip_uv;
 		std::string m_directory;
 		std::vector<OpenGLMesh> m_mesh_vector;
-		std::shared_ptr<IShaderProgram> m_shader_program;
+		IShaderProgram& m_shader_program;
 	};
 	
 } // namespace OpenGL

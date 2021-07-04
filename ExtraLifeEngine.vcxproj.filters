@@ -632,9 +632,6 @@
     <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManagement\VoxelResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\IVoxelUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -678,6 +675,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\VoxelResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

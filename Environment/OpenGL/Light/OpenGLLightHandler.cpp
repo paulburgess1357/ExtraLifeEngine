@@ -61,6 +61,6 @@ std::string OpenGL::OpenGLLightHandler::create_shader_variable_name(const std::s
 	return name + "[" + std::to_string(index) + "]";
 }
 
-void OpenGL::OpenGLLightHandler::set_shader_program(const std::shared_ptr<IShaderProgram>& shader_program){
-	m_shader_program = shader_program;
+void OpenGL::OpenGLLightHandler::set_shader_program(IShaderProgram& shader_program){
+	m_shader_program = &shader_program;
 }

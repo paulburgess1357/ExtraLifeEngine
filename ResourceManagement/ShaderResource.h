@@ -16,6 +16,6 @@ public:
 	
 private:		
 	bool is_loaded(const std::string& shader_name);
-	std::unordered_map<std::string, std::shared_ptr<IShaderProgram>> m_shader_cache;
+	std::unordered_map<std::string, std::unique_ptr<IShaderProgram>> m_shader_cache;
 	
 };

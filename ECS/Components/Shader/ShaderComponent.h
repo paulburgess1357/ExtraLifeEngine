@@ -3,10 +3,10 @@
 
 struct ShaderComponent {
 	
-	ShaderComponent(IShaderProgram& shader_program)
+	ShaderComponent(IShaderProgram* shader_program)
 		:m_shader_program{ shader_program } {
 	}
 	
-	IShaderProgram& m_shader_program;
+	IShaderProgram* m_shader_program;
 	
 };

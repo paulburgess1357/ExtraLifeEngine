@@ -14,17 +14,17 @@ void OpenGL::OpenGLCubeMapRenderer::render(entt::registry& registry, Camera& cam
 		auto& shader = view.get<ShaderComponent>(entity);
 		auto& cubemap = view.get<CubeMapComponent>(entity);
 
-		shader.m_shader_program.set_uniform("view_matrix_no_translation", glm::mat4(glm::mat3(camera.get_view_matrix())));
+		shader.m_shader_program->set_uniform("view_matrix_no_translation", glm::mat4(glm::mat3(camera.get_view_matrix())));
 		
-		shader.m_shader_program.bind();
-		shader.m_shader_program.bind_textures();
+		shader.m_shader_program->bind();
+		shader.m_shader_program->bind_textures();
 
 		glBindVertexArray(cubemap.m_vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		
-		shader.m_shader_program.unbind_textures();
-		shader.m_shader_program.unbind();		
+		shader.m_shader_program->unbind_textures();
+		shader.m_shader_program->unbind();		
 	}
 
 	glDepthFunc(GL_LESS);

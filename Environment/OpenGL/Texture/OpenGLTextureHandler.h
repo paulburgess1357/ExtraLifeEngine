@@ -3,7 +3,6 @@
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include "../../Environment/Interfaces/Texture/ITextureHandler.h"
 #include <string>
-#include <memory>
 #include <unordered_map>
 
 namespace OpenGL{
@@ -12,7 +11,7 @@ namespace OpenGL{
 
 	public:
 		OpenGLTextureHandler();
-		OpenGLTextureHandler(const std::shared_ptr<IShaderProgram>& shader_program);
+		OpenGLTextureHandler(IShaderProgram& shader_program);
 
 		void attach_diffuse_texture(const std::string& texture_name) override;
 		void attach_normal_texture(const std::string& texture_name) override;

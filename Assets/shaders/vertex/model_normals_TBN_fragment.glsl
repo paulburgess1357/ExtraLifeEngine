@@ -1,10 +1,14 @@
 #version 330 core
+// Vertex Shader
 
 layout (location = 0) in vec3 model_position;
 layout (location = 1) in vec3 model_normals;
 layout (location = 2) in vec2 tex_coords;
 layout (location = 3) in vec3 in_tangent;
 layout (location = 4) in vec3 in_bitangent;
+
+// Requires a normal mapping material (set in fragment)
+// Lighting conversion to tangent space is done in fragment
 
 // Global uniforms
 layout (std140) uniform uniform_matrices {

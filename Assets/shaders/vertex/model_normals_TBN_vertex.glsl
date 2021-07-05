@@ -1,10 +1,14 @@
 #version 330 core
 #define MAXIMUM_DIR_LIGHTS 2
 #define MAXIMUM_POINT_LIGHTS 6
+// Vertex Shader
+
 // Note: Lighting calculations past this value result in a memory resource
 // error.  This can be solved by moving the TBN calculations into the fragment
 // shader.
 
+// Requires a normal mapping material (set in vertex)
+// Lighting conversion to tangent space is done here in vertex
 
 struct DirectionalLight {
     vec3 direction;

@@ -17,11 +17,13 @@ public:
 	void load_scene(entt::registry& registry);
 	
 private:
+	void attach_scene_light(IShaderProgram& shader_program);
+	void attach_dirlight(IShaderProgram& shader_program);
+	void attach_point_light(IShaderProgram& shader_program);
+	
 	ShaderResource& m_shader_resource;
 	ModelResource& m_model_resource;
 	TextureResource& m_texture_resource;
-	LightResource& m_light_resource;
-	void attach_basic_lighting(IShaderProgram& shader_program);
-	
+	LightResource& m_light_resource;			
 };
 

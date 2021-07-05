@@ -1,6 +1,7 @@
 #version 330 core
 #define MAXIMUM_DIR_LIGHTS 2
 #define MAXIMUM_POINT_LIGHTS 6
+// Fragment Shader
 
 struct DiffuseMaterial {
     vec3 m_sampler;

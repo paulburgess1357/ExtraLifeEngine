@@ -12,12 +12,19 @@ public:
 	void grid(entt::registry& registry);
 	void single_cube(entt::registry& registry);	
 	void single_cube_textured(entt::registry& registry);
-	void single_model(entt::registry& registry);
+	void models(entt::registry& registry);
 	void cubemap(entt::registry& registry);
 	void voxels(entt::registry& registry);
 	void load_scene(entt::registry& registry);
 	
 private:
+	void load_backpack(entt::registry& registry);
+	void load_troll(entt::registry& registry);
+	void load_podracer(entt::registry& registry);
+	void load_spartan(entt::registry& registry);
+	void load_vivi(entt::registry& registry);
+	void load_mech(entt::registry& registry);
+	
 	void attach_scene_light(IShaderProgram& shader_program);
 	void attach_dirlight(IShaderProgram& shader_program);
 	void attach_point_light(IShaderProgram& shader_program);

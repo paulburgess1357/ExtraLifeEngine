@@ -1,5 +1,5 @@
 #include "OpenGLChunk.h"
-#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
@@ -10,7 +10,7 @@ OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, c
 }
 
 OpenGL::OpenGLChunk::~OpenGLChunk() {
-	if(m_vbo != OpenGL::UNINITIALIZED_CHUNK_VALUE && m_vao != OpenGL::UNINITIALIZED_CHUNK_VALUE){
+	if(m_vbo != GraphicsConstants::UNINITIALIZED_VALUE && m_vao != GraphicsConstants::UNINITIALIZED_VALUE){
 		// Print::print("Destroying Chunk Data");
 		glDeleteBuffers(1, &m_vbo);
 		glDeleteVertexArrays(1, &m_vao);
@@ -34,14 +34,14 @@ void OpenGL::OpenGLChunk::set_vao(const unsigned int vao) {
 }
 
 bool OpenGL::OpenGLChunk::vbo_vao_initialized() const{
-	if(m_vbo == OpenGL::UNINITIALIZED_CHUNK_VALUE || m_vao == OpenGL::UNINITIALIZED_CHUNK_VALUE){
+	if(m_vbo == GraphicsConstants::UNINITIALIZED_VALUE || m_vao == GraphicsConstants::UNINITIALIZED_VALUE){
 		return false;
 	}
 	return true;
 }
 
 void OpenGL::OpenGLChunk::destroy() const{
-	if (m_vbo != OpenGL::UNINITIALIZED_CHUNK_VALUE && m_vao != OpenGL::UNINITIALIZED_CHUNK_VALUE) {
+	if (m_vbo != GraphicsConstants::UNINITIALIZED_VALUE && m_vao != GraphicsConstants::UNINITIALIZED_VALUE) {
 		glDeleteBuffers(1, &m_vbo);
 		glDeleteVertexArrays(1, &m_vao);
 	}

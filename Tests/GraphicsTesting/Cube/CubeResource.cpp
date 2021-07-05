@@ -1,6 +1,6 @@
 #include "CubeResource.h"
 #include "OpenGLCubeLoader.h"
-#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 
@@ -15,11 +15,11 @@ CubeResource::~CubeResource(){
 
 void CubeResource::init_cube_cache(){
 	m_cube_id_cache = {
-		{ "cube", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
-		{ "cube_normal", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
-		{ "cube_textured", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE} },
-		{ "cube_normal_textured", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
-		{ "cubemap", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } }
+		{ "cube", { GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE } },
+		{ "cube_normal", { GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE } },
+		{ "cube_textured", { GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE} },
+		{ "cube_normal_textured", { GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE } },
+		{ "cubemap", { GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE, GraphicsConstants::UNINITIALIZED_VALUE } }
 	};
 }
 
@@ -53,7 +53,7 @@ void CubeResource::load(const std::string& cube_name) {
 }
 
 bool CubeResource::is_loaded(const std::string& cube_name) const{
-	return m_cube_id_cache.at(cube_name).m_vbo_id != OpenGL::UNINITIALIZED_CHUNK_VALUE;
+	return m_cube_id_cache.at(cube_name).m_vbo_id != GraphicsConstants::UNINITIALIZED_VALUE;
 }
 
 void CubeResource::destroy_all(){

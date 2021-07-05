@@ -260,7 +260,7 @@
     <ClInclude Include="Input\Command\MouseControlCommand.h" />
     <ClInclude Include="Input\Command\OpenGLWireframe.hpp" />
     <ClInclude Include="Interface\InterfaceCameraData.h" />
-    <ClInclude Include="ResourceManagement\OpenGL\OpenGLConstants.h" />
+    <ClInclude Include="ResourceManagement\GraphicsConstants.h" />
     <ClInclude Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.h" />
     <ClInclude Include="ResourceManagement\IVboVaoPool.h" />
     <ClInclude Include="ResourceManagement\VoxelResource.h" />

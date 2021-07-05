@@ -1,13 +1,13 @@
 #include "OpenGLMesh.h"
 #include <glad/glad.h>
-#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Utility/Print.h"
 
 OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, IShaderProgram& shader_program)
     :IMesh{ vertices, indices },
-     m_vao{ OpenGL::UNINITIALIZED_CHUNK_VALUE },
-	 m_vbo{ OpenGL::UNINITIALIZED_CHUNK_VALUE },
-	 m_ebo{ OpenGL::UNINITIALIZED_CHUNK_VALUE }{
+     m_vao{ GraphicsConstants::UNINITIALIZED_VALUE },
+	 m_vbo{ GraphicsConstants::UNINITIALIZED_VALUE },
+	 m_ebo{ GraphicsConstants::UNINITIALIZED_VALUE }{
      m_texture_handler = std::make_shared<OpenGLTextureHandler>(shader_program);	
      setup();	
 }

@@ -4,7 +4,7 @@
 #include "../../Utility/FatalError.h"
 #include "../../Utility/SBTIUtilities.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
-#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 
 OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
 	:ITextureCompiler{ texture_loader }{
@@ -12,7 +12,7 @@ OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<IText
 
 std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
 
-	unsigned int texture_handle{ OpenGL::UNINITIALIZED_CHUNK_VALUE };
+	unsigned int texture_handle{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	// Store w/ OpenGL & bind
 	glGenTextures(1, &texture_handle);

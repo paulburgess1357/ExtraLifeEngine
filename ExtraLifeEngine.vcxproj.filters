@@ -680,5 +680,8 @@
     <ClInclude Include="ResourceManagement\VoxelResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\Components\Lights\ILight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

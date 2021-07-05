@@ -1,5 +1,8 @@
 #pragma once
 #include "../../Environment/Interfaces/Texture/ITexture.h"
+#include "../../ECS/Components/Lights/DirectionalLight.h"
+#include "../../ECS/Components/Lights/PointLight.h"
+#include "../../ECS/Components/Lights/SceneLight.h"
 #include <string>
 #include <unordered_map>
 #include <glm/glm.hpp>
@@ -26,9 +29,9 @@ public:
 	virtual void unbind_textures() const = 0;	
 
 	// Lighting
-	virtual void attach_scene_light(const std::string& scenelight_name) = 0;
-	virtual void attach_directional_light(const std::string& dirlight_name) = 0;
-	virtual void attach_point_light(const std::string& pointlight_name) = 0;
+	virtual void attach_scene_light(const SceneLight& scene_light) = 0;
+	virtual void attach_directional_light(const DirectionalLight& dirlight) = 0;
+	virtual void attach_point_light(const PointLight& pointlight) = 0;
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) = 0;

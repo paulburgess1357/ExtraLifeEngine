@@ -26,9 +26,9 @@ namespace OpenGL{
 		void unbind_textures() const override;		
 
 		// Lighting
-		void attach_scene_light(const std::string& scenelight_name) override;
-		void attach_directional_light(const std::string& dirlight_name) override;
-		void attach_point_light(const std::string& pointlight_name) override;
+		void attach_scene_light(const SceneLight& scene_light) override;
+		void attach_directional_light(const DirectionalLight& pointlight) override;
+		void attach_point_light(const PointLight& point_light) override;
 
 		// Single Value Uniforms
 		void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) override;

@@ -9,7 +9,7 @@ class ShaderResource {
 public:
 	ShaderResource() = default;
 	~ShaderResource();
-	void load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool set_default_lights = true);
+	void load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path);
 	IShaderProgram* get(const std::string& shader_name);
 	void destroy(const std::string& shader_name);
 	void destroy_all();

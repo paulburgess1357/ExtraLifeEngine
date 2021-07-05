@@ -12,10 +12,12 @@
 	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
 
-SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, TextureResource& texture_resource)
+SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
+	                     TextureResource& texture_resource, LightResource& light_resource)
 	:m_shader_resource{ shader_resource },
 	 m_model_resource{ model_resource },
-	 m_texture_resource{ texture_resource }{
+	 m_texture_resource{ texture_resource },
+	 m_light_resource{ light_resource }{
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -56,7 +58,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
 	registry.emplace<TexturedCubeComponent>(textured_cube_entity, CubeResource::get("cube_normal_textured"));
 	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 5.0f, 0.0f, 0.0f });
-	registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
+	// registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 }
 
 void SceneLoader::grid(entt::registry& registry){
@@ -89,7 +91,7 @@ void SceneLoader::single_model(entt::registry& registry){
 
 void SceneLoader::cubemap(entt::registry& registry){
 
-	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);
+	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
 
 	m_texture_resource.load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
@@ -111,9 +113,20 @@ void SceneLoader::voxels(entt::registry& registry){
 }
 
 void SceneLoader::attach_basic_lighting(IShaderProgram& shader_program){
-	DirectionalLight dirlight;
-	dirlight.m_direction = glm::vec3(1.0f, 0.5f, 0.0f);
-	LightResource::load("dirlight", dirlight);
+	
+	const SceneLight scenelight{"scenelight"};
+	m_light_resource.load(scenelight);
+	shader_program.attach_scene_light(scenelight);
+	
+	 DirectionalLight dirlight{"dirlight"};
+	 dirlight.m_direction = glm::vec3(0.0f, 1.0f, 0.0f);	
+	 m_light_resource.load(dirlight);
+	 shader_program.attach_directional_light(dirlight);
+
+	 DirectionalLight dirlight2{ "dirlight" };
+	 dirlight2.m_direction = glm::vec3(0.0f, -1.0f, 0.0f);
+	 m_light_resource.load(dirlight2);
+	 shader_program.attach_directional_light(dirlight2);
 
 	// PointLight pointlight1;
 	// pointlight1.m_position = glm::vec3(128.0f, 20.0f, 128.0f);
@@ -123,8 +136,17 @@ void SceneLoader::attach_basic_lighting(IShaderProgram& shader_program){
 	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
 	// LightResource::load("pointlight2", pointlight2);
 
-	shader_program.attach_directional_light("dirlight");
+	// shader_program.attach_directional_light("dirlight");
 	// shader_program->attach_point_light("pointlight1");
 	// shader_program->attach_point_light("pointlight2");
 }
 
+void SceneLoader::load_scene(entt::registry& registry){
+	// TODO shader loader or some alternative for voxels?
+	voxels(registry);
+	grid(registry);
+	//single_cube(registry);
+	//single_cube_textured(registry);
+	//single_model(registry);
+	//cubemap(registry);
+}

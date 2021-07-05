@@ -49,16 +49,16 @@ void OpenGL::OpenGLShaderProgram::unbind_textures() const {
 	m_texture_handler.unbind_textures();
 }
 
-void OpenGL::OpenGLShaderProgram::attach_scene_light(const std::string& scenelight_name) {
-	m_light_handler.attach_scene_light(scenelight_name);
+void OpenGL::OpenGLShaderProgram::attach_scene_light(const SceneLight& scene_light) {
+	m_light_handler.attach_scene_light(scene_light);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_directional_light(const std::string& dirlight_name) {
-	m_light_handler.attach_directional_light(dirlight_name);
+void OpenGL::OpenGLShaderProgram::attach_directional_light(const DirectionalLight& dirlight) {
+	m_light_handler.attach_directional_light(dirlight);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_point_light(const std::string& pointlight_name) {
-	m_light_handler.attach_point_light(pointlight_name);
+void OpenGL::OpenGLShaderProgram::attach_point_light(const PointLight& pointlight) {
+	m_light_handler.attach_point_light(pointlight);
 }
 
 void OpenGL::OpenGLShaderProgram::set_uniform(const std::string& uniform_name, const int value, const bool apply_binds) {

@@ -30,7 +30,7 @@ void GameManager::run(){
 	initialize_resources();
 	initialize_scene();
 	initialize_updaters();
-	initialize_renderers();
+	initialize_renderers();	
 	gameloop();
 }
 
@@ -63,19 +63,12 @@ void GameManager::initialize_resources(){
 	m_shader_resource = std::make_unique<ShaderResource>();
 	m_model_resource = std::make_unique<ModelResource>();
 	m_texture_resource = std::make_unique<TextureResource>();
+	m_light_resource = std::make_unique<LightResource>();
 }
 
 void GameManager::initialize_scene(){
-
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, *m_texture_resource);
-	
-	// TODO shader loader or some alternative for voxels?
-	m_scene_loader->voxels(m_registry);
-	m_scene_loader->grid(m_registry);
-	m_scene_loader->single_cube(m_registry);
-	m_scene_loader->single_cube_textured(m_registry);
-	m_scene_loader->single_model(m_registry);	
-	m_scene_loader->cubemap(m_registry);
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, *m_texture_resource, *m_light_resource);
+	m_scene_loader->load_scene(m_registry);
 }
 
 void GameManager::initialize_updaters(){	
@@ -124,7 +117,8 @@ void GameManager::destroy() const {
 	// m_shader_resource->destroy_all(); // should be called when out of scope
 	// m_texture_resource->destroy_all(); // should be called when out of scope
 	CubeResource::destroy_all();
-	LightResource::destroy_all();
+	// m_light_resource->destroy_all(); // should be called when out of scope
+	// LightResource::destroy_all();
 	// m_model_resource->destroy_all(); // should be called when out of scope
 	// m_voxel_resource->destroy_all(); // should be called when out of scope
 	m_shader_uniform_block_handler->destroy();

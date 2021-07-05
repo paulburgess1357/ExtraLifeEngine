@@ -1,5 +1,5 @@
 #include "VoxelResource.h"
-#include "./OpenGL/OpenGLConstants.h"
+#include "GraphicsConstants.h"
 #include "../Voxel/OpenGL/OpenGLChunk.h"
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
@@ -262,8 +262,8 @@ void VoxelResource::unload_vbo_vao_into_pool(const WorldPosition& world_position
 
 void VoxelResource::unload_vbo_vao_into_pool(Chunk& chunk) const{	
 	const std::pair<unsigned int, unsigned int> vbo_vao = std::make_pair(chunk.get_vbo(), chunk.get_vao());	
-	chunk.set_vbo(OpenGL::UNINITIALIZED_CHUNK_VALUE);
-	chunk.set_vao(OpenGL::UNINITIALIZED_CHUNK_VALUE);
+	chunk.set_vbo(GraphicsConstants::UNINITIALIZED_VALUE);
+	chunk.set_vao(GraphicsConstants::UNINITIALIZED_VALUE);
 	m_vao_vbo_pool->return_resource(vbo_vao);
 }
 

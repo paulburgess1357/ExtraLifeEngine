@@ -662,9 +662,6 @@
     <ClInclude Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManagement\OpenGL\OpenGLConstants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManagement\IVboVaoPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -681,6 +678,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components\Lights\ILight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagement\GraphicsConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

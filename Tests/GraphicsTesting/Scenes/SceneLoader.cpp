@@ -160,7 +160,7 @@ void SceneLoader::attach_point_light(IShaderProgram& shader_program){
 void SceneLoader::load_scene(entt::registry& registry){
 	// TODO shader loader or some alternative for voxels?
 	voxels(registry);
-	//grid(registry);
+	grid(registry);
 	single_cube(registry);
 	single_cube_textured(registry);
 	single_model(registry);

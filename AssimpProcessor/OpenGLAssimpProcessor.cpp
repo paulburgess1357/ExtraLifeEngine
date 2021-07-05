@@ -1,12 +1,15 @@
 #include "OpenGLAssimpProcessor.h"
 #include "../ResourceManagement/TextureResource.h"
 #include "../Utility/FatalError.h"
+#include "../Utility/Print.h"
 
 void OpenGL::OpenGLAssimpProcessor::load_all_materials(const aiMesh* assimp_mesh, const aiScene* scene, const std::string& directory, OpenGLMesh& mesh, TextureResource& texture_resource){	
 	aiMaterial* material = scene->mMaterials[assimp_mesh->mMaterialIndex];	
 	load_material(material, aiTextureType_DIFFUSE, directory, mesh, texture_resource);
 	load_material(material, aiTextureType_SPECULAR, directory, mesh, texture_resource);
 	load_material(material, aiTextureType_HEIGHT, directory, mesh, texture_resource);
+	load_material(material, aiTextureType_NORMALS, directory, mesh, texture_resource);
+	load_material(material, aiTextureType_AMBIENT, directory, mesh, texture_resource);
 }
 
 
@@ -18,6 +21,7 @@ void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, co
 		material->GetTexture(texture_type, i, &ai_material_path);
 
 		std::string material_path{ ai_material_path.C_Str() };
+		
 		material_path = update_material_path(material_path, directory);
 		
 		texture_resource.load_model_textures(material_path);
@@ -30,11 +34,13 @@ void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, co
 
 std::string OpenGL::OpenGLAssimpProcessor::update_material_path(const std::string& material_path, const std::string& directory){
 
-	if (material_path.find('/') != std::string::npos || material_path.find('\\') != std::string::npos) {
-		return material_path;
-	} else {
+	//TODO add directory to material path here
+	
+	//if (material_path.find('/') != std::string::npos || material_path.find('\\') != std::string::npos) {
+	//	return material_path;
+	//} else {
 		return directory + "/" + material_path;
-	}
+	//}
 	
 }
 
@@ -54,11 +60,12 @@ void OpenGL::OpenGLAssimpProcessor::load_material_into_mesh(const std::string& m
 
 		// Obj & Assimp does not use aiTextureType_Normals for normal maps (backpack obj example)
 		case aiTextureType_NORMALS: {
-			FatalError::fatal_error("Normal map texture type needs to be added (aiTextureType_NORMALS)");
+			mesh.attach_normal_texture(mesh_texture);
 			break;
 		}
 		
 		case aiTextureType_HEIGHT: {
+			Print::print("************* WARNING: Loading aiTextureType_HEIGHT AS attach_normal_texture() ; Typically this is for obj and output from Blender *************");
 			mesh.attach_normal_texture(mesh_texture);
 			break;
 		}

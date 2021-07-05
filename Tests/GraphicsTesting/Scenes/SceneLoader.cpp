@@ -13,6 +13,10 @@
 	// TBN model shader (conversion in vertex (bad)): Assets/shaders/vertex/model_normals_TBN_vertex.glsl; Assets/shaders/fragment/model_normals_TBN_vertex.glsl
 	// TBN model shader (conversion in fragment): Assets/shaders/vertex/model_normals_TBN_fragment.glsl; Assets/shaders/fragment/model_normals_TBN_fragment.glsl
 
+	// Fragment No Specular Material
+	// Assets/shaders/fragment/model_no_specular_texture.glsl
+	// Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl
+
 // Textured Cube Shaders
 	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
@@ -83,22 +87,107 @@ void SceneLoader::grid(entt::registry& registry){
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }
 
-void SceneLoader::single_model(entt::registry& registry){
+void SceneLoader::models(entt::registry& registry){
 
-	//m_shader_resource.load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
-	m_shader_resource.load("model_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
-	IShaderProgram* shader_program = m_shader_resource.get("model_shader");
+	// load_mech(registry);
+	// load_vivi()
+	// load_spartan(registry);
+	load_backpack(registry);
+	// load_troll(registry);
+	// load_podracer(registry);
 	
-	m_model_resource.load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
+}
+
+void SceneLoader::load_backpack(entt::registry& registry){
+
+	const std::string id = "backpack";
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
 	attach_scene_light(*shader_program);
 	attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
-	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("backpack"));
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.005f, 0.0f, 0.0f);
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);
 	// registry.emplace<ScaleComponent>(model_entity, 5.0f);
+}
+
+void SceneLoader::load_troll(entt::registry& registry){
+
+	const std::string id = "troll";
+	//m_shader_resource.load("troll_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl"); // No normal map used
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl"); // No normal map used
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/troll/scene.gltf", *shader_program, m_texture_resource, true);
+	attach_scene_light(*shader_program);
+	attach_dirlight(*shader_program);
+	
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 50.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	
+}
+
+void SceneLoader::load_podracer(entt::registry& registry){
+
+	const std::string id = "podracer";
+	m_shader_resource.load(id, "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/podracer/scene.gltf", *shader_program, m_texture_resource, true);
+	attach_scene_light(*shader_program);
+	attach_dirlight(*shader_program);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);
+}
+
+void SceneLoader::load_spartan(entt::registry& registry){
+	const std::string id = "spartan";
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl"); // No normal map used
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);
+	attach_scene_light(*shader_program);
+	attach_dirlight(*shader_program);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+}
+
+void SceneLoader::load_vivi(entt::registry& registry){
+	const std::string id = "vivi";
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl"); // No normal map used
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/vivi/scene.gltf", *shader_program, m_texture_resource, true);
+	attach_scene_light(*shader_program);
+	attach_dirlight(*shader_program);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+}
+
+void SceneLoader::load_mech(entt::registry& registry){
+	const std::string id = "mech_drone";
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl"); // No normal map used
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+	m_model_resource.load(id, "Assets/models/mech_drone/scene.gltf", *shader_program, m_texture_resource, true);
+	attach_scene_light(*shader_program);
+	attach_dirlight(*shader_program);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
 }
 
 void SceneLoader::cubemap(entt::registry& registry){
@@ -127,7 +216,7 @@ void SceneLoader::voxels(entt::registry& registry){
 
 void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
 	DirectionalLight dirlight{"dirlight"};
-	dirlight.m_direction = glm::vec3(0.3f, 0.7f, 0.0f);	
+	dirlight.m_direction = glm::vec3(1.0f, 0.0f, 0.0f);	
 	m_light_resource.load(dirlight);
 	shader_program.attach_directional_light(dirlight);
 
@@ -139,8 +228,8 @@ void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
 
 void SceneLoader::attach_scene_light(IShaderProgram& shader_program){
 	SceneLight scenelight{ "scenelight" };
-	scenelight.m_ambient = glm::vec3(0.6f); // 0.6
-	scenelight.m_diffuse = glm::vec3(0.5f); // 0.5
+	scenelight.m_ambient = glm::vec3(0.8f); // 0.6
+	scenelight.m_diffuse = glm::vec3(0.9f); // 0.5
 	scenelight.m_specular = glm::vec3(1.0f); // 1.0
 	m_light_resource.load(scenelight);
 	shader_program.attach_scene_light(scenelight);
@@ -160,9 +249,9 @@ void SceneLoader::attach_point_light(IShaderProgram& shader_program){
 void SceneLoader::load_scene(entt::registry& registry){
 	// TODO shader loader or some alternative for voxels?
 	voxels(registry);
-	grid(registry);
-	single_cube(registry);
-	single_cube_textured(registry);
-	single_model(registry);
+	// grid(registry);
+	// single_cube(registry);
+	// single_cube_textured(registry);
+	models(registry);
 	cubemap(registry);
 }

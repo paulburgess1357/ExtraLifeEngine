@@ -3,11 +3,10 @@
 #include "../Texture/OpenGLTextureHandler.h"
 #include "../../Interfaces/Shader/IShaderProgram.h"
 #include <unordered_map>
-#include <memory>
 
 namespace OpenGL{
 
-	class OpenGLShaderProgram : public IShaderProgram, public std::enable_shared_from_this<OpenGLShaderProgram> {
+	class OpenGLShaderProgram : public IShaderProgram {
 		
 	public:		
 		OpenGLShaderProgram(const unsigned int handle);
@@ -17,10 +16,10 @@ namespace OpenGL{
 		void destroy() const override;
 
 		// Texture handling (per shader)		
-		void attach_diffuse_texture(const std::string& texture_name) override;
-		void attach_normal_texture(const std::string& texture_name) override;
-		void attach_specular_texture(const std::string& texture_name, const float shininess) override;
-		void attach_cubemap_texture(const std::string& texture_name) override;
+		void attach_diffuse_texture(const ITexture& texture) override;
+		void attach_normal_texture(const ITexture& texture) override;
+		void attach_specular_texture(const ITexture& texture, const float shininess) override;
+		void attach_cubemap_texture(const ITexture& texture) override;
 		
 		void bind_textures() const override;
 		void unbind_textures() const override;		

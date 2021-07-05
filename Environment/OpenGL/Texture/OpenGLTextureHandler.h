@@ -13,10 +13,10 @@ namespace OpenGL{
 		OpenGLTextureHandler();
 		OpenGLTextureHandler(IShaderProgram& shader_program);
 
-		void attach_diffuse_texture(const std::string& texture_name) override;
-		void attach_normal_texture(const std::string& texture_name) override;
-		void attach_specular_texture(const std::string& texture_name, const float shininess) override;
-		void attach_cubemap_texture(const std::string& texture_name) override;
+		void attach_diffuse_texture(const ITexture& texture) override;
+		void attach_normal_texture(const ITexture& texture) override;
+		void attach_specular_texture(const ITexture& texture, const float shininess) override;
+		void attach_cubemap_texture(const ITexture& texture) override;
 		
 		void bind_textures() const override;
 		void unbind_textures() const override;

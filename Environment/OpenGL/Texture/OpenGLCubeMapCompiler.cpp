@@ -9,9 +9,9 @@ OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::str
 	:ICubeMapCompiler{ texture_loaders }{	
 }
 
-std::shared_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(){
+std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name){
 
-	unsigned int texture_handle{ 99 };
+	unsigned int texture_handle{ 999999 };
 
 	// Store w/ OpenGL & bind
 	glGenTextures(1, &texture_handle);
@@ -22,21 +22,19 @@ std::shared_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(){
 	
 	// Place handle in OpenGL texture class
 	Print::print("Texture Handle: " + std::to_string(texture_handle));
-	std::shared_ptr<ITexture> texture = std::make_shared<OpenGL::OpenGLTexture>(texture_handle);
+	std::unique_ptr<ITexture> texture = std::make_unique<OpenGL::OpenGLTexture>(texture_handle, cubemap_name);
 	return texture;
 	
 }
 
 void OpenGL::OpenGLCubeMapCompiler::generate_textures() const{
 
-	for (unsigned int i = 0; i < m_texture_loading_data.size(); i++) {
-		
+	for (unsigned int i = 0; i < m_texture_loading_data.size(); i++) {		
 		const TextureLoadingData texture_loading_data = m_texture_loading_data.at(i);		
 		const GLenum texture_format = get_texture_format(texture_loading_data.m_components);
 		
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, texture_format, texture_loading_data.m_width, texture_loading_data.m_height, 0, texture_format, GL_UNSIGNED_BYTE, texture_loading_data.m_image_data);
-		SBTIUtilities::free_image(texture_loading_data.m_image_data);
-		
+		SBTIUtilities::free_image(texture_loading_data.m_image_data);		
 	}	
 }
 

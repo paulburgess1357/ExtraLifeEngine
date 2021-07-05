@@ -56,16 +56,16 @@ void OpenGL::OpenGLMesh::destroy(){
     glDeleteBuffers(1, &m_ebo);
 }
 
-void OpenGL::OpenGLMesh::attach_diffuse_texture(const std::string& texture_name){
-    m_texture_handler->attach_diffuse_texture(texture_name);
+void OpenGL::OpenGLMesh::attach_diffuse_texture(const ITexture& texture){
+    m_texture_handler->attach_diffuse_texture(texture);
 }
 
-void OpenGL::OpenGLMesh::attach_normal_texture(const std::string& texture_name){
-    m_texture_handler->attach_normal_texture(texture_name);
+void OpenGL::OpenGLMesh::attach_normal_texture(const ITexture& texture){
+    m_texture_handler->attach_normal_texture(texture);
 }
 
-void OpenGL::OpenGLMesh::attach_specular_texture(const std::string& texture_name, const float shininess){
-    m_texture_handler->attach_specular_texture(texture_name, shininess);
+void OpenGL::OpenGLMesh::attach_specular_texture(const ITexture& texture, const float shininess){
+    m_texture_handler->attach_specular_texture(texture, shininess);
 }
 
 unsigned int OpenGL::OpenGLMesh::get_vao() const{

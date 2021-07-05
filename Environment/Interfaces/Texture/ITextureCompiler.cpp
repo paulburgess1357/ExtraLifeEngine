@@ -4,7 +4,7 @@
 #include "../../OpenGL/Texture/OpenGLTextureCompiler.h"
 
 ITextureCompiler::ITextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
-	:m_texture_loading_data{ texture_loader->load() } {
+	:m_texture_loading_data{ texture_loader->load() }{
 }
 
 std::shared_ptr<ITextureCompiler> ITextureCompiler::create_compiler(const std::shared_ptr<ITextureLoader>& texture_loader){

@@ -1,14 +1,14 @@
 #include "OpenGLModelLoaderFromFile.h"
 #include "../Vertex.h"
 #include "../../AssimpProcessor/OpenGLAssimpProcessor.h"
-#include "../../Utility/FatalError.h"
 #include "StringUtilities/FilePath/FilePath.hpp"
 
-OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, const bool assimp_flip_uvs)
+OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, TextureResource& texture_resource, const bool assimp_flip_uvs)
 	:m_path{ path },
      m_assimp_flip_uv{ assimp_flip_uvs },
      m_directory{ StringUtil::FilePath::get_directory(m_path)},
-	 m_shader_program{ shader_program }{
+	 m_shader_program{ shader_program },
+	 m_texture_resource{ texture_resource }{
 	
 }
 
@@ -57,7 +57,7 @@ OpenGL::OpenGLMesh OpenGL::OpenGLModelLoaderFromFile::process_mesh(aiMesh* mesh,
 	const std::vector<unsigned int> mesh_indicies{ AssimpProcessor::process_faces(mesh) };
 
 	OpenGLMesh opengl_mesh{ mesh_vertices, mesh_indicies, m_shader_program};
-	OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, opengl_mesh);
+	OpenGLAssimpProcessor::load_all_materials(mesh, scene, m_directory, opengl_mesh, m_texture_resource); // requires texture resource
 		
 	return opengl_mesh;	
 }

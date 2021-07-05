@@ -49,6 +49,7 @@ private:
 	std::unique_ptr<VoxelResource> m_voxel_resource = nullptr;
 	std::unique_ptr<ShaderResource> m_shader_resource = nullptr;
 	std::unique_ptr<ModelResource> m_model_resource = nullptr;
+	std::unique_ptr<TextureResource> m_texture_resource = nullptr;
 
 	std::unique_ptr<SceneLoader> m_scene_loader = nullptr;
 	

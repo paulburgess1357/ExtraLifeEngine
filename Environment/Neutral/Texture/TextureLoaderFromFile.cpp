@@ -4,9 +4,10 @@
 #include "stb_image/stb_image.h"
 #include "StringUtilities/FilePath/FilePath.hpp"
 
-TextureLoaderFromFile::TextureLoaderFromFile(const std::string& texture_path, const bool flip_texture)
-	:m_flip_texture{ flip_texture },
-	m_texture_path{ texture_path }{	
+TextureLoaderFromFile::TextureLoaderFromFile(std::string texture_name, std::string texture_path, const bool flip_texture)
+	:ITextureLoader{ std::move(texture_name) },
+	 m_texture_path{ std::move(texture_path) },
+	 m_flip_texture{ flip_texture }{	
 }
 
 TextureLoadingData TextureLoaderFromFile::load() {
@@ -15,6 +16,7 @@ TextureLoadingData TextureLoaderFromFile::load() {
 
 	stbi_set_flip_vertically_on_load(m_flip_texture);
 	texture_loading_data.m_image_data = stbi_load(m_texture_path.c_str(), &texture_loading_data.m_width, &texture_loading_data.m_height, &texture_loading_data.m_components, 0);
+	texture_loading_data.m_texture_name = m_texture_name;
 	
 	check_image_data(texture_loading_data.m_image_data);
 	return texture_loading_data;
@@ -35,7 +37,7 @@ std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFr
 	std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders;
 
 	for (const auto& expected_filename : expected_filenames) {
-		texture_loaders[expected_filename] = std::make_shared<TextureLoaderFromFile>(m_texture_path + "/" + expected_filename + "." + extension, m_flip_texture);
+		texture_loaders[expected_filename] = std::make_shared<TextureLoaderFromFile>(expected_filename, m_texture_path + "/" + expected_filename + "." + extension, m_flip_texture);
 	}
 
 	return texture_loaders;

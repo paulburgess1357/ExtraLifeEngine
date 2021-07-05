@@ -9,7 +9,7 @@ namespace OpenGL{
 		
 	public:
 		OpenGLCubeMapCompiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders);
-		std::shared_ptr<ITexture> compile() override;
+		std::unique_ptr<ITexture> compile(const std::string& cubemap_name) override;
 
 	private:		
 		static void set_texture_parameters();

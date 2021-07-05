@@ -8,16 +8,16 @@
 void OpenGL::OpenGLModelRenderer::render(entt::registry& registry) const{
 	
 	registry.view<ModelComponent, TransformComponent, ShaderComponent>().each([](auto& model, auto& transform, auto& shader) {		
-		
-		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
-		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
 
 		shader.m_shader_program->bind();
+		
+		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix, false);
+		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix), false);		
 
 		for(const auto& mesh : model.m_model->get_mesh_vector()){
 
 			const std::shared_ptr<ITextureHandler> mesh_texture_hander = mesh->get_texture_handler();
-			mesh_texture_hander->bind_textures();
+			mesh_texture_hander->bind_textures_fast();
 
 			glBindVertexArray(mesh->get_vao());
 			glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh->get_indices_size()), GL_UNSIGNED_INT, 0);

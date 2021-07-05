@@ -106,6 +106,14 @@ void OpenGL::OpenGLTextureHandler::bind_textures() const{
 	bind_cubemap_textures();
 }
 
+void OpenGL::OpenGLTextureHandler::bind_textures_fast() const {
+	// No shader bind calls (called in render system instead)
+	bind_diffuse_textures_fast();
+	bind_specular_textures_fast();
+	bind_normal_textures_fast();
+	bind_cubemap_textures_fast();
+}
+
 void OpenGL::OpenGLTextureHandler::bind_diffuse_textures() const{
 
 	for (const auto& texture : m_diffuse_texture_map) {
@@ -119,6 +127,16 @@ void OpenGL::OpenGLTextureHandler::bind_diffuse_textures() const{
 	}
 	
 }
+
+void OpenGL::OpenGLTextureHandler::bind_diffuse_textures_fast() const{
+	// No shader bind calls (meant for bind_textures_fast only)
+	for (const auto& texture : m_diffuse_texture_map) {
+		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
+	}
+}
+
 
 void OpenGL::OpenGLTextureHandler::bind_specular_textures() const{
 
@@ -135,6 +153,17 @@ void OpenGL::OpenGLTextureHandler::bind_specular_textures() const{
 	
 }
 
+void OpenGL::OpenGLTextureHandler::bind_specular_textures_fast() const{
+	// No shader bind calls (meant for bind_textures_fast only)
+	for (const auto& texture : m_specular_texture_map) {
+		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
+		m_shader_program->set_uniform("specular_material.m_shininess", texture.second.m_shininess, false);
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
+	}
+}
+
+
 void OpenGL::OpenGLTextureHandler::bind_normal_textures() const{
 
 	for (const auto& texture : m_normal_texture_map) {
@@ -149,12 +178,31 @@ void OpenGL::OpenGLTextureHandler::bind_normal_textures() const{
 	
 }
 
+void OpenGL::OpenGLTextureHandler::bind_normal_textures_fast() const{
+	// No shader bind calls (meant for bind_textures_fast only)
+	for (const auto& texture : m_normal_texture_map) {
+		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
+	}
+}
+
+
 void OpenGL::OpenGLTextureHandler::bind_cubemap_textures() const{
 
 	for (const auto& texture : m_cubemap_texture_map) {
 		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit);
 		m_shader_program->bind();
 
+		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texture.second.m_tex_handle);
+	}
+}
+
+void OpenGL::OpenGLTextureHandler::bind_cubemap_textures_fast() const{
+	// No shader bind calls (meant for bind_textures_fast only)
+	for (const auto& texture : m_cubemap_texture_map) {
+		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, texture.second.m_tex_handle);
 	}

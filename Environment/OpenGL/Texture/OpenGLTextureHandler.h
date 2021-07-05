@@ -19,6 +19,7 @@ namespace OpenGL{
 		void attach_cubemap_texture(const ITexture& texture) override;
 		
 		void bind_textures() const override;
+		void bind_textures_fast() const override;
 		void unbind_textures() const override;
 		
 	private:
@@ -26,6 +27,13 @@ namespace OpenGL{
 		void bind_specular_textures() const;
 		void bind_normal_textures() const;
 		void bind_cubemap_textures() const;
+
+		// No shader bind calls
+		void bind_diffuse_textures_fast() const;
+		void bind_specular_textures_fast() const;
+		void bind_normal_textures_fast() const;
+		void bind_cubemap_textures_fast() const;
+		
 
 		void unbind_diffuse_textures() const;
 		void unbind_specular_textures() const;

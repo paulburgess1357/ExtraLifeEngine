@@ -350,3 +350,5 @@ MigrationBackup/
 
 # Model Asssets
 Assets/models/
+Assets/textures/
+Assets/cubemaps/

@@ -1,12 +1,17 @@
 #pragma once
+#include "ILight.h"
 #include <glm/glm.hpp>
 
 // PointLight Definition: A light source that illuminates in all directions,
 //                        where the intensity decreases over distance.
 //                        E.g. Lightbulb or a torch
 
-struct PointLight {
+struct PointLight : ILight{
 
+	PointLight(std::string light_name)
+		:ILight{ std::move(light_name) }{		
+	}
+	
 	glm::vec3 m_position { 0.0f, 4.0f, 0.0f };
 
 	// Attenuation

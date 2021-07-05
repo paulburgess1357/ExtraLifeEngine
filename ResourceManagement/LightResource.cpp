@@ -2,75 +2,60 @@
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
 
-std::unordered_map<std::string, std::shared_ptr<DirectionalLight>> LightResource::m_dirlight_cache;
-std::unordered_map<std::string, std::shared_ptr<PointLight>> LightResource::m_pointlight_cache;
-std::unordered_map<std::string, std::shared_ptr<SceneLight>> LightResource::m_scenelight_cache;
-
-std::shared_ptr<DirectionalLight> LightResource::load(const std::string& light_name, const DirectionalLight& dirlight){
-	m_dirlight_cache[light_name] = std::make_shared<DirectionalLight>(dirlight);
-	return m_dirlight_cache[light_name];
+LightResource::~LightResource(){
+	destroy_all();
 }
 
-std::shared_ptr<PointLight> LightResource::load(const std::string& light_name, const PointLight& pointlight) {
+void LightResource::load(const DirectionalLight& dirlight){
+	m_dirlight_cache[dirlight.m_light_name] = std::make_unique<DirectionalLight>(dirlight);
+}
+
+void LightResource::load(const PointLight& pointlight) {
 	check_point_light(pointlight);
-	m_pointlight_cache[light_name] = std::make_shared<PointLight>(pointlight);
-	return m_pointlight_cache[light_name];
+	m_pointlight_cache[pointlight.m_light_name] = std::make_unique<PointLight>(pointlight);
 }
 
-void LightResource::check_point_light(const PointLight& pointlight){
+void LightResource::check_point_light(const PointLight& pointlight) {
 	if(pointlight.m_position.x == 0.0f && pointlight.m_position.y == 0.0f && pointlight.m_position.z == 0.0f){
 		FatalError::fatal_error("Your pointlight has a position of (0,0.0).  The tangent space conversion in the normal lighting shader will be dividing by 0 during the normalization function.");
 	}	
 }
 
-std::shared_ptr<SceneLight> LightResource::load(const std::string& light_name, const SceneLight& scenelight){
-	m_scenelight_cache[light_name] = std::make_shared<SceneLight>(scenelight);
-	return m_scenelight_cache[light_name];
+void LightResource::load(const SceneLight& scenelight){
+	m_scenelight_cache[scenelight.m_light_name] = std::make_unique<SceneLight>(scenelight);
 }
 
-std::shared_ptr<DirectionalLight> LightResource::get_dirlight(const std::string& light_name) {
+DirectionalLight* LightResource::get_dirlight(const std::string& light_name) {
 	if (!is_dirlight_loaded(light_name)) {
 		FatalError::fatal_error("Unable to locate directional light: " + light_name);
 	}
-	return m_dirlight_cache.at(light_name);
+	return m_dirlight_cache.at(light_name).get();
 }
 
-bool LightResource::is_dirlight_loaded(const std::string& light_name){
-	const auto it = m_dirlight_cache.find(light_name);
-	if (it == m_dirlight_cache.end()) {
-		return false;
-	}
-	return true;
+bool LightResource::is_dirlight_loaded(const std::string& light_name) const{
+	return m_dirlight_cache.count(light_name) > 0;
 }
 
-std::shared_ptr<PointLight> LightResource::get_pointlight(const std::string& light_name) {
+PointLight* LightResource::get_pointlight(const std::string& light_name) {
 	if (!is_pointlight_loaded(light_name)) {
 		FatalError::fatal_error("Unable to locate point light: " + light_name);
 	}
-	return m_pointlight_cache.at(light_name);
+	return m_pointlight_cache.at(light_name).get();
 }
 
-bool LightResource::is_pointlight_loaded(const std::string& light_name){
-	const auto it = m_pointlight_cache.find(light_name);
-	if (it == m_pointlight_cache.end()) {
-		return false;
-	}
-	return true;
+bool LightResource::is_pointlight_loaded(const std::string& light_name) const{
+	return m_pointlight_cache.count(light_name) > 0;
 }
 
-std::shared_ptr<SceneLight> LightResource::get_scenelight(const std::string& light_name){
+SceneLight* LightResource::get_scenelight(const std::string& light_name){
 	if (!is_scenelight_loaded(light_name)) {
 		FatalError::fatal_error("Unable to locate point light: " + light_name);
 	}
-	return m_scenelight_cache.at(light_name);
+	return m_scenelight_cache.at(light_name).get();
 }
 
-bool LightResource::is_scenelight_loaded(const std::string& light_name){
-	const auto it = m_scenelight_cache.find(light_name);
-	if (it == m_scenelight_cache.end()) {
-		return false;
-	}
-	return true;
+bool LightResource::is_scenelight_loaded(const std::string& light_name) const{
+	return m_scenelight_cache.count(light_name) > 0;
 }
 
 void LightResource::destroy_dirlight(const std::string& light_name){

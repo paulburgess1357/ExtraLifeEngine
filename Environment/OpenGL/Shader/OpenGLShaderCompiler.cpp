@@ -3,14 +3,13 @@
 #include "OpenGLUniformBlock.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
-#include "../../../ResourceManagement/LightResource.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader)
 	:IShaderCompiler(shader_loader){	
 }
 
-std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool set_default_lights) const{	
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
 	
 	Print::print("Compiling Shader");
 
@@ -32,14 +31,6 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool
 	// Set light uniforms to -1 (inactive)
 	shader_program->set_uniform("active_dirlight_qty", -1);
 	shader_program->set_uniform("active_pointlight_qty", -1);
-	
-	if(set_default_lights){		
-
-		// Set default scene lighting (i.e. ambient light levels)
-		const SceneLight scenelight;
-		LightResource::load("scenelight", scenelight);
-		shader_program->attach_scene_light("scenelight");
-	}
 		
 	return shader_program;		
 }
@@ -77,7 +68,7 @@ void OpenGL::OpenGLShaderCompiler::check_vertex_frament_errors(const unsigned in
 	}
 }
 
-std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_program(const unsigned vertex_shader_id, const unsigned fragment_shader_id) const{
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile_shader_program(const unsigned int vertex_shader_id, const unsigned int fragment_shader_id) const{
 
 	unsigned int shader_program_handle = glCreateProgram();
 	glAttachShader(shader_program_handle, vertex_shader_id);
@@ -112,4 +103,3 @@ void OpenGL::OpenGLShaderCompiler::check_shader_program_errors(const unsigned in
 		FatalError::fatal_error("OpenGLShaderProgram Program Failed to Link: " + error_string);
 	}
 }
-

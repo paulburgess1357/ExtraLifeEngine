@@ -16,13 +16,15 @@ void OpenGL::OpenGLCubeRenderer::render_cube(entt::registry& registry){
 	
 	registry.view<ShaderComponent, CubeComponent, TransformComponent>().each([](auto& shader, auto& cube, auto& transform) {
 
-		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
-		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
-
 		shader.m_shader_program->bind();
+		
+		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix, false);
+		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix), false);
+		
 		glBindVertexArray(cube.m_vao);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+		
 		shader.m_shader_program->unbind();
 
 	});
@@ -32,11 +34,12 @@ void OpenGL::OpenGLCubeRenderer::render_textured_cube(entt::registry& registry){
 	
 	registry.view<ShaderComponent, TexturedCubeComponent, TransformComponent>().each([](auto& shader, auto& cube, auto& transform) {
 
-		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix);
-		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix));
-
 		shader.m_shader_program->bind();
-		shader.m_shader_program->bind_textures();
+		
+		shader.m_shader_program->set_uniform("model_matrix", transform.m_model_matrix, false);
+		shader.m_shader_program->set_uniform("normal_matrix", MatrixFunctions::get_normal_matrix(transform.m_model_matrix), false);
+		
+		shader.m_shader_program->bind_textures_fast();
 		
 		glBindVertexArray(cube.m_vao);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);

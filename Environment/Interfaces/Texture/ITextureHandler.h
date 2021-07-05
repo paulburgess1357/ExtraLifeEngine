@@ -12,6 +12,7 @@ public:
 	void set_shader_program(IShaderProgram& shader_program);
 	
 	virtual void bind_textures() const = 0;
+	virtual void bind_textures_fast() const = 0;
 	virtual void unbind_textures() const = 0;
 	
 	virtual void attach_diffuse_texture(const ITexture& texture) = 0;

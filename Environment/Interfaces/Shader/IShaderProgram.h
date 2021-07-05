@@ -22,6 +22,7 @@ public:
 	virtual void attach_cubemap_texture(const ITexture& texture) = 0;
 	
 	virtual void bind_textures() const = 0;
+	virtual void bind_textures_fast() const = 0;
 	virtual void unbind_textures() const = 0;	
 
 	// Lighting

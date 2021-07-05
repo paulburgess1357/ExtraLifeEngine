@@ -22,6 +22,7 @@ namespace OpenGL{
 		void attach_cubemap_texture(const ITexture& texture) override;
 		
 		void bind_textures() const override;
+		void bind_textures_fast() const override;
 		void unbind_textures() const override;		
 
 		// Lighting

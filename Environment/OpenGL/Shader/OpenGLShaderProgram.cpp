@@ -41,6 +41,10 @@ void OpenGL::OpenGLShaderProgram::bind_textures() const {
 	m_texture_handler.bind_textures();
 }
 
+void OpenGL::OpenGLShaderProgram::bind_textures_fast() const{
+	m_texture_handler.bind_textures_fast();
+}
+
 void OpenGL::OpenGLShaderProgram::unbind_textures() const {
 	m_texture_handler.unbind_textures();
 }

@@ -1,6 +1,7 @@
 #version 330 core
 #define MAXIMUM_DIR_LIGHTS 2
 #define MAXIMUM_POINT_LIGHTS 6
+// Fragment Shader
 
 struct DiffuseMaterial {
     sampler2D m_sampler;
@@ -95,7 +96,7 @@ void main() {
     }
 
     if(result.x == 0.0f && result.y==0.0f && result.z==0.0f){
-       result = scenelight.ambient  * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords)); 
+       result = scenelight.ambient * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords)); 
     }
     
     fragment_color = vec4(result, 1.0);
@@ -118,7 +119,7 @@ vec3 calc_directional_light(DirectionalLight dirlight,
 
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
-    vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+    vec3 diffuse = scenelight.diffuse * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
 
     // Specular
     float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);

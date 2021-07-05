@@ -1,4 +1,5 @@
 #version 330 core
+// Vertex Shader
 
 layout (location = 0) in vec3 cube_position;
 

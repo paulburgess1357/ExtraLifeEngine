@@ -1,6 +1,9 @@
 #version 330 core
 #define MAXIMUM_DIR_LIGHTS 2
 #define MAXIMUM_POINT_LIGHTS 6
+// Fragment Shader
+// Requires a normal mapping material (set here in fragment)
+// Lighting conversion to tangent space is done in vertex shader
 
 struct DiffuseMaterial {
     sampler2D m_sampler;

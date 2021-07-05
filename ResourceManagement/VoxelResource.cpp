@@ -251,9 +251,8 @@ bool VoxelResource::chunk_exists(const WorldPosition& world_position) const{
 	return m_chunkmap.count(world_position);
 }
 
-void VoxelResource::destroy_all(){	
-	// Chunk destructor(s) are called (i.e. based on Graphics API)
-	Print::print("Destroying Voxels");
+void VoxelResource::destroy_all(){
+	Print::print("Destroying VoxelResource");
 	m_chunkmap.clear();
 }
 

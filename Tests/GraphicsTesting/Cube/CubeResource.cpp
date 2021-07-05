@@ -1,17 +1,27 @@
 #include "CubeResource.h"
 #include "OpenGLCubeLoader.h"
+#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 
-std::shared_ptr<ICubeLoader> CubeResource::m_cube_loader = nullptr;
+CubeResource::CubeResource()
+	:m_cube_loader{ nullptr }{
+	init_cube_cache();
+}
 
-std::unordered_map<std::string, CubeIDStruct> CubeResource::m_cube_id_cache{
-	{ "cube", { 99, 99, 99 } },
-	{ "cube_normal", { 99, 99, 99 } },
-	{ "cube_textured", { 99, 99, 99} },
-	{ "cube_normal_textured", { 99, 99, 99 } },
-	{ "cubemap", { 99, 99, 99 } } 
-};
+CubeResource::~CubeResource(){
+	destroy_all();
+}
+
+void CubeResource::init_cube_cache(){
+	m_cube_id_cache = {
+		{ "cube", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
+		{ "cube_normal", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
+		{ "cube_textured", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE} },
+		{ "cube_normal_textured", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } },
+		{ "cubemap", { OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE, OpenGL::UNINITIALIZED_CHUNK_VALUE } }
+	};
+}
 
 unsigned int CubeResource::get(const std::string& cube_name){
 
@@ -42,22 +52,12 @@ void CubeResource::load(const std::string& cube_name) {
 	}
 }
 
-bool CubeResource::is_loaded(const std::string& cube_name) {	
-
-	const auto it = m_cube_id_cache.find(cube_name);
-	if (it == m_cube_id_cache.end()) {
-		FatalError::fatal_error("No cube type: '" + cube_name + "' exists in the cube resource manager map!");
-	}
-
-	const CubeIDStruct cube = m_cube_id_cache[cube_name];
-	if (cube.m_vao_id == 99) {
-		return false;
-	}
-	return true;
+bool CubeResource::is_loaded(const std::string& cube_name) const{
+	return m_cube_id_cache.at(cube_name).m_vbo_id != OpenGL::UNINITIALIZED_CHUNK_VALUE;
 }
 
 void CubeResource::destroy_all(){
-
+	Print::print("Destroying CubeResource");
 	for(auto& cube : m_cube_id_cache){
 		if(is_loaded(cube.first)){
 			Print::print("Destroying Cube: '" + cube.first + "' VBO: " + std::to_string(cube.second.m_vbo_id) + " VAO: " + std::to_string(cube.second.m_vao_id) + " EBO: " + std::to_string(cube.second.m_ebo_id));

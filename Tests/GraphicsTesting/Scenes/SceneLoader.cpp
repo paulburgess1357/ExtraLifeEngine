@@ -18,11 +18,13 @@
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
 
 SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
-	                     TextureResource& texture_resource, LightResource& light_resource)
+	                     TextureResource& texture_resource, LightResource& light_resource,
+						 CubeResource& cube_resource)
 	:m_shader_resource{ shader_resource },
 	 m_model_resource{ model_resource },
 	 m_texture_resource{ texture_resource },
-	 m_light_resource{ light_resource }{
+	 m_light_resource{ light_resource },
+	 m_cube_resource{ cube_resource }{
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -38,12 +40,12 @@ void SceneLoader::single_cube(entt::registry& registry) {
 
 	const entt::entity cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity, shader_program);
-	registry.emplace<CubeComponent>(cube_entity, CubeResource::get("cube_normal"));
+	registry.emplace<CubeComponent>(cube_entity, m_cube_resource.get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
 
 	const entt::entity cube_entity2 = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity2, shader_program);
-	registry.emplace<CubeComponent>(cube_entity2, CubeResource::get("cube_normal"));
+	registry.emplace<CubeComponent>(cube_entity2, m_cube_resource.get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 6, 0, 0 });
 	
 }
@@ -63,7 +65,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 
 	const entt::entity textured_cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
-	registry.emplace<TexturedCubeComponent>(textured_cube_entity, CubeResource::get("cube_normal_textured"));
+	registry.emplace<TexturedCubeComponent>(textured_cube_entity, m_cube_resource.get("cube_normal_textured"));
 	registry.emplace<TransformComponent>(textured_cube_entity, glm::vec3{ 5.0f, 0.0f, 0.0f });
 	// registry.emplace<RotationComponent>(textured_cube_entity, 0.0f, -0.2f, 0.0f, 0.0f);
 }
@@ -109,7 +111,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 	
 	const entt::entity cubemap_entity = registry.create();
 	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);
-	registry.emplace<CubeMapComponent>(cubemap_entity, CubeResource::get("cubemap"));
+	registry.emplace<CubeMapComponent>(cubemap_entity, m_cube_resource.get("cubemap"));
 	
 }
 
@@ -159,8 +161,8 @@ void SceneLoader::load_scene(entt::registry& registry){
 	// TODO shader loader or some alternative for voxels?
 	voxels(registry);
 	//grid(registry);
-	//single_cube(registry);
-	//single_cube_textured(registry);
+	single_cube(registry);
+	single_cube_textured(registry);
 	single_model(registry);
 	cubemap(registry);
 }

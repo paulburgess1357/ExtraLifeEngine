@@ -64,10 +64,11 @@ void GameManager::initialize_resources(){
 	m_model_resource = std::make_unique<ModelResource>();
 	m_texture_resource = std::make_unique<TextureResource>();
 	m_light_resource = std::make_unique<LightResource>();
+	m_cube_resource = std::make_unique<CubeResource>();
 }
 
 void GameManager::initialize_scene(){
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, *m_texture_resource, *m_light_resource);
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, *m_texture_resource, *m_light_resource, *m_cube_resource);
 	m_scene_loader->load_scene(m_registry);
 }
 
@@ -114,13 +115,6 @@ void GameManager::render(){
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
-	// m_shader_resource->destroy_all(); // should be called when out of scope
-	// m_texture_resource->destroy_all(); // should be called when out of scope
-	CubeResource::destroy_all();
-	// m_light_resource->destroy_all(); // should be called when out of scope
-	// LightResource::destroy_all();
-	// m_model_resource->destroy_all(); // should be called when out of scope
-	// m_voxel_resource->destroy_all(); // should be called when out of scope
-	m_shader_uniform_block_handler->destroy();
+	m_shader_uniform_block_handler->destroy(); //TODO Update move constructor/copy constructor
 	glfwTerminate();
 }

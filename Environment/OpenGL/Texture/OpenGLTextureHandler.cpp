@@ -27,14 +27,14 @@ void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const ITexture& textur
 	const std::string texture_name = texture.get_texture_name();
 	const auto it = m_diffuse_texture_map.find(texture_name);
 	if (it == m_diffuse_texture_map.end()) {
-
+		
 		check_tex_unit();
-		const TextureShaderData texture_shader_data{ "diffuse_material.m_sampler", m_available_tex_unit, texture.get_handle() };
-		m_diffuse_texture_map[texture_name] = texture_shader_data;
-
 		check_texture_qty(m_current_diffuse);
-		// Print::print("Attaching diffuse texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
-
+		
+		const TextureShaderData texture_shader_data{ "diffuse_material.m_sampler", m_available_tex_unit, texture.get_handle() };
+		m_diffuse_texture_map[texture_name] = texture_shader_data;		
+		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, texture_shader_data.m_tex_unit, true);
+		
 		m_current_diffuse++;
 		m_available_tex_unit++;
 	}
@@ -48,12 +48,12 @@ void OpenGL::OpenGLTextureHandler::attach_normal_texture(const ITexture& texture
 	if (it == m_normal_texture_map.end()) {
 
 		check_tex_unit();
+		check_texture_qty(m_current_normal);
+		
 		const TextureShaderData texture_shader_data{ "normal_material.m_sampler", m_available_tex_unit, texture.get_handle() };
 		m_normal_texture_map[texture_name] = texture_shader_data;
-
-		check_texture_qty(m_current_normal);
-		// Print::print("Attaching normal texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
-
+		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, texture_shader_data.m_tex_unit, true);
+				
 		m_current_normal++;
 		m_available_tex_unit++;
 	}
@@ -67,12 +67,13 @@ void OpenGL::OpenGLTextureHandler::attach_specular_texture(const ITexture& textu
 	if (it == m_specular_texture_map.end()) {
 
 		check_tex_unit();
+		check_texture_qty(m_current_specular);
+		
 		const TextureShaderData texture_shader_data{ "specular_material.m_sampler", m_available_tex_unit, texture.get_handle(), shininess };
 		m_specular_texture_map[texture_name] = texture_shader_data;
 
-		check_texture_qty(m_current_specular);
-		// Print::print("Attaching specular texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));
-		// Print::print("Setting specular shininess (specular_material.m_shininess) to: " + std::to_string(shininess));		
+		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, texture_shader_data.m_tex_unit, true);
+		m_shader_program->set_uniform("specular_material.m_shininess", texture_shader_data.m_shininess, true);			
 
 		m_current_specular++;
 		m_available_tex_unit++;
@@ -87,12 +88,12 @@ void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const ITexture& textur
 	if (it == m_cubemap_texture_map.end()) {
 
 		check_tex_unit();
+		check_texture_qty(m_current_cubemap);
+		
 		const TextureShaderData texture_shader_data{ "cubemap", m_available_tex_unit, texture.get_handle() };
 		m_cubemap_texture_map[texture_name] = texture_shader_data;
-
-		check_texture_qty(m_current_cubemap);
-		// Print::print("Attaching cubemap texture '" + texture_name + "' (" + texture_shader_data.m_texture_name_in_shader + ") to shader handle: " + std::to_string(m_shader_program->get_handle()));		
-
+		m_shader_program->set_uniform(texture_shader_data.m_texture_name_in_shader, texture_shader_data.m_tex_unit, true);
+				
 		m_current_cubemap++;
 		m_available_tex_unit++;
 	}
@@ -131,7 +132,6 @@ void OpenGL::OpenGLTextureHandler::bind_diffuse_textures() const{
 void OpenGL::OpenGLTextureHandler::bind_diffuse_textures_fast() const{
 	// No shader bind calls (meant for bind_textures_fast only)
 	for (const auto& texture : m_diffuse_texture_map) {
-		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
 		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
 	}
@@ -156,8 +156,6 @@ void OpenGL::OpenGLTextureHandler::bind_specular_textures() const{
 void OpenGL::OpenGLTextureHandler::bind_specular_textures_fast() const{
 	// No shader bind calls (meant for bind_textures_fast only)
 	for (const auto& texture : m_specular_texture_map) {
-		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
-		m_shader_program->set_uniform("specular_material.m_shininess", texture.second.m_shininess, false);
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
 		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
 	}
@@ -181,7 +179,6 @@ void OpenGL::OpenGLTextureHandler::bind_normal_textures() const{
 void OpenGL::OpenGLTextureHandler::bind_normal_textures_fast() const{
 	// No shader bind calls (meant for bind_textures_fast only)
 	for (const auto& texture : m_normal_texture_map) {
-		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
 		glBindTexture(GL_TEXTURE_2D, texture.second.m_tex_handle);
 	}
@@ -202,7 +199,6 @@ void OpenGL::OpenGLTextureHandler::bind_cubemap_textures() const{
 void OpenGL::OpenGLTextureHandler::bind_cubemap_textures_fast() const{
 	// No shader bind calls (meant for bind_textures_fast only)
 	for (const auto& texture : m_cubemap_texture_map) {
-		m_shader_program->set_uniform(texture.second.m_texture_name_in_shader, texture.second.m_tex_unit, false);
 		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, texture.second.m_tex_handle);
 	}

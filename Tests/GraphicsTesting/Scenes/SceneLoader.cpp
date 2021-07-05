@@ -83,7 +83,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("backpack"));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.005f, 0.0f, 0.0f);
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.005f, 0.0f, 0.0f);
 	// registry.emplace<ScaleComponent>(model_entity, 5.0f);
 }
 

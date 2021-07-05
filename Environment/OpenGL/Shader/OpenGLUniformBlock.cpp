@@ -1,12 +1,9 @@
 #include "OpenGLUniformBlock.h"
 #include "../../Utility/Print.h"
 #include "../../Matrix/ProjectionMatrix.h"
+#include "../../../ResourceManagement/OpenGL/OpenGLConstants.h"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
-
-OpenGL::OpenGLUniformBlock::~OpenGLUniformBlock(){
-	// destroy();
-}
 
 void OpenGL::OpenGLUniformBlock::link_projection_view_block_to_shader(IShaderProgram& shader_program) {
 
@@ -30,7 +27,7 @@ void OpenGL::OpenGLUniformBlock::create_projection_view_block(){
 	// 'link_projection_view_block_to_shader' function.  Note that the shader must have the
 	// uniform buffer object defined in the shader as well.
 
-	if (m_ubo_matrices_handle == 99) {
+	if (m_ubo_matrices_handle == OpenGL::UNINITIALIZED_CHUNK_VALUE) {
 
 		Print::print("Allocating Projection View Uniform Memory");
 		
@@ -79,7 +76,7 @@ void OpenGL::OpenGLUniformBlock::link_camera_position_block_to_shader(IShaderPro
 
 void OpenGL::OpenGLUniformBlock::create_camera_position_block(){
 
-	if(m_ubo_camera_handle == 99){
+	if(m_ubo_camera_handle == OpenGL::UNINITIALIZED_CHUNK_VALUE){
 
 		Print::print("Allocating Camera Position Uniform Memory");
 		

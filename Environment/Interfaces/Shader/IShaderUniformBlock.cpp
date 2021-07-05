@@ -2,9 +2,10 @@
 #include "../../Utility/FatalError.h"
 #include "../../Neutral/API/GraphicsAPI.h"
 #include "../../OpenGL/Shader/OpenGLUniformBlock.h"
+#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
 
-unsigned int IShaderUniformBlock::m_ubo_matrices_handle = 99;
-unsigned int IShaderUniformBlock::m_ubo_camera_handle = 99;
+unsigned int IShaderUniformBlock::m_ubo_matrices_handle = OpenGL::UNINITIALIZED_CHUNK_VALUE;
+unsigned int IShaderUniformBlock::m_ubo_camera_handle = OpenGL::UNINITIALIZED_CHUNK_VALUE;
 
 void IShaderUniformBlock::check_projection_view_block_created() const {
 	if (m_ubo_matrices_handle == 99) {

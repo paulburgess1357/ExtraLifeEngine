@@ -115,6 +115,6 @@ void GameManager::render(){
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
-	m_shader_uniform_block_handler->destroy(); //TODO Update move constructor/copy constructor
+	m_shader_uniform_block_handler->destroy();
 	glfwTerminate();
 }

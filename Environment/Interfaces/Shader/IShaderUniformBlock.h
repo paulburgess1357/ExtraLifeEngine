@@ -6,6 +6,7 @@
 class IShaderUniformBlock{
 	
 public:
+	
 	virtual ~IShaderUniformBlock() = default;
 
 	virtual void create_projection_view_block() = 0;

@@ -8,7 +8,7 @@ OpenGL::OpenGLTexture::OpenGLTexture(const unsigned handle, std::string texture_
 }
 
 void OpenGL::OpenGLTexture::destroy() const{
-	Print::print("    - Destroying Texture Handle: " + std::to_string(m_handle) + "; Texture Name: " + m_texture_name);
+	// Print::print("    - Destroying Texture Handle: " + std::to_string(m_handle) + "; Texture Name: " + m_texture_name);
 	glDeleteTextures(1, &m_handle);
 }
 

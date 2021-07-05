@@ -51,6 +51,7 @@ private:
 	std::unique_ptr<ModelResource> m_model_resource = nullptr;
 	std::unique_ptr<TextureResource> m_texture_resource = nullptr;
 	std::unique_ptr<LightResource> m_light_resource = nullptr;
+	std::unique_ptr<CubeResource> m_cube_resource = nullptr;
 
 	std::unique_ptr<SceneLoader> m_scene_loader = nullptr;
 	

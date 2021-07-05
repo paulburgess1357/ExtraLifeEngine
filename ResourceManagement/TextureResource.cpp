@@ -54,8 +54,9 @@ void TextureResource::destroy(const std::string& texture_name){
 }
 
 void TextureResource::destroy_all(){
+	Print::print("Destroying TextureResource");
 	for (auto& texture : m_texture_cache) {
-		Print::print("Destroying Texture: " + texture.first);
+		Print::print("        - Destroying Texture: " + texture.first);
 		texture.second->destroy();
 	}
 	m_texture_cache.clear();

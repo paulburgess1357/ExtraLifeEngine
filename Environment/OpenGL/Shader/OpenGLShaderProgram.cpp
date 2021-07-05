@@ -17,7 +17,7 @@ void OpenGL::OpenGLShaderProgram::unbind() const{
 }
 
 void OpenGL::OpenGLShaderProgram::destroy() const {
-	Print::print("Destroying Shader Program: (Handle: " + std::to_string(m_handle) + ")");
+	// Print::print("Destroying Shader Program: (Handle: " + std::to_string(m_handle) + ")");
 	glDeleteProgram(m_handle);
 }
 

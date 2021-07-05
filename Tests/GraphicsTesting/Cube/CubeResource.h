@@ -7,15 +7,16 @@
 class CubeResource {
 
 public:
-	static unsigned int get(const std::string& cube_name);
-	static void destroy_all();
+	CubeResource();
+	~CubeResource();
+	unsigned int get(const std::string& cube_name);
+	void destroy_all();
 
-private:
-	CubeResource() = default;
+private:	
+	void init_cube_cache();
+	void load(const std::string& cube_name);
+	bool is_loaded(const std::string& cube_name) const;	
 
-	static void load(const std::string& cube_name);
-	static bool is_loaded(const std::string& cube_name);	
-
-	static std::unordered_map<std::string, CubeIDStruct> m_cube_id_cache;
-	static std::shared_ptr<ICubeLoader> m_cube_loader;	
+	std::unordered_map<std::string, CubeIDStruct> m_cube_id_cache;
+	std::shared_ptr<ICubeLoader> m_cube_loader;	
 };

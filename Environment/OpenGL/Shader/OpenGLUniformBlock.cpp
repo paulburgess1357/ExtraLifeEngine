@@ -4,6 +4,10 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+OpenGL::OpenGLUniformBlock::~OpenGLUniformBlock(){
+	// destroy();
+}
+
 void OpenGL::OpenGLUniformBlock::link_projection_view_block_to_shader(IShaderProgram& shader_program) {
 
 	// Links a single shader to the uniform matrix data block (binding point 0)

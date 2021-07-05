@@ -65,8 +65,9 @@ void ModelResource::destroy(const std::string& model_name){
 }
 
 void ModelResource::destroy_all(){
+	Print::print("Destroying ModelResource");
 	for(auto& model : m_model_cache){
-		Print::print("Destroying Model: " + model.first);
+		Print::print("        - Destroying Model: " + model.first);
 		model.second->destroy();
 		model.second->destroy_mesh_vector();
 	}

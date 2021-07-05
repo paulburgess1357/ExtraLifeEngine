@@ -43,8 +43,9 @@ void ShaderResource::destroy(const std::string& shader_name){
 }
 
 void ShaderResource::destroy_all(){
+	Print::print("Destroying ShaderResource");
 	for(auto& shader : m_shader_cache){
-		Print::print("Destroying Shader: " + shader.first);
+		Print::print("        - Destroying Shader: " + shader.first);
 		shader.second->destroy();
 	}
 	m_shader_cache.clear();

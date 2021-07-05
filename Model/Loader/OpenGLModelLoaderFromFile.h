@@ -1,5 +1,6 @@
 #pragma once
 #include "../Mesh/OpenGLMesh.h"
+#include "../../ResourceManagement/TextureResource.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -10,7 +11,7 @@ namespace OpenGL{
 	class OpenGLModelLoaderFromFile {
 
 	public:
-		OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, const bool assimp_flip_uvs);
+		OpenGLModelLoaderFromFile(const std::string& path, IShaderProgram& shader_program, TextureResource& texture_resource, const bool assimp_flip_uvs);
 		std::vector<OpenGLMesh> load();
 		
 	private:		
@@ -22,6 +23,7 @@ namespace OpenGL{
 		std::string m_directory;
 		std::vector<OpenGLMesh> m_mesh_vector;
 		IShaderProgram& m_shader_program;
+		TextureResource& m_texture_resource;
 	};
 	
 } // namespace OpenGL

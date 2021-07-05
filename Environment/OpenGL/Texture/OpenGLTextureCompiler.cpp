@@ -4,22 +4,15 @@
 #include "../../Utility/FatalError.h"
 #include "../../Utility/SBTIUtilities.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
+#include "../../ResourceManagement/OpenGL/OpenGLConstants.h"
 
 OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
-	:ITextureCompiler{ texture_loader }{	
+	:ITextureCompiler{ texture_loader }{
 }
 
-std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
+std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
 
-	Print::print("Compiling Texture");	
-	std::shared_ptr<ITexture> texture = compile_texture();	
-
-	return texture;	
-}
-
-std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile_texture() const{
-
-	unsigned int texture_handle{ 99 };
+	unsigned int texture_handle{ OpenGL::UNINITIALIZED_CHUNK_VALUE };
 
 	// Store w/ OpenGL & bind
 	glGenTextures(1, &texture_handle);
@@ -28,13 +21,13 @@ std::shared_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile_texture() const
 	set_texture_parameters();
 	generate_texture();
 	generate_mipmaps();
-	
+
 	// Unbind	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// Place handle in OpenGL texture class
 	Print::print("Texture Handle: " + std::to_string(texture_handle));
-	std::shared_ptr<ITexture> texture = std::make_shared<OpenGL::OpenGLTexture>(texture_handle);
+	std::unique_ptr<ITexture> texture = std::make_unique<OpenGL::OpenGLTexture>(texture_handle, m_texture_loading_data.m_texture_name);
 	return texture;
 }
 

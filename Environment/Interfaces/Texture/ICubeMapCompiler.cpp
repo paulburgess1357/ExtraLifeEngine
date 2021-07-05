@@ -19,7 +19,6 @@ void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string,
 	
 }
 
-
 std::shared_ptr<ICubeMapCompiler> ICubeMapCompiler::create_compiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders) {
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {

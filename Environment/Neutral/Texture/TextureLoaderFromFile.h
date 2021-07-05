@@ -8,7 +8,7 @@
 class TextureLoaderFromFile : public ITextureLoader {
 	
 public:
-	TextureLoaderFromFile(const std::string& texture_path, const bool flip_texture);
+	TextureLoaderFromFile(std::string texture_name, std::string texture_path, const bool flip_texture);
 	[[nodiscard]] TextureLoadingData load() override;
 	[[nodiscard]] std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> create_cubemap_loader() override;
 		

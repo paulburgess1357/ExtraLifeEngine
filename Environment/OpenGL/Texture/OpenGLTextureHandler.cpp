@@ -1,7 +1,6 @@
 #include "OpenGLTextureHandler.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
-#include "../../ResourceManagement/TextureResource.h"
 #include "../../Environment/OpenGL/Shader/OpenGLShaderProgram.h"
 #include <glad/glad.h>
 
@@ -15,7 +14,7 @@ OpenGL::OpenGLTextureHandler::OpenGLTextureHandler()
 }
 
 OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(IShaderProgram& shader_program)
-	:ITextureHandler{shader_program},
+	:ITextureHandler{ shader_program },
 	 m_available_tex_unit{ 0 },
 	 m_current_diffuse{ 0 },
 	 m_current_specular{ 0 },
@@ -23,16 +22,14 @@ OpenGL::OpenGLTextureHandler::OpenGLTextureHandler(IShaderProgram& shader_progra
 	 m_current_cubemap{ 0 }{
 }
 
+void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const ITexture& texture) {
 
-void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const std::string& texture_name){
-
+	const std::string texture_name = texture.get_texture_name();
 	const auto it = m_diffuse_texture_map.find(texture_name);
 	if (it == m_diffuse_texture_map.end()) {
 
 		check_tex_unit();
-		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-
-		const TextureShaderData texture_shader_data{ "diffuse_material.m_sampler", m_available_tex_unit, texture->get_handle() };
+		const TextureShaderData texture_shader_data{ "diffuse_material.m_sampler", m_available_tex_unit, texture.get_handle() };
 		m_diffuse_texture_map[texture_name] = texture_shader_data;
 
 		check_texture_qty(m_current_diffuse);
@@ -44,15 +41,14 @@ void OpenGL::OpenGLTextureHandler::attach_diffuse_texture(const std::string& tex
 	
 }
 
-void OpenGL::OpenGLTextureHandler::attach_normal_texture(const std::string& texture_name) {
+void OpenGL::OpenGLTextureHandler::attach_normal_texture(const ITexture& texture) {
 
+	const std::string texture_name = texture.get_texture_name();
 	const auto it = m_normal_texture_map.find(texture_name);
 	if (it == m_normal_texture_map.end()) {
 
 		check_tex_unit();
-		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-
-		const TextureShaderData texture_shader_data{ "normal_material.m_sampler", m_available_tex_unit, texture->get_handle() };
+		const TextureShaderData texture_shader_data{ "normal_material.m_sampler", m_available_tex_unit, texture.get_handle() };
 		m_normal_texture_map[texture_name] = texture_shader_data;
 
 		check_texture_qty(m_current_normal);
@@ -64,15 +60,14 @@ void OpenGL::OpenGLTextureHandler::attach_normal_texture(const std::string& text
 
 }
 
-void OpenGL::OpenGLTextureHandler::attach_specular_texture(const std::string& texture_name, const float shininess){
+void OpenGL::OpenGLTextureHandler::attach_specular_texture(const ITexture& texture, const float shininess){
 
+	const std::string texture_name = texture.get_texture_name();
 	const auto it = m_specular_texture_map.find(texture_name);
 	if (it == m_specular_texture_map.end()) {
 
 		check_tex_unit();
-		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-
-		const TextureShaderData texture_shader_data{ "specular_material.m_sampler", m_available_tex_unit, texture->get_handle(), shininess };
+		const TextureShaderData texture_shader_data{ "specular_material.m_sampler", m_available_tex_unit, texture.get_handle(), shininess };
 		m_specular_texture_map[texture_name] = texture_shader_data;
 
 		check_texture_qty(m_current_specular);
@@ -85,15 +80,14 @@ void OpenGL::OpenGLTextureHandler::attach_specular_texture(const std::string& te
 	
 }
 
-void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const std::string& texture_name){
+void OpenGL::OpenGLTextureHandler::attach_cubemap_texture(const ITexture& texture){
 
+	const std::string texture_name = texture.get_texture_name();
 	const auto it = m_cubemap_texture_map.find(texture_name);
 	if (it == m_cubemap_texture_map.end()) {
 
 		check_tex_unit();
-		const std::shared_ptr<ITexture> texture = TextureResource::get(texture_name);
-
-		const TextureShaderData texture_shader_data{ "cubemap", m_available_tex_unit, texture->get_handle() };
+		const TextureShaderData texture_shader_data{ "cubemap", m_available_tex_unit, texture.get_handle() };
 		m_cubemap_texture_map[texture_name] = texture_shader_data;
 
 		check_texture_qty(m_current_cubemap);

@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Environment/Interfaces/Texture/ITexture.h"
 #include <string>
 #include <unordered_map>
 #include <glm/glm.hpp>
@@ -15,10 +16,10 @@ public:
 	[[nodiscard]] unsigned int get_handle() const;
 	
 	// Texture handling (per shader)		
-	virtual void attach_diffuse_texture(const std::string& texture_name) = 0;
-	virtual void attach_normal_texture(const std::string& texture_name) = 0;
-	virtual void attach_specular_texture(const std::string& texture_name, const float shininess) = 0;
-	virtual void attach_cubemap_texture(const std::string& texture_name) = 0;
+	virtual void attach_diffuse_texture(const ITexture& texture) = 0;
+	virtual void attach_normal_texture(const ITexture& texture) = 0;
+	virtual void attach_specular_texture(const ITexture& texture, const float shininess) = 0;
+	virtual void attach_cubemap_texture(const ITexture& texture) = 0;
 	
 	virtual void bind_textures() const = 0;
 	virtual void unbind_textures() const = 0;	

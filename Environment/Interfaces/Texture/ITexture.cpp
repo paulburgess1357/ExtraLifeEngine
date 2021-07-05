@@ -1,9 +1,14 @@
 #include "ITexture.h"
 
-ITexture::ITexture(const unsigned int handle)
-	:m_handle{ handle } {
+ITexture::ITexture(const unsigned int handle, std::string texture_name)
+	:m_handle{ handle },
+	m_texture_name{ std::move(texture_name) }{
 }
 
-[[nodiscard]] unsigned int ITexture::get_handle() const{
+unsigned int ITexture::get_handle() const{
 	return m_handle;
+}
+
+std::string ITexture::get_texture_name() const{
+	return m_texture_name;
 }

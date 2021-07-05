@@ -12,9 +12,10 @@
 	// Standard (diffuse & specular components): Assets/shaders/vertex/cube_textured.glsl; Assets/shaders/fragment/cube_textured.glsl
 	// No Specular: : Assets/shaders/vertex/cube_textured_no_specular.glsl; Assets/shaders/fragment/cube_textured_no_specular.glsl
 
-SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource)
+SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, TextureResource& texture_resource)
 	:m_shader_resource{ shader_resource },
-	 m_model_resource{ model_resource }{
+	 m_model_resource{ model_resource },
+	 m_texture_resource{ texture_resource }{
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -44,11 +45,11 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	m_shader_resource.load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube_textured");
 	
-	TextureResource::load("colorful_squares", "Assets/textures/colorful_squares.jpg");
-	//TextureResource::load("transparent_specular", "Assets/textures/transparent_specular.png");
+	m_texture_resource.load("colorful_squares", "Assets/textures/colorful_squares.jpg");
+	//m_texture_resource.load("transparent_specular", "Assets/textures/transparent_specular.png");
 
 	attach_basic_lighting(*shader_program);
-	shader_program->attach_diffuse_texture("colorful_squares");
+	shader_program->attach_diffuse_texture(*m_texture_resource.get("colorful_squares"));
 	//shader_program->attach_specular_texture("transparent_specular", 32.0f);
 
 	const entt::entity textured_cube_entity = registry.create();
@@ -61,7 +62,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 void SceneLoader::grid(entt::registry& registry){
 	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");	
-	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, false);
+	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, m_texture_resource, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
@@ -75,7 +76,7 @@ void SceneLoader::single_model(entt::registry& registry){
 	m_shader_resource.load("model_shader", "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("model_shader");
 	
-	m_model_resource.load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, false);
+	m_model_resource.load("backpack", "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
 	attach_basic_lighting(*shader_program);
 
 	const entt::entity model_entity = registry.create();
@@ -90,8 +91,9 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);
 	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
-	TextureResource::load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
-	shader_program->attach_cubemap_texture("blue_night");
+
+	m_texture_resource.load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
+	shader_program->attach_cubemap_texture(*m_texture_resource.get("blue_night"));
 	
 	const entt::entity cubemap_entity = registry.create();
 	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);

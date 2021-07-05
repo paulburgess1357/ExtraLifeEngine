@@ -21,20 +21,20 @@ void OpenGL::OpenGLShaderProgram::destroy() const {
 	glDeleteProgram(m_handle);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_diffuse_texture(const std::string& texture_name) {
-	m_texture_handler.attach_diffuse_texture(texture_name);
+void OpenGL::OpenGLShaderProgram::attach_diffuse_texture(const ITexture& texture) {
+	m_texture_handler.attach_diffuse_texture(texture);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_normal_texture(const std::string& texture_name) {
-	m_texture_handler.attach_normal_texture(texture_name);
+void OpenGL::OpenGLShaderProgram::attach_normal_texture(const ITexture& texture) {
+	m_texture_handler.attach_normal_texture(texture);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_specular_texture(const std::string& texture_name, const float shininess) {
-	m_texture_handler.attach_specular_texture(texture_name, shininess);
+void OpenGL::OpenGLShaderProgram::attach_specular_texture(const ITexture& texture, const float shininess) {
+	m_texture_handler.attach_specular_texture(texture, shininess);
 }
 
-void OpenGL::OpenGLShaderProgram::attach_cubemap_texture(const std::string& texture_name){
-	m_texture_handler.attach_cubemap_texture(texture_name);
+void OpenGL::OpenGLShaderProgram::attach_cubemap_texture(const ITexture& texture){
+	m_texture_handler.attach_cubemap_texture(texture);
 }
 
 void OpenGL::OpenGLShaderProgram::bind_textures() const {

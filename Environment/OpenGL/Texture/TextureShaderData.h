@@ -29,7 +29,7 @@ struct TextureShaderData {
 	}
 	
 	std::string m_texture_name_in_shader;
-	unsigned int m_tex_unit { 99 };
-	unsigned int m_tex_handle{ 99 };
+	unsigned int m_tex_unit { 999999 };
+	unsigned int m_tex_handle{ 999999 };
 	float m_shininess{ 16.0f };
 };

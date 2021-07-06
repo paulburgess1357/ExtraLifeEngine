@@ -5,10 +5,9 @@
 
 MouseHandler::MouseHandler(Camera& camera)
 	:m_camera{ camera },
-	m_left_button_command(std::make_shared<NullCommand>()),
-	m_right_button_command(std::make_shared<NullCommand>()),
-	m_mouse_enabled{ false }{
-	
+	 m_left_button_command(std::make_unique<NullCommand>()),
+	 m_right_button_command(std::make_unique<NullCommand>()),
+	 m_mouse_enabled{ false }{
 }
 
 void MouseHandler::handle_input() const{
@@ -33,12 +32,12 @@ void MouseHandler::handle_camera_movement(Camera& camera) {
 	camera.rotate(MouseManager::get_coords());
 }
 
-void MouseHandler::set_left_button(const std::shared_ptr<ICommand>& command){
-	m_left_button_command = command;
+void MouseHandler::set_left_button(std::unique_ptr<ICommand> command){
+	m_left_button_command = std::move(command);
 }
 
-void MouseHandler::set_right_button(const std::shared_ptr<ICommand>& command){
-	m_right_button_command = command;
+void MouseHandler::set_right_button(std::unique_ptr<ICommand> command){
+	m_right_button_command = std::move(command);
 }
 
 void MouseHandler::set_mouse_enabled(const bool mouse_enabled){	

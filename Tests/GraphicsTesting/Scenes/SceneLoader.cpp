@@ -92,9 +92,9 @@ void SceneLoader::models(entt::registry& registry){
 	// load_mech(registry);
 	// load_vivi()
 	// load_spartan(registry);
-	load_backpack(registry);
+	// load_backpack(registry);
 	// load_troll(registry);
-	// load_podracer(registry);
+	load_podracer(registry);
 	
 }
 
@@ -216,7 +216,7 @@ void SceneLoader::voxels(entt::registry& registry){
 
 void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
 	DirectionalLight dirlight{"dirlight"};
-	dirlight.m_direction = glm::vec3(1.0f, 0.0f, 0.0f);	
+	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);	
 	m_light_resource.load(dirlight);
 	shader_program.attach_directional_light(dirlight);
 
@@ -228,8 +228,8 @@ void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
 
 void SceneLoader::attach_scene_light(IShaderProgram& shader_program){
 	SceneLight scenelight{ "scenelight" };
-	scenelight.m_ambient = glm::vec3(0.8f); // 0.6
-	scenelight.m_diffuse = glm::vec3(0.9f); // 0.5
+	scenelight.m_ambient = glm::vec3(0.6f); // 0.6
+	scenelight.m_diffuse = glm::vec3(0.5f); // 0.5
 	scenelight.m_specular = glm::vec3(1.0f); // 1.0
 	m_light_resource.load(scenelight);
 	shader_program.attach_scene_light(scenelight);

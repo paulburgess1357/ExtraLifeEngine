@@ -5,7 +5,7 @@
 #include "../Utility/FatalError.h"
 #include <glad/glad.h>
 
-std::shared_ptr<ImGuiNS::InterfaceCameraData> ImGuiNS::ImGuiInterface::m_interface_camera_data = nullptr;
+std::unique_ptr<ImGuiNS::InterfaceCameraData> ImGuiNS::ImGuiInterface::m_interface_camera_data = nullptr;
 bool ImGuiNS::ImGuiInterface::m_display_interface = false;
 
 void ImGuiNS::ImGuiInterface::initialize_window(IWindow& window){
@@ -24,7 +24,7 @@ void ImGuiNS::ImGuiInterface::initialize_window(IWindow& window){
 }
 
 void ImGuiNS::ImGuiInterface::initialize_camera_data(Camera& camera){
-    m_interface_camera_data = std::make_shared<InterfaceCameraData>(camera);
+    m_interface_camera_data = std::make_unique<InterfaceCameraData>(camera);
 }
 
 void ImGuiNS::ImGuiInterface::update() {

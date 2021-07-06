@@ -3,7 +3,7 @@
 OpenGL::OpenGLModel::OpenGLModel(OpenGLModelLoaderFromFile& model_loader){
 
 	for(const auto& mesh : model_loader.load()){
-		m_mesh_vector.push_back(std::make_shared<OpenGLMesh>(mesh));
+		m_mesh_vector.push_back(std::make_unique<OpenGLMesh>(mesh));
 	}
 	
 }

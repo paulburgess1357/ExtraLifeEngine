@@ -10,8 +10,8 @@ public:
 	virtual ~IModel() = default;	
 	virtual void destroy() = 0;
 	void destroy_mesh_vector();
-	[[nodiscard]] const std::vector<std::shared_ptr<IMesh>>& get_mesh_vector() const;
+	[[nodiscard]] const std::vector<std::unique_ptr<IMesh>>& get_mesh_vector() const;
 
 protected:
-	std::vector<std::shared_ptr<IMesh>> m_mesh_vector;
+	std::vector<std::unique_ptr<IMesh>> m_mesh_vector;
 };

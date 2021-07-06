@@ -53,13 +53,12 @@ private:
 	std::unique_ptr<LightResource> m_light_resource = nullptr;
 	std::unique_ptr<CubeResource> m_cube_resource = nullptr;
 
-	std::unique_ptr<SceneLoader> m_scene_loader = nullptr;
-	
+	std::unique_ptr<SceneLoader> m_scene_loader = nullptr;	
 	std::unique_ptr<WorldPositionsInRangeUpdater> m_world_positions_in_range_updater = nullptr;
 	std::unique_ptr<VoxelLoader> m_voxel_loader = nullptr;
-	std::unique_ptr<IVoxelUpdater> m_voxel_updater = nullptr;
-	
+	std::unique_ptr<IVoxelUpdater> m_voxel_updater = nullptr;	
     std::unique_ptr<IShaderUniformBlock> m_shader_uniform_block_handler = nullptr;	
+
 	std::unique_ptr<ICubeRenderer> m_cube_renderer = nullptr;	
 	std::unique_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::unique_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;

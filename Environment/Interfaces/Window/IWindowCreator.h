@@ -7,8 +7,8 @@ class IWindowCreator {
 public:
 	IWindowCreator();
 	virtual ~IWindowCreator() = default;
-	[[nodiscard]] virtual std::shared_ptr<IWindow> create_glfw_window() = 0;
-	[[nodiscard]] static std::shared_ptr<IWindow> create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable);
+	[[nodiscard]] virtual std::unique_ptr<IWindow> create_glfw_window() = 0;
+	[[nodiscard]] static std::unique_ptr<IWindow> create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable);
 
 protected:
 	static void init_glfw();

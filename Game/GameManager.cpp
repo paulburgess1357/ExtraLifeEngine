@@ -43,7 +43,7 @@ void GameManager::initialize_imgui(){
 }
 
 void GameManager::initialize_uniform_block_handler(){
-	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block(*m_projection_matrix);
+	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block(m_projection_matrix.get());
 }
 
 void GameManager::initialize_controls() {

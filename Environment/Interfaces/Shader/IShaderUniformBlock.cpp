@@ -7,7 +7,11 @@
 unsigned int IShaderUniformBlock::m_ubo_matrices_handle = GraphicsConstants::UNINITIALIZED_VALUE;
 unsigned int IShaderUniformBlock::m_ubo_camera_handle = GraphicsConstants::UNINITIALIZED_VALUE;
 
-IShaderUniformBlock::IShaderUniformBlock(ProjectionMatrix& projection_matrix)
+IShaderUniformBlock::IShaderUniformBlock()
+	:m_projection_matrix{ nullptr }{	
+}
+
+IShaderUniformBlock::IShaderUniformBlock(ProjectionMatrix* projection_matrix)
 	:m_projection_matrix{ projection_matrix }{	
 }
 
@@ -23,7 +27,7 @@ void IShaderUniformBlock::check_camera_position_block_created() const{
 	}
 }
 
-std::unique_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(ProjectionMatrix& projection_matrix){
+std::unique_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(ProjectionMatrix* projection_matrix){
 
 	std::unique_ptr<IShaderUniformBlock> uniform_block{ nullptr };
 	

@@ -43,20 +43,17 @@ void IWindowCreator::init_vsync() {
 	// glfwSwapInterval(true);
 }
 
-std::shared_ptr<IWindow> IWindowCreator::create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable) {
+std::unique_ptr<IWindow> IWindowCreator::create_window(const int width, const int height, const bool mouse_enabled, const bool is_resizeable) {
 
-	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		std::unique_ptr<IWindowCreator> window_creator = std::make_unique<OpenGL::OpenGLWindowCreator>(width, height, mouse_enabled, is_resizeable);
-		return window_creator->create_glfw_window();
-	}
-
-	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
+	std::unique_ptr<IWindowCreator> window_creator = nullptr;
+	
+	if(GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
+		window_creator  = std::make_unique<OpenGL::OpenGLWindowCreator>(width, height, mouse_enabled, is_resizeable);
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan window creation method does not exist!");
-		std::shared_ptr<IWindow> window_creator = nullptr;
-		return window_creator;
+	} else{
+		FatalError::fatal_error("Unknown Graphics API Type.  Cannot return window.");
 	}
-
-	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return window.");
-	std::shared_ptr<IWindow> window_creator = nullptr;
-	return window_creator;
+	
+	return window_creator->create_glfw_window();
 }

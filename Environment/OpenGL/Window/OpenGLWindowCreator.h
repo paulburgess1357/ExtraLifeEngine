@@ -10,7 +10,7 @@ namespace OpenGL {
 		OpenGLWindowCreator(const int width, const int height, const bool mouse_enabled, const bool is_resizeable);
 		~OpenGLWindowCreator() = default;
 
-		[[nodiscard]] std::shared_ptr<IWindow> create_glfw_window() override;
+		[[nodiscard]] std::unique_ptr<IWindow> create_glfw_window() override;
 
 	private:
 		void init_glfw_hints() const;
@@ -21,8 +21,6 @@ namespace OpenGL {
 		int m_height;
 		bool m_is_resizeable;
 		bool m_mouse_enabled;
-		static std::shared_ptr<IWindow> m_opengl_window;
-
 	};
 
 } // namespace OpenGL

@@ -5,7 +5,11 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-OpenGL::OpenGLUniformBlock::OpenGLUniformBlock(ProjectionMatrix& projection_matrix)
+OpenGL::OpenGLUniformBlock::OpenGLUniformBlock()
+	:IShaderUniformBlock{ nullptr }{	
+}
+
+OpenGL::OpenGLUniformBlock::OpenGLUniformBlock(ProjectionMatrix* projection_matrix)
 	:IShaderUniformBlock{ projection_matrix }{	
 }
 
@@ -58,7 +62,7 @@ void OpenGL::OpenGLUniformBlock::create_projection_view_block(){
 void OpenGL::OpenGLUniformBlock::set_projection_view_block_matrix_values(Camera& camera) const{
 
 	glBindBuffer(GL_UNIFORM_BUFFER, m_ubo_matrices_handle);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(m_projection_matrix.get_projection_matrix()));
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(m_projection_matrix->get_projection_matrix()));
 	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera.get_view_matrix()));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	

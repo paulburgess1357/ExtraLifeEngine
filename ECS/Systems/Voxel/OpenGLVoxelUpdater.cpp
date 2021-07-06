@@ -1,6 +1,5 @@
 #include "OpenGLVoxelUpdater.h"
 #include "../../World/WorldPositionsInRangeUpdater.h"
-#include "../../ECS/Components/Voxel/ChunkComponent.h"
 #include "../../ResourceManagement/VoxelResource.h"
 #include <glad/glad.h>
 

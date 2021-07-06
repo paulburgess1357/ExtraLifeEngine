@@ -629,9 +629,6 @@
     <ClInclude Include="ECS\Systems\Render\Interfaces\IncludeRenderers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\Systems\Voxel\IVoxelUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -18,5 +18,5 @@ private:
 	bool is_loaded(const std::string& cube_name) const;	
 
 	std::unordered_map<std::string, CubeIDStruct> m_cube_id_cache;
-	std::shared_ptr<ICubeLoader> m_cube_loader;	
+	std::unique_ptr<ICubeLoader> m_cube_loader;	
 };

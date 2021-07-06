@@ -10,7 +10,7 @@ TextureLoaderFromFile::TextureLoaderFromFile(std::string texture_name, std::stri
 	 m_flip_texture{ flip_texture }{	
 }
 
-TextureLoadingData TextureLoaderFromFile::load() {
+TextureLoadingData TextureLoaderFromFile::load() const {
 	
 	TextureLoadingData texture_loading_data;
 
@@ -28,16 +28,16 @@ void TextureLoaderFromFile::check_image_data(void* image_data) const{
 	}
 }
 
-std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loader(){
+std::unordered_map<std::string, std::unique_ptr<ITextureLoader>> TextureLoaderFromFile::create_cubemap_loader(){
 	
 	std::vector<std::string> filenames = FileHandler::list_directory_filenames(m_texture_path);	
 	const std::string extension = StringUtil::FilePath::get_extension(filenames.at(0));
 	
 	std::vector<std::string> expected_filenames{ "right", "left", "top", "bottom", "front", "back" };
-	std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> texture_loaders;
+	std::unordered_map<std::string, std::unique_ptr<ITextureLoader>> texture_loaders;
 
 	for (const auto& expected_filename : expected_filenames) {
-		texture_loaders[expected_filename] = std::make_shared<TextureLoaderFromFile>(expected_filename, m_texture_path + "/" + expected_filename + "." + extension, m_flip_texture);
+		texture_loaders[expected_filename] = std::make_unique<TextureLoaderFromFile>(expected_filename, m_texture_path + "/" + expected_filename + "." + extension, m_flip_texture);
 	}
 
 	return texture_loaders;

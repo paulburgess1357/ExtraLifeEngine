@@ -7,11 +7,11 @@
 class ITextureCompiler {
 
 public:
-	ITextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader);
+	ITextureCompiler(const ITextureLoader& texture_loader);
 
 	virtual ~ITextureCompiler() = default;
 	[[nodiscard]] virtual std::unique_ptr<ITexture> compile() = 0;
-	[[nodiscard]] static std::shared_ptr<ITextureCompiler> create_compiler(const std::shared_ptr<ITextureLoader>& texture_loader);
+	[[nodiscard]] static std::unique_ptr<ITextureCompiler> create_compiler(const ITextureLoader& texture_loader);
 	
 protected:
 	TextureLoadingData m_texture_loading_data;

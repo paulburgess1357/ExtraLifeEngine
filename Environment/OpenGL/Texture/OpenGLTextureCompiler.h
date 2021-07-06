@@ -9,7 +9,7 @@ namespace OpenGL{
 	class OpenGLTextureCompiler : public ITextureCompiler {
 
 	public:
-		OpenGLTextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader);
+		OpenGLTextureCompiler(const ITextureLoader& texture_loader);
 		[[nodiscard]] std::unique_ptr<ITexture> compile() override;
 
 	private:

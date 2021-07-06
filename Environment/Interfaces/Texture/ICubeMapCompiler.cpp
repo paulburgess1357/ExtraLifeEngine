@@ -3,11 +3,11 @@
 #include "../../Neutral/API/GraphicsAPI.h"
 #include "../../Environment/OpenGL/Texture/OpenGLCubeMapCompiler.h"
 
-ICubeMapCompiler::ICubeMapCompiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders){
+ICubeMapCompiler::ICubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders){
 	load_texture_loading_data(texture_loaders);
 }
 
-void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders){
+void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders){
 
 	// Data must be loaded in the following order:
 	m_texture_loading_data.push_back(texture_loaders["right"]->load());
@@ -19,7 +19,7 @@ void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string,
 	
 }
 
-std::unique_ptr<ICubeMapCompiler> ICubeMapCompiler::create_compiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders) {
+std::unique_ptr<ICubeMapCompiler> ICubeMapCompiler::create_compiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders) {
 
 	std::unique_ptr<ICubeMapCompiler> cubemap_compiler = nullptr;
 	

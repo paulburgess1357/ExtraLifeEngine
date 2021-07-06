@@ -91,10 +91,10 @@ void SceneLoader::models(entt::registry& registry){
 
 	// load_mech(registry);
 	// load_vivi()
-	// load_spartan(registry);
-	load_backpack(registry);
+	load_spartan(registry);
+	// load_backpack(registry);
 	// load_troll(registry);
-	// load_podracer(registry);
+	load_podracer(registry);
 	
 }
 

@@ -6,9 +6,9 @@ class CameraData{
 public:
 	CameraData(const glm::vec3& camera_position, const glm::vec3& camera_forward);
 	
-	glm::vec3 get_camera_position() const;
-	glm::vec3 get_camera_forward() const;
-	glm::mat4 get_view_matrix();
+	[[nodiscard]] glm::vec3 get_camera_position() const;
+	[[nodiscard]] glm::vec3 get_camera_forward() const;
+	[[nodiscard]] glm::mat4 get_view_matrix();
 	
 protected:	
 	glm::vec3 m_camera_position;

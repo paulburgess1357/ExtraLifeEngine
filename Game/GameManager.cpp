@@ -8,7 +8,7 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.08f, 0.05f} },
+	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.005f, 0.05f} },
 	 m_input_handler{ m_camera },
 	 m_mouse_handler{ m_camera }{	
 }

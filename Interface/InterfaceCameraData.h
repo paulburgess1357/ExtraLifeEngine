@@ -6,11 +6,13 @@ namespace ImGuiNS {
 	class  InterfaceCameraData {
 
 	public:
-		InterfaceCameraData(const Camera& camera);
+		InterfaceCameraData(Camera& camera);
 		void display() const;
+		void update_camera_speed();
 
 	private:
-		const Camera& m_camera_data;
+		Camera& m_camera_data;
+		float m_camera_speed;
 	};
 	
 } // namespace ImGuiNS

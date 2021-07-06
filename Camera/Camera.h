@@ -13,6 +13,7 @@ public:
 	void rotate(const glm::vec2& current_mouse_coords);
 	void toggle_camera_type();
 	void reset_first_rotation_movement();
+	void set_camera_speed(const float movement_speed);
 		
 private:
 	void pitch(const float angle_offset);

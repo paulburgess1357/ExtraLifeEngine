@@ -113,6 +113,9 @@ void Camera::reset_first_rotation_movement(){
 	m_first_rotation_movement = true;
 }
 
+void Camera::set_camera_speed(const float movement_speed){
+	m_movement_speed = movement_speed;
+}
 
 void Camera::set_first_mouse_movement(const glm::vec2& current_mouse_coords){
 	if (current_mouse_coords.x != 0 && current_mouse_coords.y != 0) {

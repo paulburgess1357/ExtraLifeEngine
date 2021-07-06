@@ -5,7 +5,7 @@
 #include "../../Utility/FatalError.h"
 #include <glad/glad.h>
 
-OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader)
+OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const IShaderLoader& shader_loader)
 	:IShaderCompiler(shader_loader){	
 }
 

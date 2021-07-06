@@ -474,20 +474,18 @@ const float ICubeLoader::m_cubemap_verticies[108] = {
    -1.0f, -1.0f,  1.0f, // top left   
 };
 
-std::shared_ptr<ICubeLoader> ICubeLoader::create_cube_loader(){
+std::unique_ptr<ICubeLoader> ICubeLoader::create_cube_loader(){
 
+	std::unique_ptr<ICubeLoader> cube_loader = nullptr;
+	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		return std::make_shared<OpenGL::OpenGLCubeLoader>();
-	}
-
-	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
-		std::shared_ptr<ICubeLoader> cube_loader = nullptr;
+		cube_loader = std::make_unique<OpenGL::OpenGLCubeLoader>();
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan cube loader does not exist!.");
-		return cube_loader;
-	}
-
-	FatalError::fatal_error("Unknown graphics API type.  Cannot return cube loader.");
-	std::shared_ptr<ICubeLoader> cube_loader = nullptr;
+	} else{
+		FatalError::fatal_error("Unknown graphics API type.  Cannot return cube loader.");
+	}	
+	
 	return cube_loader;
 	
 }

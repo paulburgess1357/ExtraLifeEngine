@@ -249,7 +249,6 @@
     <ClInclude Include="World\WorldPositionsInRangeUpdater.h" />
     <ClInclude Include="ECS\Components\IncludeComponents.h" />
     <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h" />
-    <ClInclude Include="ECS\Components\Voxel\ChunkComponent.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IncludeRenderers.h" />
     <ClInclude Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.h" />
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.h" />

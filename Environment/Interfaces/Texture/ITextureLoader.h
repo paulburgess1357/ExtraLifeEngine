@@ -14,8 +14,8 @@ public:
 	virtual ~ITextureLoader() = default;
 	
 	// Returns a pointer to the image data in memory
-	[[nodiscard]] virtual TextureLoadingData load() = 0;
-	[[nodiscard]] virtual std::unordered_map<std::string, std::shared_ptr<ITextureLoader>> create_cubemap_loader() = 0;
+	[[nodiscard]] virtual TextureLoadingData load() const = 0;
+	[[nodiscard]] virtual std::unordered_map<std::string, std::unique_ptr<ITextureLoader>> create_cubemap_loader() = 0;
 
 protected:
 	std::string m_texture_name;

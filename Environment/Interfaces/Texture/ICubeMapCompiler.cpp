@@ -3,11 +3,11 @@
 #include "../../Neutral/API/GraphicsAPI.h"
 #include "../../Environment/OpenGL/Texture/OpenGLCubeMapCompiler.h"
 
-ICubeMapCompiler::ICubeMapCompiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders){
+ICubeMapCompiler::ICubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders){
 	load_texture_loading_data(texture_loaders);
 }
 
-void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders){
+void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders){
 
 	// Data must be loaded in the following order:
 	m_texture_loading_data.push_back(texture_loaders["right"]->load());
@@ -19,20 +19,17 @@ void ICubeMapCompiler::load_texture_loading_data(std::unordered_map<std::string,
 	
 }
 
-std::shared_ptr<ICubeMapCompiler> ICubeMapCompiler::create_compiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders) {
+std::unique_ptr<ICubeMapCompiler> ICubeMapCompiler::create_compiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders) {
 
+	std::unique_ptr<ICubeMapCompiler> cubemap_compiler = nullptr;
+	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		return std::make_shared<OpenGL::OpenGLCubeMapCompiler>(texture_loaders);
-	}
-
-	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
-		std::shared_ptr<ICubeMapCompiler> cubemap_compiler = nullptr;
+		cubemap_compiler = std::make_unique<OpenGL::OpenGLCubeMapCompiler>(texture_loaders);
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan cubemap compiler does not exist!.");
-		return cubemap_compiler;
+	} else{
+		FatalError::fatal_error("Unknown graphics API type.  Cannot return cubemap compiler.");
 	}
-
-	FatalError::fatal_error("Unknown graphics API type.  Cannot return cubemap compiler.");
-	std::shared_ptr<ICubeMapCompiler> cubemap_compiler = nullptr;
+	
 	return cubemap_compiler;
-
 }

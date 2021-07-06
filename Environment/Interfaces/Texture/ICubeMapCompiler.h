@@ -8,16 +8,15 @@
 class ICubeMapCompiler{
 	
 public:
-	ICubeMapCompiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders);
+	ICubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
 	virtual ~ICubeMapCompiler() = default;
 
 	[[nodiscard]] virtual std::unique_ptr<ITexture> compile(const std::string& cubemap_name) = 0;
-	[[nodiscard]] static std::shared_ptr<ICubeMapCompiler> create_compiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders);
+	[[nodiscard]] static std::unique_ptr<ICubeMapCompiler> create_compiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
 
 protected:
 	std::vector<TextureLoadingData> m_texture_loading_data;
 
 private:
-	void load_texture_loading_data(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders);
+	void load_texture_loading_data(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
 };
-

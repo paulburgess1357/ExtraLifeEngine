@@ -3,7 +3,7 @@
 
 IModel::IModel() = default;
 
-const std::vector<std::shared_ptr<IMesh>>& IModel::get_mesh_vector() const{
+const std::vector<std::unique_ptr<IMesh>>& IModel::get_mesh_vector() const{
 	return m_mesh_vector;
 }
 

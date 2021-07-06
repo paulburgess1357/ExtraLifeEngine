@@ -6,7 +6,7 @@
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
 #include "../../ResourceManagement/GraphicsConstants.h"
 
-OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const std::shared_ptr<ITextureLoader>& texture_loader)
+OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const ITextureLoader& texture_loader)
 	:ITextureCompiler{ texture_loader }{
 }
 

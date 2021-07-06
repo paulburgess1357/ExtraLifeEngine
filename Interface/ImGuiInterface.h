@@ -24,7 +24,7 @@ namespace ImGuiNS {
 		static void fps();
 		static void globals();
 
-		static std::shared_ptr<InterfaceCameraData> m_interface_camera_data;
+		static std::unique_ptr<InterfaceCameraData> m_interface_camera_data;
 		static bool m_display_interface;
 	};
 	

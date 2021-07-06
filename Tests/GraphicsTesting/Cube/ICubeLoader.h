@@ -13,7 +13,7 @@ public:
 	[[nodiscard]] virtual CubeIDStruct load_cubemap_verticies() const = 0;
 	virtual void destroy(const CubeIDStruct cube_id_struct) const = 0;
 
-	static std::shared_ptr<ICubeLoader> create_cube_loader();
+	static std::unique_ptr<ICubeLoader> create_cube_loader();
 
 protected:
 

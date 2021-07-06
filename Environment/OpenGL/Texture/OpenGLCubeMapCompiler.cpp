@@ -5,7 +5,7 @@
 #include "../../Utility/SBTIUtilities.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
 
-OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::string, std::shared_ptr<ITextureLoader>>& texture_loaders)
+OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders)
 	:ICubeMapCompiler{ texture_loaders }{	
 }
 

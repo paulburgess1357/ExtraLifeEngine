@@ -52,10 +52,10 @@ void GameManager::initialize_projection_matrix() const{
 }
 
 void GameManager::initialize_controls() {
-	m_input_handler.set_exit(std::make_shared<ExitCommand>(*this));
-	m_input_handler.set_mouse_control(std::make_shared<MouseControlCommmand>(m_window, m_mouse_handler));
-	m_input_handler.set_wireframe_mode(std::make_shared<OpenGL::OpenGLWireFrame>());
-	m_input_handler.set_imgui_display(std::make_shared<ImGuiDisplayCommand>());
+	m_input_handler.set_exit(std::make_unique<ExitCommand>(*this));
+	m_input_handler.set_mouse_control(std::make_unique<MouseControlCommmand>(m_window, m_mouse_handler));
+	m_input_handler.set_wireframe_mode(std::make_unique<OpenGL::OpenGLWireFrame>());
+	m_input_handler.set_imgui_display(std::make_unique<ImGuiDisplayCommand>());
 }
 
 void GameManager::initialize_resources(){

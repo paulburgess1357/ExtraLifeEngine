@@ -6,7 +6,9 @@
 InputHandler::InputHandler(Camera& camera)
 	:m_camera{ camera },
 	 m_exit_command{ nullptr },
+	 m_camera_toggle_type_command{ nullptr },
 	 m_mouse_control_command{ nullptr },
+	 m_wireframe_mode_command { nullptr },
 	 m_imgui_display_command{ nullptr }{
 }
 
@@ -61,18 +63,18 @@ void InputHandler::handle_camera_movement() const{
 
 }
 
-void InputHandler::set_exit(const std::shared_ptr<ICommand>& exit_command){
-	m_exit_command = exit_command;
+void InputHandler::set_exit(std::unique_ptr<ICommand> exit_command){
+	m_exit_command = std::move(exit_command);
 }
 
-void InputHandler::set_mouse_control(const std::shared_ptr<ICommand>& mouse_control_command){
-	m_mouse_control_command = mouse_control_command;
+void InputHandler::set_mouse_control(std::unique_ptr<ICommand> mouse_control_command){
+	m_mouse_control_command = std::move(mouse_control_command);
 }
 
-void InputHandler::set_wireframe_mode(const std::shared_ptr<ICommand>& wireframe_mode_command){
-	m_wireframe_mode_command = wireframe_mode_command;
+void InputHandler::set_wireframe_mode(std::unique_ptr<ICommand> wireframe_mode_command){
+	m_wireframe_mode_command = std::move(wireframe_mode_command);
 }
 
-void InputHandler::set_imgui_display(const std::shared_ptr<ICommand>& imgui_display_command){
-	m_imgui_display_command = imgui_display_command;
+void InputHandler::set_imgui_display(std::unique_ptr<ICommand> imgui_display_command){
+	m_imgui_display_command =std::move(imgui_display_command);
 }

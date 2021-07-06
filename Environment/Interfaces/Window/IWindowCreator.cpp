@@ -8,7 +8,7 @@
 #include "../../OpenGL/Window/OpenGLWindowCreator.h"
 
 IWindowCreator::IWindowCreator()
-		:m_window{ nullptr } {
+	:m_window{ nullptr } {
 }
 
 void IWindowCreator::init_glfw() {

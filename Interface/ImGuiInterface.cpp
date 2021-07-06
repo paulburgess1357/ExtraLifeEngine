@@ -8,7 +8,7 @@
 std::shared_ptr<ImGuiNS::InterfaceCameraData> ImGuiNS::ImGuiInterface::m_interface_camera_data = nullptr;
 bool ImGuiNS::ImGuiInterface::m_display_interface = false;
 
-void ImGuiNS::ImGuiInterface::initialize_window(std::shared_ptr<IWindow>& window){
+void ImGuiNS::ImGuiInterface::initialize_window(IWindow& window){
 
     // TODO query this:
     const char* glsl_version = "#version 330";
@@ -18,7 +18,7 @@ void ImGuiNS::ImGuiInterface::initialize_window(std::shared_ptr<IWindow>& window
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(window->get_glfw_ptr(), true);
+    ImGui_ImplGlfw_InitForOpenGL(window.get_glfw_ptr(), true);
     ImGui_ImplOpenGL3_Init(glsl_version);
     ImGui::StyleColorsClassic();
 }

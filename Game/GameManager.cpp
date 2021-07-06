@@ -1,5 +1,4 @@
 #include "GameManager.h"
-#include "../Matrix/ProjectionMatrix.h"
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
@@ -25,7 +24,6 @@ void GameManager::run(){
 	initialize_window();
 	initialize_imgui();
 	initialize_uniform_block_handler();
-	initialize_projection_matrix();
 	initialize_controls();
 	initialize_resources();
 	initialize_scene();
@@ -36,24 +34,21 @@ void GameManager::run(){
 
 void GameManager::initialize_window(){
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
+	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
 }
 
 void GameManager::initialize_imgui(){
-	ImGuiNS::ImGuiInterface::initialize_window(m_window);
+	ImGuiNS::ImGuiInterface::initialize_window(*m_window);
 	ImGuiNS::ImGuiInterface::initialize_camera_data(m_camera);
 }
 
 void GameManager::initialize_uniform_block_handler(){
-	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block();
-}
-
-void GameManager::initialize_projection_matrix() const{
-	ProjectionMatrix::initialize_projection_matrix(m_window);
+	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block(*m_projection_matrix);
 }
 
 void GameManager::initialize_controls() {
 	m_input_handler.set_exit(std::make_unique<ExitCommand>(*this));
-	m_input_handler.set_mouse_control(std::make_unique<MouseControlCommmand>(m_window, m_mouse_handler));
+	m_input_handler.set_mouse_control(std::make_unique<MouseControlCommmand>(*m_window, m_mouse_handler));
 	m_input_handler.set_wireframe_mode(std::make_unique<OpenGL::OpenGLWireFrame>());
 	m_input_handler.set_imgui_display(std::make_unique<ImGuiDisplayCommand>());
 }

@@ -7,24 +7,28 @@
 unsigned int IShaderUniformBlock::m_ubo_matrices_handle = GraphicsConstants::UNINITIALIZED_VALUE;
 unsigned int IShaderUniformBlock::m_ubo_camera_handle = GraphicsConstants::UNINITIALIZED_VALUE;
 
+IShaderUniformBlock::IShaderUniformBlock(ProjectionMatrix& projection_matrix)
+	:m_projection_matrix{ projection_matrix }{	
+}
+
 void IShaderUniformBlock::check_projection_view_block_created() const {
-	if (m_ubo_matrices_handle == 99) {
-		FatalError::fatal_error("Projection view uniform block handle is 99 and has not been properly initialized!");
+	if (m_ubo_matrices_handle == GraphicsConstants::UNINITIALIZED_VALUE) {
+		FatalError::fatal_error("Projection view uniform block handle is 999999 and has not been properly initialized!");
 	}
 }
 
 void IShaderUniformBlock::check_camera_position_block_created() const{
-	if (m_ubo_camera_handle == 99) {
-		FatalError::fatal_error("Camera uniform block handle is 99 and has not been properly initialized!");
+	if (m_ubo_camera_handle == GraphicsConstants::UNINITIALIZED_VALUE) {
+		FatalError::fatal_error("Camera uniform block handle is 999999 and has not been properly initialized!");
 	}
 }
 
-std::unique_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(){
+std::unique_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(ProjectionMatrix& projection_matrix){
 
 	std::unique_ptr<IShaderUniformBlock> uniform_block{ nullptr };
 	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		uniform_block = std::make_unique<OpenGL::OpenGLUniformBlock>();
+		uniform_block = std::make_unique<OpenGL::OpenGLUniformBlock>(projection_matrix);
 	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan shader uniform block does not exist!.");
 	} else{

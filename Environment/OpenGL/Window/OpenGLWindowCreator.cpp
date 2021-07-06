@@ -3,21 +3,15 @@
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
-std::shared_ptr<IWindow> OpenGL::OpenGLWindowCreator::m_opengl_window = nullptr;
-
 OpenGL::OpenGLWindowCreator::OpenGLWindowCreator(const int width, const int height, const bool mouse_enabled, const bool is_resizeable)
-	:m_width { width },
-	m_height { height },
-	m_is_resizeable { is_resizeable },
+	:m_width{ width },
+	m_height{ height },
+	m_is_resizeable{ is_resizeable },
 	m_mouse_enabled{ mouse_enabled }{
 }
 
-std::shared_ptr<IWindow> OpenGL::OpenGLWindowCreator::create_glfw_window() {
+std::unique_ptr<IWindow> OpenGL::OpenGLWindowCreator::create_glfw_window() {
 
-	if(m_opengl_window){
-		return m_opengl_window;
-	}
-	
 	init_glfw();
 	init_glfw_hints();
 	init_glfw_window(m_width, m_height);
@@ -27,19 +21,15 @@ std::shared_ptr<IWindow> OpenGL::OpenGLWindowCreator::create_glfw_window() {
 	init_glfw_input();
 	init_callbacks();
 
-	//if(!m_is_resizeable){
-	//	center_mouse();
-	//}
-	
-	m_opengl_window = std::make_shared<OpenGLWindow>(m_width, m_height, m_is_resizeable, m_mouse_enabled, m_window);
-	OpenGLWindow::init_frame_buffer_callback();	
-	
-	return m_opengl_window;
+	std::unique_ptr<OpenGLWindow> opengl_window = std::make_unique<OpenGLWindow>(m_width, m_height, m_is_resizeable, m_mouse_enabled, m_window);
+	OpenGLWindow::init_frame_buffer_callback();
+
+	return opengl_window;
 }
 
 void OpenGL::OpenGLWindowCreator::init_glfw_hints() const {
 	Print::print("Setting OpenGL OpenGLWindow Context");
-	
+
 	// OpenGL Settings
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,7 +40,7 @@ void OpenGL::OpenGLWindowCreator::init_glfw_hints() const {
 
 	if (!m_is_resizeable) {
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	}	
+	}
 }
 
 void OpenGL::OpenGLWindowCreator::init_glad() const {

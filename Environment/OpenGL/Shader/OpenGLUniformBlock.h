@@ -6,6 +6,8 @@ namespace OpenGL{
 	class OpenGLUniformBlock : public IShaderUniformBlock {
 
 	public:
+		OpenGLUniformBlock();
+		OpenGLUniformBlock(ProjectionMatrix* projection_matrix);
 		void create_projection_view_block() override;
 		void link_projection_view_block_to_shader(IShaderProgram& shader_program) override;	
 		void set_projection_view_block_matrix_values(Camera& camera) const override;

@@ -5,8 +5,8 @@
 
 IVoxelRenderer::IVoxelRenderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range, IShaderProgram& shader_program)
 	:m_voxel_resource{ voxel_resource },
-	m_world_positions_in_range_updater{ world_positions_in_range },
-	m_voxel_shader_program{ shader_program }{
+	 m_world_positions_in_range_updater{ world_positions_in_range },
+	 m_voxel_shader_program{ shader_program }{
 }
 
 std::unique_ptr<IVoxelRenderer> IVoxelRenderer::get_voxel_renderer(const VoxelResource& voxel_resource, const WorldPositionsInRangeUpdater& world_positions_in_range, IShaderProgram& shader_program) {

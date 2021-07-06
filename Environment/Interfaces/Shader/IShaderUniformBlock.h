@@ -1,12 +1,14 @@
 #pragma once
 #include "IShaderProgram.h"
+#include "../../Matrix/ProjectionMatrix.h"
 #include "../../Camera/Camera.h"
 #include <memory>
 
 class IShaderUniformBlock{
 	
 public:
-	
+	IShaderUniformBlock();
+	IShaderUniformBlock(ProjectionMatrix* projection_matrix);
 	virtual ~IShaderUniformBlock() = default;
 
 	virtual void create_projection_view_block() = 0;
@@ -21,12 +23,12 @@ public:
 	virtual void destroy() const = 0;
 
 	//TODO update this unique
-	[[nodiscard]] static std::shared_ptr<IShaderUniformBlock> create_shader_uniform_block();
+	[[nodiscard]] static std::unique_ptr<IShaderUniformBlock> create_shader_uniform_block(ProjectionMatrix* projection_matrix);
 	
 protected:	
 	virtual void check_projection_view_block_created() const;
 	virtual void check_camera_position_block_created() const;
 	static unsigned int m_ubo_matrices_handle;
 	static unsigned int m_ubo_camera_handle;
-	
+	ProjectionMatrix* m_projection_matrix;		
 };

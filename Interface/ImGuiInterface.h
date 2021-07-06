@@ -9,7 +9,7 @@ namespace ImGuiNS {
 	class ImGuiInterface {
 
 	public:
-		static void initialize_window(std::shared_ptr<IWindow>& window);
+		static void initialize_window(IWindow& window);
 		static void initialize_camera_data(Camera& camera);
 		static void update();
 		static void render();

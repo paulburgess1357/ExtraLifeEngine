@@ -3,7 +3,7 @@
 #include "../../Utility/FatalError.h"
 #include "../../Environment/OpenGL/Shader/OpenGLShaderCompiler.h"
 
-std::unique_ptr<IShaderCompiler> IShaderCompiler::create_compiler(const std::shared_ptr<IShaderLoader>& shader_loader){
+std::unique_ptr<IShaderCompiler> IShaderCompiler::create_compiler(const IShaderLoader& shader_loader){
 
 	std::unique_ptr<IShaderCompiler> shader_compiler = nullptr;
 	

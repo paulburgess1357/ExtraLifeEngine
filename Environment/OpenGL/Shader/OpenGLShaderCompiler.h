@@ -11,7 +11,7 @@ namespace OpenGL{
 	class OpenGLShaderCompiler : public IShaderCompiler {
 
 	public:
-		OpenGLShaderCompiler(const std::shared_ptr<IShaderLoader>& shader_loader);
+		OpenGLShaderCompiler(const IShaderLoader& shader_loader);
 		[[nodiscard]] std::unique_ptr<IShaderProgram> compile() const override;
 	
 	private:

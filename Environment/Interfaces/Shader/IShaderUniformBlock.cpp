@@ -19,19 +19,16 @@ void IShaderUniformBlock::check_camera_position_block_created() const{
 	}
 }
 
-std::shared_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(){
+std::unique_ptr<IShaderUniformBlock> IShaderUniformBlock::create_shader_uniform_block(){
 
+	std::unique_ptr<IShaderUniformBlock> uniform_block{ nullptr };
+	
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		return std::make_shared<OpenGL::OpenGLUniformBlock>();
-	}
-
-	if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
-		std::shared_ptr<IShaderUniformBlock> uniform_block = nullptr;
+		uniform_block = std::make_unique<OpenGL::OpenGLUniformBlock>();
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan shader uniform block does not exist!.");
-		return uniform_block;
+	} else{
+		FatalError::fatal_error("Unknown Graphics API Type.  Cannot return uniform block.");
 	}
-
-	FatalError::fatal_error("Unknown Graphics API Type.  Cannot return uniform block.");
-	std::shared_ptr<IShaderUniformBlock> uniform_block = nullptr;
 	return uniform_block;
 }

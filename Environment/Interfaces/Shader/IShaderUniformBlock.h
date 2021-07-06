@@ -21,7 +21,7 @@ public:
 	virtual void destroy() const = 0;
 
 	//TODO update this unique
-	[[nodiscard]] static std::shared_ptr<IShaderUniformBlock> create_shader_uniform_block();
+	[[nodiscard]] static std::unique_ptr<IShaderUniformBlock> create_shader_uniform_block();
 	
 protected:	
 	virtual void check_projection_view_block_created() const;

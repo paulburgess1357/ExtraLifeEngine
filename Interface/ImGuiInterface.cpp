@@ -23,10 +23,9 @@ void ImGuiNS::ImGuiInterface::initialize_window(std::shared_ptr<IWindow>& window
     ImGui::StyleColorsClassic();
 }
 
-void ImGuiNS::ImGuiInterface::initialize_camera_data(const Camera& camera){
+void ImGuiNS::ImGuiInterface::initialize_camera_data(Camera& camera){
     m_interface_camera_data = std::make_shared<InterfaceCameraData>(camera);
 }
-
 
 void ImGuiNS::ImGuiInterface::update() {
 	if(m_display_interface){
@@ -42,10 +41,8 @@ void ImGuiNS::ImGuiInterface::debug_menu() {
     // TODO: Extremely old API for font scaling.  Update method to be correct
     ImGui::SetWindowFontScale(1.5);
     fps();
-
-    check_camera_interface();
     m_interface_camera_data->display();
-	
+    m_interface_camera_data->update_camera_speed();	
     globals();
     ImGui::End();
 }
@@ -79,12 +76,6 @@ void ImGuiNS::ImGuiInterface::destroy() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-}
-
-void ImGuiNS::ImGuiInterface::check_camera_interface() {
-	if(m_interface_camera_data == nullptr){
-        FatalError::fatal_error("Camera data interface is null!  Unable to display camera data interface (called from ImGuiInterface::check_camera_interface())");
-	}
 }
 
 void ImGuiNS::ImGuiInterface::toggle_interface(){

@@ -16,4 +16,3 @@ private:
 	size_t m_height{ 0 };
 	size_t m_depth{ 0 };	
 };
-

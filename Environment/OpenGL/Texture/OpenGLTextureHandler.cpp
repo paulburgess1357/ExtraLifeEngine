@@ -244,7 +244,7 @@ void OpenGL::OpenGLTextureHandler::unbind_cubemap_textures() const{
 void OpenGL::OpenGLTextureHandler::check_tex_unit() const{
 
 	if (m_available_tex_unit == GraphicsConstants::UNINITIALIZED_VALUE) {
-		FatalError::fatal_error("Your tex unit for shader handle: " + std::to_string(m_shader_program->get_handle()) + " is 999999");
+		FatalError::fatal_error("Your tex unit for shader handle: " + std::to_string(m_shader_program->get_handle()) + " is :" + std::to_string(GraphicsConstants::UNINITIALIZED_VALUE));
 	}
 
 	if (m_available_tex_unit > 16) {

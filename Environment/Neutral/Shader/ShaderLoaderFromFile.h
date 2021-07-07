@@ -6,7 +6,7 @@
 class ShaderLoaderFromFile : public IShaderLoader{
 	
 public:
-	ShaderLoaderFromFile(const std::string& vertex_filepath, const std::string& fragment_filepath);
+	ShaderLoaderFromFile(std::string vertex_filepath, std::string fragment_filepath);
 	[[nodiscard]] std::pair<std::string, std::string> load() const override;
 	
 private:
@@ -14,4 +14,3 @@ private:
 	std::string m_fragment_filepath;
 	
 };
-

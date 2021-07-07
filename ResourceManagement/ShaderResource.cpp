@@ -18,12 +18,8 @@ void ShaderResource::load(const std::string& shader_name, const std::string& ver
 	}	
 }
 
-bool ShaderResource::is_loaded(const std::string& shader_name){
-	const auto it = m_shader_cache.find(shader_name);
-	if (it == m_shader_cache.end()) {
-		return false;
-	} 
-	return true;
+bool ShaderResource::is_loaded(const std::string& shader_name) const{
+	return m_shader_cache.count(shader_name) > 0;
 }
 
 IShaderProgram* ShaderResource::get(const std::string& shader_name){

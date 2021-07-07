@@ -10,8 +10,6 @@ public:
 
 private:
 	static noise::module::Perlin m_perlin_noise;
-	
 	static double generate_noise(const double nx, const double nz);
 	
 };
-

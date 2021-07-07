@@ -8,8 +8,7 @@ OpenGL::OpenGLModelLoaderFromFile::OpenGLModelLoaderFromFile(const std::string& 
      m_assimp_flip_uv{ assimp_flip_uvs },
      m_directory{ StringUtil::FilePath::get_directory(m_path)},
 	 m_shader_program{ shader_program },
-	 m_texture_resource{ texture_resource }{
-	
+	 m_texture_resource{ texture_resource }{	
 }
 
 std::vector<OpenGL::OpenGLMesh> OpenGL::OpenGLModelLoaderFromFile::load(){

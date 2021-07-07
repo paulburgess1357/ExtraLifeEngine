@@ -1,5 +1,4 @@
 #include "OpenGLShaderProgram.h"
-#include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>

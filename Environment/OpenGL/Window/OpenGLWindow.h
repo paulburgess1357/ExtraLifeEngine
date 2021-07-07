@@ -1,4 +1,3 @@
-
 #pragma once
 #include "../../Interfaces/Window/IWindow.h"
 

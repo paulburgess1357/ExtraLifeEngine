@@ -1,6 +1,5 @@
 #include "OpenGLLightHandler.h"
 #include "../../Utility/Print.h"
-#include "../../Utility/FatalError.h"
 #include "../../../ResourceManagement/LightResource.h"
 
 OpenGL::OpenGLLightHandler::OpenGLLightHandler()

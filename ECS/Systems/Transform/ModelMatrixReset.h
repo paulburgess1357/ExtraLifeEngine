@@ -2,14 +2,10 @@
 #include "entt/entity/registry.hpp"
 
 namespace Transform{
-
-	class ModelMatrixReset {
-		
+	
+	class ModelMatrixReset {		
 	public:
-		static void update(entt::registry& registry);
-		
+		static void update(entt::registry& registry);		
 	};
 	
 } // namespace Transform
-
-

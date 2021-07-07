@@ -22,4 +22,3 @@ private:
 	std::unique_ptr<ICommand> m_right_button_command;
 	bool m_mouse_enabled;
 };
-

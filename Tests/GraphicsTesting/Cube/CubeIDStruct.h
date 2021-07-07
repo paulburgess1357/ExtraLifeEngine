@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../ResourceManagement/GraphicsConstants.h"
 
 struct CubeIDStruct{
 	CubeIDStruct() = default;	
@@ -8,7 +9,7 @@ struct CubeIDStruct{
 		 m_ebo_id{ ebo_id }{		
 	}
 
-	unsigned int m_vbo_id { 99 };
-	unsigned int m_vao_id { 99 };
-	unsigned int m_ebo_id { 99 };	
+	unsigned int m_vbo_id { GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int m_vao_id { GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int m_ebo_id { GraphicsConstants::UNINITIALIZED_VALUE };
 };

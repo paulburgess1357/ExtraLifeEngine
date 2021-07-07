@@ -91,10 +91,10 @@ void SceneLoader::models(entt::registry& registry){
 
 	// load_mech(registry);
 	// load_vivi()
-	load_spartan(registry);
-	// load_backpack(registry);
+	// load_spartan(registry);
+	load_backpack(registry);
 	// load_troll(registry);
-	load_podracer(registry);
+	// load_podracer(registry);
 	
 }
 
@@ -250,8 +250,8 @@ void SceneLoader::load_scene(entt::registry& registry){
 	// TODO shader loader or some alternative for voxels?
 	voxels(registry);
 	// grid(registry);
-	// single_cube(registry);
-	// single_cube_textured(registry);
+	single_cube(registry);
+	single_cube_textured(registry);
 	models(registry);
 	cubemap(registry);
 }

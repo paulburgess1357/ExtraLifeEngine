@@ -104,13 +104,18 @@ void GameManager::update(){
 }
 
 void GameManager::render(){	
-	m_cubemap_renderer->render(m_registry, m_camera);
-
+	
+	// m_cubemap_renderer->render(m_registry, m_camera); // only displays after end_render, but, when that is done, the other objects are not shown...
+	// works when its insdie the framebuffer...
+	// Need to figure out cubemap depth stuff....
+	
 	m_framebuffer_renderer->start_render(m_registry);
+	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
 	m_framebuffer_renderer->end_render(m_registry);
+	
 	
 	ImGuiNS::ImGuiInterface::render();
 }

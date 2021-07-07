@@ -37,8 +37,8 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	voxels(registry);
 	
 	// grid(registry);
-	// single_cube(registry);
-	// single_cube_textured(registry);
+	single_cube(registry);
+	single_cube_textured(registry);
 	models(registry);
 	cubemap(registry);
 	load_framebuffer(registry);

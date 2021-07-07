@@ -60,10 +60,15 @@ void OpenGL::OpenGLFrameBufferRenderer::end_render(entt::registry& registry) con
 		// TODO add check if texture attachment or render attachment is not initialized?
 		// TODO 2 make these into bind functions instead?
 		glBindVertexArray(framebuffer_component.m_frame_buffer->get_framebuffer_quad_vao());
+
+		glActiveTexture(GL_TEXTURE0); //TODO I should make the framebuffer handle this
 		glBindTexture(GL_TEXTURE_2D, framebuffer_component.m_frame_buffer->get_framebuffer_texture_handle());
+
+
+		
 		glDrawArrays(GL_TRIANGLES, 0, 6);		
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
+		// glBindTexture(GL_TEXTURE_2D, 0);
+		// glBindVertexArray(0);
 
 		shader_component.m_shader_program->unbind();
 

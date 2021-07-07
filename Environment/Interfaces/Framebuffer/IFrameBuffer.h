@@ -8,12 +8,15 @@ public:
 	virtual ~IFrameBuffer() = default;
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
+	
+	virtual void bind_framebuffer_texture() const = 0;
+	virtual void unbind_framebuffer_texture() const = 0;
+	
 	virtual void destroy() const = 0;
 
 	[[nodiscard]] unsigned int get_framebuffer_handle() const;
-	[[nodiscard]] unsigned int get_framebuffer_texture_handle() const;
-	[[nodiscard]] unsigned int get_framebuffer_renderbuffer_handle() const;
 
+	[[nodiscard]] unsigned int get_framebuffer_renderbuffer_handle() const;
 	[[nodiscard]] unsigned int get_framebuffer_quad_vbo() const;
 	[[nodiscard]] unsigned int get_framebuffer_quad_vao() const;
 

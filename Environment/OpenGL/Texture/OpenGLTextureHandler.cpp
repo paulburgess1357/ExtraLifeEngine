@@ -214,32 +214,31 @@ void OpenGL::OpenGLTextureHandler::unbind_textures() const{
 
 void OpenGL::OpenGLTextureHandler::unbind_diffuse_textures() const{
 	for (const auto& texture : m_diffuse_texture_map) {
-		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
 
 void OpenGL::OpenGLTextureHandler::unbind_specular_textures() const{
 	for (const auto& texture : m_specular_texture_map) {
-		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
 
 void OpenGL::OpenGLTextureHandler::unbind_normal_textures() const{
 	for (const auto& texture : m_normal_texture_map) {
-		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
 
 void OpenGL::OpenGLTextureHandler::unbind_cubemap_textures() const{
 	for (const auto& texture : m_cubemap_texture_map) {
-		glActiveTexture(GL_TEXTURE0 + texture.second.m_tex_unit);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	}
 }
-
 
 void OpenGL::OpenGLTextureHandler::check_tex_unit() const{
 

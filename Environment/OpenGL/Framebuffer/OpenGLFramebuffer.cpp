@@ -73,6 +73,17 @@ void OpenGL::OpenGLFramebuffer::bind() const{
 	glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer_handle);
 }
 
+void OpenGL::OpenGLFramebuffer::bind_framebuffer_texture() const{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
+}
+
+void OpenGL::OpenGLFramebuffer::unbind_framebuffer_texture() const{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
 void OpenGL::OpenGLFramebuffer::unbind() const{
 	// Will revert to the default framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

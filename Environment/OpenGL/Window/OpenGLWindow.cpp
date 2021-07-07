@@ -6,11 +6,12 @@ OpenGL::OpenGLWindow::OpenGLWindow(const int window_width, const int window_heig
 }
 
 void OpenGL::OpenGLWindow::swap_buffer() const {
+	clear_color();
 	glfwSwapBuffers(m_window);
 }
 
 void OpenGL::OpenGLWindow::clear_color() const {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 

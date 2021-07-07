@@ -17,10 +17,6 @@ unsigned int IFrameBuffer::get_framebuffer_handle() const{
 	return m_framebuffer_handle;
 }
 
-unsigned int IFrameBuffer::get_framebuffer_texture_handle() const{
-	return m_framebuffer_texture_handle;
-}
-
 unsigned int IFrameBuffer::get_framebuffer_renderbuffer_handle() const{
 	return m_framebuffer_renderbuffer_handle;
 }

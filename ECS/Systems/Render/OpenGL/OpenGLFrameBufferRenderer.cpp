@@ -4,11 +4,13 @@
 #include <glad/glad.h>
 
 // The framebuffer has two parts start_render and end_render
-// E.g. : Cubemap render
 //        Framebuffer start_render()
+//        Cubemap render
 //        Other renderer render()
 //        Other renderer render()
 //        Framebuffer end_render()
+
+//TODO figure out hwen clearcolor/glClear calls are necessary...
 
 void OpenGL::OpenGLFrameBufferRenderer::start_render(entt::registry& registry) const{
 
@@ -23,8 +25,8 @@ void OpenGL::OpenGLFrameBufferRenderer::start_render(entt::registry& registry) c
 		glEnable(GL_DEPTH_TEST); //TODO NOTE may have to ensure that the cubemap renderer happens 1st, then framebuffer, then other renderers, then framebuffer end_render...
 
 		// Clear framebuffers contents
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		 glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// The rest of the render systems will now run (see game manager
 		// for system order)
@@ -50,25 +52,20 @@ void OpenGL::OpenGLFrameBufferRenderer::end_render(entt::registry& registry) con
 		glDisable(GL_DEPTH_TEST);
 
 		// Clear all buffers
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
-		glClear(GL_COLOR_BUFFER_BIT); //TODO depth buffer bit needed here?
+		 glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
+		 glClear(GL_COLOR_BUFFER_BIT); //TODO depth buffer bit needed here?
 
 		// Activate our framebuffer shader
 		shader_component.m_shader_program->bind();
 
 		// Bind the framebuffer quad vao and color texture:
-		// TODO add check if texture attachment or render attachment is not initialized?
-		// TODO 2 make these into bind functions instead?
 		glBindVertexArray(framebuffer_component.m_frame_buffer->get_framebuffer_quad_vao());
-
-		glActiveTexture(GL_TEXTURE0); //TODO I should make the framebuffer handle this
-		glBindTexture(GL_TEXTURE_2D, framebuffer_component.m_frame_buffer->get_framebuffer_texture_handle());
-
-
+		framebuffer_component.m_frame_buffer->bind_framebuffer_texture();
 		
-		glDrawArrays(GL_TRIANGLES, 0, 6);		
-		// glBindTexture(GL_TEXTURE_2D, 0);
-		// glBindVertexArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
+		framebuffer_component.m_frame_buffer->unbind_framebuffer_texture();		
+		glBindVertexArray(0);
 
 		shader_component.m_shader_program->unbind();
 

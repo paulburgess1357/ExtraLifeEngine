@@ -259,7 +259,7 @@ void SceneLoader::voxels(entt::registry& registry){
 }
 
 void SceneLoader::load_framebuffer(entt::registry& registry){
-	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer/vertex/framebuffer_basic.glsl", "Assets/shaders/framebuffer/fragment/framebuffer_basic.glsl");
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer/vertex/framebuffer.glsl", "Assets/shaders/framebuffer/fragment/framebuffer_inversion.glsl");
 	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ShaderComponent>(model_entity, shader_program);

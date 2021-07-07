@@ -22,4 +22,3 @@ private:
 
 	Assimp::Importer m_assimp_importer;
 };
-

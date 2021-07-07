@@ -3,8 +3,7 @@
 
 struct Face{
 
-	Face() = default;
-	
+	Face() = default;	
 	Face(const VertexAndNormals& bottom_left_corner, 
 		 const VertexAndNormals& bottom_right_corner, 
 		 const VertexAndNormals& top_left_corner, 

@@ -1,9 +1,8 @@
 #include "GameManager.h"
 #include "../Interface/ImGuiInterface.h"
 #include "../Input/Command/ControlCommands.h"
-#include "../Environment/Interfaces/Window/IWindowCreator.h"
 #include "../ECS/Systems/Transform/TransformSystem.h"
-#include "../ECS/Systems/Voxel/VoxelLoader.h"
+#include "../Environment/Interfaces/Window/IWindowCreator.h"
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },

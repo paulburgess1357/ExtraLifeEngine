@@ -46,4 +46,3 @@ private:
 	glm::vec2 m_old_mouse_coords;
 	bool m_first_rotation_movement;
 };
-

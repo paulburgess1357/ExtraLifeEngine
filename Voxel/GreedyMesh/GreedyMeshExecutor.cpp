@@ -1,6 +1,6 @@
 #include "GreedyMeshExecutor.h"
-#include "SortFaces.hpp"
 #include "GreedyMesh.h"
+#include "SortFaces.hpp"
 #include "GreedyFacePerRowMesh.h"
 #include "GreedyRowPerSideMesh.h"
 #include <algorithm>

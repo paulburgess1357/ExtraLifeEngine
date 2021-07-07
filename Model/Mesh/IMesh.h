@@ -7,7 +7,7 @@
 class IMesh{
 	
 public:
-	IMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
+	IMesh(std::vector<Vertex> vertices, std::vector<unsigned> indices);
 	virtual ~IMesh() = default;
 	virtual void destroy() = 0;
 

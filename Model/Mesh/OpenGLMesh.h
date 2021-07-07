@@ -10,7 +10,7 @@ namespace OpenGL{
 	class OpenGLMesh : public IMesh {
 
 	public:
-		OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, IShaderProgram& shader_program);
+		OpenGLMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, IShaderProgram& shader_program);
 		void destroy() override;
 
 		void attach_diffuse_texture(const ITexture& texture) override;

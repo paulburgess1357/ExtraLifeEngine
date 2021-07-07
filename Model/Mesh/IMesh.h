@@ -21,8 +21,8 @@ public:
 	[[nodiscard]] std::shared_ptr<ITextureHandler> get_texture_handler() const;
 	
 protected:
-	//TODO make unique
 	std::shared_ptr<ITextureHandler> m_texture_handler;	
 	std::vector<Vertex> m_vertices;
 	std::vector<unsigned int> m_indices;
+	
 };

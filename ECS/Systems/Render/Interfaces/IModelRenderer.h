@@ -10,4 +10,3 @@ public:
 	static std::unique_ptr<IModelRenderer> get_model_renderer();
 	
 };
-

@@ -24,6 +24,8 @@ private:
 	void load_spartan(entt::registry& registry);
 	void load_vivi(entt::registry& registry);
 	void load_mech(entt::registry& registry);
+	void load_cerberus(entt::registry& registry);
+	void load_test_any_model(entt::registry& registry);
 	
 	void attach_scene_light(IShaderProgram& shader_program);
 	void attach_dirlight(IShaderProgram& shader_program);

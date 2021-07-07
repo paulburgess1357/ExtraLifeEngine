@@ -16,5 +16,3 @@ private:
 	GameManager& m_game_manager;
 	
 };
-
-

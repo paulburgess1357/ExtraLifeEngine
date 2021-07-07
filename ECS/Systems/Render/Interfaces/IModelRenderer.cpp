@@ -16,5 +16,5 @@ std::unique_ptr<IModelRenderer> IModelRenderer::get_model_renderer() {
 	}
 
 	return renderer;
-
+	
 }

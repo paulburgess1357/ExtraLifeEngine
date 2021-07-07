@@ -22,7 +22,6 @@ public:
 	virtual void update(Camera& camera) const = 0;
 	virtual void destroy() const = 0;
 
-	//TODO update this unique
 	[[nodiscard]] static std::unique_ptr<IShaderUniformBlock> create_shader_uniform_block(ProjectionMatrix* projection_matrix);
 	
 protected:	

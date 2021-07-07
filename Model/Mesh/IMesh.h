@@ -7,7 +7,7 @@
 class IMesh{
 	
 public:
-	IMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
+	IMesh(std::vector<Vertex> vertices, std::vector<unsigned> indices);
 	virtual ~IMesh() = default;
 	virtual void destroy() = 0;
 
@@ -21,8 +21,8 @@ public:
 	[[nodiscard]] std::shared_ptr<ITextureHandler> get_texture_handler() const;
 	
 protected:
-	//TODO make unique
 	std::shared_ptr<ITextureHandler> m_texture_handler;	
 	std::vector<Vertex> m_vertices;
 	std::vector<unsigned int> m_indices;
+	
 };

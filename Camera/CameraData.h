@@ -21,4 +21,3 @@ protected:
 	bool m_view_matrix_needs_update;
 	
 };
-

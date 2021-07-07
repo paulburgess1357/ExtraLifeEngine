@@ -14,5 +14,5 @@ private:
 	static void merge_face(std::vector<VertexAndNormals>& merged_vector, const Face& next_face, const FaceType face_type);
 	static bool is_mergeable(const Face& start_face, const Face& next_face, const FaceType face_type);
 	static bool is_adjacent(const Face& start_face, const Face& next_face, const FaceType face_type);
+	
 };
-

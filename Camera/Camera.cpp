@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
 
 Camera::Camera(const glm::vec3& camera_position, const glm::vec3& camera_forward, float movement_speed, float look_sensitivity)
 	:CameraData(camera_position, camera_forward),
@@ -11,8 +10,7 @@ Camera::Camera(const glm::vec3& camera_position, const glm::vec3& camera_forward
 	m_camera_type_toggle { CameraType::FIXED_LEVEL_HORIZON, CameraType::FREE },
 	m_camera_type_toggle_tracker { 1 },
 	m_old_mouse_coords{ 0.0f, 0.0f },
-	m_first_rotation_movement{ true }{
-	
+	m_first_rotation_movement{ true }{	
 }
 
 void Camera::move(const Direction direction) {

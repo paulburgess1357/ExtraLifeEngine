@@ -1,9 +1,9 @@
 #include "IMesh.h"
 
-IMesh::IMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
+IMesh::IMesh(std::vector<Vertex> vertices, std::vector<unsigned> indices)
 	:m_texture_handler(nullptr),
-	 m_vertices{ vertices },
-	 m_indices{ indices }{
+	 m_vertices{ std::move(vertices) },
+	 m_indices{ std::move(indices) }{
 }
 
 size_t IMesh::get_indices_size() const {

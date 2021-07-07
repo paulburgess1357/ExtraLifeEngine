@@ -20,4 +20,3 @@ private:
 	static std::vector<VertexAndNormals> sort_faces(const std::vector<VertexAndNormals>& faces, FaceType face_type);
 	
 };
-

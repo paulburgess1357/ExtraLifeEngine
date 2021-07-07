@@ -3,8 +3,7 @@
 #include "../Utility/Print.h"
 #include <assimp/postprocess.h>
 
-const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_model_path, const bool assimp_flip_uvs){
-	
+const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_model_path, const bool assimp_flip_uvs){	
 	if(assimp_flip_uvs){
 		const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_FlipUVs);
 		check_assimp_importer(m_assimp_importer, scene);
@@ -21,7 +20,6 @@ void AssimpProcessor::check_assimp_importer(const Assimp::Importer& importer, co
 		FatalError::fatal_error("Assimp ReadFile Error: " + std::string(importer.GetErrorString()));
 	}
 }
-
 
 std::vector<Vertex> AssimpProcessor::process_verticies(const aiMesh* mesh){
 

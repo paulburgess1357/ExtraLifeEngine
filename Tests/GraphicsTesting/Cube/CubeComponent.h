@@ -1,11 +1,8 @@
 #pragma once
 	
-struct CubeComponent {
-	
+struct CubeComponent {	
 	CubeComponent(const unsigned int vao)
 		:m_vao{ vao } {
 	}
-	unsigned int m_vao;
-	
+	unsigned int m_vao;	
 };
-

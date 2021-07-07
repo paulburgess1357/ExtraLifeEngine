@@ -3,8 +3,8 @@
 #include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Utility/Print.h"
 
-OpenGL::OpenGLMesh::OpenGLMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, IShaderProgram& shader_program)
-    :IMesh{ vertices, indices },
+OpenGL::OpenGLMesh::OpenGLMesh(std::vector<Vertex> vertices, std::vector<unsigned> indices, IShaderProgram& shader_program)
+    :IMesh{ std::move(vertices), std::move(indices) },
      m_vao{ GraphicsConstants::UNINITIALIZED_VALUE },
 	 m_vbo{ GraphicsConstants::UNINITIALIZED_VALUE },
 	 m_ebo{ GraphicsConstants::UNINITIALIZED_VALUE }{

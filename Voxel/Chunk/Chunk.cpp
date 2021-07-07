@@ -4,6 +4,7 @@
 #include "../../Utility/Print.h"
 #include "../../Matrix/MatrixFunctions.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <string>
 
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },

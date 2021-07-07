@@ -17,13 +17,13 @@ IShaderUniformBlock::IShaderUniformBlock(ProjectionMatrix* projection_matrix)
 
 void IShaderUniformBlock::check_projection_view_block_created() const {
 	if (m_ubo_matrices_handle == GraphicsConstants::UNINITIALIZED_VALUE) {
-		FatalError::fatal_error("Projection view uniform block handle is 999999 and has not been properly initialized!");
+		FatalError::fatal_error("Projection view uniform block handle is: " + std::to_string(GraphicsConstants::UNINITIALIZED_VALUE) + " and has not been properly initialized!");
 	}
 }
 
 void IShaderUniformBlock::check_camera_position_block_created() const{
 	if (m_ubo_camera_handle == GraphicsConstants::UNINITIALIZED_VALUE) {
-		FatalError::fatal_error("Camera uniform block handle is 999999 and has not been properly initialized!");
+		FatalError::fatal_error("Camera uniform block handle is: " + std::to_string(GraphicsConstants::UNINITIALIZED_VALUE) + " and has not been properly initialized!");
 	}
 }
 

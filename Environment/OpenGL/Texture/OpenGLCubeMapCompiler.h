@@ -19,5 +19,3 @@ namespace OpenGL{
 	};
 	
 } // namespace OpenGL
-
-

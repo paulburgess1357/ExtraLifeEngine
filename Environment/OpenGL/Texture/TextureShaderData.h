@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
+#include "../../ResourceManagement/GraphicsConstants.h"
 
 struct TextureShaderData {
 
 	TextureShaderData()
-		:m_texture_name_in_shader{ "Texture Shader Data Uninitialized" }{
-		
+		:m_texture_name_in_shader{ "Texture Shader Data Uninitialized" }{		
 	}
 	
 	TextureShaderData(const std::string& texture_name_in_shader, 
@@ -29,7 +29,7 @@ struct TextureShaderData {
 	}
 	
 	std::string m_texture_name_in_shader;
-	unsigned int m_tex_unit { 999999 };
-	unsigned int m_tex_handle{ 999999 };
+	unsigned int m_tex_unit { GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int m_tex_handle{ GraphicsConstants::UNINITIALIZED_VALUE };
 	float m_shininess{ 16.0f };
 };

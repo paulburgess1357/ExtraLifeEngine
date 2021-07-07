@@ -3,6 +3,7 @@
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 #include "../../Utility/SBTIUtilities.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
 
 OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders)
@@ -11,7 +12,7 @@ OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::str
 
 std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name){
 
-	unsigned int texture_handle{ 999999 };
+	unsigned int texture_handle{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	// Store w/ OpenGL & bind
 	glGenTextures(1, &texture_handle);

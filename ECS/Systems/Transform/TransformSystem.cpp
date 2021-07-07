@@ -6,9 +6,9 @@
 #include "WorldOrbit.h"
 
 void Transform::TransformSystem::update(entt::registry& registry){
-	Transform::ModelMatrixReset::update(registry);
-	Transform::WorldScale::update(registry);
-	Transform::WorldMovement::update(registry);
-	Transform::WorldRotation::update(registry);
-	Transform::WorldOrbit::update(registry);
+	ModelMatrixReset::update(registry);
+	WorldScale::update(registry);
+	WorldMovement::update(registry);
+	WorldRotation::update(registry);
+	WorldOrbit::update(registry);
 }

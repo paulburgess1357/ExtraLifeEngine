@@ -1,4 +1,5 @@
 #include "OpenGLCubeLoader.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
 #include "../../Utility/Print.h"
 #include <glad/glad.h>
 
@@ -7,9 +8,9 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_verticies() const {
 	Print::print("Loading Cube Component Vertices");
 	
 	// Load/store CubeComponent Data
-	unsigned int vbo_id{ 99 };
-	unsigned int vao_id{ 99 };
-	unsigned int ebo_id{ 99 };
+	unsigned int vbo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int vao_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int ebo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	glGenBuffers(1, &vbo_id);
 	glGenBuffers(1, &ebo_id);
@@ -41,9 +42,9 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_verticies() const {
 	Print::print("Loading Cube Component Normal Vertices");
 	
 	// Load/store CubeComponent Data
-	unsigned int vbo_id{ 99 };
-	unsigned int vao_id{ 99 };
-	unsigned int ebo_id{ 99 };
+	unsigned int vbo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int vao_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int ebo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	glGenBuffers(1, &vbo_id);
 	glGenBuffers(1, &ebo_id);
@@ -80,9 +81,9 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_textured_verticies() const {
 	Print::print("Loading Cube Component Textured Vertices");
 
 	// Load/store CubeComponent Data
-	unsigned int vbo_id{ 99 };
-	unsigned int vao_id{ 99 };
-	unsigned int ebo_id{ 99 };
+	unsigned int vbo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int vao_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int ebo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	glGenBuffers(1, &vbo_id);
 	glGenBuffers(1, &ebo_id);
@@ -119,9 +120,9 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() con
 	Print::print("Loading Cube Component Textured Normal Vertices");
 	
 	// Load/store CubeComponent Data
-	unsigned int vbo_id{ 99 };
-	unsigned int vao_id{ 99 };
-	unsigned int ebo_id{ 99 };
+	unsigned int vbo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int vao_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int ebo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	glGenBuffers(1, &vbo_id);
 	glGenBuffers(1, &ebo_id);
@@ -160,8 +161,8 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cube_normal_textured_verticies() con
 CubeIDStruct OpenGL::OpenGLCubeLoader::load_cubemap_verticies() const{
 
 	// Load/store CubeComponent Data
-	unsigned int vbo_id{ 99 };
-	unsigned int vao_id{ 99 };
+	unsigned int vbo_id{ GraphicsConstants::UNINITIALIZED_VALUE };
+	unsigned int vao_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	glGenBuffers(1, &vbo_id);
 	glGenVertexArrays(1, &vao_id);
@@ -180,7 +181,7 @@ CubeIDStruct OpenGL::OpenGLCubeLoader::load_cubemap_verticies() const{
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	return CubeIDStruct{ vbo_id, vao_id, 99 };
+	return CubeIDStruct{ vbo_id, vao_id, GraphicsConstants::UNINITIALIZED_VALUE };
 	
 }
 

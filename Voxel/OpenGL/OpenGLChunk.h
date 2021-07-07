@@ -15,8 +15,7 @@ namespace OpenGL{
 
 		void set_vbo(const unsigned int vbo) override;
 		void set_vao(const unsigned int vao) override;
-
-		bool vbo_vao_initialized() const override;
+		[[nodiscard]] bool vbo_vao_initialized() const override;
 
 		void destroy() const override;
 		

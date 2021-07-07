@@ -35,4 +35,3 @@ private:
 	LightResource& m_light_resource;
 	CubeResource& m_cube_resource;
 };
-

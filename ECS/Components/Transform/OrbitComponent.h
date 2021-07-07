@@ -37,5 +37,3 @@ struct OrbitComponent{
 	float m_maintain_orientation_rotation_tracker{ 0.0f };
 	
 };
-
-

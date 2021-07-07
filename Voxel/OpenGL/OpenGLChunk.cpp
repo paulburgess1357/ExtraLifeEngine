@@ -1,6 +1,5 @@
 #include "OpenGLChunk.h"
 #include "../../ResourceManagement/GraphicsConstants.h"
-#include "../../Utility/Print.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLChunk::OpenGLChunk(const WorldPosition& starting_world_position, const unsigned int vbo, const unsigned int vao)
@@ -46,5 +45,3 @@ void OpenGL::OpenGLChunk::destroy() const{
 		glDeleteVertexArrays(1, &m_vao);
 	}
 }
-
-

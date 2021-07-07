@@ -24,5 +24,3 @@ namespace Transform{
 	};
 	
 } // namespace Transform
-
-

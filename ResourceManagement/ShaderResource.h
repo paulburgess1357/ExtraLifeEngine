@@ -15,7 +15,7 @@ public:
 	void destroy_all();
 	
 private:		
-	bool is_loaded(const std::string& shader_name);
+	bool is_loaded(const std::string& shader_name) const;
 	std::unordered_map<std::string, std::unique_ptr<IShaderProgram>> m_shader_cache;
 	
 };

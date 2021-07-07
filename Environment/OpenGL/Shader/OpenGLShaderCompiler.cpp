@@ -3,6 +3,7 @@
 #include "OpenGLUniformBlock.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
+#include "../../../ResourceManagement/GraphicsConstants.h"
 #include <glad/glad.h>
 
 OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const IShaderLoader& shader_loader)
@@ -37,7 +38,7 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 
 unsigned int OpenGL::OpenGLShaderCompiler::compile_glsl_shader(const std::string& shader_glsl_code, const ShaderType shader_type){
 	const char* shader_code_ptr = shader_glsl_code.c_str();
-	unsigned int shader_id{ 99 };
+	unsigned int shader_id{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	if(shader_type == ShaderType::VERTEX){
 		Print::print("Creating Vertex Shader");

@@ -5,8 +5,10 @@
 namespace Transform{
 
 	class WorldOrbit {
+		
 	public:
 		static void update(entt::registry& registry);
+		
 	private:
 		static glm::mat4 orbit(OrbitComponent& orbit);
 		static glm::quat apply_counter_rotation(OrbitComponent& orbit);
@@ -15,5 +17,3 @@ namespace Transform{
 	};
 	
 } // namespace Transform
-
-

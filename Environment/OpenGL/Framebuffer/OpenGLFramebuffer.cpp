@@ -1,0 +1,188 @@
+#include "OpenGLFramebuffer.h"
+#include "../../Utility/FatalError.h"
+#include "../../ResourceManagement/GraphicsConstants.h"
+#include <glad/glad.h>
+
+// Framebuffer requirements
+// 1) One Buffer: Color, Depth, or Stencil
+// 2) At least one color attachment
+// 3) All attachments should be complete (reserved memory)
+// 4) Each buffer should have the same number of samples
+
+// Attachments
+// Two Options: Textures or Renderbuffer Objects
+// Textures: All rendering commands write to the texture
+// Renderbuffer: Faster than texture due to no conversions.  Data is stored
+//               directly into the buffer
+//               Write only: Often used for depth and stencil attachments
+
+// learnopengl.com: 
+// The general rule is that if you never need to sample data from a specific
+// buffer, it is wise to use a renderbuffer object for that specific buffer.
+// If you need to sample data from a specific buffer like colors or depth
+// values, you should use a texture attachment instead.
+
+// To draw the scene to a single texture:
+// 1) Render the scene like normal with the new framebuffer bound
+// 2) Bind to the default framebuffer
+// 3) Draw a quad that spans the entire screen with the new framebuffer's color
+//    buffer as its texture
+
+OpenGL::OpenGLFramebuffer::OpenGLFramebuffer(const IWindow& window)
+	:IFrameBuffer{ window } {
+	setup_quad();
+	generate_fbo();
+}
+
+void OpenGL::OpenGLFramebuffer::setup_quad() {
+
+	float quad_vertices[] = {
+		// positions   // texCoords
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f,  1.0f, 1.0f
+	};
+
+	glGenBuffers(1, &m_framebuffer_quad_vbo);
+	glGenVertexArrays(1, &m_framebuffer_quad_vao);
+	
+	glBindVertexArray(m_framebuffer_quad_vao);
+
+	// Store Data
+	glBindBuffer(GL_ARRAY_BUFFER, m_framebuffer_quad_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quad_vertices), quad_vertices, GL_STATIC_DRAW);
+
+	// Vertex Position Data
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Vertex Texture Data
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	// Unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void OpenGL::OpenGLFramebuffer::bind() const{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer_handle);
+}
+
+void OpenGL::OpenGLFramebuffer::unbind() const{
+	// Will revert to the default framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void OpenGL::OpenGLFramebuffer::destroy() const{
+	if(m_framebuffer_handle != GraphicsConstants::UNINITIALIZED_VALUE){
+		glDeleteFramebuffers(1, &m_framebuffer_handle);
+	}
+	if (m_framebuffer_texture_handle != GraphicsConstants::UNINITIALIZED_VALUE) {
+		glDeleteTextures(1, &m_framebuffer_texture_handle);
+	}
+	if (m_framebuffer_renderbuffer_handle != GraphicsConstants::UNINITIALIZED_VALUE) {
+		glDeleteRenderbuffers(1, &m_framebuffer_renderbuffer_handle);
+	}	
+	if (m_framebuffer_quad_vbo != GraphicsConstants::UNINITIALIZED_VALUE) {
+		glDeleteBuffers(1, &m_framebuffer_quad_vbo);
+	}
+	if (m_framebuffer_quad_vao != GraphicsConstants::UNINITIALIZED_VALUE) {
+		glDeleteVertexArrays(1, &m_framebuffer_quad_vao);
+	}
+}
+
+void OpenGL::OpenGLFramebuffer::generate_fbo() {
+	glGenFramebuffers(1, &m_framebuffer_handle);
+}
+
+void OpenGL::OpenGLFramebuffer::create_texture_attachment() {
+
+	//TODO if screen size changes, the texture attachment has to change
+	
+	glGenTextures(1, &m_framebuffer_texture_handle);
+	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
+
+	const int width = m_window.get_width();
+	const int height = m_window.get_height();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);	
+}
+
+void OpenGL::OpenGLFramebuffer::attach_texture_attachment_to_framebuffer() const{
+
+	// Note that you can attach more than one color attachment (GL_COLOR_ATTACHMENT0)
+	
+	if(m_framebuffer_texture_handle == GraphicsConstants::UNINITIALIZED_VALUE){
+		FatalError::fatal_error("You have an uninitialized framebuffer texture handle that you are trying to attach to the framebuffer!  You need to create the texture attachment first!");
+	}
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
+}
+
+void OpenGL::OpenGLFramebuffer::create_renderbuffer_attachment(){
+
+	//TODO if screen size changes, the texture attachment has to change
+	
+	glGenRenderbuffers(1, &m_framebuffer_renderbuffer_handle);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+
+	// Render buffers are write only.  They are often used for depth or stencil
+	// testing.  This creates a depth AND stencil renderbuffer object:
+	const int width = m_window.get_width();
+	const int height = m_window.get_height();
+	
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+}
+
+void OpenGL::OpenGLFramebuffer::attach_renderbuffer_attachment_to_framebuffer() const{
+	if(m_framebuffer_renderbuffer_handle == GraphicsConstants::UNINITIALIZED_VALUE){
+		FatalError::fatal_error("You have an uninitialized renderbuffer handle that you are trying to attach to the framebuffer!  You need to create the texture attachment first!");
+	}
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+}
+
+void OpenGL::OpenGLFramebuffer::check_framebuffer_status() const{
+	const GLenum framebuffer_status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(framebuffer_status != GL_FRAMEBUFFER_COMPLETE){
+		std::string error;
+		switch(framebuffer_status){
+		case GL_FRAMEBUFFER_UNDEFINED:
+			error = "GL_FRAMEBUFFER_UNDEFINED";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
+			break;
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			error = "GL_FRAMEBUFFER_UNSUPPORTED";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+			error = "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS ";
+			break;
+		default: 
+			error = "Unknown Framebuffer Error!";
+			break;			
+		}
+		FatalError::fatal_error("Framebuffer error: " + error);				
+	}
+}

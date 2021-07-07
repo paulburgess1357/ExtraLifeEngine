@@ -23,12 +23,25 @@
 
 SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
 	                     TextureResource& texture_resource, LightResource& light_resource,
-						 CubeResource& cube_resource)
+						 CubeResource& cube_resource, IFrameBuffer& framebuffer)
 	:m_shader_resource{ shader_resource },
 	 m_model_resource{ model_resource },
 	 m_texture_resource{ texture_resource },
 	 m_light_resource{ light_resource },
-	 m_cube_resource{ cube_resource }{
+	 m_cube_resource{ cube_resource },
+	m_framebuffer{ framebuffer }{
+}
+
+void SceneLoader::load_scene(entt::registry& registry) {
+	// TODO shader loader or some alternative for voxels?
+	voxels(registry);
+	
+	// grid(registry);
+	// single_cube(registry);
+	// single_cube_textured(registry);
+	models(registry);
+	cubemap(registry);
+	load_framebuffer(registry);
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -245,6 +258,16 @@ void SceneLoader::voxels(entt::registry& registry){
 	attach_dirlight(*shader_program);
 }
 
+void SceneLoader::load_framebuffer(entt::registry& registry){
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer/vertex/framebuffer_basic.glsl", "Assets/shaders/framebuffer/fragment/framebuffer_basic.glsl");
+	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
+
+
+}
+
 void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
 	DirectionalLight dirlight{"dirlight"};
 	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);	
@@ -277,12 +300,4 @@ void SceneLoader::attach_point_light(IShaderProgram& shader_program){
 	// LightResource::load("pointlight2", pointlight2);
 }
 
-void SceneLoader::load_scene(entt::registry& registry){
-	// TODO shader loader or some alternative for voxels?
-	voxels(registry);
-	// grid(registry);
-	// single_cube(registry);
-	// single_cube_textured(registry);
-	models(registry);
-	cubemap(registry);
-}
+

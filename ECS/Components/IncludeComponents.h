@@ -5,6 +5,7 @@
 #include "./Lights/DirectionalLight.h"
 #include "./Shader/VoxelShaderComponent.h"
 #include "./Shader/ShaderComponent.h"
+#include "./FrameBuffer/FrameBufferComponent.h"
 #include "./Model/ModelComponent.h"
 #include "./Transform/TransformComponent.h"
 #include "./Transform/ScaleComponent.h"

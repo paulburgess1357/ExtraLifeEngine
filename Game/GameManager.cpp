@@ -34,6 +34,7 @@ void GameManager::run(){
 void GameManager::initialize_window(){
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
 	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
+	m_framebuffer = IFrameBuffer::create_framebuffer(*m_window);
 }
 
 void GameManager::initialize_imgui(){
@@ -62,7 +63,9 @@ void GameManager::initialize_resources(){
 }
 
 void GameManager::initialize_scene(){
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, *m_texture_resource, *m_light_resource, *m_cube_resource);
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, 
+		                                           *m_texture_resource, *m_light_resource, 
+		                                           *m_cube_resource, *m_framebuffer);
 	m_scene_loader->load_scene(m_registry);
 }
 
@@ -77,13 +80,13 @@ void GameManager::initialize_renderers() {
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
 	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource->get("voxel_shader"));
+	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
 }
 
 void GameManager::gameloop() {
-	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
+	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {		
 		m_input_handler.handle_input();
 		m_mouse_handler.handle_input();
-		m_window->clear_color();
 		update();
 		render();
 		m_window->swap_buffer();
@@ -100,15 +103,19 @@ void GameManager::update(){
 }
 
 void GameManager::render(){	
+	m_window->clear_buffers();
+	m_framebuffer_renderer->start_render(m_registry);
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
+	m_framebuffer_renderer->end_render(m_registry);		
 	ImGuiNS::ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
 	m_shader_uniform_block_handler->destroy();
+	m_framebuffer->destroy();
 	glfwTerminate();
 }

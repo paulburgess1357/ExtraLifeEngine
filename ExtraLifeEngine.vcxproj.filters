@@ -273,6 +273,18 @@
     <ClCompile Include="ECS\Systems\Voxel\VoxelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Systems\Render\Interfaces\IFrameBufferRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Interfaces\Framebuffer\IFrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -678,6 +690,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManagement\GraphicsConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Systems\Render\Interfaces\IFrameBufferRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\FrameBuffer\FrameBufferComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,12 +5,14 @@
 #include "../Input/Processing/InputHandler.h"
 #include "../Input/Processing/MouseHandler.h"
 #include "../Environment/Interfaces/Window/IWindow.h"
+#include "../Environment/Interfaces/Framebuffer/IFrameBuffer.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
 #include "../ResourceManagement/IncludeResources.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../ECS/Systems/Voxel/VoxelLoader.h"
 #include "../ECS/Systems/Voxel/IVoxelUpdater.h"
 #include "../ECS/Systems/Render/Interfaces/IncludeRenderers.h"
+#include "../ECS/Systems/Render/Interfaces/IFrameBufferRenderer.h"
 #include "../World/WorldPositionsInRangeUpdater.h"
 #include "entt/entity/registry.hpp"
 #include <memory>
@@ -45,6 +47,7 @@ private:
 	MouseHandler m_mouse_handler;
 		
 	std::unique_ptr<IWindow> m_window = nullptr;
+	std::unique_ptr<IFrameBuffer> m_framebuffer = nullptr;
 
 	std::unique_ptr<VoxelResource> m_voxel_resource = nullptr;
 	std::unique_ptr<ShaderResource> m_shader_resource = nullptr;
@@ -63,6 +66,7 @@ private:
 	std::unique_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::unique_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::unique_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
+	std::unique_ptr<IFrameBufferRenderer> m_framebuffer_renderer = nullptr;
 
 	std::unique_ptr<ProjectionMatrix> m_projection_matrix = nullptr;
 };

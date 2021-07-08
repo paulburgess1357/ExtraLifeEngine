@@ -7,7 +7,7 @@ public:
 	virtual ~IWindow();
 
 	virtual void swap_buffer() const = 0;
-	virtual void clear_color() const = 0;
+	virtual void clear_buffers() const = 0;
 	virtual GLFWwindow* get_glfw_ptr();
 
 	static int get_width();

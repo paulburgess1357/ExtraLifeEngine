@@ -1,6 +1,5 @@
 #include "OpenGLFramebuffer.h"
 #include "../../Utility/FatalError.h"
-#include "../../ResourceManagement/GraphicsConstants.h"
 #include <glad/glad.h>
 
 // Framebuffer requirements
@@ -69,8 +68,17 @@ void OpenGL::OpenGLFramebuffer::setup_quad() {
 	glBindVertexArray(0);
 }
 
+void OpenGL::OpenGLFramebuffer::generate_fbo() {
+	glGenFramebuffers(1, &m_framebuffer_handle);
+}
+
 void OpenGL::OpenGLFramebuffer::bind() const{
 	glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer_handle);
+}
+
+void OpenGL::OpenGLFramebuffer::unbind() const {
+	// Will revert to the default framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void OpenGL::OpenGLFramebuffer::bind_framebuffer_texture() const{
@@ -83,81 +91,67 @@ void OpenGL::OpenGLFramebuffer::unbind_framebuffer_texture() const{
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-
-void OpenGL::OpenGLFramebuffer::unbind() const{
-	// Will revert to the default framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+void OpenGL::OpenGLFramebuffer::bind_framebuffer_quad() const {
+	glBindVertexArray(m_framebuffer_quad_vao);
 }
 
-void OpenGL::OpenGLFramebuffer::destroy() const{
-	if(m_framebuffer_handle != GraphicsConstants::UNINITIALIZED_VALUE){
-		glDeleteFramebuffers(1, &m_framebuffer_handle);
-	}
-	if (m_framebuffer_texture_handle != GraphicsConstants::UNINITIALIZED_VALUE) {
-		glDeleteTextures(1, &m_framebuffer_texture_handle);
-	}
-	if (m_framebuffer_renderbuffer_handle != GraphicsConstants::UNINITIALIZED_VALUE) {
-		glDeleteRenderbuffers(1, &m_framebuffer_renderbuffer_handle);
-	}	
-	if (m_framebuffer_quad_vbo != GraphicsConstants::UNINITIALIZED_VALUE) {
-		glDeleteBuffers(1, &m_framebuffer_quad_vbo);
-	}
-	if (m_framebuffer_quad_vao != GraphicsConstants::UNINITIALIZED_VALUE) {
-		glDeleteVertexArrays(1, &m_framebuffer_quad_vao);
-	}
+void OpenGL::OpenGLFramebuffer::unbind_framebuffer_quad() const {
+	glBindVertexArray(0);
 }
 
-void OpenGL::OpenGLFramebuffer::generate_fbo() {
-	glGenFramebuffers(1, &m_framebuffer_handle);
+void OpenGL::OpenGLFramebuffer::clear_buffer() const{
+	// Clear the custom bound (this class) framebuffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void OpenGL::OpenGLFramebuffer::destroy() const{	
+	glDeleteFramebuffers(1, &m_framebuffer_handle);		
+	glDeleteTextures(1, &m_framebuffer_texture_handle);		
+	glDeleteRenderbuffers(1, &m_framebuffer_renderbuffer_handle);			
+	glDeleteBuffers(1, &m_framebuffer_quad_vbo);		
+	glDeleteVertexArrays(1, &m_framebuffer_quad_vao);
 }
 
 void OpenGL::OpenGLFramebuffer::create_texture_attachment() {
-
-	//TODO if screen size changes, the texture attachment has to change
 	
 	glGenTextures(1, &m_framebuffer_texture_handle);
 	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
 
-	const int width = m_window.get_width();
-	const int height = m_window.get_height();
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_window_width, m_window_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glBindTexture(GL_TEXTURE_2D, 0);	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
 }
 
-void OpenGL::OpenGLFramebuffer::attach_texture_attachment_to_framebuffer() const{
-
-	// Note that you can attach more than one color attachment (GL_COLOR_ATTACHMENT0)
+void OpenGL::OpenGLFramebuffer::rescale_texture_attachment(){
 	
-	if(m_framebuffer_texture_handle == GraphicsConstants::UNINITIALIZED_VALUE){
-		FatalError::fatal_error("You have an uninitialized framebuffer texture handle that you are trying to attach to the framebuffer!  You need to create the texture attachment first!");
-	}
+	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_window_width, m_window_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
 }
 
 void OpenGL::OpenGLFramebuffer::create_renderbuffer_attachment(){
-
-	//TODO if screen size changes, the texture attachment has to change
 	
 	glGenRenderbuffers(1, &m_framebuffer_renderbuffer_handle);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
 
 	// Render buffers are write only.  They are often used for depth or stencil
 	// testing.  This creates a depth AND stencil renderbuffer object:
-	const int width = m_window.get_width();
-	const int height = m_window.get_height();
-	
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_window_width, m_window_height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
 }
 
-void OpenGL::OpenGLFramebuffer::attach_renderbuffer_attachment_to_framebuffer() const{
-	if(m_framebuffer_renderbuffer_handle == GraphicsConstants::UNINITIALIZED_VALUE){
-		FatalError::fatal_error("You have an uninitialized renderbuffer handle that you are trying to attach to the framebuffer!  You need to create the texture attachment first!");
-	}
+void OpenGL::OpenGLFramebuffer::rescale_renderbuffer_attachment(){
+	
+	glBindRenderbuffer(GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_window_width, m_window_height);
+	
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
 }
 

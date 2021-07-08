@@ -3,38 +3,37 @@
 #include <memory>
 
 class IFrameBuffer{
+	
 public:
 	IFrameBuffer(const IWindow& window);
 	virtual ~IFrameBuffer() = default;
+	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);
+
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
 	
 	virtual void bind_framebuffer_texture() const = 0;
 	virtual void unbind_framebuffer_texture() const = 0;
-	
+
+	virtual void bind_framebuffer_quad() const = 0;
+	virtual void unbind_framebuffer_quad() const = 0;
+
+	virtual void clear_buffer() const = 0;
 	virtual void destroy() const = 0;
 
-	[[nodiscard]] unsigned int get_framebuffer_handle() const;
-
-	[[nodiscard]] unsigned int get_framebuffer_renderbuffer_handle() const;
-	[[nodiscard]] unsigned int get_framebuffer_quad_vbo() const;
-	[[nodiscard]] unsigned int get_framebuffer_quad_vao() const;
-
-	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);
-	
-	// Attachment types
-	// Texture
-	// TODO create update_texture_attachment function to handle screen size changing
+	void update_scaling();
+					
+protected:
 	void virtual create_texture_attachment() = 0;
-	void virtual attach_texture_attachment_to_framebuffer() const = 0;	
-
-	// Renderbuffer
-	// TODO create update_texture_attachment function to handle screen size changing
+	void virtual rescale_texture_attachment() = 0;
+	
 	void virtual create_renderbuffer_attachment() = 0;
-	void virtual attach_renderbuffer_attachment_to_framebuffer() const = 0;
-		
-protected:	
+	void virtual rescale_renderbuffer_attachment() = 0;
+	
 	virtual void check_framebuffer_status() const = 0;
+
+	[[nodiscard]] bool window_size_has_changed() const;
+	void update_window_size();
 	
 	unsigned int m_framebuffer_handle;
 	unsigned int m_framebuffer_texture_handle;
@@ -45,6 +44,10 @@ protected:
 
 	const IWindow& m_window;
 
+	int m_window_width;
+	int m_window_height;
+
 private:
 	void initialize();
+	
 };

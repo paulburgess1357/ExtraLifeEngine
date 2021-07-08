@@ -84,10 +84,9 @@ void GameManager::initialize_renderers() {
 }
 
 void GameManager::gameloop() {
-	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
+	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {		
 		m_input_handler.handle_input();
 		m_mouse_handler.handle_input();
-		m_window->clear_color();
 		update();
 		render();
 		m_window->swap_buffer();
@@ -104,24 +103,19 @@ void GameManager::update(){
 }
 
 void GameManager::render(){	
-	
-	// m_cubemap_renderer->render(m_registry, m_camera); // only displays after end_render, but, when that is done, the other objects are not shown...
-	// works when its insdie the framebuffer...
-	// Need to figure out cubemap depth stuff....
-	
+	m_window->clear_buffers();
 	m_framebuffer_renderer->start_render(m_registry);
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
-	m_framebuffer_renderer->end_render(m_registry);
-	
-	
+	m_framebuffer_renderer->end_render(m_registry);		
 	ImGuiNS::ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
 	m_shader_uniform_block_handler->destroy();
+	m_framebuffer->destroy();
 	glfwTerminate();
 }

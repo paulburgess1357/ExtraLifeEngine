@@ -8,24 +8,28 @@ namespace OpenGL{
 	public:		
 		OpenGLFramebuffer(const IWindow& window);
 		~OpenGLFramebuffer() = default;
-
-		void setup_quad();
+		
 		void bind() const override;
+		void unbind() const override;
+		
 		void bind_framebuffer_texture() const override;
 		void unbind_framebuffer_texture() const override;
-		void unbind() const override;
+
+		void bind_framebuffer_quad() const override;
+		void unbind_framebuffer_quad() const override;
+
+		void clear_buffer() const override;
 		void destroy() const override;
-
-		void create_texture_attachment() override;
-		void attach_texture_attachment_to_framebuffer() const override;
-		//TODO create update_texture_attachment function to handle screen size changing
-
-		void create_renderbuffer_attachment() override;
-		void attach_renderbuffer_attachment_to_framebuffer() const override;
-
-		void check_framebuffer_status() const override;
 		
-	private:	
+	private:
+		void create_texture_attachment() override;
+		void rescale_texture_attachment() override;
+		
+		void create_renderbuffer_attachment() override;
+		void rescale_renderbuffer_attachment() override;
+		
+		void check_framebuffer_status() const override;
+		void setup_quad();
 		void generate_fbo();
 		
 	};

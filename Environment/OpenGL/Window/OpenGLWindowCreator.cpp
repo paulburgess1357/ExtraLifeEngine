@@ -58,7 +58,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 
 	// Depth Testing (requires glClear GL_DEPTH_BUFFER_BIT)
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LEQUAL);
 
 	// Alpha blending
 	// glEnable(GL_BLEND);

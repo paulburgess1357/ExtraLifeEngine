@@ -41,7 +41,7 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	single_cube_textured(registry);
 	models(registry);
 	cubemap(registry);
-	load_framebuffer(registry);
+	// load_framebuffer(registry);
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {

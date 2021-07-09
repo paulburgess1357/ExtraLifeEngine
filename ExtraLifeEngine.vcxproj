@@ -160,7 +160,9 @@
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Voxel\VoxelLoader.cpp" />
     <ClCompile Include="Environment\Interfaces\Framebuffer\IFrameBuffer.cpp" />
+    <ClCompile Include="Environment\Interfaces\StencilTesting\StencilTesting.cpp" />
     <ClCompile Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.cpp" />
+    <ClCompile Include="Environment\OpenGL\StencilTesting\OpenGLStencilTesting.cpp" />
     <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.cpp" />
@@ -254,7 +256,9 @@
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.h" />
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h" />
     <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h" />
+    <ClInclude Include="Environment\Interfaces\StencilTesting\StencilTesting.h" />
     <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h" />
+    <ClInclude Include="Environment\OpenGL\StencilTesting\OpenGLStentilTesting.h" />
     <ClInclude Include="World\WorldPositionsInRangeUpdater.h" />
     <ClInclude Include="ECS\Components\IncludeComponents.h" />
     <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h" />

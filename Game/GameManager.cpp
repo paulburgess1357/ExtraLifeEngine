@@ -64,8 +64,7 @@ void GameManager::initialize_resources() {
 
 void GameManager::initialize_scene() {
 	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,
-		*m_texture_resource, *m_light_resource,
-		*m_cube_resource, *m_framebuffer);
+		*m_texture_resource, *m_light_resource, *m_cube_resource, *m_framebuffer);
 	m_scene_loader->load_scene(m_registry);
 }
 

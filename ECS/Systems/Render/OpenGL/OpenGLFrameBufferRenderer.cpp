@@ -23,11 +23,15 @@ void OpenGL::OpenGLFrameBufferRenderer::start_render(entt::registry& registry) c
 		// Set custom frame buffer as active
 		framebuffer_component.m_frame_buffer->bind();
 
-		// Depth testing necessary (normally disabled for on-screen quad)
-		glEnable(GL_DEPTH_TEST);
-
 		// Clear custom framebuffers contents
 		framebuffer_component.m_frame_buffer->clear_buffer();
+		
+		// Depth testing necessary (normally disabled for on-screen quad)
+		// Only necessary to enable if you disable depth testing in the
+		// 'end_render' function.  However, you can simply avoid that call
+		// by rending the quad last over everything else. (See framebuffer
+		// shader for additional info).
+		// glEnable(GL_DEPTH_TEST);
 
 		// The rest of the render systems will now run (see game manager
 		// for system order).  The scene is rendered like normal except
@@ -50,10 +54,11 @@ void OpenGL::OpenGLFrameBufferRenderer::end_render(entt::registry& registry) con
 		framebuffer_component.m_frame_buffer->unbind();
 
 		// Disable depth test (ensures quad is drawn in front of everything)
-		glDisable(GL_DEPTH_TEST);
+		// This is handled in both the shader and by drawing this last.
+		// See the shader for more info.
+		// glDisable(GL_DEPTH_TEST);
 		
 		// Bind the framebuffer shader, quad vao, and color texture:
-		// TODO store pointer to shader in framebuffer?
 		shader_component.m_shader_program->bind();
 		framebuffer_component.m_frame_buffer->bind_framebuffer_quad();
 		framebuffer_component.m_frame_buffer->bind_framebuffer_texture();

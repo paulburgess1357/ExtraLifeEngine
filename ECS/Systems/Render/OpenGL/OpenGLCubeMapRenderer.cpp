@@ -7,8 +7,6 @@ void OpenGL::OpenGLCubeMapRenderer::render(entt::registry& registry, Camera& cam
 
 	auto view = registry.view<ShaderComponent, CubeMapComponent>();
 	
-	glDepthFunc(GL_LEQUAL);
-	
 	for (auto entity : view){		
 
 		auto& shader = view.get<ShaderComponent>(entity);
@@ -26,7 +24,5 @@ void OpenGL::OpenGLCubeMapRenderer::render(entt::registry& registry, Camera& cam
 		shader.m_shader_program->unbind_textures();
 		shader.m_shader_program->unbind();		
 	}
-
-	glDepthFunc(GL_LESS);
 	
 }

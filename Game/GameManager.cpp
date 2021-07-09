@@ -6,12 +6,12 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	 m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.005f, 0.05f} },
-	 m_input_handler{ m_camera },
-	 m_mouse_handler{ m_camera }{	
+	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.005f, 0.05f} },
+	m_input_handler{ m_camera },
+	m_mouse_handler{ m_camera }{
 }
 
-GameManager::~GameManager(){
+GameManager::~GameManager() {
 	destroy();
 }
 
@@ -19,7 +19,7 @@ void GameManager::set_game_state(GameState gamestate) {
 	m_gamestate = gamestate;
 }
 
-void GameManager::run(){
+void GameManager::run() {
 	initialize_window();
 	initialize_imgui();
 	initialize_uniform_block_handler();
@@ -27,22 +27,22 @@ void GameManager::run(){
 	initialize_resources();
 	initialize_scene();
 	initialize_updaters();
-	initialize_renderers();	
+	initialize_renderers();
 	gameloop();
 }
 
-void GameManager::initialize_window(){
+void GameManager::initialize_window() {
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
 	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
 	m_framebuffer = IFrameBuffer::create_framebuffer(*m_window);
 }
 
-void GameManager::initialize_imgui(){
+void GameManager::initialize_imgui() {
 	ImGuiNS::ImGuiInterface::initialize_window(*m_window);
 	ImGuiNS::ImGuiInterface::initialize_camera_data(m_camera);
 }
 
-void GameManager::initialize_uniform_block_handler(){
+void GameManager::initialize_uniform_block_handler() {
 	m_shader_uniform_block_handler = IShaderUniformBlock::create_shader_uniform_block(m_projection_matrix.get());
 }
 
@@ -53,7 +53,7 @@ void GameManager::initialize_controls() {
 	m_input_handler.set_imgui_display(std::make_unique<ImGuiDisplayCommand>());
 }
 
-void GameManager::initialize_resources(){
+void GameManager::initialize_resources() {
 	m_voxel_resource = std::make_unique<VoxelResource>();
 	m_shader_resource = std::make_unique<ShaderResource>();
 	m_model_resource = std::make_unique<ModelResource>();
@@ -62,16 +62,16 @@ void GameManager::initialize_resources(){
 	m_cube_resource = std::make_unique<CubeResource>();
 }
 
-void GameManager::initialize_scene(){
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource, 
-		                                           *m_texture_resource, *m_light_resource, 
-		                                           *m_cube_resource, *m_framebuffer);
+void GameManager::initialize_scene() {
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,
+		*m_texture_resource, *m_light_resource,
+		*m_cube_resource, *m_framebuffer);
 	m_scene_loader->load_scene(m_registry);
 }
 
-void GameManager::initialize_updaters(){	
-	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(0, 0, 0, m_camera);	
-	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource,  *m_world_positions_in_range_updater);
+void GameManager::initialize_updaters() {
+	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);
+	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource, *m_world_positions_in_range_updater);
 	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 }
 
@@ -84,7 +84,7 @@ void GameManager::initialize_renderers() {
 }
 
 void GameManager::gameloop() {
-	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {		
+	while (m_gamestate != GameState::EXIT && !glfwWindowShouldClose(m_window->get_glfw_ptr())) {
 		m_input_handler.handle_input();
 		m_mouse_handler.handle_input();
 		update();
@@ -93,7 +93,7 @@ void GameManager::gameloop() {
 	}
 }
 
-void GameManager::update(){	
+void GameManager::update() {
 	m_shader_uniform_block_handler->update(m_camera);
 	m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
 	m_voxel_loader->update();
@@ -102,14 +102,14 @@ void GameManager::update(){
 	ImGuiNS::ImGuiInterface::update();
 }
 
-void GameManager::render(){	
+void GameManager::render() {
 	m_window->clear_buffers();
-	m_framebuffer_renderer->start_render(m_registry);
-	m_cubemap_renderer->render(m_registry, m_camera);
+	m_framebuffer_renderer->start_render(m_registry);	
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
-	m_framebuffer_renderer->end_render(m_registry);		
+	m_cubemap_renderer->render(m_registry, m_camera);
+	m_framebuffer_renderer->end_render(m_registry);
 	ImGuiNS::ImGuiInterface::render();
 }
 

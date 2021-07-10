@@ -285,12 +285,6 @@
     <ClCompile Include="Environment\Interfaces\Framebuffer\IFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Environment\Interfaces\StencilTesting\StencilTesting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment\OpenGL\StencilTesting\OpenGLStencilTesting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -711,12 +705,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Environment\Interfaces\StencilTesting\StencilTesting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Environment\OpenGL\StencilTesting\OpenGLStentilTesting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

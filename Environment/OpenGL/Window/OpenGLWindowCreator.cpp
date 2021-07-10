@@ -61,7 +61,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glDepthFunc(GL_LEQUAL);
 
 	// Stencil Testing
-	glEnable(GL_STENCIL_TEST);
+	// glEnable(GL_STENCIL_TEST);
 	// glStencilMask(0x00); Necessary?
 
 	// E.g. Whenever the stencil value of a fragment is equal to the reference

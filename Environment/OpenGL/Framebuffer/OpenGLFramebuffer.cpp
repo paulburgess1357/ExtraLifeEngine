@@ -101,7 +101,8 @@ void OpenGL::OpenGLFramebuffer::unbind_framebuffer_quad() const {
 
 void OpenGL::OpenGLFramebuffer::clear_buffer() const{
 	// Clear the custom bound (this class) framebuffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void OpenGL::OpenGLFramebuffer::destroy() const{	

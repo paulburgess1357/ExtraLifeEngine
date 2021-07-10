@@ -8,7 +8,7 @@ namespace OpenGL{
 	public:		
 		OpenGLFramebuffer(const IWindow& window);
 		~OpenGLFramebuffer() = default;
-		
+
 		void bind() const override;
 		void unbind() const override;
 		

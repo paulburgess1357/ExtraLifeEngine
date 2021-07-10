@@ -60,6 +60,15 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
+	// Stencil Testing
+	// glEnable(GL_STENCIL_TEST);
+	// glStencilMask(0x00); Necessary?
+
+	// E.g. Whenever the stencil value of a fragment is equal to the reference
+	//      value of one, the gragment passes the test and is drawn.  Otherwise
+	//      it is discarded.
+	// glStencilFunc(GL_EQUAL, 1, 0xFF) // Necessary?
+	
 	// Alpha blending
 	// glEnable(GL_BLEND);
 	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

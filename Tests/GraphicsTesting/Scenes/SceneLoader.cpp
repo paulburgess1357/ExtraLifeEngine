@@ -25,10 +25,10 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 	                     TextureResource& texture_resource, LightResource& light_resource,
 						 CubeResource& cube_resource, IFrameBuffer& framebuffer)
 	:m_shader_resource{ shader_resource },
-	 m_model_resource{ model_resource },
-	 m_texture_resource{ texture_resource },
-	 m_light_resource{ light_resource },
-	 m_cube_resource{ cube_resource },
+	m_model_resource{ model_resource },
+	m_texture_resource{ texture_resource },
+	m_light_resource{ light_resource },
+	m_cube_resource{ cube_resource },
 	m_framebuffer{ framebuffer }{
 }
 
@@ -44,36 +44,22 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	//load_framebuffer(registry);
 }
 
-void SceneLoader::single_cube(entt::registry& registry) {
+void SceneLoader::single_cube(entt::registry& registry) const {
 
-	m_shader_resource.load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl", true);
+	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders/colored_cube/colored_cube_vertex.glsl", "Assets/shaders/model_shaders/colored_cube/colored_cube_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
-	// No pointlight being set here, but exists in shader.  This code should fail.... TODO enable fatal error in shader.
 
-	// If this returns false, it means i need to update my glsl code with the variable name I am expecting
-	// bool result = shader_program->uniform_exists_in_shader_code("waffle");
-	//shader_program->set_uniform("waffle", 1);
-
-	// TODO Goal: get fatal error if there is a variable int he glsl code
-	// TODO that I don't set the uniform (so its unitialized)
-
-	
+	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
 		
-	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f));
-	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader_program->set_uniform("specular_material.m_shininess", 32.0f);
+	shader_program->set_uniform("diffuse_color", glm::vec3(0.9f, 0.1f, 0.31f));
+	shader_program->set_uniform("specular_color", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader_program->set_uniform("specular_shininess", 32.0f);
 
 	const entt::entity cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(cube_entity, shader_program);
 	registry.emplace<CubeComponent>(cube_entity, m_cube_resource.get("cube_normal"));
 	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
-
-	const entt::entity cube_entity2 = registry.create();
-	registry.emplace<ShaderComponent>(cube_entity2, shader_program);
-	registry.emplace<CubeComponent>(cube_entity2, m_cube_resource.get("cube_normal"));
-	registry.emplace<TransformComponent>(cube_entity2, glm::vec3{ 6, 0, 0 });
 	
 }
 
@@ -85,8 +71,8 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 	m_texture_resource.load("colorful_squares", "Assets/textures/colorful_squares.jpg");
 	//m_texture_resource.load("transparent_specular", "Assets/textures/transparent_specular.png");
 
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 	shader_program->attach_diffuse_texture(*m_texture_resource.get("colorful_squares"));
 	//shader_program->attach_specular_texture("transparent_specular", 32.0f);
 
@@ -101,8 +87,8 @@ void SceneLoader::grid(entt::registry& registry){
 	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");	
 	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, m_texture_resource, false);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("grid"));
@@ -129,8 +115,8 @@ void SceneLoader::load_backpack(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -147,8 +133,8 @@ void SceneLoader::load_troll(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/troll/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 	
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -163,8 +149,8 @@ void SceneLoader::load_podracer(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/podracer/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -178,8 +164,8 @@ void SceneLoader::load_spartan(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -192,8 +178,8 @@ void SceneLoader::load_vivi(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/vivi/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -206,8 +192,8 @@ void SceneLoader::load_mech(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/mech_drone/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -220,8 +206,8 @@ void SceneLoader::load_cerberus(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/cerberus/scene.gltf", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -234,8 +220,8 @@ void SceneLoader::load_test_any_model(entt::registry& registry){
 	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/planet/planet.obj", *shader_program, m_texture_resource, true);
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -264,8 +250,8 @@ void SceneLoader::voxels(entt::registry& registry){
 	IShaderProgram* shader_program = m_shader_resource.get("voxel_shader");
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 	//TODO attach texture map here using the shader attach texture function
-	attach_scene_light(*shader_program);
-	attach_dirlight(*shader_program);
+	//attach_scene_light(*shader_program);
+	//attach_dirlight(*shader_program);
 }
 
 void SceneLoader::load_framebuffer(entt::registry& registry){
@@ -278,36 +264,36 @@ void SceneLoader::load_framebuffer(entt::registry& registry){
 
 }
 
-void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
-	DirectionalLight dirlight{"dirlight"};
-	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);	
-	m_light_resource.load(dirlight);
-	shader_program.attach_directional_light(dirlight);
+//void SceneLoader::attach_dirlight(IShaderProgram& shader_program){
+//	DirectionalLight dirlight{"dirlight"};
+//	dirlight.m_direction = glm::vec3(1.0f, 1.0f, 0.0f);	
+//	m_light_resource.load(dirlight);
+//	shader_program.attach_directional_light(dirlight);
+//
+//	//DirectionalLight dirlight2{ "dirlight" };
+//	//dirlight2.m_direction = glm::vec3(0.0f, -1.0f, 0.0f);
+//	//m_light_resource.load(dirlight2);
+//	//shader_program.attach_directional_light(dirlight2);
+//}
 
-	//DirectionalLight dirlight2{ "dirlight" };
-	//dirlight2.m_direction = glm::vec3(0.0f, -1.0f, 0.0f);
-	//m_light_resource.load(dirlight2);
-	//shader_program.attach_directional_light(dirlight2);
-}
-
-void SceneLoader::attach_scene_light(IShaderProgram& shader_program){
-	SceneLight scenelight{ "scenelight" };
-	scenelight.m_ambient = glm::vec3(0.6f); // 0.6
-	scenelight.m_diffuse = glm::vec3(0.5f); // 0.5
-	scenelight.m_specular = glm::vec3(1.0f); // 1.0
-	m_light_resource.load(scenelight);
-	shader_program.attach_scene_light(scenelight);
-}
-
-void SceneLoader::attach_point_light(IShaderProgram& shader_program){
-	// PointLight pointlight1;
-	// pointlight1.m_position = glm::vec3(128.0f, 20.0f, 128.0f);
-	// LightResource::load("pointlight1", pointlight1);
-	// Dont forget to attach to the shader program
-
-	// PointLight pointlight2;
-	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
-	// LightResource::load("pointlight2", pointlight2);
-}
+//void SceneLoader::attach_scene_light(IShaderProgram& shader_program){
+//	SceneLight scenelight{ "scenelight" };
+//	scenelight.m_ambient = glm::vec3(0.6f); // 0.6
+//	scenelight.m_diffuse = glm::vec3(0.5f); // 0.5
+//	scenelight.m_specular = glm::vec3(1.0f); // 1.0
+//	m_light_resource.load(scenelight);
+//	shader_program.attach_scene_light(scenelight);
+//}
+//
+//void SceneLoader::attach_point_light(IShaderProgram& shader_program){
+//	 PointLight pointlight1{"pointlight_one"};
+//	 pointlight1.m_position = glm::vec3(128.0f, 20.0f, 128.0f);
+//	 m_light_resource.load(pointlight1);
+//	 shader_program.attach_point_light(pointlight1);
+//
+//	// PointLight pointlight2;
+//	// pointlight2.m_position = glm::vec3(0.0f, 2.0f, -5.0f);
+//	// LightResource::load("pointlight2", pointlight2);
+//}
 
 

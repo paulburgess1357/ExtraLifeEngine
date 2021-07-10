@@ -48,10 +48,11 @@ void ShaderResource::destroy_all(){
 }
 
 void ShaderResource::display_initialized_shader_variables() const{
-	Print::print("\nInitialized Shader Variables: ");
+	Print::print("\nChecking Shader Uniforms: ");
 	for(auto& shader : m_shader_cache){
-		Print::print(" - " + shader.first);
-		shader.second->show_initialized_shader_variables();
+		Print::print("Shader: " + shader.first + " (handle: " + std::to_string(shader.second->get_handle()) + ")");
+		Print::print("   - Initialized Uniforms: " + shader.first);		
+		// shader.second->show_initialized_shader_variables();		
 		shader.second->check_uniforms_in_shader_code_are_initialized();
 		Print::print("\n-------------------------------------------------\n");
 	}

@@ -32,7 +32,7 @@ namespace OpenGL{
 
 		// Overall Unifrom Checks
 		[[nodiscard]] bool uniform_exists_in_shader_code(const std::string& uniform_name) const override;
-		void check_uniforms_in_shader_code_are_initialized() const;
+		void check_uniforms_in_shader_code_are_initialized() const override;
 		void show_initialized_shader_variables() const override;
 
 		// Single Value Uniforms

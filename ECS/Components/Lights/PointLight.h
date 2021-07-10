@@ -11,6 +11,13 @@ struct PointLight : ILight{
 	PointLight(std::string light_name)
 		:ILight{ std::move(light_name) }{		
 	}
+	PointLight(std::string light_name, const glm::vec3& position, const float constant, const float linear, const float quadratic)
+		:ILight{ std::move(light_name) },
+		 m_position{ position },
+		 m_constant{ constant },
+		 m_linear{ linear },
+		 m_quadratic{ quadratic }{		
+	}
 	
 	glm::vec3 m_position { 0.0f, 4.0f, 0.0f };
 

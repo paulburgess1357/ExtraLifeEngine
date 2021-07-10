@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include <glm/glm.hpp>
+#include <set>
 
 class IShaderProgram{
 
@@ -57,7 +58,8 @@ public:
 	virtual void init_light_handler() = 0;
 
 protected:	
-	virtual int get_uniform(const std::string& uniform_name) = 0;	
+	virtual int get_uniform(const std::string& uniform_name) = 0;
+	static std::set<std::string> get_ignore_string_uniforms();
 	unsigned int m_handle;
 	std::unordered_map<std::string, int> m_uniform_locations;
 	

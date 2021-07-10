@@ -1,6 +1,5 @@
 #pragma once
 #include "../../ResourceManagement/IncludeResources.h"
-#include "../../../Environment/Interfaces/Shader/IShaderProgram.h"
 #include "../../../Environment/Interfaces/Framebuffer/IFrameBuffer.h"
 #include "entt/entity/registry.hpp"
 
@@ -14,7 +13,7 @@ public:
 	
 private:
 	void grid(entt::registry& registry);
-	void single_cube(entt::registry& registry);
+	void single_cube(entt::registry& registry) const;
 	void single_cube_textured(entt::registry& registry);
 	void models(entt::registry& registry);
 	void cubemap(entt::registry& registry);
@@ -31,15 +30,11 @@ private:
 
 	void load_framebuffer(entt::registry& registry);
 	
-	void attach_scene_light(IShaderProgram& shader_program);
-	void attach_dirlight(IShaderProgram& shader_program);
-	void attach_point_light(IShaderProgram& shader_program);
-	
 	ShaderResource& m_shader_resource;
 	ModelResource& m_model_resource;
 	TextureResource& m_texture_resource;
 	LightResource& m_light_resource;
 	CubeResource& m_cube_resource;
 	IFrameBuffer& m_framebuffer;
-	
+
 };

@@ -2,6 +2,22 @@
 #include "../Utility/Print.h"
 #include "../Utility/FatalError.h"
 
+LightResource::LightResource(){
+	load_inital_lights();
+}
+
+void LightResource::load_inital_lights(){
+
+	// Load Standard Lights
+	DirectionalLight dirlight{ "standard_dirlight1", glm::vec3{0.0f, 1.0f, 0.0f} };
+	SceneLight scenelight{ "standard_scenelight1", glm::vec3(0.6f), glm::vec3(0.5f), glm::vec3(1.0f) };
+	PointLight pointlight{ "standard_pointlight1", glm::vec3{0.0f, 4.0f, 0.0f }, 1.0f, 0.0014f, 0.000007f };
+
+	load(dirlight);
+	load(scenelight);
+	load(pointlight);
+}
+
 LightResource::~LightResource(){
 	destroy_all();
 }
@@ -49,7 +65,7 @@ bool LightResource::is_pointlight_loaded(const std::string& light_name) const{
 
 SceneLight* LightResource::get_scenelight(const std::string& light_name){
 	if (!is_scenelight_loaded(light_name)) {
-		FatalError::fatal_error("Unable to locate point light: " + light_name);
+		FatalError::fatal_error("Unable to locate scene light: " + light_name);
 	}
 	return m_scenelight_cache.at(light_name).get();
 }

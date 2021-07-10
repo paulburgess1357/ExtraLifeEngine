@@ -175,21 +175,36 @@ void OpenGL::OpenGLShaderProgram::show_initialized_shader_variables() const{
 void OpenGL::OpenGLShaderProgram::check_uniforms_in_shader_code_are_initialized() const{
 
 	// https://stackoverflow.com/questions/440144/in-opengl-is-there-a-way-to-get-a-list-of-all-uniforms-attribs-used-by-a-shade
+
+	// Looks at all of the uniform variables in the shader and compares them to
+	// the set uniforms in the m_uniform_locations map.  If a uniform does
+	// not exist in the map, it means we have not initialized the GLSL uniform
+
+	Print::print("   - Checking Uniforms In GLSL: ");
+	const std::set<std::string> ignore_strings = get_ignore_string_uniforms();
 	
 	GLint count;
-
-	GLint size; // size of the variable
-	GLenum type; // type of the variable (float, vec3 or mat4, etc)
+	GLint size;
+	GLenum type;
 
 	const GLsizei bufSize = 64; // maximum name length
 	GLchar name[bufSize]; // variable name in GLSL
 	GLsizei length; // name length
 	
 	glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &count);
-	printf("Active Uniforms: %d\n", count);
-
 	for (GLint i = 0; i < count; i++){
-		glGetActiveUniform(m_handle, (GLuint)i, bufSize, &length, &size, &type, name);
-		printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+		glGetActiveUniform(m_handle, i, bufSize, &length, &size, &type, name);
+
+		std::string name_str{ name };		
+
+		// Ignore model_matrix and normal_matrix (These are set via ECS system right before render)
+		if(ignore_strings.count(name_str) == 0){
+			if (m_uniform_locations.count(name_str) == 0) {
+				FatalError::fatal_error("The variable: " + name_str + " exists in your GLSL (handle: " + std::to_string(m_handle) + ") code, but has not been set via set_uniform()!");
+			}
+		}		
+		// printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
 	}
 }
+
+

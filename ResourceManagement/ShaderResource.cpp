@@ -9,12 +9,12 @@ ShaderResource::~ShaderResource(){
 	destroy_all();
 }
 
-void ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path){
+void ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool link_uniform_blocks){
 	if (!is_loaded(shader_name)) {
 		Print::print("\nLoading Shader: " + shader_name + " (" + vertex_shader_path + ") & (" + fragment_shader_path + ")");
 		const std::unique_ptr<IShaderLoader> shader_loader = std::make_unique<ShaderLoaderFromFile>(vertex_shader_path, fragment_shader_path);
 		const std::unique_ptr<IShaderCompiler> shader_compiler = IShaderCompiler::create_compiler(*shader_loader);		
-		m_shader_cache[shader_name] = shader_compiler->compile();
+		m_shader_cache[shader_name] = shader_compiler->compile(link_uniform_blocks);
 	}	
 }
 

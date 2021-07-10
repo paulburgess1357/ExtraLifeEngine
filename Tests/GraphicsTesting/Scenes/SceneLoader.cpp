@@ -40,13 +40,13 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	single_cube(registry);
 	// single_cube_textured(registry);
 	// models(registry);
-	// cubemap(registry);
-	// load_framebuffer(registry);
+	cubemap(registry);
+	load_framebuffer(registry);
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
 
-	m_shader_resource.load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl");
+	m_shader_resource.load("single_cube", "Assets/shaders/vertex/cube_colored.glsl", "Assets/shaders/fragment/cube_colored.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
 	attach_scene_light(*shader_program);
 	attach_dirlight(*shader_program);
@@ -69,7 +69,7 @@ void SceneLoader::single_cube(entt::registry& registry) {
 
 void SceneLoader::single_cube_textured(entt::registry& registry) {
 
-	m_shader_resource.load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl");
+	m_shader_resource.load("single_cube_textured", "Assets/shaders/vertex/cube_textured_no_specular.glsl", "Assets/shaders/fragment/cube_textured_no_specular.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube_textured");
 	
 	m_texture_resource.load("colorful_squares", "Assets/textures/colorful_squares.jpg");
@@ -88,7 +88,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) {
 }
 
 void SceneLoader::grid(entt::registry& registry){
-	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl");
+	m_shader_resource.load("grid_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");	
 	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, m_texture_resource, false);
 	attach_scene_light(*shader_program);
@@ -116,7 +116,7 @@ void SceneLoader::models(entt::registry& registry){
 void SceneLoader::load_backpack(entt::registry& registry){
 
 	const std::string id = "backpack";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
 	attach_scene_light(*shader_program);
@@ -134,7 +134,7 @@ void SceneLoader::load_troll(entt::registry& registry){
 
 	const std::string id = "troll";
 	//m_shader_resource.load("troll_shader", "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl"); // No normal map used
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/troll/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -150,7 +150,7 @@ void SceneLoader::load_troll(entt::registry& registry){
 void SceneLoader::load_podracer(entt::registry& registry){
 
 	const std::string id = "podracer";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model.glsl", "Assets/shaders/fragment/model_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/podracer/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -165,7 +165,7 @@ void SceneLoader::load_podracer(entt::registry& registry){
 
 void SceneLoader::load_spartan(entt::registry& registry){
 	const std::string id = "spartan";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -179,7 +179,7 @@ void SceneLoader::load_spartan(entt::registry& registry){
 
 void SceneLoader::load_vivi(entt::registry& registry){
 	const std::string id = "vivi";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/vivi/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -193,7 +193,7 @@ void SceneLoader::load_vivi(entt::registry& registry){
 
 void SceneLoader::load_mech(entt::registry& registry){
 	const std::string id = "mech_drone";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/mech_drone/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -207,7 +207,7 @@ void SceneLoader::load_mech(entt::registry& registry){
 
 void SceneLoader::load_cerberus(entt::registry& registry){
 	const std::string id = "cerberus";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/cerberus/scene.gltf", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -221,7 +221,7 @@ void SceneLoader::load_cerberus(entt::registry& registry){
 
 void SceneLoader::load_test_any_model(entt::registry& registry){
 	const std::string id = "planet";
-	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl");
+	m_shader_resource.load(id, "Assets/shaders/vertex/model_normals_TBN_fragment.glsl", "Assets/shaders/fragment/model_normals_TBN_fragment_no_specular_texture.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	m_model_resource.load(id, "Assets/models/planet/planet.obj", *shader_program, m_texture_resource, true);
 	attach_scene_light(*shader_program);
@@ -236,7 +236,7 @@ void SceneLoader::load_test_any_model(entt::registry& registry){
 
 void SceneLoader::cubemap(entt::registry& registry){
 
-	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl");
+	m_shader_resource.load("cubemap", "Assets/shaders/vertex/cubemap.glsl", "Assets/shaders/fragment/cubemap.glsl", false);
 	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
 
 	m_texture_resource.load_cubemap_textures("blue_night", "Assets/cubemaps/space_red");
@@ -250,7 +250,7 @@ void SceneLoader::cubemap(entt::registry& registry){
 
 void SceneLoader::voxels(entt::registry& registry){
 
-	m_shader_resource.load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl");
+	m_shader_resource.load("voxel_shader", "Assets/shaders/voxel/vertex/cube_colored.glsl", "Assets/shaders/voxel/fragment/cube_colored.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("voxel_shader");
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.2f, 0.7f, 0.31f)); // Temp for setting cube color.  This will normally be a texture.
 	//TODO attach texture map here using the shader attach texture function
@@ -259,7 +259,7 @@ void SceneLoader::voxels(entt::registry& registry){
 }
 
 void SceneLoader::load_framebuffer(entt::registry& registry){
-	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer/vertex/framebuffer.glsl", "Assets/shaders/framebuffer/fragment/framebuffer_edge.glsl");
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer/vertex/framebuffer.glsl", "Assets/shaders/framebuffer/fragment/framebuffer_edge.glsl", false);
 	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ShaderComponent>(model_entity, shader_program);

@@ -12,7 +12,7 @@ public:
 	}
 	
 	virtual ~IShaderCompiler() = default;
-	[[nodiscard]] virtual std::unique_ptr<IShaderProgram> compile() const = 0;
+	[[nodiscard]] virtual std::unique_ptr<IShaderProgram> compile(const bool link_uniform_blocks) const = 0;
 	[[nodiscard]] static std::unique_ptr<IShaderCompiler> create_compiler(const IShaderLoader& shader_loader);
 	
 protected:

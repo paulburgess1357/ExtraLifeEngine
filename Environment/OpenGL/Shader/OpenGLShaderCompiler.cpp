@@ -10,7 +10,7 @@ OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const IShaderLoader& shader_l
 	:IShaderCompiler(shader_loader){	
 }
 
-std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool link_uniform_blocks) const{
 	
 	Print::print("Compiling Shader");
 
@@ -21,9 +21,12 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	std::unique_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
 	
 	// Link uniform blocks (used across all shaders)
-	OpenGLUniformBlock::link_projection_view_block_to_shader(*shader_program);
-	OpenGLUniformBlock::link_camera_position_block_to_shader(*shader_program);
-
+	if(link_uniform_blocks){
+		Print::print("Linking uniform blocks to shader: " + std::to_string(shader_program->get_handle()));
+		OpenGLUniformBlock::link_projection_view_block_to_shader(*shader_program);
+		OpenGLUniformBlock::link_camera_position_block_to_shader(*shader_program);
+	}
+	
 	// Initialize Handlers
 	shader_program->init_texture_handler();	
 	shader_program->init_light_handler();

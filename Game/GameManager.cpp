@@ -6,7 +6,7 @@
 
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
-	m_camera{ Camera{ glm::vec3(0, 5, 5), glm::vec3(0.51f, 0.0f, 0.76f), 0.005f, 0.05f} },
+	m_camera{ Camera{ glm::vec3(3, 2, 8), glm::vec3(0.01f, -0.09f, -0.96f), 0.005f, 0.05f} },
 	m_input_handler{ m_camera },
 	m_mouse_handler{ m_camera }{
 }
@@ -69,16 +69,16 @@ void GameManager::initialize_scene() {
 }
 
 void GameManager::initialize_updaters() {
-	m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(0, 0, 0, m_camera);
-	m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource, *m_world_positions_in_range_updater);
-	m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
+	// m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(0, 0, 0, m_camera);
+	// m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource, *m_world_positions_in_range_updater);
+	// m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 }
 
 void GameManager::initialize_renderers() {
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource->get("voxel_shader"));
+	// m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource->get("voxel_shader"));
 	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
 }
 
@@ -94,9 +94,9 @@ void GameManager::gameloop() {
 
 void GameManager::update() {
 	m_shader_uniform_block_handler->update(m_camera);
-	m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
-	m_voxel_loader->update();
-	m_voxel_updater->update();
+	// m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
+	// m_voxel_loader->update();
+	// m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();
 }
@@ -106,7 +106,7 @@ void GameManager::render() {
 	m_framebuffer_renderer->start_render(m_registry);	
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
-	m_voxel_renderer->render();
+	// m_voxel_renderer->render();
 	m_cubemap_renderer->render(m_registry, m_camera);
 	m_framebuffer_renderer->end_render(m_registry);
 	ImGuiNS::ImGuiInterface::render();

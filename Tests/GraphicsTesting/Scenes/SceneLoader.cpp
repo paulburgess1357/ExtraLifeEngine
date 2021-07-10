@@ -34,13 +34,13 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 
 void SceneLoader::load_scene(entt::registry& registry) {
 	// TODO shader loader or some alternative for voxels?
-	voxels(registry);
+	// voxels(registry);
 	
 	// grid(registry);
 	single_cube(registry);
-	single_cube_textured(registry);
-	models(registry);
-	cubemap(registry);
+	// single_cube_textured(registry);
+	// models(registry);
+	// cubemap(registry);
 	// load_framebuffer(registry);
 }
 

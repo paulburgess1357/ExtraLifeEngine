@@ -10,6 +10,9 @@ ImGuiNS::InterfaceCameraData::InterfaceCameraData(Camera& camera)
 void ImGuiNS::InterfaceCameraData::display() const{
 	const glm::vec3 camera_coords = m_camera_data.get_camera_position();	
 	ImGui::Text("Camera Coordinates: %.2f, %.2f, %.2f", camera_coords.x, camera_coords.y, camera_coords.z);
+
+	const glm::vec3 comera_forward = m_camera_data.get_camera_forward();
+	ImGui::Text("Camera FOrward: %.2f, %.2f, %.2f", comera_forward.x, comera_forward.y, comera_forward.z);
 }
 
 void ImGuiNS::InterfaceCameraData::update_camera_speed() {

@@ -40,8 +40,8 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	single_cube(registry);
 	// single_cube_textured(registry);
 	// models(registry);
-	cubemap(registry);
-	load_framebuffer(registry);
+	//cubemap(registry);
+	//load_framebuffer(registry);
 }
 
 void SceneLoader::single_cube(entt::registry& registry) {
@@ -50,6 +50,16 @@ void SceneLoader::single_cube(entt::registry& registry) {
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
 	attach_scene_light(*shader_program);
 	attach_dirlight(*shader_program);
+	// No pointlight being set here, but exists in shader.  This code should fail.... TODO enable fatal error in shader.
+
+	// If this returns false, it means i need to update my glsl code with the variable name I am expecting
+	// bool result = shader_program->uniform_exists_in_shader_code("waffle");
+	//shader_program->set_uniform("waffle", 1);
+
+	// TODO Goal: get fatal error if there is a variable int he glsl code
+	// TODO that I don't set the uniform (so its unitialized)
+
+	
 		
 	shader_program->set_uniform("diffuse_material.m_sampler", glm::vec3(0.9f, 0.1f, 0.31f));
 	shader_program->set_uniform("specular_material.m_sampler", glm::vec3(0.5f, 0.5f, 0.5f));

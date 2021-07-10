@@ -32,8 +32,13 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool
 	shader_program->init_light_handler();
 
 	// Set light uniforms to -1 (inactive)
-	shader_program->set_uniform("active_dirlight_qty", -1);
-	shader_program->set_uniform("active_pointlight_qty", -1);
+	//if(shader_program->uniform_exists_in_shader_code("active_dirlight_qty")){
+	//	shader_program->set_uniform("active_dirlight_qty", -1);
+	//}
+
+	//if(shader_program->uniform_exists_in_shader_code("active_pointlight_qty")){
+	//	shader_program->set_uniform("active_pointlight_qty", -1);
+	//}	
 		
 	return shader_program;		
 }

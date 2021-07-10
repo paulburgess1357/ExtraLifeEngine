@@ -1,5 +1,6 @@
 #include "OpenGLShaderProgram.h"
 #include "../../Utility/FatalError.h"
+#include "../../Utility/Print.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
@@ -154,9 +155,41 @@ int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {
 		m_uniform_locations[uniform_name] = glGetUniformLocation(m_handle, uniform_name.c_str());
 
 		if (m_uniform_locations[uniform_name] == -1) {
-			//FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
+			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
 		}
 	}
 
 	return m_uniform_locations.at(uniform_name);
+}
+
+bool OpenGL::OpenGLShaderProgram::uniform_exists_in_shader_code(const std::string& uniform_name) const{
+	return glGetUniformLocation(m_handle, uniform_name.c_str()) != -1;
+}
+
+void OpenGL::OpenGLShaderProgram::show_initialized_shader_variables() const{
+	for(const auto& uniform : m_uniform_locations){
+		Print::print("       - Uniform: " + uniform.first + "; Location: " + std::to_string(uniform.second));
+	}
+}
+
+void OpenGL::OpenGLShaderProgram::check_uniforms_in_shader_code_are_initialized() const{
+
+	// https://stackoverflow.com/questions/440144/in-opengl-is-there-a-way-to-get-a-list-of-all-uniforms-attribs-used-by-a-shade
+	
+	GLint count;
+
+	GLint size; // size of the variable
+	GLenum type; // type of the variable (float, vec3 or mat4, etc)
+
+	const GLsizei bufSize = 64; // maximum name length
+	GLchar name[bufSize]; // variable name in GLSL
+	GLsizei length; // name length
+	
+	glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &count);
+	printf("Active Uniforms: %d\n", count);
+
+	for (GLint i = 0; i < count; i++){
+		glGetActiveUniform(m_handle, (GLuint)i, bufSize, &length, &size, &type, name);
+		printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+	}
 }

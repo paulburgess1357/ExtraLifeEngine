@@ -28,6 +28,7 @@ void GameManager::run() {
 	initialize_scene();
 	initialize_updaters();
 	initialize_renderers();
+	qc_checks();
 	gameloop();
 }
 
@@ -60,6 +61,10 @@ void GameManager::initialize_resources() {
 	m_texture_resource = std::make_unique<TextureResource>();
 	m_light_resource = std::make_unique<LightResource>();
 	m_cube_resource = std::make_unique<CubeResource>();
+}
+
+void GameManager::qc_checks() const{
+	m_shader_resource->display_initialized_shader_variables();
 }
 
 void GameManager::initialize_scene() {

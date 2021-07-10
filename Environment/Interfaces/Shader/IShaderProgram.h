@@ -32,6 +32,11 @@ public:
 	virtual void attach_scene_light(const SceneLight& scene_light) = 0;
 	virtual void attach_directional_light(const DirectionalLight& dirlight) = 0;
 	virtual void attach_point_light(const PointLight& pointlight) = 0;
+
+	// Overall Uniform Checks
+	[[nodiscard]] virtual bool uniform_exists_in_shader_code(const std::string& uniform_name) const = 0;
+	virtual void check_uniforms_in_shader_code_are_initialized() const = 0;
+	virtual void show_initialized_shader_variables() const = 0;
 	
 	// Single Value Uniforms
 	virtual void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) = 0;

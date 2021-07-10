@@ -34,6 +34,7 @@ private:
 	void initialize_scene();
 	void initialize_updaters();
 	void initialize_renderers();
+	void qc_checks() const;
 	
 	void gameloop();
 	void update();

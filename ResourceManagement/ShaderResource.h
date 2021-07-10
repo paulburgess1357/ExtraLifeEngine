@@ -10,6 +10,7 @@ public:
 	ShaderResource() = default;
 	~ShaderResource();
 	void load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool link_uniform_blocks = true);
+	void display_initialized_shader_variables() const;
 	IShaderProgram* get(const std::string& shader_name);
 	void destroy(const std::string& shader_name);
 	void destroy_all();

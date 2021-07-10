@@ -46,3 +46,14 @@ void ShaderResource::destroy_all(){
 	}
 	m_shader_cache.clear();
 }
+
+void ShaderResource::display_initialized_shader_variables() const{
+	Print::print("\nInitialized Shader Variables: ");
+	for(auto& shader : m_shader_cache){
+		Print::print(" - " + shader.first);
+		shader.second->show_initialized_shader_variables();
+		shader.second->check_uniforms_in_shader_code_are_initialized();
+		Print::print("\n-------------------------------------------------\n");
+	}
+	Print::print("\n");
+}

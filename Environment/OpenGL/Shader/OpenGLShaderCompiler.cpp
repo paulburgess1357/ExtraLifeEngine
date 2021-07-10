@@ -21,10 +21,8 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	std::unique_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
 	
 	// Link uniform blocks (used across all shaders)
-	// TODO can this be static?
-	OpenGLUniformBlock opengl_uniform_block_allocator;
-	opengl_uniform_block_allocator.link_projection_view_block_to_shader(*shader_program);
-	opengl_uniform_block_allocator.link_camera_position_block_to_shader(*shader_program);
+	OpenGLUniformBlock::link_projection_view_block_to_shader(*shader_program);
+	OpenGLUniformBlock::link_camera_position_block_to_shader(*shader_program);
 
 	// Initialize Handlers
 	shader_program->init_texture_handler();	

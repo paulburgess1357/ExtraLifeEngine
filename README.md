@@ -1,8 +1,8 @@
 # Extra Life 3D Engine
 Entity Component System Game Engine (In Progress)
 
-![](Assets/textures/progress_screenshot.png)
-![](Assets/textures/progress_screenshot2.png)
+![](Assets/screenshots/screenshot_1.png)
+![](Assets/screenshots/screenshot_2.png)
 
 
 ## Features

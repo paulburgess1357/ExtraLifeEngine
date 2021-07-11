@@ -1,9 +1,9 @@
 #version 330 core
 // Framebuffer Fragment Shader
 
-out vec4 FragColor;
-in vec2 TexCoords;
-uniform sampler2D screenTexture;
+out vec4 fragment_color;
+in vec2 fragment_tex_coords;
+uniform sampler2D screen_quad;
 
 void main(){ 
 
@@ -28,15 +28,15 @@ void main(){
     1.0 / 16, 2.0 / 16, 1.0 / 16  
     );
 
-    vec3 sampleTex[9];
+    vec3 sample_tex[9];
     for(int i = 0; i < 9; i++){
-        sampleTex[i] = vec3(texture(screenTexture, TexCoords.st + offsets[i]));
+        sample_tex[i] = vec3(texture(screen_quad, fragment_tex_coords.st + offsets[i]));
     }
     
     vec3 col = vec3(0.0);
     for(int i = 0; i < 9; i++){
-        col += sampleTex[i] * kernel[i];
+        col += sample_tex[i] * kernel[i];
     }        
     
-    FragColor = vec4(col, 1.0);
+    fragment_color = vec4(col, 1.0);
 }

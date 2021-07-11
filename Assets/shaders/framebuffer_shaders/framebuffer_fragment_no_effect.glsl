@@ -1,11 +1,11 @@
 #version 330 core
 // Framebuffer Fragment Shader
 
-out vec4 FragColor;
-in vec2 TexCoords;
-uniform sampler2D screenTexture;
+out vec4 fragment_color;
+in vec2 fragment_tex_coords;
+uniform sampler2D screen_quad;
 
 void main(){ 
 	// No Framebuffer Effect
-	FragColor = texture(screenTexture, TexCoords);
+	fragment_color = texture(screen_quad, fragment_tex_coords);
 }

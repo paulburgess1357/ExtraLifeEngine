@@ -35,12 +35,12 @@ void SceneLoader::load_scene(entt::registry& registry) const{
 	// TODO shader loader or some alternative for voxels?
 	// voxels(registry);
 	
-	//grid(registry);
-	//single_cube(registry);
+	// grid(registry);
+	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
 	load_spartan(registry);
-	//cubemap(registry);
+	// cubemap(registry);
 	load_framebuffer(registry);
 }
 
@@ -168,8 +168,12 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 }
 
 void SceneLoader::load_framebuffer(entt::registry& registry) const{
-	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_inversion.glsl", false);
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_edge.glsl", false);
 	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
+
+	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
+	shader_program->set_uniform("screen_quad", 0);
+		
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);

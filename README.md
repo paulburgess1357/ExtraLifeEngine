@@ -8,19 +8,17 @@ Entity Component System Game Engine (In Progress)
 ## Features
 - Blinn Phong Lighting
 - Normal Mapping
-- Flexible Architecture
-  - Modern OpenGL 3.3+
-  - Future Vulkan Support
+- Model Loading
 - Voxels
+  - Infinite Terrain 
   - Greedy Meshing 
-## Dependencies (Included in repo)
+## Dependencies
 - OpenGL
 - Assimp
 - GLFW
 - STB Image
 - GLM
 - Entt
+- libnoise
 ## Other
 - C++ 17
-
-

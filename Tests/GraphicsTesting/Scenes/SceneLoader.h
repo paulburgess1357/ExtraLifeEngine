@@ -12,7 +12,7 @@ public:
 	void load_scene(entt::registry& registry) const;
 	
 private:
-	//void cubemap(entt::registry& registry);
+	void cubemap(entt::registry& registry) const;
 	void grid(entt::registry& registry) const;
 	void single_cube(entt::registry& registry) const;
 	void single_cube_textured(entt::registry& registry) const;

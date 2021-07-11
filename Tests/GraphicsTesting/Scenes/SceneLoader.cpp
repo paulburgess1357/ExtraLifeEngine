@@ -40,8 +40,8 @@ void SceneLoader::load_scene(entt::registry& registry) const{
 	// single_cube_textured(registry);
 	// load_backpack(registry);
 	load_spartan(registry);
-	// cubemap(registry);
-	load_framebuffer(registry);
+	cubemap(registry);
+	// load_framebuffer(registry);
 }
 
 void SceneLoader::grid(entt::registry& registry) const{
@@ -179,7 +179,19 @@ void SceneLoader::load_framebuffer(entt::registry& registry) const{
 	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
 }
 
+void SceneLoader::cubemap(entt::registry& registry) const{
 
+	m_shader_resource.load("cubemap", "Assets/shaders/cubemap_shaders/cubemap_vertex.glsl", "Assets/shaders/cubemap_shaders/cubemap_fragment.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
+
+	m_texture_resource.load_cubemap_textures("space_red", "Assets/cubemaps/space_red");
+	shader_program->attach_cubemap_texture(*m_texture_resource.get("space_red"));
+	
+	const entt::entity cubemap_entity = registry.create();
+	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);
+	registry.emplace<CubeMapComponent>(cubemap_entity, m_cube_resource.get("cubemap"));
+	
+}
 
 
 

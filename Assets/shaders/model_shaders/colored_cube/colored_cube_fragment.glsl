@@ -24,7 +24,7 @@ uniform float specular_shininess;
 
 // Lights
 uniform SceneLight scenelight;
-uniform int active_dirlight_qty; // Set to -1 during shader initialization
+uniform int active_dirlight_qty;
 uniform DirectionalLight dirlight[TOTAL_DIR_LIGHTS];
 
 // Vertex Variables

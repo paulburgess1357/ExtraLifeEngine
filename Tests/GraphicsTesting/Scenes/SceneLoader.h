@@ -17,7 +17,7 @@ private:
 	void single_cube(entt::registry& registry) const;
 	void single_cube_textured(entt::registry& registry) const;
 
-	// void voxels(entt::registry& registry);
+	void voxels(entt::registry& registry) const;
 	void load_backpack(entt::registry& registry) const;
 	void load_spartan(entt::registry& registry) const;
 	void load_framebuffer(entt::registry& registry) const;

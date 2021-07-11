@@ -33,13 +33,13 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 
 void SceneLoader::load_scene(entt::registry& registry) const{
 	// TODO shader loader or some alternative for voxels?
-	// voxels(registry);
+	voxels(registry);
 	
 	// grid(registry);
 	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
-	load_spartan(registry);
+	// load_spartan(registry);
 	cubemap(registry);
 	// load_framebuffer(registry);
 }
@@ -191,6 +191,28 @@ void SceneLoader::cubemap(entt::registry& registry) const{
 	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);
 	registry.emplace<CubeMapComponent>(cubemap_entity, m_cube_resource.get("cubemap"));
 	
+}
+
+void SceneLoader::voxels(entt::registry& registry) const{
+
+	m_shader_resource.load("voxel_shader", "Assets/shaders/voxel_shaders/voxel_vertex.glsl", "Assets/shaders/voxel_shaders/voxel_fragment.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get("voxel_shader");
+	// Voxel color is determined by its type (temp for testing)
+	// This is set in the fragment shader
+	
+	// No specular material for scenelight
+	const SceneLight custom_scenelight{ "voxel_scenelight_test", glm::vec3 { 0.6f }, glm::vec3 { 0.9f }, glm::vec3 { 1.0f } };
+	m_light_resource.load(custom_scenelight);
+	shader_program->set_uniform("scenelight.ambient", custom_scenelight.m_ambient);
+	shader_program->set_uniform("scenelight.diffuse", custom_scenelight.m_diffuse);
+
+	// shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
+	const PointLight pointlight{ "voxel_pointlight_test", glm::vec3{0.0f, 20.0f, 0.0f }, 1.0f, 0.0014f, 0.000007f };
+	m_light_resource.load(pointlight);
+	shader_program->attach_point_light(pointlight);
+
+	// TODO attach texture map here using the shader attach texture function
+
 }
 
 

@@ -38,7 +38,7 @@ void SceneLoader::load_scene(entt::registry& registry) const{
 	
 	//grid(registry);
 	//single_cube(registry);
-	single_cube_textured(registry);
+	// single_cube_textured(registry);
 	load_backpack(registry);
 	//cubemap(registry);
 	//load_framebuffer(registry);
@@ -100,7 +100,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) const {
 
 	
 	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
-	// shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
 
 	const PointLight pointlight{ "testing_pointlight", glm::vec3{2.0f, 0.0f, 1.5f }, 1.0f, 0.7f, 1.8f };
 	m_light_resource.load(pointlight);
@@ -123,15 +123,15 @@ void SceneLoader::load_backpack(entt::registry& registry) const{
 	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
 	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
 
-	// PointLight pointlight{ "testing_pointlight2", glm::vec3{1000000.0f, 0.0f, 0.0f }, 1.0f, 0.09f, 0.032f };
-	// m_light_resource.load(pointlight);
-	// shader_program->attach_point_light(pointlight);
+	const PointLight pointlight{ "backpack_pointlight_test", glm::vec3{6.0f, 0.0f, 0.0f }, 1.0f, 0.09f, 0.032f };
+	m_light_resource.load(pointlight);
+	shader_program->attach_point_light(pointlight);
 	
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
-	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 0.0f, 0.0f, 0.0f });
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ 4.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);
 	// registry.emplace<ScaleComponent>(model_entity, 5.0f);
 }
 

@@ -46,8 +46,8 @@ uniform SceneLight scenelight;
 uniform int active_dirlight_qty;
 uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
 
-//uniform int active_pointlight_qty;
-//uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
+uniform int active_pointlight_qty;
+uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
 
 in mat3 fragment_tbn_matrix;
 in vec3 tangent_camera_position;
@@ -64,7 +64,8 @@ vec3 calc_directional_light(DirectionalLight dirlight,
                             SceneLight scenelight, 
                             vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
-                            vec2 fragment_tex_coords);
+                            vec2 fragment_tex_coords,
+                            mat3 tbn_matrix);
 
 vec3 calc_point_light(PointLight pointlight, 
                       DiffuseMaterial diffuse_material,
@@ -73,7 +74,8 @@ vec3 calc_point_light(PointLight pointlight,
                       vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
                       vec2 fragment_tex_coords,
-                      vec3 fragment_position);
+                      vec3 fragment_position,
+                      mat3 tbn_matrix);
 
 DirectionalLight convert_dirlight_to_tangent_space(DirectionalLight dirlight, mat3 tbn_matrix);
 PointLight convert_pointlight_to_tangent_space(PointLight pointlight, mat3 tbn_matrix);
@@ -93,26 +95,28 @@ void main() {
     
     // Directional
     for(int i = 0; i <= active_dirlight_qty; i++) {
-        result += calc_directional_light(convert_dirlight_to_tangent_space(dirlight[i], fragment_tbn_matrix), 
+        result += calc_directional_light(dirlight[i], 
                                          diffuse_material, 
                                          specular_material, 
                                          scenelight, 
                                          normalized_frag_model_normals, 
                                          tangent_view_direction, 
-                                         fragment_tex_coords);
+                                         fragment_tex_coords,
+                                         fragment_tbn_matrix);
     }
 
-    // Point
-//    for(int i = 0; i <= active_pointlight_qty; i++){    
-//        result += calc_point_light(convert_pointlight_to_tangent_space(pointlight[i], fragment_tbn_matrix), 
-//                                   diffuse_material, 
-//                                   specular_material, 
-//                                   scenelight, 
-//                                   normalized_frag_model_normals, 
-//                                   tangent_view_direction, 
-//                                   fragment_tex_coords, 
-//                                   tangent_fragment_position);
-//    }
+     // Point
+    for(int i = 0; i <= active_pointlight_qty; i++){    
+        result += calc_point_light(pointlight[i], 
+                                   diffuse_material, 
+                                   specular_material, 
+                                   scenelight, 
+                                   normalized_frag_model_normals, 
+                                   tangent_view_direction, 
+                                   fragment_tex_coords, 
+                                   tangent_fragment_position,
+                                   fragment_tbn_matrix);
+    }
     
     fragment_color = vec4(result, 1.0);
 };
@@ -124,9 +128,12 @@ vec3 calc_directional_light(DirectionalLight dirlight,
                             SceneLight scenelight, 
                             vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
-                            vec2 fragment_tex_coords){
+                            vec2 fragment_tex_coords,
+                            mat3 tbn_matrix){
     
-    vec3 light_direction = normalize(dirlight.direction);
+    DirectionalLight dirlight_tangent = convert_dirlight_to_tangent_space(dirlight, fragment_tbn_matrix);
+
+    vec3 light_direction = normalize(dirlight_tangent.direction);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
 
     // Ambient
@@ -150,9 +157,14 @@ vec3 calc_point_light(PointLight pointlight,
                       vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
                       vec2 fragment_tex_coords,
-                      vec3 fragment_position){
+                      vec3 fragment_position,
+                      mat3 tbn_matrix){
     
-    vec3 light_direction = normalize(pointlight.position - fragment_position);
+    // Note that pointlight converted has its distance converted into tbn space
+    // No other variables in pointlight are converted.
+    PointLight pointlight_converted = convert_pointlight_to_tangent_space(pointlight, fragment_tbn_matrix);
+
+    vec3 light_direction = normalize(pointlight_converted.position - fragment_position);
     vec3 halfway_btwn_view_and_light_dir = normalize(light_direction + view_direction);
     
     // Ambient
@@ -167,8 +179,8 @@ vec3 calc_point_light(PointLight pointlight,
     vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
     
     // Attenuation
-    float distance_to_light = length(pointlight.position - fragment_position);
-    float attenuation = 1.0 / (pointlight.constant + pointlight.linear * distance_to_light + pointlight.quadratic * (distance_to_light * distance_to_light));    
+    float distance_to_light = length(pointlight_converted.position - fragment_position);
+    float attenuation = 1.0 / (pointlight_converted.constant + pointlight_converted.linear * distance_to_light + pointlight_converted.quadratic * (distance_to_light * distance_to_light));    
     
     ambient  *= attenuation;
     diffuse  *= attenuation;
@@ -185,7 +197,7 @@ DirectionalLight convert_dirlight_to_tangent_space(DirectionalLight dirlight, ma
 PointLight convert_pointlight_to_tangent_space(PointLight pointlight, mat3 tbn_matrix){
     // Note: If pointlight is (0, 0, 0), the normalization will cause a division by 0.
     // The object in the shader will have a black outline.
-    pointlight.position = normalize(tbn_matrix * pointlight.position);
+    pointlight.position = tbn_matrix * pointlight.position;
     return pointlight;
 
 };

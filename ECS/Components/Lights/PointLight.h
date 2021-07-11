@@ -27,8 +27,8 @@ struct PointLight : ILight{
 	//float m_quadratic { 0.0075f };
 
 	float m_constant{ 1.0f };
-	float m_linear{ 0.0014f };
-	float m_quadratic{ 0.000007f };
+	float m_linear{ 0.09f };
+	float m_quadratic{ 0.032f };
 
 };
 

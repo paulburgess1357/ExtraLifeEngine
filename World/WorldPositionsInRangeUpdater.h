@@ -1,10 +1,12 @@
 #pragma once
 #include "../../Camera/Camera.h"
 #include "../../World/WorldPosition.h"
+#include "../Voxel/Neutral/VoxelMetaData.h"
 
 class WorldPositionsInRangeUpdater{
 	
 public:
+	WorldPositionsInRangeUpdater(const VoxelMetaData& voxel_range_data, const Camera& camera);
 	WorldPositionsInRangeUpdater(const int x_range, const int y_range, const int z_range, const Camera& camera);
 	
 	void initialize_world_positions_in_camera_range(const Camera& camera);

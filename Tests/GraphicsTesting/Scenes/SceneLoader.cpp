@@ -13,17 +13,17 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 	m_framebuffer{ framebuffer }{
 }
 
-void SceneLoader::load_scene(entt::registry& registry) const{
-	// TODO shader loader or some alternative for voxels?
-	voxels(registry);
-	
+void SceneLoader::load_scene(entt::registry& registry) {
+
+	// voxels(registry, 7, 3, 7);	
 	// grid(registry);
 	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
-	// load_spartan(registry);
-	cubemap(registry);
+	load_spartan(registry);
+	// cubemap(registry);
 	// load_framebuffer(registry);
+	
 }
 
 void SceneLoader::grid(entt::registry& registry) const{
@@ -175,10 +175,11 @@ void SceneLoader::cubemap(entt::registry& registry) const{
 	
 }
 
-void SceneLoader::voxels(entt::registry& registry) const{
+void SceneLoader::voxels(entt::registry& registry, const int x_range, const int y_range, const int z_range) {
 
-	m_shader_resource.load("voxel_shader", "Assets/shaders/voxel_shaders/voxel_vertex.glsl", "Assets/shaders/voxel_shaders/voxel_fragment.glsl", true);
-	IShaderProgram* shader_program = m_shader_resource.get("voxel_shader");
+	const std::string id = "voxel_shader";
+	m_shader_resource.load(id, "Assets/shaders/voxel_shaders/voxel_vertex.glsl", "Assets/shaders/voxel_shaders/voxel_fragment.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get(id);
 	// Voxel color is determined by its type (temp for testing)
 	// This is set in the fragment shader
 	
@@ -194,5 +195,9 @@ void SceneLoader::voxels(entt::registry& registry) const{
 	shader_program->attach_point_light(pointlight);
 
 	// TODO attach texture map here using the shader attach texture function
+	m_voxel_range_data = VoxelMetaData{ id, x_range, y_range, z_range };
+}
 
+VoxelMetaData SceneLoader::get_voxel_metadata() const{
+	return m_voxel_range_data;
 }

@@ -74,7 +74,7 @@ void GameManager::initialize_scene() {
 }
 
 void GameManager::initialize_updaters() {
-	 m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(7, 3, 7, m_camera);
+	 m_world_positions_in_range_updater = std::make_unique<WorldPositionsInRangeUpdater>(m_scene_loader->get_voxel_metadata(), m_camera);
 	 m_voxel_loader = std::make_unique<VoxelLoader>(*m_voxel_resource, *m_world_positions_in_range_updater);
 	 m_voxel_updater = IVoxelUpdater::get_voxel_updater(*m_voxel_resource, *m_world_positions_in_range_updater);
 }
@@ -83,7 +83,7 @@ void GameManager::initialize_renderers() {
 	m_cube_renderer = ICubeRenderer::get_cube_renderer();
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
-	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource->get("voxel_shader"));
+	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource, m_scene_loader->get_voxel_metadata());
 	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
 }
 

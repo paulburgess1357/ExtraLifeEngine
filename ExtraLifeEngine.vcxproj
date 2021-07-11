@@ -255,6 +255,7 @@
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h" />
     <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h" />
     <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h" />
+    <ClInclude Include="Voxel\Neutral\VoxelMetaData.h" />
     <ClInclude Include="World\WorldPositionsInRangeUpdater.h" />
     <ClInclude Include="ECS\Components\IncludeComponents.h" />
     <ClInclude Include="ECS\Components\Shader\VoxelShaderComponent.h" />

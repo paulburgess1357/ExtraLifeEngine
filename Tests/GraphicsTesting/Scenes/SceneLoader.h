@@ -19,9 +19,8 @@ private:
 
 	// void voxels(entt::registry& registry);
 	void load_backpack(entt::registry& registry) const;
-	// void load_spartan(entt::registry& registry);
-	// void load_vivi(entt::registry& registry);
-	// void load_framebuffer(entt::registry& registry);
+	void load_spartan(entt::registry& registry) const;
+	void load_framebuffer(entt::registry& registry) const;
 	
 	ShaderResource& m_shader_resource;
 	ModelResource& m_model_resource;

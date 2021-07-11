@@ -1,7 +1,6 @@
 #include "SceneLoader.h"
 #include "../../ECS/Components/IncludeComponents.h"
 #include "../../ResourceManagement/IncludeResources.h"
-#include "../../../Utility/FatalError.h"
 
 // Shaders
 
@@ -39,9 +38,10 @@ void SceneLoader::load_scene(entt::registry& registry) const{
 	//grid(registry);
 	//single_cube(registry);
 	// single_cube_textured(registry);
-	load_backpack(registry);
+	// load_backpack(registry);
+	load_spartan(registry);
 	//cubemap(registry);
-	//load_framebuffer(registry);
+	load_framebuffer(registry);
 }
 
 void SceneLoader::grid(entt::registry& registry) const{
@@ -135,7 +135,45 @@ void SceneLoader::load_backpack(entt::registry& registry) const{
 	// registry.emplace<ScaleComponent>(model_entity, 5.0f);
 }
 
+void SceneLoader::load_spartan(entt::registry& registry) const{
 
+	//TODO add warning for not being able to load a texture (e.g. metallic roughness)
+	
+	const std::string id = "spartan";
+	m_shader_resource.load(id, "Assets/shaders/model_shaders/spartan/spartan_vertex.glsl", "Assets/shaders/model_shaders/spartan/spartan_fragment.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get(id);
+
+	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);
+
+	// Note: No specular materia in spartan, so we must manually load it
+	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
+	SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
+	scene_light->m_diffuse = glm::vec3(1.5);
+	shader_program->set_uniform("scenelight.ambient", scene_light->m_ambient);
+	shader_program->set_uniform("scenelight.diffuse", scene_light->m_diffuse);
+
+	//const DirectionalLight dirlight{"spartan_dirlight_test", glm::vec3{0.5f, 0.5f, 0.0f } };
+	//m_light_resource.load(dirlight);
+	//shader_program->attach_directional_light(dirlight);
+	
+	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-21.0f, 125.0f, 18.0f }, 1.0f, 0.0009f, 0.000032f };
+	m_light_resource.load(pointlight);
+	shader_program->attach_point_light(pointlight);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
+	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -4.0f, 0.0f, 0.0f });
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
+}
+
+void SceneLoader::load_framebuffer(entt::registry& registry) const{
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_inversion.glsl", false);
+	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
+}
 
 
 

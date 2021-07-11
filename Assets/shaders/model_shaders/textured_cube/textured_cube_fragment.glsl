@@ -40,8 +40,8 @@ uniform SpecularMaterial specular_material;
 
 uniform SceneLight scenelight;
 
-uniform int active_dirlight_qty;
-uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
+//uniform int active_dirlight_qty;
+//uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
 
 uniform int active_pointlight_qty;
 uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
@@ -82,9 +82,9 @@ void main() {
     vec3 result = vec3(0.0f);
     
     // Directional
-    for(int i = 0; i <= active_dirlight_qty; i++) {
-        result += calc_directional_light(dirlight[i], diffuse_material, specular_material, scenelight, normalized_frag_cube_normals, view_direction, fragment_tex_coords);
-    }
+//    for(int i = 0; i <= active_dirlight_qty; i++) {
+//        result += calc_directional_light(dirlight[i], diffuse_material, specular_material, scenelight, normalized_frag_cube_normals, view_direction, fragment_tex_coords);
+//    }
 
     // Point (active pointlight qty set to -1 during shader compilation)
     for(int i = 0; i <= active_pointlight_qty; i++){

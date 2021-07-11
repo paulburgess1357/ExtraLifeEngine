@@ -13,7 +13,7 @@ namespace OpenGL{
 	public:
 		OpenGLLightHandler();
 		
-		void attach_scene_light(const SceneLight& scene_light);
+		void attach_scene_light(const SceneLight& scene_light, const bool omit_specular = false);
 		void attach_directional_light(const DirectionalLight& dirlight);
 		void attach_point_light(const PointLight& pointlight);
 		void set_shader_program(IShaderProgram& shader_program);

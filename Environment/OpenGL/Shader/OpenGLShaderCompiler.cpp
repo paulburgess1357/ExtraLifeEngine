@@ -10,7 +10,7 @@ OpenGL::OpenGLShaderCompiler::OpenGLShaderCompiler(const IShaderLoader& shader_l
 	:IShaderCompiler(shader_loader){	
 }
 
-std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{	
+std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile(const bool link_uniform_blocks) const{
 	
 	Print::print("Compiling Shader");
 
@@ -21,17 +21,24 @@ std::unique_ptr<IShaderProgram> OpenGL::OpenGLShaderCompiler::compile() const{
 	std::unique_ptr<IShaderProgram> shader_program = compile_shader_program(vertex_shader_id, fragment_shader_id);
 	
 	// Link uniform blocks (used across all shaders)
-	OpenGLUniformBlock opengl_uniform_block_allocator;
-	opengl_uniform_block_allocator.link_projection_view_block_to_shader(*shader_program);
-	opengl_uniform_block_allocator.link_camera_position_block_to_shader(*shader_program);
-
+	if(link_uniform_blocks){
+		Print::print("Linking uniform blocks to shader: " + std::to_string(shader_program->get_handle()));
+		OpenGLUniformBlock::link_projection_view_block_to_shader(*shader_program);
+		OpenGLUniformBlock::link_camera_position_block_to_shader(*shader_program);
+	}
+	
 	// Initialize Handlers
 	shader_program->init_texture_handler();	
 	shader_program->init_light_handler();
 
 	// Set light uniforms to -1 (inactive)
-	shader_program->set_uniform("active_dirlight_qty", -1);
-	shader_program->set_uniform("active_pointlight_qty", -1);
+	//if(shader_program->uniform_exists_in_shader_code("active_dirlight_qty")){
+	//	shader_program->set_uniform("active_dirlight_qty", -1);
+	//}
+
+	//if(shader_program->uniform_exists_in_shader_code("active_pointlight_qty")){
+	//	shader_program->set_uniform("active_pointlight_qty", -1);
+	//}	
 		
 	return shader_program;		
 }

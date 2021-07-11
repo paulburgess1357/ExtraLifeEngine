@@ -44,7 +44,7 @@ void OpenGL::OpenGLLightHandler::attach_point_light(const PointLight& pointlight
 	
 }
 
-void OpenGL::OpenGLLightHandler::attach_scene_light(const SceneLight& scene_light){
+void OpenGL::OpenGLLightHandler::attach_scene_light(const SceneLight& scene_light, const bool omit_specular){
 
 	Print::print("Attaching Scene Light: " + scene_light.m_light_name);
 	m_scene_light_pair.first = scene_light.m_light_name;
@@ -52,8 +52,9 @@ void OpenGL::OpenGLLightHandler::attach_scene_light(const SceneLight& scene_ligh
 
 	m_shader_program->set_uniform("scenelight.ambient", m_scene_light_pair.second->m_ambient);
 	m_shader_program->set_uniform("scenelight.diffuse", m_scene_light_pair.second->m_diffuse);
-	m_shader_program->set_uniform("scenelight.specular", m_scene_light_pair.second->m_specular);
-	
+	if(!omit_specular){
+		m_shader_program->set_uniform("scenelight.specular", m_scene_light_pair.second->m_specular);
+	}		
 }
 
 std::string OpenGL::OpenGLLightHandler::create_shader_variable_name(const std::string& name, const unsigned int index) {

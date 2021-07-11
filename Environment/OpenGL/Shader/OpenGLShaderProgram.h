@@ -27,8 +27,13 @@ namespace OpenGL{
 
 		// Lighting
 		void attach_scene_light(const SceneLight& scene_light) override;
-		void attach_directional_light(const DirectionalLight& pointlight) override;
-		void attach_point_light(const PointLight& point_light) override;
+		void attach_directional_light(const DirectionalLight& dirlight) override;
+		void attach_point_light(const PointLight& pointlight) override;
+
+		// Overall Unifrom Checks
+		[[nodiscard]] bool uniform_exists_in_shader_code(const std::string& uniform_name) const override;
+		void check_uniforms_in_shader_code_are_initialized() const override;
+		void show_initialized_shader_variables() const override;
 
 		// Single Value Uniforms
 		void set_uniform(const std::string& uniform_name, const int value, const bool apply_binds = true) override;

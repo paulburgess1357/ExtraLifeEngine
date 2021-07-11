@@ -12,7 +12,7 @@ namespace OpenGL{
 
 	public:
 		OpenGLShaderCompiler(const IShaderLoader& shader_loader);
-		[[nodiscard]] std::unique_ptr<IShaderProgram> compile() const override;
+		[[nodiscard]] std::unique_ptr<IShaderProgram> compile(const bool link_uniform_blocks) const override;
 	
 	private:
 		static unsigned int compile_glsl_shader(const std::string& shader_glsl_code, const ShaderType shader_type);

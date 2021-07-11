@@ -9,7 +9,7 @@
 class LightResource{
 
 public:
-	LightResource() = default;
+	LightResource();
 	~LightResource();
 	void load(const DirectionalLight& dirlight);
 	void load(const PointLight& pointlight);
@@ -29,6 +29,8 @@ private:
 	[[nodiscard]] bool is_pointlight_loaded(const std::string& light_name) const;
 	[[nodiscard]] bool is_scenelight_loaded(const std::string& light_name) const;
 	static void check_point_light(const PointLight& pointlight);
+
+	void load_inital_lights();
 
 	std::unordered_map<std::string, std::unique_ptr<DirectionalLight>> m_dirlight_cache;
 	std::unordered_map<std::string, std::unique_ptr<PointLight>> m_pointlight_cache;

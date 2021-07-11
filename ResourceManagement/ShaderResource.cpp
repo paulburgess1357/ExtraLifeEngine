@@ -9,12 +9,12 @@ ShaderResource::~ShaderResource(){
 	destroy_all();
 }
 
-void ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path){
+void ShaderResource::load(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path, const bool link_uniform_blocks){
 	if (!is_loaded(shader_name)) {
 		Print::print("\nLoading Shader: " + shader_name + " (" + vertex_shader_path + ") & (" + fragment_shader_path + ")");
 		const std::unique_ptr<IShaderLoader> shader_loader = std::make_unique<ShaderLoaderFromFile>(vertex_shader_path, fragment_shader_path);
 		const std::unique_ptr<IShaderCompiler> shader_compiler = IShaderCompiler::create_compiler(*shader_loader);		
-		m_shader_cache[shader_name] = shader_compiler->compile();
+		m_shader_cache[shader_name] = shader_compiler->compile(link_uniform_blocks);
 	}	
 }
 
@@ -45,4 +45,16 @@ void ShaderResource::destroy_all(){
 		shader.second->destroy();
 	}
 	m_shader_cache.clear();
+}
+
+void ShaderResource::display_initialized_shader_variables() const{
+	Print::print("\nChecking Shader Uniforms: ");
+	for(auto& shader : m_shader_cache){
+		Print::print("Shader: " + shader.first + " (handle: " + std::to_string(shader.second->get_handle()) + ")");
+		Print::print("   - Initialized Uniforms: " + shader.first);		
+		// shader.second->show_initialized_shader_variables();		
+		shader.second->check_uniforms_in_shader_code_are_initialized();
+		Print::print("\n-------------------------------------------------\n");
+	}
+	Print::print("\n");
 }

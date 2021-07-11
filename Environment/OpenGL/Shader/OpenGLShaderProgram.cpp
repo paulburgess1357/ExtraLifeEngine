@@ -1,5 +1,6 @@
 #include "OpenGLShaderProgram.h"
 #include "../../Utility/FatalError.h"
+#include "../../Utility/Print.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
@@ -154,9 +155,56 @@ int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {
 		m_uniform_locations[uniform_name] = glGetUniformLocation(m_handle, uniform_name.c_str());
 
 		if (m_uniform_locations[uniform_name] == -1) {
-			//FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
+			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
 		}
 	}
 
 	return m_uniform_locations.at(uniform_name);
 }
+
+bool OpenGL::OpenGLShaderProgram::uniform_exists_in_shader_code(const std::string& uniform_name) const{
+	return glGetUniformLocation(m_handle, uniform_name.c_str()) != -1;
+}
+
+void OpenGL::OpenGLShaderProgram::show_initialized_shader_variables() const{
+	for(const auto& uniform : m_uniform_locations){
+		Print::print("       - Uniform: " + uniform.first + "; Location: " + std::to_string(uniform.second));
+	}
+}
+
+void OpenGL::OpenGLShaderProgram::check_uniforms_in_shader_code_are_initialized() const{
+
+	// https://stackoverflow.com/questions/440144/in-opengl-is-there-a-way-to-get-a-list-of-all-uniforms-attribs-used-by-a-shade
+
+	// Looks at all of the uniform variables in the shader and compares them to
+	// the set uniforms in the m_uniform_locations map.  If a uniform does
+	// not exist in the map, it means we have not initialized the GLSL uniform
+
+	Print::print("   - Checking Uniforms In GLSL: ");
+	const std::set<std::string> ignore_strings = get_ignore_string_uniforms();
+	
+	GLint count;
+	GLint size;
+	GLenum type;
+
+	const GLsizei bufSize = 64; // maximum name length
+	GLchar name[bufSize]; // variable name in GLSL
+	GLsizei length; // name length
+	
+	glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &count);
+	for (GLint i = 0; i < count; i++){
+		glGetActiveUniform(m_handle, i, bufSize, &length, &size, &type, name);
+
+		std::string name_str{ name };		
+
+		// Ignore model_matrix and normal_matrix (These are set via ECS system right before render)
+		if(ignore_strings.count(name_str) == 0){
+			if (m_uniform_locations.count(name_str) == 0) {
+				FatalError::fatal_error("The variable: " + name_str + " exists in your GLSL (handle: " + std::to_string(m_handle) + ") code, but has not been set via set_uniform()!");
+			}
+		}		
+		// printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+	}
+}
+
+

@@ -22,8 +22,11 @@ bool ShaderResource::is_loaded(const std::string& shader_name) const{
 	return m_shader_cache.count(shader_name) > 0;
 }
 
-IShaderProgram* ShaderResource::get(const std::string& shader_name){
+IShaderProgram* ShaderResource::get(const std::string& shader_name, const bool allow_nullptr){
 	if (!is_loaded(shader_name)) {
+		if(allow_nullptr){
+			return nullptr;
+		}
 		FatalError::fatal_error("Unable to locate shader: " + shader_name);
 	}
 	return m_shader_cache.at(shader_name).get();

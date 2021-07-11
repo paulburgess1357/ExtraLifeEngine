@@ -10,11 +10,16 @@ WorldPositionsInRangeUpdater::WorldPositionsInRangeUpdater(const int x_range, co
 	 m_camera_chunk_changed{ true }{
 
 	 // Special use case (i.e. we don't want any voxels to be loaded/displayed)
-	 if(!(x_range == 0 && y_range == 0 && z_range == 0)){
+	 if(!(m_x_range == 0 && m_y_range == 0 && m_z_range == 0)){
 		 initialize_world_positions_in_camera_range(camera);
 	 }
 	 
 }
+
+WorldPositionsInRangeUpdater::WorldPositionsInRangeUpdater(const VoxelMetaData& voxel_range_data, const Camera& camera)
+	:WorldPositionsInRangeUpdater{ voxel_range_data.m_voxel_x_range, voxel_range_data.m_voxel_y_range, voxel_range_data.m_voxel_z_range, camera } {
+}
+
 
 void WorldPositionsInRangeUpdater::initialize_world_positions_in_camera_range(const Camera& camera) {
 	

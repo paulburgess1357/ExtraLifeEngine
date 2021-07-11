@@ -21,7 +21,7 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// single_cube_textured(registry);
 	// load_backpack(registry);
 	load_spartan(registry);
-	// cubemap(registry);
+	cubemap(registry);
 	// load_framebuffer(registry);
 	
 }
@@ -130,7 +130,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	// Note: No specular materia in spartan, so we must manually load it
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
 	SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
-	scene_light->m_diffuse = glm::vec3(1.5);
+	scene_light->m_diffuse = glm::vec3(1.9f);
 	shader_program->set_uniform("scenelight.ambient", scene_light->m_ambient);
 	shader_program->set_uniform("scenelight.diffuse", scene_light->m_diffuse);
 
@@ -138,7 +138,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	//m_light_resource.load(dirlight);
 	//shader_program->attach_directional_light(dirlight);
 	
-	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-21.0f, 125.0f, 18.0f }, 1.0f, 0.0009f, 0.000032f };
+	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-8.0f, 125.0f, 30.0f }, 1.0f, 0.0009f, 0.000032f };
 	m_light_resource.load(pointlight);
 	shader_program->attach_point_light(pointlight);
 
@@ -163,11 +163,12 @@ void SceneLoader::load_framebuffer(entt::registry& registry) const{
 
 void SceneLoader::cubemap(entt::registry& registry) const{
 
-	m_shader_resource.load("cubemap", "Assets/shaders/cubemap_shaders/cubemap_vertex.glsl", "Assets/shaders/cubemap_shaders/cubemap_fragment.glsl", true);
-	IShaderProgram* shader_program = m_shader_resource.get("cubemap");
+	const std::string id = "space_red";
+	m_shader_resource.load(id, "Assets/shaders/cubemap_shaders/cubemap_vertex.glsl", "Assets/shaders/cubemap_shaders/cubemap_fragment.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get(id);
 
-	m_texture_resource.load_cubemap_textures("space_red", "Assets/cubemaps/space_red");
-	shader_program->attach_cubemap_texture(*m_texture_resource.get("space_red"));
+	m_texture_resource.load_cubemap_textures(id, "Assets/cubemaps/space_red");
+	shader_program->attach_cubemap_texture(*m_texture_resource.get(id));
 	
 	const entt::entity cubemap_entity = registry.create();
 	registry.emplace<ShaderComponent>(cubemap_entity, shader_program);

@@ -19,8 +19,8 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// grid(registry);
 	// single_cube(registry);
 	// single_cube_textured(registry);
-	// load_backpack(registry);
-	load_spartan(registry);
+	load_backpack(registry);
+	// load_spartan(registry);
 	cubemap(registry);
 	// load_framebuffer(registry);
 	
@@ -127,7 +127,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 
 	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);
 
-	// Note: No specular materia in spartan, so we must manually load it
+	// Note: No specular material in spartan, so we must manually load the scene light (it has a specular property)
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
 	SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
 	scene_light->m_diffuse = glm::vec3(1.9f);
@@ -146,7 +146,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -4.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	// registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
+	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
 }
 
 void SceneLoader::load_framebuffer(entt::registry& registry) const{

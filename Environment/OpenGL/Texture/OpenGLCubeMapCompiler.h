@@ -14,8 +14,6 @@ namespace OpenGL{
 	private:		
 		static void set_texture_parameters();
 		void generate_textures() const;
-		static GLenum get_texture_format(const unsigned int component_num);
-		
 	};
 	
 } // namespace OpenGL

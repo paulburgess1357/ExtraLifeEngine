@@ -19,9 +19,9 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// grid(registry);
 	// single_cube(registry);
 	// single_cube_textured(registry);
-	load_backpack(registry);
-	// load_spartan(registry);
-	cubemap(registry);
+	// load_backpack(registry);
+	load_spartan(registry);
+	// cubemap(registry);
 	// load_framebuffer(registry);
 	
 }

@@ -2,7 +2,6 @@
 #include "../../Interfaces/Texture/ITexture.h"
 #include "../../Interfaces/Texture/ITextureLoader.h"
 #include "../../Interfaces/Texture/ITextureCompiler.h"
-#include <glad/glad.h>
 
 namespace OpenGL{
 	
@@ -15,7 +14,6 @@ namespace OpenGL{
 	private:
 		static void set_texture_parameters();
 		void generate_texture() const;
-		static GLenum get_texture_format(const unsigned int component_num);		
 		static void generate_mipmaps();
 				
 	};

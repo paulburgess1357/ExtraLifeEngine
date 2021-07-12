@@ -68,6 +68,9 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	//      value of one, the gragment passes the test and is drawn.  Otherwise
 	//      it is discarded.
 	// glStencilFunc(GL_EQUAL, 1, 0xFF) // Necessary?
+
+	// Gamma Correction
+	glEnable(GL_FRAMEBUFFER_SRGB);
 	
 	// Alpha blending
 	// glEnable(GL_BLEND);

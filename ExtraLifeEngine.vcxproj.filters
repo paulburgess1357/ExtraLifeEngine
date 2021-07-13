@@ -285,6 +285,9 @@
     <ClCompile Include="Environment\Interfaces\Framebuffer\IFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\OpenGL\Texture\TextureFormatFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -708,6 +711,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Voxel\Neutral\VoxelMetaData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\OpenGL\Texture\TextureFormatFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

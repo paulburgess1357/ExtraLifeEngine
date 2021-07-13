@@ -1,17 +1,25 @@
 #include "OpenGLTextureCompiler.h"
 #include "OpenGLTexture.h"
+#include "../Texture/TextureFormatFinder.h"
 #include "../../Utility/Print.h"
-#include "../../Utility/FatalError.h"
 #include "../../Utility/SBTIUtilities.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
 #include "../../ResourceManagement/GraphicsConstants.h"
+#include <glad/glad.h>
 
 OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const ITextureLoader& texture_loader)
 	:ITextureCompiler{ texture_loader }{
 }
 
-std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
+std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile(const bool apply_gamma_correction) {
 
+	// Gamma correction will be applied when BOTH apply_gamma_correction = true
+	// and gamma correction is enabled: glEnable(GL_FRAMEBUFFER_SRGB);
+	// If apply_gamma_correction was true but GL_FRAMEBUFFER_SRGB was not
+	// enabled, no gamma correction will be applied.  The apply_gamma_correction
+	// parameter is really to allow us to say NOT to apply gamma correction
+	// to lighting maps such as normal maps and specular maps.
+	
 	unsigned int texture_handle{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	// Store w/ OpenGL & bind
@@ -19,7 +27,7 @@ std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile() {
 	glBindTexture(GL_TEXTURE_2D, texture_handle);
 
 	set_texture_parameters();
-	generate_texture();
+	generate_texture(apply_gamma_correction);
 	generate_mipmaps();
 
 	// Unbind	
@@ -42,29 +50,22 @@ void OpenGL::OpenGLTextureCompiler::set_texture_parameters() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-void OpenGL::OpenGLTextureCompiler::generate_texture() const {
-	GLenum format = get_texture_format(m_texture_loading_data.m_components);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
-	SBTIUtilities::free_image(m_texture_loading_data.m_image_data);
-}
-
-GLenum OpenGL::OpenGLTextureCompiler::get_texture_format(const unsigned int component_num) {
-	GLenum format { 0 };
-	if (component_num == 1) {
-		Print::print("RED Format");
-		format = GL_RED;
-	} else if (component_num == 3) {
-		Print::print("RGB Format");
-		format = GL_RGB;
-	} else if (component_num == 4) {
-		Print::print("RGBA Format");
-		format = GL_RGBA;
-	} else {
-		FatalError::fatal_error("Unknown component number in load_texture function!");
+void OpenGL::OpenGLTextureCompiler::generate_texture(const bool apply_gamma_correction) const {
+	const GLenum internal_format = TextureFormatFinder::get_texture_internal_format(m_texture_loading_data.m_components);
+	const GLenum format = TextureFormatFinder::get_texture_standard_format(m_texture_loading_data.m_components);
+	TextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
+	
+	if(apply_gamma_correction){
+		glTexImage2D(GL_TEXTURE_2D, 0, internal_format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
+	} else{
+		glTexImage2D(GL_TEXTURE_2D, 0, format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
 	}
-	return format;
+	
+	SBTIUtilities::free_image(m_texture_loading_data.m_image_data);
 }
 
 void OpenGL::OpenGLTextureCompiler::generate_mipmaps() {
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
+
+

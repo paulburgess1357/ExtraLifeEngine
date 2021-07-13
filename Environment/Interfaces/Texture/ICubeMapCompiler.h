@@ -11,7 +11,7 @@ public:
 	ICubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
 	virtual ~ICubeMapCompiler() = default;
 
-	[[nodiscard]] virtual std::unique_ptr<ITexture> compile(const std::string& cubemap_name) = 0;
+	[[nodiscard]] virtual std::unique_ptr<ITexture> compile(const std::string& cubemap_name, const bool apply_gamma_correction) = 0;
 	[[nodiscard]] static std::unique_ptr<ICubeMapCompiler> create_compiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
 
 protected:

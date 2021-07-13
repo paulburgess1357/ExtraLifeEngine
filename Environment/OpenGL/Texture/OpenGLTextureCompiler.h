@@ -2,7 +2,6 @@
 #include "../../Interfaces/Texture/ITexture.h"
 #include "../../Interfaces/Texture/ITextureLoader.h"
 #include "../../Interfaces/Texture/ITextureCompiler.h"
-#include <glad/glad.h>
 
 namespace OpenGL{
 	
@@ -10,12 +9,11 @@ namespace OpenGL{
 
 	public:
 		OpenGLTextureCompiler(const ITextureLoader& texture_loader);
-		[[nodiscard]] std::unique_ptr<ITexture> compile() override;
+		[[nodiscard]] std::unique_ptr<ITexture> compile(const bool apply_gamma_correction) override;
 
 	private:
 		static void set_texture_parameters();
-		void generate_texture() const;
-		static GLenum get_texture_format(const unsigned int component_num);		
+		void generate_texture(const bool apply_gamma_correction) const;
 		static void generate_mipmaps();
 				
 	};

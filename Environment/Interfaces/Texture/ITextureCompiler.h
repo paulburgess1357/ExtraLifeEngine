@@ -10,7 +10,7 @@ public:
 	ITextureCompiler(const ITextureLoader& texture_loader);
 
 	virtual ~ITextureCompiler() = default;
-	[[nodiscard]] virtual std::unique_ptr<ITexture> compile() = 0;
+	[[nodiscard]] virtual std::unique_ptr<ITexture> compile(const bool apply_gamma_correction) = 0;
 	[[nodiscard]] static std::unique_ptr<ITextureCompiler> create_compiler(const ITextureLoader& texture_loader);
 	
 protected:

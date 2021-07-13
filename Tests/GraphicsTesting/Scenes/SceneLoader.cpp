@@ -29,19 +29,12 @@ void SceneLoader::load_scene(entt::registry& registry) {
 void SceneLoader::grid(entt::registry& registry) const{
 	m_shader_resource.load("grid_shader", "Assets/shaders/model_shaders/grid/grid_vertex_shader.glsl", "Assets/shaders/model_shaders/grid/grid_fragment_shader.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");
-	
 	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, m_texture_resource, false);
-
-	// The grid does not have a specular material.  The scenelight has a
-	// specular value that is used in conjuction with the material.  As such.
-	// we need to only set the uniforms of the ambient and diffuse portions
-	// of the scenelight
-
-	const SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
+	
+	const SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight");
 	shader_program->set_uniform("scenelight.ambient", scene_light->m_ambient);
 	shader_program->set_uniform("scenelight.diffuse", scene_light->m_diffuse);
-
-	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
 		
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get("grid"));
@@ -52,11 +45,10 @@ void SceneLoader::grid(entt::registry& registry) const{
 void SceneLoader::single_cube(entt::registry& registry) const {
 
 	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders/colored_cube/colored_cube_vertex.glsl", "Assets/shaders/model_shaders/colored_cube/colored_cube_fragment.glsl", true);
-	
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
 
-	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
-	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
+	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
 		
 	shader_program->set_uniform("diffuse_color", glm::vec3(0.9f, 0.1f, 0.31f));
 	shader_program->set_uniform("specular_color", glm::vec3(0.5f, 0.5f, 0.5f));
@@ -80,12 +72,9 @@ void SceneLoader::single_cube_textured(entt::registry& registry) const {
 	shader_program->attach_diffuse_texture(*m_texture_resource.get("brown_container"));
 	shader_program->attach_specular_texture(*m_texture_resource.get("brown_container_specular"), 32.0f);
 	
-	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
-	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
-
-	const PointLight pointlight{ "testing_pointlight", glm::vec3{2.0f, 0.0f, 1.5f }, 1.0f, 0.7f, 1.8f };
-	m_light_resource.load(pointlight);
-	shader_program->attach_point_light(*m_light_resource.get_pointlight("testing_pointlight"));
+	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
+	shader_program->attach_point_light(*m_light_resource.get_pointlight("standard_pointlight"));
 
 	const entt::entity textured_cube_entity = registry.create();
 	registry.emplace<ShaderComponent>(textured_cube_entity, shader_program);
@@ -101,12 +90,9 @@ void SceneLoader::load_backpack(entt::registry& registry) const{
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	
 	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
-	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
-	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
-
-	const PointLight pointlight{ "backpack_pointlight_test", glm::vec3{6.0f, 0.0f, 0.0f }, 1.0f, 0.09f, 0.032f };
-	m_light_resource.load(pointlight);
-	shader_program->attach_point_light(pointlight);
+	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight"));
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
+	shader_program->attach_point_light(*m_light_resource.get_pointlight("standard_pointlight"));
 	
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -128,19 +114,15 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 
 	// Note: No specular material in spartan, so we must manually load the scene light (it has a specular property)
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
-	SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
-	// scene_light->m_ambient = glm::vec3(0.3f);
-	scene_light->m_diffuse = glm::vec3(2.2f);	
-	shader_program->set_uniform("scenelight.ambient", scene_light->m_ambient);
-	shader_program->set_uniform("scenelight.diffuse", scene_light->m_diffuse);
 
-	//const DirectionalLight dirlight{"spartan_dirlight_test", glm::vec3{0.5f, 0.5f, 0.0f } };
-	//m_light_resource.load(dirlight);
-	//shader_program->attach_directional_light(dirlight);
+	// shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
 	
-	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-8.0f, 125.0f, 30.0f }, 1.0f, 0.009f, 0.00032f };
-	m_light_resource.load(pointlight);
-	shader_program->attach_point_light(pointlight);
+	const SceneLight custom_scenelight{ "spartan_scenelight" , glm::vec3{0.0f}, glm::vec3{1.8f}, glm::vec3{1.0f} };
+	shader_program->set_uniform("scenelight.ambient", custom_scenelight.m_ambient);
+	shader_program->set_uniform("scenelight.diffuse", custom_scenelight.m_diffuse);
+	
+	const PointLight custom_pointlight{"spartan_pointlight", glm::vec3{-132.0f, 117.0f, 132.0f}, 1.0f, 0.0014f, 0.000007f };
+	shader_program->attach_point_light(custom_pointlight);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -165,9 +147,9 @@ void SceneLoader::cubemap(entt::registry& registry) const{
 
 	const std::string id = "space_red";
 	m_shader_resource.load(id, "Assets/shaders/cubemap_shaders/cubemap_vertex.glsl", "Assets/shaders/cubemap_shaders/cubemap_fragment.glsl", true);
-	IShaderProgram* shader_program = m_shader_resource.get(id);
-
 	m_texture_resource.load_cubemap_textures(id, "Assets/cubemaps/space_red", true);
+	
+	IShaderProgram* shader_program = m_shader_resource.get(id);
 	shader_program->attach_cubemap_texture(*m_texture_resource.get(id));
 	
 	const entt::entity cubemap_entity = registry.create();
@@ -185,15 +167,12 @@ void SceneLoader::voxels(entt::registry& registry, const int x_range, const int 
 	// This is set in the fragment shader
 	
 	// No specular material for scenelight
-	const SceneLight custom_scenelight{ "voxel_scenelight_test", glm::vec3 { 0.6f }, glm::vec3 { 0.9f }, glm::vec3 { 1.0f } };
-	m_light_resource.load(custom_scenelight);
-	shader_program->set_uniform("scenelight.ambient", custom_scenelight.m_ambient);
-	shader_program->set_uniform("scenelight.diffuse", custom_scenelight.m_diffuse);
+	const SceneLight scenelight = *m_light_resource.get_scenelight("standard_scenelight");
+	shader_program->set_uniform("scenelight.ambient", scenelight.m_ambient);
+	shader_program->set_uniform("scenelight.diffuse", scenelight.m_diffuse);
 
-	// shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
-	const PointLight pointlight{ "voxel_pointlight_test", glm::vec3{0.0f, 20.0f, 0.0f }, 1.0f, 0.0014f, 0.000007f };
-	m_light_resource.load(pointlight);
-	shader_program->attach_point_light(pointlight);
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
+	shader_program->attach_point_light(*m_light_resource.get_pointlight("standard_pointlight"));
 
 	// TODO attach texture map here using the shader attach texture function
 	m_voxel_range_data = VoxelMetaData{ id, x_range, y_range, z_range };

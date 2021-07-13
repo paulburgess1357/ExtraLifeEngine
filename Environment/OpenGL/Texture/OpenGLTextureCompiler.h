@@ -9,11 +9,11 @@ namespace OpenGL{
 
 	public:
 		OpenGLTextureCompiler(const ITextureLoader& texture_loader);
-		[[nodiscard]] std::unique_ptr<ITexture> compile() override;
+		[[nodiscard]] std::unique_ptr<ITexture> compile(const bool apply_gamma_correction) override;
 
 	private:
 		static void set_texture_parameters();
-		void generate_texture() const;
+		void generate_texture(const bool apply_gamma_correction) const;
 		static void generate_mipmaps();
 				
 	};

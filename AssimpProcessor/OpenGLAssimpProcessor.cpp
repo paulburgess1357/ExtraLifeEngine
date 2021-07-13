@@ -23,8 +23,17 @@ void OpenGL::OpenGLAssimpProcessor::load_material(const aiMaterial* material, co
 		std::string material_path{ ai_material_path.C_Str() };
 		
 		material_path = update_material_path(material_path, directory);
+
+		if(texture_type == aiTextureType_DIFFUSE){
+			// Gamma correction applied to diffuse textures
+			texture_resource.load_model_textures(material_path, true);
+		} else{
+			// No gamma correction applied (e.g. lighting maps and such)
+			texture_resource.load_model_textures(material_path, false);
+		}
 		
-		texture_resource.load_model_textures(material_path);
+
+		
 		const ITexture* mesh_texture = texture_resource.get(material_path);
 		load_material_into_mesh(material_path, texture_type, mesh, *mesh_texture);
 		

@@ -21,7 +21,7 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// single_cube_textured(registry);
 	// load_backpack(registry);
 	load_spartan(registry);
-	// cubemap(registry);
+	cubemap(registry);
 	// load_framebuffer(registry);
 	
 }
@@ -72,14 +72,13 @@ void SceneLoader::single_cube(entt::registry& registry) const {
 void SceneLoader::single_cube_textured(entt::registry& registry) const {
 
 	m_shader_resource.load("single_cube_textured", "Assets/shaders/model_shaders/textured_cube/textured_cube_vertex.glsl", "Assets/shaders/model_shaders/textured_cube/textured_cube_fragment.glsl", true);
-	m_texture_resource.load("brown_container", "Assets/textures/brown_container.png");
-	m_texture_resource.load("brown_container_specular", "Assets/textures/container_specular_map.png");
+	m_texture_resource.load("brown_container", "Assets/textures/brown_container.png", true);
+	m_texture_resource.load("brown_container_specular", "Assets/textures/container_specular_map.png", false);
 	
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube_textured");
 	
 	shader_program->attach_diffuse_texture(*m_texture_resource.get("brown_container"));
 	shader_program->attach_specular_texture(*m_texture_resource.get("brown_container_specular"), 32.0f);
-
 	
 	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight1"));
 	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight1"));
@@ -130,7 +129,8 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	// Note: No specular material in spartan, so we must manually load the scene light (it has a specular property)
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
 	SceneLight* scene_light = m_light_resource.get_scenelight("standard_scenelight1");
-	scene_light->m_diffuse = glm::vec3(1.9f);
+	// scene_light->m_ambient = glm::vec3(0.3f);
+	scene_light->m_diffuse = glm::vec3(2.2f);	
 	shader_program->set_uniform("scenelight.ambient", scene_light->m_ambient);
 	shader_program->set_uniform("scenelight.diffuse", scene_light->m_diffuse);
 
@@ -138,7 +138,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	//m_light_resource.load(dirlight);
 	//shader_program->attach_directional_light(dirlight);
 	
-	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-8.0f, 125.0f, 30.0f }, 1.0f, 0.0009f, 0.000032f };
+	const PointLight pointlight{ "spartan_pointlight_test", glm::vec3{-8.0f, 125.0f, 30.0f }, 1.0f, 0.009f, 0.00032f };
 	m_light_resource.load(pointlight);
 	shader_program->attach_point_light(pointlight);
 
@@ -167,7 +167,7 @@ void SceneLoader::cubemap(entt::registry& registry) const{
 	m_shader_resource.load(id, "Assets/shaders/cubemap_shaders/cubemap_vertex.glsl", "Assets/shaders/cubemap_shaders/cubemap_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 
-	m_texture_resource.load_cubemap_textures(id, "Assets/cubemaps/space_red");
+	m_texture_resource.load_cubemap_textures(id, "Assets/cubemaps/space_red", true);
 	shader_program->attach_cubemap_texture(*m_texture_resource.get(id));
 	
 	const entt::entity cubemap_entity = registry.create();

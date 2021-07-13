@@ -11,8 +11,15 @@ OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::str
 	:ICubeMapCompiler{ texture_loaders }{	
 }
 
-std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name){
+std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name, const bool apply_gamma_correction){
 
+	// Gamma correction will be applied when BOTH apply_gamma_correction = true
+	// and gamma correction is enabled: glEnable(GL_FRAMEBUFFER_SRGB);
+	// If apply_gamma_correction was true but GL_FRAMEBUFFER_SRGB was not
+	// enabled, no gamma correction will be applied.  The apply_gamma_correction
+	// parameter is really to allow us to say NOT to apply gamma correction
+	// to lighting maps such as normal maps and specular maps.
+	
 	unsigned int texture_handle{ GraphicsConstants::UNINITIALIZED_VALUE };
 
 	// Store w/ OpenGL & bind
@@ -20,7 +27,7 @@ std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::stri
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture_handle);
 	
 	set_texture_parameters();
-	generate_textures();
+	generate_textures(apply_gamma_correction);
 	
 	// Place handle in OpenGL texture class
 	Print::print("Texture Handle: " + std::to_string(texture_handle));
@@ -29,14 +36,21 @@ std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::stri
 	
 }
 
-void OpenGL::OpenGLCubeMapCompiler::generate_textures() const{
+void OpenGL::OpenGLCubeMapCompiler::generate_textures(const bool apply_gamma_correction) const{
 
 	for (unsigned int i = 0; i < m_texture_loading_data.size(); i++) {		
 		const TextureLoadingData texture_loading_data = m_texture_loading_data.at(i);		
 
 		const GLenum internal_format = TextureFormatFinder::get_texture_internal_format(texture_loading_data.m_components);
-		const GLenum format = TextureFormatFinder::get_texture_standard_format(texture_loading_data.m_components);		
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internal_format, texture_loading_data.m_width, texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, texture_loading_data.m_image_data);
+		const GLenum format = TextureFormatFinder::get_texture_standard_format(texture_loading_data.m_components);
+		TextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
+		
+		if(apply_gamma_correction){
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internal_format, texture_loading_data.m_width, texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, texture_loading_data.m_image_data);
+		} else{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, texture_loading_data.m_width, texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, texture_loading_data.m_image_data);
+		}
+				
 		SBTIUtilities::free_image(texture_loading_data.m_image_data);		
 	}	
 }

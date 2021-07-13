@@ -65,7 +65,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	// glStencilMask(0x00); Necessary?
 
 	// E.g. Whenever the stencil value of a fragment is equal to the reference
-	//      value of one, the gragment passes the test and is drawn.  Otherwise
+	//      value of one, the fragment passes the test and is drawn.  Otherwise
 	//      it is discarded.
 	// glStencilFunc(GL_EQUAL, 1, 0xFF) // Necessary?
 

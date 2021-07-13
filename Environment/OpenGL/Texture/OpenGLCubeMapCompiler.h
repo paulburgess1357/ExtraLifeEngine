@@ -1,7 +1,6 @@
 #pragma once
 #include "../../Environment/Interfaces/Texture/ITextureLoader.h"
 #include "../../Environment/Interfaces/Texture/ICubeMapCompiler.h"
-#include <glad/glad.h>
 
 namespace OpenGL{
 	
@@ -9,11 +8,11 @@ namespace OpenGL{
 		
 	public:
 		OpenGLCubeMapCompiler(std::unordered_map<std::string, std::unique_ptr<ITextureLoader>>& texture_loaders);
-		std::unique_ptr<ITexture> compile(const std::string& cubemap_name) override;
+		std::unique_ptr<ITexture> compile(const std::string& cubemap_name, const bool apply_gamma_correction) override;
 
 	private:		
 		static void set_texture_parameters();
-		void generate_textures() const;
+		void generate_textures(const bool apply_gamma_correction) const;
 	};
 	
 } // namespace OpenGL

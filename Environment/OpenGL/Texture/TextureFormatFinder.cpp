@@ -36,13 +36,13 @@ GLenum TextureFormatFinder::get_texture_gamma_format(const unsigned int componen
 	// This returns internal texture format for when gamma correction is
 	GLenum format{ 0 };
 	if (component_num == 1) {
-		Print::print("RED Format (Gamma Corrected (Technically no option for gamma corrected red))");
+		Print::print("RED Format");
 		format = GL_RED;
 	} else if (component_num == 3) {
-		Print::print("SRGB Format (Gamma Corrected)");
+		Print::print("RGB Format");
 		format = GL_SRGB;
 	} else if (component_num == 4) {
-		Print::print("SRGB_ALPHA Format (Gamma Corrected)");
+		Print::print("RGBA Format");
 		format = GL_SRGB_ALPHA;
 	} else {
 		FatalError::fatal_error("Unknown component number in load_texture function!");
@@ -72,4 +72,10 @@ GLenum TextureFormatFinder::get_texture_standard_format(const unsigned int compo
 	}
 	return format;
 	
+}
+
+void TextureFormatFinder::print_gamma_correction_applied(const bool gamma_correction_applied){
+	if (glIsEnabled(GL_FRAMEBUFFER_SRGB) && gamma_correction_applied) {
+		Print::print("Gamma Correction Applied");
+	}
 }

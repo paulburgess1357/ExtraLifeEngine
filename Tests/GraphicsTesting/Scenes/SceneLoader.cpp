@@ -1,4 +1,7 @@
 #include "SceneLoader.h"
+
+#include <glad/glad.h>
+
 #include "../../ECS/Components/IncludeComponents.h"
 #include "../../ResourceManagement/IncludeResources.h"
 
@@ -15,6 +18,8 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 
 void SceneLoader::load_scene(entt::registry& registry) {
 
+	
+	// 
 	// voxels(registry, 7, 3, 7);	
 	// grid(registry);
 	// single_cube(registry);
@@ -22,7 +27,21 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// load_backpack(registry);
 	load_spartan(registry);
 	cubemap(registry);
-	// load_framebuffer(registry);
+
+	//TODO Handle gamma correction in framebuffer each loop.  Note that I
+	//TODO need to ensure that textures are loaded with gamma correction WHEN
+	//TODO I have the framebuffer gamma correction in place. Right now it relies
+	//TODO on opengl, so they are loaded with gamma correction.  However,
+	//TODO that opengl enable flag will not be set when I have a framebuffer doing
+	//TODO it.  This means I need to make sure that my textures are loaded with
+	//TODO gamma correction.  This means I need to ensure the TextureFormatFinder
+	//TODO knows that gamma is enabled without relying on the opengl flag.
+	//TODO this gamma correction should be in place automatically in the game
+	//TODO manager rather than relying on the scene manager.  However, I should
+	//TODO make it so that if its not in place in the game manager, textures
+	//TODO will still load correction (in this case without gamma correction)
+	// load_hdr_framebuffer(registry);
+	// load_standard_framebuffer(registry);
 	
 }
 
@@ -131,10 +150,13 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
 }
 
-void SceneLoader::load_framebuffer(entt::registry& registry) const{
-	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_edge.glsl", false);
+void SceneLoader::load_standard_framebuffer(entt::registry& registry) const{
+	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_inversion.glsl", false);
 	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
 
+	m_framebuffer.set_framebuffer_type(FrameBufferType::STANDARD);
+	m_framebuffer.initialize_framebuffer();
+	
 	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
 	shader_program->set_uniform("screen_quad", 0);
 		
@@ -142,6 +164,27 @@ void SceneLoader::load_framebuffer(entt::registry& registry) const{
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
 	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
 }
+
+void SceneLoader::load_hdr_framebuffer(entt::registry& registry) const{
+
+	// TODO I don't want opengl calls here.  Write a framebuffer for gamma correction rather than relying on opengl
+	// TODO in this example, I am performing gamma inside the hdr shader
+	glDisable(GL_FRAMEBUFFER_SRGB);
+	
+	m_shader_resource.load("framebuffer_hdr_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_hdr.glsl", false);
+	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_hdr_shader");
+
+	m_framebuffer.set_framebuffer_type(FrameBufferType::FLOATING_POINT);
+	m_framebuffer.initialize_framebuffer();
+
+	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
+	shader_program->set_uniform("screen_quad", 0);
+
+	const entt::entity model_entity = registry.create();
+	registry.emplace<ShaderComponent>(model_entity, shader_program);
+	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
+}
+
 
 void SceneLoader::cubemap(entt::registry& registry) const{
 

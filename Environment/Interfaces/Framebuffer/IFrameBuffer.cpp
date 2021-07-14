@@ -7,13 +7,15 @@
 
 IFrameBuffer::IFrameBuffer(const IWindow& window)
 	:m_framebuffer_handle(GraphicsConstants::UNINITIALIZED_VALUE),
-	 m_framebuffer_texture_handle(GraphicsConstants::UNINITIALIZED_VALUE),
-	 m_framebuffer_renderbuffer_handle(GraphicsConstants::UNINITIALIZED_VALUE),
-	 m_framebuffer_quad_vbo(GraphicsConstants::UNINITIALIZED_VALUE),
-	 m_framebuffer_quad_vao(GraphicsConstants::UNINITIALIZED_VALUE),
-	 m_window{ window },
-	 m_window_width{ m_window.get_width() },
-	 m_window_height{ m_window.get_height() }{
+	m_framebuffer_texture_handle(GraphicsConstants::UNINITIALIZED_VALUE),
+	m_framebuffer_renderbuffer_handle(GraphicsConstants::UNINITIALIZED_VALUE),
+	m_framebuffer_quad_vbo(GraphicsConstants::UNINITIALIZED_VALUE),
+	m_framebuffer_quad_vao(GraphicsConstants::UNINITIALIZED_VALUE),
+	m_window{ window },
+	m_window_width{ m_window.get_width() },
+	m_window_height{ m_window.get_height() },
+	m_framebuffer_type{ FrameBufferType::NONE },
+	m_is_initialized{ false }{
 }
 
 std::unique_ptr<IFrameBuffer> IFrameBuffer::create_framebuffer(const IWindow& window) {
@@ -27,7 +29,6 @@ std::unique_ptr<IFrameBuffer> IFrameBuffer::create_framebuffer(const IWindow& wi
 		FatalError::fatal_error("Unknown graphics API type.  Cannot return framebuffer.");
 	}
 
-	frame_buffer->initialize();
 	return frame_buffer;
 }
 
@@ -51,8 +52,16 @@ void IFrameBuffer::update_scaling(){
 	}
 }
 
-void IFrameBuffer::initialize(){
+void IFrameBuffer::set_framebuffer_type(const FrameBufferType framebuffer_type){
+	m_framebuffer_type = framebuffer_type;
+}
 
+void IFrameBuffer::initialize_framebuffer(){
+
+	// Setup
+	setup_quad();
+	generate_fbo();
+	
 	// Bind the framebuffer
 	bind();
 
@@ -68,4 +77,13 @@ void IFrameBuffer::initialize(){
 
 	// Unbind framebuffer:
 	unbind();
+
+	// Set initialized flag
+	m_is_initialized = true;
+}
+
+void IFrameBuffer::check_is_initialized() const{
+	if(m_framebuffer_type != FrameBufferType::NONE && !m_is_initialized){
+		FatalError::fatal_error("Your framebuffer is not initialized!");
+	}
 }

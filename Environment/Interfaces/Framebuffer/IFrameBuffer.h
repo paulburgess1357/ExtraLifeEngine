@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Interfaces/Window/IWindow.h"
+#include "FrameBufferType.h"
 #include <memory>
 
 class IFrameBuffer{
@@ -7,7 +8,7 @@ class IFrameBuffer{
 public:
 	IFrameBuffer(const IWindow& window);
 	virtual ~IFrameBuffer() = default;
-	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);
+	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);	
 
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
@@ -21,13 +22,20 @@ public:
 	virtual void clear_buffer() const = 0;
 	virtual void destroy() const = 0;
 
+	void initialize_framebuffer();
+	void check_is_initialized() const;
 	void update_scaling();
+	void set_framebuffer_type(const FrameBufferType framebuffer_type);
 					
 protected:
 	void virtual create_texture_attachment() = 0;
+	void virtual set_texture_format_by_type() = 0;
+	void virtual attach_texture_buffer_by_type() = 0;
 	void virtual rescale_texture_attachment() = 0;
 	
 	void virtual create_renderbuffer_attachment() = 0;
+	void virtual set_renderbuffer_format_by_type() = 0;
+	void virtual attach_renderbuffer_buffer_by_type() = 0;
 	void virtual rescale_renderbuffer_attachment() = 0;
 	
 	virtual void check_framebuffer_status() const = 0;
@@ -46,8 +54,12 @@ protected:
 
 	int m_window_width;
 	int m_window_height;
+	FrameBufferType m_framebuffer_type;
+
+	bool m_is_initialized;
 
 private:
-	void initialize();
-	
+	void virtual setup_quad() = 0;
+	void virtual generate_fbo() = 0;
+
 };

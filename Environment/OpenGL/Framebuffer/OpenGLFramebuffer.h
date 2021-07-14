@@ -23,14 +23,18 @@ namespace OpenGL{
 		
 	private:
 		void create_texture_attachment() override;
+		void set_texture_format_by_type() override;
+		void attach_texture_buffer_by_type() override;
 		void rescale_texture_attachment() override;
 		
 		void create_renderbuffer_attachment() override;
+		void set_renderbuffer_format_by_type() override;
+		void attach_renderbuffer_buffer_by_type() override;
 		void rescale_renderbuffer_attachment() override;
 		
 		void check_framebuffer_status() const override;
-		void setup_quad();
-		void generate_fbo();
+		void setup_quad() override;
+		void generate_fbo() override;
 		
 	};
 	

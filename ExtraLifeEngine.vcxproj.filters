@@ -716,5 +716,8 @@
     <ClInclude Include="Environment\OpenGL\Texture\TextureFormatFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Environment\Interfaces\Framebuffer\FrameBufferType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

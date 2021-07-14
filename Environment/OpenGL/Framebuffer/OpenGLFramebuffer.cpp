@@ -2,6 +2,8 @@
 #include "../../Utility/FatalError.h"
 #include <glad/glad.h>
 
+#include "../../../Utility/Print.h"
+
 // Framebuffer requirements
 // 1) One Buffer: Color, Depth, or Stencil
 // 2) At least one color attachment
@@ -29,8 +31,6 @@
 
 OpenGL::OpenGLFramebuffer::OpenGLFramebuffer(const IWindow& window)
 	:IFrameBuffer{ window } {
-	setup_quad();
-	generate_fbo();
 }
 
 void OpenGL::OpenGLFramebuffer::setup_quad() {
@@ -105,12 +105,15 @@ void OpenGL::OpenGLFramebuffer::clear_buffer() const{
 	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void OpenGL::OpenGLFramebuffer::destroy() const{	
-	glDeleteFramebuffers(1, &m_framebuffer_handle);		
-	glDeleteTextures(1, &m_framebuffer_texture_handle);		
-	glDeleteRenderbuffers(1, &m_framebuffer_renderbuffer_handle);			
-	glDeleteBuffers(1, &m_framebuffer_quad_vbo);		
-	glDeleteVertexArrays(1, &m_framebuffer_quad_vao);
+void OpenGL::OpenGLFramebuffer::destroy() const{
+	if(m_is_initialized){
+		Print::print("Destroying Framebuffer");
+		glDeleteFramebuffers(1, &m_framebuffer_handle);
+		glDeleteTextures(1, &m_framebuffer_texture_handle);
+		glDeleteRenderbuffers(1, &m_framebuffer_renderbuffer_handle);
+		glDeleteBuffers(1, &m_framebuffer_quad_vbo);
+		glDeleteVertexArrays(1, &m_framebuffer_quad_vao);
+	}
 }
 
 void OpenGL::OpenGLFramebuffer::create_texture_attachment() {
@@ -118,20 +121,47 @@ void OpenGL::OpenGLFramebuffer::create_texture_attachment() {
 	glGenTextures(1, &m_framebuffer_texture_handle);
 	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_window_width, m_window_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	set_texture_format_by_type();
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glBindTexture(GL_TEXTURE_2D, 0);	
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	attach_texture_buffer_by_type();
+}
+
+void OpenGL::OpenGLFramebuffer::set_texture_format_by_type(){
+	switch (m_framebuffer_type) {
+		case FrameBufferType::STANDARD:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_window_width, m_window_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			break;
+		case FrameBufferType::FLOATING_POINT:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_window_width, m_window_height, 0, GL_RGBA, GL_FLOAT, NULL);
+			break;
+		default:
+			FatalError::fatal_error("Unknown framebuffer type for creating texture attachment in OpenGLFrameBuffer::create_texture_attachment()");
+		}
+}
+
+void OpenGL::OpenGLFramebuffer::attach_texture_buffer_by_type(){
+	// Standard and Floating Point are identical for texture:
+	switch (m_framebuffer_type) {
+		case FrameBufferType::STANDARD:
+		case FrameBufferType::FLOATING_POINT:
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
+			break;
+		default:
+			FatalError::fatal_error("Unknown framebuffer type for attaching texture buffer in OpenGLFrameBuffer::create_texture_attachment()");
+	}
 }
 
 void OpenGL::OpenGLFramebuffer::rescale_texture_attachment(){
 	
 	glBindTexture(GL_TEXTURE_2D, m_framebuffer_texture_handle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_window_width, m_window_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	set_texture_format_by_type();
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_framebuffer_texture_handle, 0);
+	attach_texture_buffer_by_type();
 }
 
 void OpenGL::OpenGLFramebuffer::create_renderbuffer_attachment(){
@@ -141,19 +171,47 @@ void OpenGL::OpenGLFramebuffer::create_renderbuffer_attachment(){
 
 	// Render buffers are write only.  They are often used for depth or stencil
 	// testing.  This creates a depth AND stencil renderbuffer object:
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_window_width, m_window_height);
+	set_renderbuffer_format_by_type();
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+	attach_renderbuffer_buffer_by_type();
+	
 }
+
+void OpenGL::OpenGLFramebuffer::set_renderbuffer_format_by_type(){
+	switch(m_framebuffer_type){
+		case FrameBufferType::STANDARD:
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_window_width, m_window_height);
+			break;
+		case FrameBufferType::FLOATING_POINT:
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_window_width, m_window_height);
+			break;
+		default:
+			FatalError::fatal_error("Unknown framebuffer type for creating renderbuffer attachment in OpenGLFrameBuffer::create_renderbuffer_attachment()");
+		}
+}
+
+void OpenGL::OpenGLFramebuffer::attach_renderbuffer_buffer_by_type(){
+	switch (m_framebuffer_type) {
+		case FrameBufferType::STANDARD:
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+			break;
+		case FrameBufferType::FLOATING_POINT:
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+			break;
+		default:
+			FatalError::fatal_error("Unknown framebuffer type for attaching texture buffer in OpenGLFrameBuffer::create_texture_attachment()");
+		}
+}
+
 
 void OpenGL::OpenGLFramebuffer::rescale_renderbuffer_attachment(){
 	
 	glBindRenderbuffer(GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_window_width, m_window_height);
+	set_renderbuffer_format_by_type();
 	
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_framebuffer_renderbuffer_handle);
+	attach_renderbuffer_buffer_by_type();
 }
 
 void OpenGL::OpenGLFramebuffer::check_framebuffer_status() const{

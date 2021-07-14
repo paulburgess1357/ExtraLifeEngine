@@ -23,7 +23,8 @@ private:
 	void voxels(entt::registry& registry, const int x_range, const int y_range, const int z_range);
 	void load_backpack(entt::registry& registry) const;
 	void load_spartan(entt::registry& registry) const;
-	void load_framebuffer(entt::registry& registry) const;
+	void load_standard_framebuffer(entt::registry& registry) const;
+	void load_hdr_framebuffer(entt::registry& registry) const;
 	
 	ShaderResource& m_shader_resource;
 	ModelResource& m_model_resource;

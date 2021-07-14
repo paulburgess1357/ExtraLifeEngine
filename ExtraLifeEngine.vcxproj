@@ -254,6 +254,7 @@
     <ClInclude Include="ECS\Systems\Render\Interfaces\IFrameBufferRenderer.h" />
     <ClInclude Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.h" />
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h" />
+    <ClInclude Include="Environment\Interfaces\Framebuffer\FrameBufferType.h" />
     <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h" />
     <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h" />
     <ClInclude Include="Environment\OpenGL\Texture\TextureFormatFinder.h" />

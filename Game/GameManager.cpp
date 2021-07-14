@@ -63,10 +63,6 @@ void GameManager::initialize_resources() {
 	m_cube_resource = std::make_unique<CubeResource>();
 }
 
-void GameManager::qc_checks() const{
-	m_shader_resource->display_initialized_shader_variables();
-}
-
 void GameManager::initialize_scene() {
 	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,
 		*m_texture_resource, *m_light_resource, *m_cube_resource, *m_framebuffer);
@@ -85,6 +81,11 @@ void GameManager::initialize_renderers() {
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
 	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource, m_scene_loader->get_voxel_metadata());
 	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
+}
+
+void GameManager::qc_checks() const {
+	m_shader_resource->display_initialized_shader_variables();	
+	m_framebuffer->check_is_initialized();
 }
 
 void GameManager::gameloop() {

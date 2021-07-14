@@ -10,6 +10,11 @@
 //        Other renderer render()
 //        Framebuffer end_render()
 
+// **************************** Warning ********************************
+// Note if i had multiple framebuffers, issues would occur as they would start
+// trying to bind over each other.  I need to work in multiple framebuffers into
+// this system properly.
+
 void OpenGL::OpenGLFrameBufferRenderer::start_render(entt::registry& registry) const{
 
 	// Before all render systems have run:

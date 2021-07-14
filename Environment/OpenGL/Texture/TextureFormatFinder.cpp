@@ -1,4 +1,5 @@
 #include "TextureFormatFinder.h"
+#include "../../../Environment/Neutral/FrameBuffer/FrameBufferHandler.h"
 #include "../../../Utility/Print.h"
 #include "../../../Utility/FatalError.h"
 
@@ -19,7 +20,7 @@ GLenum TextureFormatFinder::get_texture_internal_format(const unsigned int compo
 	// Gamma correction should not be applied to textures used for lighting
 	// (e.g. normal/specular maps should not apply it).  Gamma correction
 	// should be used for coloring objects (e.g. diffuse).
-	if(glIsEnabled(GL_FRAMEBUFFER_SRGB)){
+	if(FrameBufferHandler::gamma_correction_enabled()){
 		// Return internal gamma correction format		
 		return get_texture_gamma_format(component_num);
 	}	
@@ -75,7 +76,9 @@ GLenum TextureFormatFinder::get_texture_standard_format(const unsigned int compo
 }
 
 void TextureFormatFinder::print_gamma_correction_applied(const bool gamma_correction_applied){
-	if (glIsEnabled(GL_FRAMEBUFFER_SRGB) && gamma_correction_applied) {
+	if (FrameBufferHandler::gamma_correction_enabled() && gamma_correction_applied) {
 		Print::print("Gamma Correction Applied");
 	}
 }
+
+// glIsEnabled(GL_FRAMEBUFFER_SRGB)

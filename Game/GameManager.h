@@ -5,8 +5,8 @@
 #include "../Input/Processing/InputHandler.h"
 #include "../Input/Processing/MouseHandler.h"
 #include "../Environment/Interfaces/Window/IWindow.h"
-#include "../Environment/Interfaces/Framebuffer/IFrameBuffer.h"
 #include "../Environment/Interfaces/Shader/IShaderUniformBlock.h"
+#include "../Environment/Neutral/FrameBuffer/FrameBufferHandler.h"
 #include "../ResourceManagement/IncludeResources.h"
 #include "../Tests/GraphicsTesting/Scenes/SceneLoader.h"
 #include "../ECS/Systems/Voxel/VoxelLoader.h"
@@ -27,6 +27,7 @@ public:
 	
 private:
 	void initialize_window();
+	void initialize_framebuffer_handler();
 	void initialize_imgui();
 	void initialize_uniform_block_handler();
 	void initialize_controls();
@@ -45,10 +46,10 @@ private:
 	entt::registry m_registry;	
 	Camera m_camera;
 	InputHandler m_input_handler;
-	MouseHandler m_mouse_handler;
-		
+	MouseHandler m_mouse_handler;	
+	
 	std::unique_ptr<IWindow> m_window = nullptr;
-	std::unique_ptr<IFrameBuffer> m_framebuffer = nullptr;
+	std::unique_ptr<FrameBufferHandler> m_framebuffer_handler;
 
 	std::unique_ptr<VoxelResource> m_voxel_resource = nullptr;
 	std::unique_ptr<ShaderResource> m_shader_resource = nullptr;

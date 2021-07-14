@@ -160,6 +160,7 @@
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLFrameBufferRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Voxel\VoxelLoader.cpp" />
     <ClCompile Include="Environment\Interfaces\Framebuffer\IFrameBuffer.cpp" />
+    <ClCompile Include="Environment\Neutral\FrameBuffer\FrameBufferHandler.cpp" />
     <ClCompile Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\TextureFormatFinder.cpp" />
     <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="ECS\Systems\Voxel\VoxelLoader.h" />
     <ClInclude Include="Environment\Interfaces\Framebuffer\FrameBufferType.h" />
     <ClInclude Include="Environment\Interfaces\Framebuffer\IFrameBuffer.h" />
+    <ClInclude Include="Environment\Neutral\FrameBuffer\FrameBufferHandler.h" />
     <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h" />
     <ClInclude Include="Environment\OpenGL\Texture\TextureFormatFinder.h" />
     <ClInclude Include="Voxel\Neutral\VoxelMetaData.h" />

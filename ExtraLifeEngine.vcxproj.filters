@@ -288,6 +288,9 @@
     <ClCompile Include="Environment\OpenGL\Texture\TextureFormatFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\Neutral\FrameBuffer\FrameBufferHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Print.h">
@@ -717,6 +720,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Interfaces\Framebuffer\FrameBufferType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Neutral\FrameBuffer\FrameBufferHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

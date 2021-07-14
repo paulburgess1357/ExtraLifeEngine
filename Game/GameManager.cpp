@@ -4,6 +4,17 @@
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 
+//TODO Framebuffers are still being put into the render system.  I need to
+//TODO make a start_render and stop_render based on the framebuffer handler.
+//TODO I don't think the framebuffer neesd to be part of the ECS because
+//TODO there aren't many cases where i would need to add/update behavior.  I
+//TODO also gain control over how they are executed (the order).  Note that
+//TODO since the gamma is loaded first, it **should** be first in the vector
+//TODO I can possibly iteratet hrough that vector or just figure out what I
+//TODO need to do with start render and end render (e.g. just gamma for star?)
+//
+//TODO I *STILL* need to actually write the gamma correction in the framebuffer gamma shader.
+
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_camera{ Camera{ glm::vec3(3, 2, 8), glm::vec3(0.01f, -0.09f, -0.96f), 0.005f, 0.05f} },
@@ -21,10 +32,12 @@ void GameManager::set_game_state(GameState gamestate) {
 
 void GameManager::run() {
 	initialize_window();
-	initialize_imgui();
+	initialize_framebuffer_handler();
+	
+	initialize_imgui();	
 	initialize_uniform_block_handler();
+	initialize_resources();	
 	initialize_controls();
-	initialize_resources();
 	initialize_scene();
 	initialize_updaters();
 	initialize_renderers();
@@ -32,10 +45,24 @@ void GameManager::run() {
 	gameloop();
 }
 
+void GameManager::initialize_framebuffer_handler() {
+	// TODO pass this to scene creator and load framebuffers into the handler
+	m_framebuffer_handler = std::make_unique<FrameBufferHandler>(*m_window);
+}
+
 void GameManager::initialize_window() {
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
 	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
-	m_framebuffer = IFrameBuffer::create_framebuffer(*m_window);
+	
+}
+
+void GameManager::initialize_resources() {
+	m_voxel_resource = std::make_unique<VoxelResource>();
+	m_shader_resource = std::make_unique<ShaderResource>();
+	m_model_resource = std::make_unique<ModelResource>();
+	m_texture_resource = std::make_unique<TextureResource>();
+	m_light_resource = std::make_unique<LightResource>();
+	m_cube_resource = std::make_unique<CubeResource>();
 }
 
 void GameManager::initialize_imgui() {
@@ -52,15 +79,6 @@ void GameManager::initialize_controls() {
 	m_input_handler.set_mouse_control(std::make_unique<MouseControlCommmand>(*m_window, m_mouse_handler));
 	m_input_handler.set_wireframe_mode(std::make_unique<OpenGL::OpenGLWireFrame>());
 	m_input_handler.set_imgui_display(std::make_unique<ImGuiDisplayCommand>());
-}
-
-void GameManager::initialize_resources() {
-	m_voxel_resource = std::make_unique<VoxelResource>();
-	m_shader_resource = std::make_unique<ShaderResource>();
-	m_model_resource = std::make_unique<ModelResource>();
-	m_texture_resource = std::make_unique<TextureResource>();
-	m_light_resource = std::make_unique<LightResource>();
-	m_cube_resource = std::make_unique<CubeResource>();
 }
 
 void GameManager::initialize_scene() {
@@ -84,8 +102,8 @@ void GameManager::initialize_renderers() {
 }
 
 void GameManager::qc_checks() const {
-	m_shader_resource->display_initialized_shader_variables();	
-	m_framebuffer->check_is_initialized();
+	m_shader_resource->display_initialized_shader_variables();
+	m_framebuffer_handler->check_all_framebuffers_initialized();
 }
 
 void GameManager::gameloop() {

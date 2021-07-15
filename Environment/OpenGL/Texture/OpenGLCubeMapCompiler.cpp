@@ -14,7 +14,7 @@ OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::str
 std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name, const bool apply_gamma_correction){
 
 	// Gamma correction will be applied when BOTH apply_gamma_correction = true
-	// and gamma correction is enabled: glEnable(GL_FRAMEBUFFER_SRGB);
+	// and gamma correction is enabled: FrameBufferHandler::gamma_correction_enabled();
 	// If apply_gamma_correction was true but GL_FRAMEBUFFER_SRGB was not
 	// enabled, no gamma correction will be applied.  The apply_gamma_correction
 	// parameter is really to allow us to say NOT to apply gamma correction

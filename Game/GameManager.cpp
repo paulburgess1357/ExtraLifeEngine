@@ -4,6 +4,8 @@
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 
+//TODO I *STILL* need to actually write the gamma correction in the framebuffer gamma shader.
+
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_camera{ Camera{ glm::vec3(3, 2, 8), glm::vec3(0.01f, -0.09f, -0.96f), 0.005f, 0.05f} },
@@ -21,10 +23,12 @@ void GameManager::set_game_state(GameState gamestate) {
 
 void GameManager::run() {
 	initialize_window();
-	initialize_imgui();
+	initialize_framebuffer_handler();
+	
+	initialize_imgui();	
 	initialize_uniform_block_handler();
+	initialize_resources();	
 	initialize_controls();
-	initialize_resources();
 	initialize_scene();
 	initialize_updaters();
 	initialize_renderers();
@@ -32,10 +36,22 @@ void GameManager::run() {
 	gameloop();
 }
 
+void GameManager::initialize_framebuffer_handler() {
+	m_framebuffer_handler = std::make_unique<FrameBufferHandler>(*m_window);
+}
+
 void GameManager::initialize_window() {
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
-	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
-	m_framebuffer = IFrameBuffer::create_framebuffer(*m_window);
+	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);	
+}
+
+void GameManager::initialize_resources() {
+	m_voxel_resource = std::make_unique<VoxelResource>();
+	m_shader_resource = std::make_unique<ShaderResource>();
+	m_model_resource = std::make_unique<ModelResource>();
+	m_texture_resource = std::make_unique<TextureResource>();
+	m_light_resource = std::make_unique<LightResource>();
+	m_cube_resource = std::make_unique<CubeResource>();
 }
 
 void GameManager::initialize_imgui() {
@@ -54,18 +70,8 @@ void GameManager::initialize_controls() {
 	m_input_handler.set_imgui_display(std::make_unique<ImGuiDisplayCommand>());
 }
 
-void GameManager::initialize_resources() {
-	m_voxel_resource = std::make_unique<VoxelResource>();
-	m_shader_resource = std::make_unique<ShaderResource>();
-	m_model_resource = std::make_unique<ModelResource>();
-	m_texture_resource = std::make_unique<TextureResource>();
-	m_light_resource = std::make_unique<LightResource>();
-	m_cube_resource = std::make_unique<CubeResource>();
-}
-
 void GameManager::initialize_scene() {
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,
-		*m_texture_resource, *m_light_resource, *m_cube_resource, *m_framebuffer);
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,*m_texture_resource, *m_light_resource, *m_cube_resource);
 	m_scene_loader->load_scene(m_registry);
 }
 
@@ -80,12 +86,12 @@ void GameManager::initialize_renderers() {
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
 	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource, m_scene_loader->get_voxel_metadata());
-	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
+	// m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer(); ***************************************************************************************************************************************************
 }
 
 void GameManager::qc_checks() const {
-	m_shader_resource->display_initialized_shader_variables();	
-	m_framebuffer->check_is_initialized();
+	m_shader_resource->display_initialized_shader_variables();
+	m_framebuffer_handler->check_all_framebuffers_initialized();
 }
 
 void GameManager::gameloop() {
@@ -100,27 +106,27 @@ void GameManager::gameloop() {
 
 void GameManager::update() {
 	m_shader_uniform_block_handler->update(m_camera);
-	 m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
-	 m_voxel_loader->update();
-	 m_voxel_updater->update();
+	m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
+	m_voxel_loader->update();
+	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();
 }
 
 void GameManager::render() {
 	m_window->clear_buffers();
-	m_framebuffer_renderer->start_render(m_registry);	
+	// m_framebuffer_renderer->start_render(m_registry);	 ***************************************************************************************************************************************************
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
 	m_cubemap_renderer->render(m_registry, m_camera);
-	m_framebuffer_renderer->end_render(m_registry);
+	// m_framebuffer_renderer->end_render(m_registry); ***************************************************************************************************************************************************
 	ImGuiNS::ImGuiInterface::render();
 }
 
 void GameManager::destroy() const {
 	ImGuiNS::ImGuiInterface::destroy();
 	m_shader_uniform_block_handler->destroy();
-	m_framebuffer->destroy();
+	m_framebuffer_handler->destroy();
 	glfwTerminate();
 }

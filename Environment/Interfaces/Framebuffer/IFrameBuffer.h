@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Interfaces/Window/IWindow.h"
+#include "../../Interfaces/Shader/IShaderProgram.h"
 #include "FrameBufferType.h"
 #include <memory>
 
@@ -8,7 +9,9 @@ class IFrameBuffer{
 public:
 	IFrameBuffer(const IWindow& window);
 	virtual ~IFrameBuffer() = default;
-	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);	
+
+	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);
+
 
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
@@ -26,6 +29,7 @@ public:
 	void check_is_initialized() const;
 	void update_scaling();
 	void set_framebuffer_type(const FrameBufferType framebuffer_type);
+	void set_framebuffer_shader(IShaderProgram* shader_program);
 					
 protected:
 	void virtual create_texture_attachment() = 0;
@@ -61,5 +65,7 @@ protected:
 private:
 	void virtual setup_quad() = 0;
 	void virtual generate_fbo() = 0;
+	
+	IShaderProgram* m_shader_program;
 
 };

@@ -1,19 +1,18 @@
 #include "SceneLoader.h"
 
-#include <glad/glad.h>
+// #include <glad/glad.h>
 
 #include "../../ECS/Components/IncludeComponents.h"
 #include "../../ResourceManagement/IncludeResources.h"
 
 SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
 	                     TextureResource& texture_resource, LightResource& light_resource,
-						 CubeResource& cube_resource, IFrameBuffer& framebuffer)
+						 CubeResource& cube_resource)
 	:m_shader_resource{ shader_resource },
 	m_model_resource{ model_resource },
 	m_texture_resource{ texture_resource },
 	m_light_resource{ light_resource },
-	m_cube_resource{ cube_resource },
-	m_framebuffer{ framebuffer }{
+	m_cube_resource{ cube_resource }{
 }
 
 void SceneLoader::load_scene(entt::registry& registry) {
@@ -150,40 +149,40 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
 }
 
-void SceneLoader::load_standard_framebuffer(entt::registry& registry) const{
-	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_inversion.glsl", false);
-	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
+//void SceneLoader::load_standard_framebuffer(entt::registry& registry) const{
+//	m_shader_resource.load("framebuffer_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_inversion.glsl", false);
+//	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_shader");
+//
+//	m_framebuffer.set_framebuffer_type(FrameBufferType::STANDARD);
+//	m_framebuffer.initialize_framebuffer();
+//	
+//	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
+//	shader_program->set_uniform("screen_quad", 0);
+//		
+//	const entt::entity model_entity = registry.create();
+//	registry.emplace<ShaderComponent>(model_entity, shader_program);
+//	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
+//}
 
-	m_framebuffer.set_framebuffer_type(FrameBufferType::STANDARD);
-	m_framebuffer.initialize_framebuffer();
-	
-	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
-	shader_program->set_uniform("screen_quad", 0);
-		
-	const entt::entity model_entity = registry.create();
-	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
-}
-
-void SceneLoader::load_hdr_framebuffer(entt::registry& registry) const{
-
-	// TODO I don't want opengl calls here.  Write a framebuffer for gamma correction rather than relying on opengl
-	// TODO in this example, I am performing gamma inside the hdr shader
-	glDisable(GL_FRAMEBUFFER_SRGB);
-	
-	m_shader_resource.load("framebuffer_hdr_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_hdr.glsl", false);
-	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_hdr_shader");
-
-	m_framebuffer.set_framebuffer_type(FrameBufferType::FLOATING_POINT);
-	m_framebuffer.initialize_framebuffer();
-
-	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
-	shader_program->set_uniform("screen_quad", 0);
-
-	const entt::entity model_entity = registry.create();
-	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
-}
+//void SceneLoader::load_hdr_framebuffer(entt::registry& registry) const{
+//
+//	// TODO I don't want opengl calls here.  Write a framebuffer for gamma correction rather than relying on opengl
+//	// TODO in this example, I am performing gamma inside the hdr shader
+//	glDisable(GL_FRAMEBUFFER_SRGB);
+//	
+//	m_shader_resource.load("framebuffer_hdr_shader", "Assets/shaders/framebuffer_shaders/framebuffer_vertex.glsl", "Assets/shaders/framebuffer_shaders/framebuffer_fragment_hdr.glsl", false);
+//	IShaderProgram* shader_program = m_shader_resource.get("framebuffer_hdr_shader");
+//
+//	m_framebuffer.set_framebuffer_type(FrameBufferType::FLOATING_POINT);
+//	m_framebuffer.initialize_framebuffer();
+//
+//	// Binding the sampler2d screen_quad to tex unit 0 (framebuffer only has one texture)
+//	shader_program->set_uniform("screen_quad", 0);
+//
+//	const entt::entity model_entity = registry.create();
+//	registry.emplace<ShaderComponent>(model_entity, shader_program);
+//	registry.emplace<FrameBufferComponent>(model_entity, &m_framebuffer);
+//}
 
 
 void SceneLoader::cubemap(entt::registry& registry) const{

@@ -15,7 +15,8 @@ IFrameBuffer::IFrameBuffer(const IWindow& window)
 	m_window_width{ m_window.get_width() },
 	m_window_height{ m_window.get_height() },
 	m_framebuffer_type{ FrameBufferType::NONE },
-	m_is_initialized{ false }{
+	m_is_initialized{ false },
+	m_shader_program{nullptr}{
 }
 
 std::unique_ptr<IFrameBuffer> IFrameBuffer::create_framebuffer(const IWindow& window) {
@@ -56,6 +57,10 @@ void IFrameBuffer::set_framebuffer_type(const FrameBufferType framebuffer_type){
 	m_framebuffer_type = framebuffer_type;
 }
 
+void IFrameBuffer::set_framebuffer_shader(IShaderProgram* shader_program){
+	m_shader_program = shader_program;
+}
+
 void IFrameBuffer::initialize_framebuffer(){
 
 	// Setup
@@ -85,5 +90,8 @@ void IFrameBuffer::initialize_framebuffer(){
 void IFrameBuffer::check_is_initialized() const{
 	if(m_framebuffer_type != FrameBufferType::NONE && !m_is_initialized){
 		FatalError::fatal_error("Your framebuffer is not initialized!");
+	}
+	if(m_shader_program == nullptr){
+		FatalError::fatal_error("Your framebuffer shader is a nullptr");
 	}
 }

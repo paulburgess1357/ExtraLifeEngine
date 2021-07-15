@@ -7,13 +7,12 @@
 
 SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
 	                     TextureResource& texture_resource, LightResource& light_resource,
-						 CubeResource& cube_resource, FrameBufferHandler& framebuffer_handler)
+						 CubeResource& cube_resource)
 	:m_shader_resource{ shader_resource },
 	m_model_resource{ model_resource },
 	m_texture_resource{ texture_resource },
 	m_light_resource{ light_resource },
-	m_cube_resource{ cube_resource },
-	m_framebuffer_handler{ framebuffer_handler }{
+	m_cube_resource{ cube_resource }{
 }
 
 void SceneLoader::load_scene(entt::registry& registry) {

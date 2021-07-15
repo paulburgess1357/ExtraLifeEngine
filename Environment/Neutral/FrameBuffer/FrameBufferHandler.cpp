@@ -11,6 +11,15 @@ FrameBufferHandler::FrameBufferHandler(IWindow& window)
 	:m_window{ window }{
 }
 
+std::map<int, IFrameBuffer*> FrameBufferHandler::get_active_framebuffer_map() const{
+	return m_active_framebuffers;
+}
+
+IFrameBuffer* FrameBufferHandler::get_gamma_framebuffer(){
+	return m_gamma_framebuffer;
+}
+
+
 void FrameBufferHandler::load_framebuffer_shader(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path){
 	m_standard_framebuffers_resource.load(shader_name, vertex_shader_path, fragment_shader_path, false);
 }

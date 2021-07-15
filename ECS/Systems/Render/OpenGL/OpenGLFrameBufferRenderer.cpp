@@ -3,6 +3,12 @@
 #include "../../ECS/Components/Shader/ShaderComponent.h"
 #include <glad/glad.h>
 
+//TODO the gamma framebuffer must be last if it exists.  To make things consistent,
+// TODO it can also just be first if it exists.  NO ECS System.  Get framebuffer map and iterate
+// TODO through it after the gamma as run (if it exists
+//
+// )
+
 // The framebuffer has two parts start_render and end_render
 //        Framebuffer start_render()
 //        Cubemap render

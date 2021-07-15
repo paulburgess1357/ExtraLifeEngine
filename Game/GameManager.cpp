@@ -4,15 +4,6 @@
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 
-//TODO Framebuffers are still being put into the render system.  I need to
-//TODO make a start_render and stop_render based on the framebuffer handler.
-//TODO I don't think the framebuffer neesd to be part of the ECS because
-//TODO there aren't many cases where i would need to add/update behavior.  I
-//TODO also gain control over how they are executed (the order).  Note that
-//TODO since the gamma is loaded first, it **should** be first in the vector
-//TODO I can possibly iteratet hrough that vector or just figure out what I
-//TODO need to do with start render and end render (e.g. just gamma for star?)
-//
 //TODO I *STILL* need to actually write the gamma correction in the framebuffer gamma shader.
 
 GameManager::GameManager()
@@ -46,14 +37,12 @@ void GameManager::run() {
 }
 
 void GameManager::initialize_framebuffer_handler() {
-	// TODO pass this to scene creator and load framebuffers into the handler
 	m_framebuffer_handler = std::make_unique<FrameBufferHandler>(*m_window);
 }
 
 void GameManager::initialize_window() {
 	m_window = IWindowCreator::create_window(1920, 1080, false, true);
-	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);
-	
+	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);	
 }
 
 void GameManager::initialize_resources() {
@@ -82,8 +71,7 @@ void GameManager::initialize_controls() {
 }
 
 void GameManager::initialize_scene() {
-	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,
-		*m_texture_resource, *m_light_resource, *m_cube_resource, *m_framebuffer_handler);
+	m_scene_loader = std::make_unique<SceneLoader>(*m_shader_resource, *m_model_resource,*m_texture_resource, *m_light_resource, *m_cube_resource);
 	m_scene_loader->load_scene(m_registry);
 }
 
@@ -98,7 +86,7 @@ void GameManager::initialize_renderers() {
 	m_model_renderer = IModelRenderer::get_model_renderer();
 	m_cubemap_renderer = ICubeMapRenderer::get_cube_renderer();
 	m_voxel_renderer = IVoxelRenderer::get_voxel_renderer(*m_voxel_resource, *m_world_positions_in_range_updater, *m_shader_resource, m_scene_loader->get_voxel_metadata());
-	m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer();
+	// m_framebuffer_renderer = IFrameBufferRenderer::get_framebuffer_renderer(); ***************************************************************************************************************************************************
 }
 
 void GameManager::qc_checks() const {
@@ -118,21 +106,21 @@ void GameManager::gameloop() {
 
 void GameManager::update() {
 	m_shader_uniform_block_handler->update(m_camera);
-	 m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
-	 m_voxel_loader->update();
-	 m_voxel_updater->update();
+	m_world_positions_in_range_updater->update_world_position_vectors(m_camera);
+	m_voxel_loader->update();
+	m_voxel_updater->update();
 	Transform::TransformSystem::update(m_registry);
 	ImGuiNS::ImGuiInterface::update();
 }
 
 void GameManager::render() {
 	m_window->clear_buffers();
-	m_framebuffer_renderer->start_render(m_registry);	
+	// m_framebuffer_renderer->start_render(m_registry);	 ***************************************************************************************************************************************************
 	m_cube_renderer->render(m_registry);
 	m_model_renderer->render(m_registry);
 	m_voxel_renderer->render();
 	m_cubemap_renderer->render(m_registry, m_camera);
-	m_framebuffer_renderer->end_render(m_registry);
+	// m_framebuffer_renderer->end_render(m_registry); ***************************************************************************************************************************************************
 	ImGuiNS::ImGuiInterface::render();
 }
 

@@ -10,7 +10,7 @@ class SceneLoader{
 public:
 	SceneLoader(ShaderResource& shader_resource, ModelResource& model_resource, 
 		        TextureResource& texture_resource, LightResource& light_resource,
-				CubeResource& cube_resource, FrameBufferHandler& framebuffer_handler);
+				CubeResource& cube_resource);
 	void load_scene(entt::registry& registry);
 	[[nodiscard]] VoxelMetaData get_voxel_metadata() const;
 	
@@ -31,7 +31,6 @@ private:
 	TextureResource& m_texture_resource;
 	LightResource& m_light_resource;
 	CubeResource& m_cube_resource;
-	FrameBufferHandler& m_framebuffer_handler;
 
 	VoxelMetaData m_voxel_range_data;
 };

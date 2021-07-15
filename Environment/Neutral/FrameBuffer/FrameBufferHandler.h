@@ -10,7 +10,10 @@ class FrameBufferHandler{
 public:
 	FrameBufferHandler(IWindow& window);
 	~FrameBufferHandler() = default;
-
+	
+	std::map<int, IFrameBuffer*> get_active_framebuffer_map() const;
+	static IFrameBuffer* get_gamma_framebuffer();
+	
 	void load_framebuffer_shader(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path);
 	IShaderProgram* get_framebuffer_shader(const std::string& shader_name);
 

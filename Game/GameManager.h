@@ -68,7 +68,7 @@ private:
 	std::unique_ptr<IModelRenderer> m_model_renderer = nullptr;
 	std::unique_ptr<ICubeMapRenderer> m_cubemap_renderer = nullptr;
 	std::unique_ptr<IVoxelRenderer> m_voxel_renderer = nullptr;
-	std::unique_ptr<IFrameBufferRenderer> m_framebuffer_renderer = nullptr;
+	// std::unique_ptr<IFrameBufferRenderer> m_framebuffer_renderer = nullptr;
 
 	std::unique_ptr<ProjectionMatrix> m_projection_matrix = nullptr;
 };

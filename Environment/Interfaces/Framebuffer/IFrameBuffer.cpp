@@ -5,7 +5,7 @@
 #include "../../OpenGL/Framebuffer/OpenGLFramebuffer.h"
 #include "../../../Utility/Print.h"
 
-IFrameBuffer::IFrameBuffer(const IWindow& window)
+IFrameBuffer::IFrameBuffer(const IWindow& window, IShaderProgram& shader_program)
 	:m_framebuffer_handle(GraphicsConstants::UNINITIALIZED_VALUE),
 	m_framebuffer_texture_handle(GraphicsConstants::UNINITIALIZED_VALUE),
 	m_framebuffer_renderbuffer_handle(GraphicsConstants::UNINITIALIZED_VALUE),
@@ -16,14 +16,14 @@ IFrameBuffer::IFrameBuffer(const IWindow& window)
 	m_window_height{ m_window.get_height() },
 	m_framebuffer_type{ FrameBufferType::NONE },
 	m_is_initialized{ false },
-	m_shader_program{nullptr}{
+	m_shader_program{ &shader_program }{
 }
 
-std::unique_ptr<IFrameBuffer> IFrameBuffer::create_framebuffer(const IWindow& window) {
+std::unique_ptr<IFrameBuffer> IFrameBuffer::create_framebuffer(const IWindow& window, IShaderProgram& shader_program) {
 	std::unique_ptr<IFrameBuffer> frame_buffer{ nullptr };
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		frame_buffer = std::make_unique<OpenGL::OpenGLFramebuffer>(window);
+		frame_buffer = std::make_unique<OpenGL::OpenGLFramebuffer>(window, shader_program);
 	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan framebuffer does not exist!.");
 	} else {
@@ -55,6 +55,10 @@ void IFrameBuffer::update_scaling(){
 
 void IFrameBuffer::set_framebuffer_type(const FrameBufferType framebuffer_type){
 	m_framebuffer_type = framebuffer_type;
+}
+
+FrameBufferType IFrameBuffer::get_framebuffer_type() const{
+	return m_framebuffer_type;
 }
 
 void IFrameBuffer::set_framebuffer_shader(IShaderProgram* shader_program){
@@ -95,3 +99,12 @@ void IFrameBuffer::check_is_initialized() const{
 		FatalError::fatal_error("Your framebuffer shader is a nullptr");
 	}
 }
+
+void IFrameBuffer::bind_framebuffer_shader() const{
+	m_shader_program->bind();
+}
+
+void IFrameBuffer::unbind_framebuffer_shader() const{
+	m_shader_program->unbind();
+}
+

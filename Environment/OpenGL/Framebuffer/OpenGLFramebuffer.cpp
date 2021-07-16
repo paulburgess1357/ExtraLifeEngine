@@ -1,7 +1,6 @@
 #include "OpenGLFramebuffer.h"
 #include "../../Utility/FatalError.h"
 #include <glad/glad.h>
-
 #include "../../../Utility/Print.h"
 
 // Framebuffer requirements
@@ -29,8 +28,8 @@
 // 3) Draw a quad that spans the entire screen with the new framebuffer's color
 //    buffer as its texture
 
-OpenGL::OpenGLFramebuffer::OpenGLFramebuffer(const IWindow& window)
-	:IFrameBuffer{ window } {
+OpenGL::OpenGLFramebuffer::OpenGLFramebuffer(const IWindow& window, IShaderProgram& shader_program)
+	:IFrameBuffer{ window, shader_program } {
 }
 
 void OpenGL::OpenGLFramebuffer::setup_quad() {

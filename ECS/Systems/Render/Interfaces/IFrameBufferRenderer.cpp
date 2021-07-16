@@ -3,6 +3,11 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../../../Utility/FatalError.h"
 
+IFrameBufferRenderer::IFrameBufferRenderer(FrameBufferHandler& framebuffer_handler)
+	:m_framebuffer_handler{ framebuffer_handler }{
+}
+
+
 std::unique_ptr<IFrameBufferRenderer> IFrameBufferRenderer::get_framebuffer_renderer(){
 
 	std::unique_ptr<IFrameBufferRenderer> renderer{ nullptr };

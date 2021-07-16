@@ -11,17 +11,15 @@ public:
 	FrameBufferHandler(IWindow& window);
 	~FrameBufferHandler() = default;
 	
-	std::map<int, IFrameBuffer*> get_active_framebuffer_map() const;
-	static IFrameBuffer* get_gamma_framebuffer();
-	
+	[[nodiscard]] const std::map<int, IFrameBuffer*>& get_active_framebuffer_map() const;
 	void load_framebuffer_shader(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path);
 	IShaderProgram* get_framebuffer_shader(const std::string& shader_name);
 
 	void load_framebuffer(const std::string& framebuffer_name, std::unique_ptr<IFrameBuffer> framebuffer);
 	void move_framebuffer_to_active(const std::string& framebuffer_name);
+	void load_framebuffer_and_move_to_active(const std::string& framebuffer_name, std::unique_ptr<IFrameBuffer> framebuffer);
 	void move_framebuffer_to_inactive(const std::string& framebuffer_name);
 
-	static void set_gamma_correction_buffer(IFrameBuffer* framebuffer);
 	void check_all_framebuffers_initialized() const;
 	static bool gamma_correction_enabled();	
 	void destroy();
@@ -45,7 +43,8 @@ private:
 	static int m_execution_order;
 	static void check_execution_count();
 	
-	// Gamma framebuffer gets its own pointer due to the fact that it is always
-	// runs last (and it special :) )
-	static IFrameBuffer* m_gamma_framebuffer;
+	// If a gamma framebuffer is added this is set to true
+	static int m_gamma_priority;
+	static bool m_gamma_enabled;
+	
 };

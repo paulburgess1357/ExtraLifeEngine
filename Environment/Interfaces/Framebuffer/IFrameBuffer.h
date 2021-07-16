@@ -7,11 +7,10 @@
 class IFrameBuffer{
 	
 public:
-	IFrameBuffer(const IWindow& window);
+	IFrameBuffer(const IWindow& window, IShaderProgram& shader_program);
 	virtual ~IFrameBuffer() = default;
 
-	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window);
-
+	static std::unique_ptr<IFrameBuffer> create_framebuffer(const IWindow& window, IShaderProgram& shader_program);
 
 	virtual void bind() const = 0;
 	virtual void unbind() const = 0;
@@ -22,6 +21,9 @@ public:
 	virtual void bind_framebuffer_quad() const = 0;
 	virtual void unbind_framebuffer_quad() const = 0;
 
+	virtual void bind_framebuffer_shader() const;
+	virtual void unbind_framebuffer_shader() const;
+
 	virtual void clear_buffer() const = 0;
 	virtual void destroy() const = 0;
 
@@ -29,6 +31,7 @@ public:
 	void check_is_initialized() const;
 	void update_scaling();
 	void set_framebuffer_type(const FrameBufferType framebuffer_type);
+	[[nodiscard]] FrameBufferType get_framebuffer_type() const;
 	void set_framebuffer_shader(IShaderProgram* shader_program);
 					
 protected:

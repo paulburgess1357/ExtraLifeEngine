@@ -17,11 +17,11 @@ const std::map<int, IFrameBuffer*>& FrameBufferHandler::get_active_framebuffer_m
 }
 
 void FrameBufferHandler::load_framebuffer_shader(const std::string& shader_name, const std::string& vertex_shader_path, const std::string& fragment_shader_path){
-	m_standard_framebuffers_resource.load(shader_name, vertex_shader_path, fragment_shader_path, false);
+	m_framebuffers_shader_resource.load(shader_name, vertex_shader_path, fragment_shader_path, false);
 }
 
 IShaderProgram* FrameBufferHandler::get_framebuffer_shader(const std::string& shader_name){
-	return m_standard_framebuffers_resource.get(shader_name);
+	return m_framebuffers_shader_resource.get(shader_name);
 }
 
 void FrameBufferHandler::load_framebuffer(const std::string& framebuffer_name, std::unique_ptr<IFrameBuffer> framebuffer){

@@ -25,7 +25,7 @@ public:
 	void destroy();
 	
 private:
-	ShaderResource m_standard_framebuffers_resource;
+	ShaderResource m_framebuffers_shader_resource;
 	IWindow& m_window;
 
 	// Framebuffer vector will run in the order they are inserted.  The one

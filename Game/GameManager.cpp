@@ -23,7 +23,7 @@ void GameManager::set_game_state(GameState gamestate) {
 
 void GameManager::run() {
 	initialize_window();
-	initialize_framebuffer_handler();	
+	initialize_framebuffers();	
 	initialize_uniform_block_handler();
 	initialize_resources();	
 	initialize_controls();
@@ -40,8 +40,10 @@ void GameManager::initialize_window() {
 	m_projection_matrix = std::make_unique<ProjectionMatrix>(*m_window);	
 }
 
-void GameManager::initialize_framebuffer_handler() {
+void GameManager::initialize_framebuffers() {
 	m_framebuffer_handler = std::make_unique<FrameBufferHandler>(*m_window);
+	m_framebuffer_loader = std::make_unique<FrameBufferLoader>(*m_window, *m_framebuffer_handler);
+	m_framebuffer_loader->load_framebuffers();
 }
 
 void GameManager::initialize_uniform_block_handler() {

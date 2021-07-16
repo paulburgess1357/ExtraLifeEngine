@@ -7,5 +7,6 @@ uniform sampler2D screen_quad;
 
 void main(){ 
 	// No Framebuffer Effect
-	fragment_color = texture(screen_quad, fragment_tex_coords);
+	//fragment_color = texture(screen_quad, fragment_tex_coords);
+	fragment_color = vec4(vec3(1.0 - texture(screen_quad, fragment_tex_coords)), 1.0);	
 }

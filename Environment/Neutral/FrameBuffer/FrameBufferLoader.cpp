@@ -1,8 +1,12 @@
 #include "FrameBufferLoader.h"
 
-FrameBufferLoader::FrameBufferLoader(FrameBufferHandler& framebuffer_handler, IWindow& window)
-	:m_framebuffer_handler{ framebuffer_handler },
-	m_window{ window }{
+FrameBufferLoader::FrameBufferLoader(IWindow& window, FrameBufferHandler& framebuffer_handler)
+	:m_window{ window },
+	m_framebuffer_handler{ framebuffer_handler }{
+}
+
+void FrameBufferLoader::load_framebuffers() const{
+	load_gamma_correction();
 }
 
 void FrameBufferLoader::load_gamma_correction() const{

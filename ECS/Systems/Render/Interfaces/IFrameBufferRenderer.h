@@ -12,5 +12,5 @@ public:
 	static std::unique_ptr<IFrameBufferRenderer> get_framebuffer_renderer(FrameBufferHandler& framebuffer_handler);
 
 protected:
-	FrameBufferHandler m_framebuffer_handler;
+	FrameBufferHandler& m_framebuffer_handler;
 };

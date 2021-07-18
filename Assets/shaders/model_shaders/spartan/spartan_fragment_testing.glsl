@@ -108,6 +108,7 @@ void main() {
 //                                   fragment_tbn_matrix);
 //    }
     
+    result = vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
     fragment_color = vec4(result, 1.0);
 };
 

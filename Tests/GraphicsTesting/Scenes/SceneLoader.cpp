@@ -106,7 +106,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	//TODO add warning for not being able to load a texture (e.g. metallic roughness)
 	
 	const std::string id = "spartan";
-	m_shader_resource.load(id, "Assets/shaders/model_shaders/spartan/spartan_vertex.glsl", "Assets/shaders/model_shaders/spartan/spartan_fragment.glsl", true);
+	m_shader_resource.load(id, "Assets/shaders/model_shaders/spartan/spartan_vertex_testing.glsl", "Assets/shaders/model_shaders/spartan/spartan_fragment_testing.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 
 	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);

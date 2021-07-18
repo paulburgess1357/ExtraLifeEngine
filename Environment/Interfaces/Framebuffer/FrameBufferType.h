@@ -3,6 +3,7 @@
 enum class FrameBufferType{
 	STANDARD,
 	GAMMA_CORRECTION,
+	GAMMA_CORRECTION_W_HDR,
 	FLOATING_POINT,
 	NONE
 };

@@ -6,7 +6,7 @@ namespace OpenGL{
 	class OpenGLFramebuffer : public IFrameBuffer {
 		
 	public:		
-		OpenGLFramebuffer(const IWindow& window);
+		OpenGLFramebuffer(const IWindow& window, IShaderProgram& shader_program);
 		~OpenGLFramebuffer() = default;
 
 		void bind() const override;
@@ -17,6 +17,9 @@ namespace OpenGL{
 
 		void bind_framebuffer_quad() const override;
 		void unbind_framebuffer_quad() const override;
+
+		void bind_framebuffer_shader() const override;
+		void unbind_framebuffer_shader() const override;
 
 		void clear_buffer() const override;
 		void destroy() const override;

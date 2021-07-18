@@ -3,12 +3,16 @@
 #include "../../Environment/Neutral/API/GraphicsAPI.h"
 #include "../../../../Utility/FatalError.h"
 
-std::unique_ptr<IFrameBufferRenderer> IFrameBufferRenderer::get_framebuffer_renderer(){
+IFrameBufferRenderer::IFrameBufferRenderer(FrameBufferHandler& framebuffer_handler)
+	:m_framebuffer_handler{ framebuffer_handler }{
+}
+
+std::unique_ptr<IFrameBufferRenderer> IFrameBufferRenderer::get_framebuffer_renderer(FrameBufferHandler& framebuffer_handler){
 
 	std::unique_ptr<IFrameBufferRenderer> renderer{ nullptr };
 
 	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
-		renderer = std::make_unique<OpenGL::OpenGLFrameBufferRenderer>();
+		renderer = std::make_unique<OpenGL::OpenGLFrameBufferRenderer>(framebuffer_handler);
 	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
 		FatalError::fatal_error("Vulkan framebuffer renderer does not exist!.");
 	} else {

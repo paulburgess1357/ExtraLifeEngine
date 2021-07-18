@@ -1,6 +1,6 @@
 #include "OpenGLTextureCompiler.h"
 #include "OpenGLTexture.h"
-#include "../Texture/TextureFormatFinder.h"
+#include "../Texture/OpenGLTextureFormatFinder.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/SBTIUtilities.h"
 #include "../../Neutral/Texture/TextureLoaderFromFile.h"
@@ -14,8 +14,9 @@ OpenGL::OpenGLTextureCompiler::OpenGLTextureCompiler(const ITextureLoader& textu
 std::unique_ptr<ITexture> OpenGL::OpenGLTextureCompiler::compile(const bool apply_gamma_correction) {
 
 	// Gamma correction will be applied when BOTH apply_gamma_correction = true
-	// and gamma correction is enabled: FrameBufferHandler::gamma_correction_enabled();
-	// If apply_gamma_correction was true but GL_FRAMEBUFFER_SRGB was not
+	// and gamma correction is enabled:
+	// FrameBufferHandler::gamma_correction_enabled() or glEnable(GL_FRAMEBUFFER_SRGB);
+	// If apply_gamma_correction was true but framebuffer gamma was not
 	// enabled, no gamma correction will be applied.  The apply_gamma_correction
 	// parameter is really to allow us to say NOT to apply gamma correction
 	// to lighting maps such as normal maps and specular maps.
@@ -51,9 +52,9 @@ void OpenGL::OpenGLTextureCompiler::set_texture_parameters() {
 }
 
 void OpenGL::OpenGLTextureCompiler::generate_texture(const bool apply_gamma_correction) const {
-	const GLenum internal_format = TextureFormatFinder::get_texture_internal_format(m_texture_loading_data.m_components);
-	const GLenum format = TextureFormatFinder::get_texture_standard_format(m_texture_loading_data.m_components);
-	TextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
+	const GLenum internal_format = OpenGL::OpenGLTextureFormatFinder::get_texture_internal_format(m_texture_loading_data.m_components);
+	const GLenum format = OpenGL::OpenGLTextureFormatFinder::get_texture_standard_format(m_texture_loading_data.m_components);
+	OpenGL::OpenGLTextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
 	
 	if(apply_gamma_correction){
 		glTexImage2D(GL_TEXTURE_2D, 0, internal_format, m_texture_loading_data.m_width, m_texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, m_texture_loading_data.m_image_data);
@@ -67,5 +68,3 @@ void OpenGL::OpenGLTextureCompiler::generate_texture(const bool apply_gamma_corr
 void OpenGL::OpenGLTextureCompiler::generate_mipmaps() {
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
-
-

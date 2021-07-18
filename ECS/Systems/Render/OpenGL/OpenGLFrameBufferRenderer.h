@@ -5,8 +5,9 @@ namespace OpenGL{
 
 	class OpenGLFrameBufferRenderer : public IFrameBufferRenderer{
 	public:
-		void start_render(entt::registry& registry) const override;
-		void end_render(entt::registry& registry) const override;
+		OpenGLFrameBufferRenderer(FrameBufferHandler& framebuffer_handler);
+		void start_render() override;
+		void end_render() override;
 	};
 	
 } // namespace OpenGL

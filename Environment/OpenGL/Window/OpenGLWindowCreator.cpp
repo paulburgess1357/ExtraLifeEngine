@@ -70,7 +70,7 @@ void OpenGL::OpenGLWindowCreator::init_opengl_settings() const {
 	// glStencilFunc(GL_EQUAL, 1, 0xFF) // Necessary?
 
 	// Gamma Correction (Framebuffer handles this instead of opengl now)
-	// glEnable(GL_FRAMEBUFFER_SRGB);
+	glEnable(GL_FRAMEBUFFER_SRGB);
 	
 	// Alpha blending
 	// glEnable(GL_BLEND);

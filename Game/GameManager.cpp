@@ -41,7 +41,7 @@ void GameManager::initialize_window() {
 }
 
 void GameManager::initialize_framebuffers() {
-	m_framebuffer_handler = std::make_unique<FrameBufferHandler>(*m_window);
+	m_framebuffer_handler = std::make_unique<FrameBufferHandler>();
 	m_framebuffer_loader = std::make_unique<FrameBufferLoader>(*m_window, *m_framebuffer_handler);
 	m_framebuffer_loader->load_framebuffers();
 }

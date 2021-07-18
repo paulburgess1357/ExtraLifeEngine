@@ -21,8 +21,8 @@ public:
 	virtual void bind_framebuffer_quad() const = 0;
 	virtual void unbind_framebuffer_quad() const = 0;
 
-	virtual void bind_framebuffer_shader() const;
-	virtual void unbind_framebuffer_shader() const;
+	virtual void bind_framebuffer_shader() const = 0;
+	virtual void unbind_framebuffer_shader() const = 0;
 
 	virtual void clear_buffer() const = 0;
 	virtual void destroy() const = 0;
@@ -64,11 +64,10 @@ protected:
 	FrameBufferType m_framebuffer_type;
 
 	bool m_is_initialized;
+	IShaderProgram* m_shader_program;
 
 private:
 	void virtual setup_quad() = 0;
 	void virtual generate_fbo() = 0;
 	
-	IShaderProgram* m_shader_program;
-
 };

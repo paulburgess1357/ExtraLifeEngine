@@ -37,11 +37,11 @@ uniform NormalMaterial normal_material;
 
 uniform SceneLight scenelight;
 
-//uniform int active_dirlight_qty;
-//uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
+uniform int active_dirlight_qty;
+uniform DirectionalLight dirlight[MAXIMUM_DIR_LIGHTS];
 
-uniform int active_pointlight_qty;
-uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
+//uniform int active_pointlight_qty;
+//uniform PointLight pointlight[MAXIMUM_POINT_LIGHTS];
 
 in mat3 fragment_tbn_matrix;
 in vec3 tangent_camera_position;
@@ -86,27 +86,27 @@ void main() {
     vec3 result = vec3(0.0f);
     
     // Directional
-//    for(int i = 0; i <= active_dirlight_qty; i++) {
-//        result += calc_directional_light(dirlight[i], 
-//                                         diffuse_material, 
-//                                         scenelight, 
-//                                         normalized_frag_model_normals, 
-//                                         tangent_view_direction, 
-//                                         fragment_tex_coords,
-//                                         fragment_tbn_matrix);
-//    }
+    for(int i = 0; i <= active_dirlight_qty; i++) {
+        result += calc_directional_light(dirlight[i], 
+                                         diffuse_material, 
+                                         scenelight, 
+                                         normalized_frag_model_normals, 
+                                         tangent_view_direction, 
+                                         fragment_tex_coords,
+                                         fragment_tbn_matrix);
+    }
 
      // Point
-    for(int i = 0; i <= active_pointlight_qty; i++){    
-        result += calc_point_light(pointlight[i], 
-                                   diffuse_material, 
-                                   scenelight, 
-                                   normalized_frag_model_normals, 
-                                   tangent_view_direction, 
-                                   fragment_tex_coords, 
-                                   tangent_fragment_position,
-                                   fragment_tbn_matrix);
-    }
+//    for(int i = 0; i <= active_pointlight_qty; i++){    
+//        result += calc_point_light(pointlight[i], 
+//                                   diffuse_material, 
+//                                   scenelight, 
+//                                   normalized_frag_model_normals, 
+//                                   tangent_view_direction, 
+//                                   fragment_tex_coords, 
+//                                   tangent_fragment_position,
+//                                   fragment_tbn_matrix);
+//    }
     
     fragment_color = vec4(result, 1.0);
 };

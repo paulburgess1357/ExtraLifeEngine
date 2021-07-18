@@ -18,6 +18,9 @@ namespace OpenGL{
 		void bind_framebuffer_quad() const override;
 		void unbind_framebuffer_quad() const override;
 
+		void bind_framebuffer_shader() const override;
+		void unbind_framebuffer_shader() const override;
+
 		void clear_buffer() const override;
 		void destroy() const override;
 		

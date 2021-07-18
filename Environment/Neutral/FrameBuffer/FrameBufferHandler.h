@@ -1,5 +1,4 @@
 #pragma once
-#include "../..//Interfaces/Window/IWindow.h"
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../Interfaces/Framebuffer/IFrameBuffer.h"
 #include "entt/entity/registry.hpp"
@@ -8,7 +7,7 @@
 class FrameBufferHandler{
 
 public:
-	FrameBufferHandler(IWindow& window);
+	FrameBufferHandler() = default;
 	~FrameBufferHandler() = default;
 	
 	[[nodiscard]] const std::map<int, IFrameBuffer*>& get_active_framebuffer_map() const;
@@ -26,7 +25,6 @@ public:
 	
 private:
 	ShaderResource m_framebuffers_shader_resource;
-	IWindow& m_window;
 
 	// Framebuffer vector will run in the order they are inserted.  The one
 	// exception to this is if a gamma framebuffer exists.  If the gamma

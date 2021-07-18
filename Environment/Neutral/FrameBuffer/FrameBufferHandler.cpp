@@ -8,10 +8,6 @@ int FrameBufferHandler::m_execution_order = 0;
 int FrameBufferHandler::m_gamma_priority = 9999999;
 bool FrameBufferHandler::m_gamma_enabled = false;
 
-FrameBufferHandler::FrameBufferHandler(IWindow& window)
-	:m_window{ window }{
-}
-
 const std::map<int, IFrameBuffer*>& FrameBufferHandler::get_active_framebuffer_map() const{
 	return m_active_framebuffers;
 }

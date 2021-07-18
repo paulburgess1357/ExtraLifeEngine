@@ -206,38 +206,13 @@ void OpenGL::OpenGLTextureHandler::bind_cubemap_textures_fast() const{
 
 
 void OpenGL::OpenGLTextureHandler::unbind_textures() const{
-	unbind_diffuse_textures();
-	unbind_specular_textures();
-	unbind_normal_textures();
-	unbind_cubemap_textures();
-}
+	// Diffuse/Normal/Specular Textures
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
-void OpenGL::OpenGLTextureHandler::unbind_diffuse_textures() const{
-	for (const auto& texture : m_diffuse_texture_map) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-void OpenGL::OpenGLTextureHandler::unbind_specular_textures() const{
-	for (const auto& texture : m_specular_texture_map) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-void OpenGL::OpenGLTextureHandler::unbind_normal_textures() const{
-	for (const auto& texture : m_normal_texture_map) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-void OpenGL::OpenGLTextureHandler::unbind_cubemap_textures() const{
-	for (const auto& texture : m_cubemap_texture_map) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	}
+	// Cubemap
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
 void OpenGL::OpenGLTextureHandler::check_tex_unit() const{

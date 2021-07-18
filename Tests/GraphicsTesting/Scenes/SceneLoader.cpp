@@ -133,14 +133,13 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	// Note: No specular material in spartan, so we must manually load the scene light (it has a specular property)
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
 
-	// shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
-	
+	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
 	const SceneLight custom_scenelight{ "spartan_scenelight" , glm::vec3{0.0f}, glm::vec3{1.8f}, glm::vec3{1.0f} };
 	shader_program->set_uniform("scenelight.ambient", custom_scenelight.m_ambient);
 	shader_program->set_uniform("scenelight.diffuse", custom_scenelight.m_diffuse);
 	
-	const PointLight custom_pointlight{"spartan_pointlight", glm::vec3{-132.0f, 117.0f, 132.0f}, 1.0f, 0.0014f, 0.000007f };
-	shader_program->attach_point_light(custom_pointlight);
+	//const PointLight custom_pointlight{"spartan_pointlight", glm::vec3{-132.0f, 117.0f, 132.0f}, 1.0f, 0.0014f, 0.000007f };
+	//shader_program->attach_point_light(custom_pointlight);
 
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));

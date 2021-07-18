@@ -34,12 +34,6 @@ namespace OpenGL{
 		void bind_normal_textures_fast() const;
 		void bind_cubemap_textures_fast() const;
 		
-
-		void unbind_diffuse_textures() const;
-		void unbind_specular_textures() const;
-		void unbind_normal_textures() const;
-		void unbind_cubemap_textures() const;
-		
 		void check_tex_unit() const;
 		static void check_texture_qty(const unsigned int qty);
 

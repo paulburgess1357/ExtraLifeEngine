@@ -43,7 +43,7 @@ void main(){
     fragment_tex_coords = tex_coords;
     tangent_camera_position = fragment_tbn_matrix * camera_world_position;
     tangent_fragment_position = fragment_tbn_matrix * fragment_position;
-    gl_Position = projection_matrix * view_matrix * vec4(fragment_position, 1.0);
+    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(model_position, 1.0);
     
 }
 

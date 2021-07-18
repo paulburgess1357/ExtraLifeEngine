@@ -126,7 +126,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -4.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.003f, 0.0f, 0.0f);	
+	//registry.emplace<RotationComponent>(model_entity, 0.0f, 0.003f, 0.0f, 0.0f);	
 }
 
 void SceneLoader::cubemap(entt::registry& registry) const{

@@ -1,6 +1,6 @@
 #include "OpenGLCubeMapCompiler.h"
 #include "OpenGLTexture.h"
-#include "../Texture/TextureFormatFinder.h"
+#include "../Texture/OpenGLTextureFormatFinder.h"
 #include "../../Utility/Print.h"
 #include "../../Utility/SBTIUtilities.h"
 #include "../../ResourceManagement/GraphicsConstants.h"
@@ -14,7 +14,8 @@ OpenGL::OpenGLCubeMapCompiler::OpenGLCubeMapCompiler(std::unordered_map<std::str
 std::unique_ptr<ITexture> OpenGL::OpenGLCubeMapCompiler::compile(const std::string& cubemap_name, const bool apply_gamma_correction){
 
 	// Gamma correction will be applied when BOTH apply_gamma_correction = true
-	// and gamma correction is enabled: FrameBufferHandler::gamma_correction_enabled();
+	// and gamma correction is enabled:
+	// FrameBufferHandler::gamma_correction_enabled() or glEnable(GL_FRAMEBUFFER_SRGB);
 	// If apply_gamma_correction was true but framebuffer gamma was not
 	// enabled, no gamma correction will be applied.  The apply_gamma_correction
 	// parameter is really to allow us to say NOT to apply gamma correction
@@ -41,9 +42,9 @@ void OpenGL::OpenGLCubeMapCompiler::generate_textures(const bool apply_gamma_cor
 	for (unsigned int i = 0; i < m_texture_loading_data.size(); i++) {		
 		const TextureLoadingData texture_loading_data = m_texture_loading_data.at(i);		
 
-		const GLenum internal_format = TextureFormatFinder::get_texture_internal_format(texture_loading_data.m_components);
-		const GLenum format = TextureFormatFinder::get_texture_standard_format(texture_loading_data.m_components);
-		TextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
+		const GLenum internal_format = OpenGL::OpenGLTextureFormatFinder::get_texture_internal_format(texture_loading_data.m_components);
+		const GLenum format = OpenGL::OpenGLTextureFormatFinder::get_texture_standard_format(texture_loading_data.m_components);
+		OpenGL::OpenGLTextureFormatFinder::print_gamma_correction_applied(apply_gamma_correction);
 		
 		if(apply_gamma_correction){
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internal_format, texture_loading_data.m_width, texture_loading_data.m_height, 0, format, GL_UNSIGNED_BYTE, texture_loading_data.m_image_data);

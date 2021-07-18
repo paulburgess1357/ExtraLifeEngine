@@ -11,6 +11,8 @@ public:
 	
 private:
 	void load_gamma_correction() const;
+	void load_edge_detection() const;
+	void load_blur() const;
 	
 	IWindow& m_window;
 	FrameBufferHandler& m_framebuffer_handler;

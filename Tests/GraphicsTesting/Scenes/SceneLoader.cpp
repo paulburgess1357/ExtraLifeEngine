@@ -19,9 +19,9 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// voxels(registry, 7, 3, 7);	
 	// grid(registry);
 	// single_cube(registry);
-	single_cube_textured(registry);
+	// single_cube_textured(registry);
 	// load_backpack(registry);
-	// load_spartan(registry);
+	load_spartan(registry);
 	// cubemap(registry);
 }
 
@@ -91,7 +91,7 @@ void SceneLoader::load_backpack(entt::registry& registry) const{
 	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
 	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight"));
 	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
-	shader_program->attach_point_light(*m_light_resource.get_pointlight("standard_pointlight"));
+	//shader_program->attach_point_light(*m_light_resource.get_pointlight("standard_pointlight"));
 	
 	const entt::entity model_entity = registry.create();
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
@@ -115,7 +115,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	// Note2: I'm also making the impact of light higher by adjusting the scenelight diffuse property
 
 	shader_program->attach_directional_light(*m_light_resource.get_dirlight("standard_dirlight"));
-	const SceneLight custom_scenelight{ "spartan_scenelight" , glm::vec3{0.0f}, glm::vec3{1.8f}, glm::vec3{1.0f} };
+	const SceneLight custom_scenelight{ "spartan_scenelight" , glm::vec3{0.01f}, glm::vec3{1.9f}, glm::vec3{0.01f} };
 	shader_program->set_uniform("scenelight.ambient", custom_scenelight.m_ambient);
 	shader_program->set_uniform("scenelight.diffuse", custom_scenelight.m_diffuse);
 	
@@ -126,7 +126,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	registry.emplace<ModelComponent>(model_entity, m_model_resource.get(id));
 	registry.emplace<TransformComponent>(model_entity, glm::vec3{ -4.0f, 0.0f, 0.0f });
 	registry.emplace<ShaderComponent>(model_entity, shader_program);
-	registry.emplace<RotationComponent>(model_entity, 0.0f, 0.009f, 0.0f, 0.0f);	
+	//registry.emplace<RotationComponent>(model_entity, 0.0f, 0.003f, 0.0f, 0.0f);	
 }
 
 void SceneLoader::cubemap(entt::registry& registry) const{

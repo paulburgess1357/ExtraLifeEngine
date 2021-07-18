@@ -109,6 +109,7 @@ void main() {
 //    }
     
     fragment_color = vec4(result, 1.0);
+    //fragment_color = vec4(texture(normal_material.m_sampler, fragment_tex_coords).rgb + result * 0.000000000000000001, 1.0);
 };
 
 // Function Definitions

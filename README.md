@@ -24,7 +24,7 @@ Entity Component System Game Engine (In Progress)
 .\vcpkg install libnoise:x64-windows
 ```
 ## Other
-- C++ 17 64bit
+- C++ 17 64 bit
 - Included External Resources 
   - Glad OpenGL Core 4.6 Files : https://glad.dav1d.de/
   - ExternalResources/c/glad.c

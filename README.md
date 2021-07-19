@@ -26,7 +26,8 @@ Entity Component System Game Engine (In Progress)
 ## Other
 - C++ 17 64 bit
 - Included External Resources 
-  - Glad OpenGL Core 4.6 Files : https://glad.dav1d.de/
+  - Glad OpenGL Core 4.6 Files
+      - https://glad.dav1d.de/
   - ExternalResources/c/glad.c
   - ExternalResources/include/glad
   - ExternalResources/include/khr

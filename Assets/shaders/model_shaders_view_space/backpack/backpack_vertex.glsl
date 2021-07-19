@@ -35,22 +35,8 @@ mat3 calc_tbn_matrix(mat3 normal_matrix, vec3 model_normals, vec3 tangent_vec);
 
 void main(){
    
-    vec3 normalOS    = normalize(model_normals);
-    vec3 tangentOS   = normalize(in_tangent);
-    vec3 bitangentOS = normalize(in_bitangent); 
-    mat3 TStoOS      = mat3(tangentOS, bitangentOS, normalOS); // transform from tangent space into object space        
-    mat3 OStoTS      = transpose(TStoOS); // The transpose of an orthogonal matrix is it's inverse matrix
-
-    vec3 normalWS    = normalize(normal_matrix * model_normals);
-    vec3 tangentWS   = normalize(normal_matrix * in_tangent);
-    vec3 bitangentWS = normalize(cross(normalWS, tangentWS));
-    mat3 TStoWS      = mat3(tangentWS, bitangentWS, normalWS); // transform from tangent space into world space
-    mat3 WStoTS      = transpose(TStoWS); // transform from world space into tangent space
-
-    fragment_tbn_matrix = WStoTS;
-
     // TBN Matrix
-    // fragment_tbn_matrix = calc_tbn_matrix(normal_matrix, model_normals, in_tangent);
+    fragment_tbn_matrix = calc_tbn_matrix(normal_matrix, model_normals, in_tangent);
 
     // Output
     vec3 fragment_position = vec3(model_matrix * vec4(model_position, 1.0)); // World space 

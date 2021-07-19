@@ -6,7 +6,7 @@ class MatrixFunctions{
 public:
 	
 	// Normal matrix when working in world space in the shaders
-	static glm::mat3 get_normal_matrix(const glm::mat4& model_matrix);
+	// static glm::mat3 get_normal_matrix(const glm::mat4& model_matrix);
 
 	// Normal matrix when working in view space in the shaders
 	static  glm::mat3 get_normal_matrix(const glm::mat4& model_matrix, const glm::mat4& view_matrix);

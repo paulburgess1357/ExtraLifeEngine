@@ -9,6 +9,11 @@ struct DiffuseMaterial {
     sampler2D m_sampler;
 };
 
+struct SpecularMaterial {
+    sampler2D m_sampler;
+    float m_shininess;
+};
+
 struct NormalMaterial {
     sampler2D m_sampler;
 };
@@ -33,6 +38,7 @@ struct PointLight {
 
 // Shader Uniforms
 uniform DiffuseMaterial diffuse_material;
+uniform SpecularMaterial specular_material;
 uniform NormalMaterial normal_material;
 
 uniform SceneLight scenelight;
@@ -54,6 +60,7 @@ out vec4 fragment_color;
 // Function Definitions
 vec3 calc_directional_light(DirectionalLight dirlight, 
                             DiffuseMaterial diffuse_material,
+                            SpecularMaterial specular_material,
                             SceneLight scenelight, 
                             vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
@@ -62,6 +69,7 @@ vec3 calc_directional_light(DirectionalLight dirlight,
 
 vec3 calc_point_light(PointLight pointlight, 
                       DiffuseMaterial diffuse_material,
+                      SpecularMaterial specular_material,
                       SceneLight scenelight,                       
                       vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
@@ -89,6 +97,7 @@ void main() {
     for(int i = 0; i <= active_dirlight_qty; i++) {
         result += calc_directional_light(dirlight[i], 
                                          diffuse_material, 
+                                         specular_material, 
                                          scenelight, 
                                          normalized_frag_model_normals, 
                                          tangent_view_direction, 
@@ -100,6 +109,7 @@ void main() {
 //    for(int i = 0; i <= active_pointlight_qty; i++){    
 //        result += calc_point_light(pointlight[i], 
 //                                   diffuse_material, 
+//                                   specular_material, 
 //                                   scenelight, 
 //                                   normalized_frag_model_normals, 
 //                                   tangent_view_direction, 
@@ -108,13 +118,13 @@ void main() {
 //                                   fragment_tbn_matrix);
 //    }
     
-    //result = vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
     fragment_color = vec4(result, 1.0);
 };
 
 // Function Definitions
 vec3 calc_directional_light(DirectionalLight dirlight, 
                             DiffuseMaterial diffuse_material,
+                            SpecularMaterial specular_material,
                             SceneLight scenelight, 
                             vec3 normalized_frag_model_normals, 
                             vec3 view_direction, 
@@ -132,12 +142,17 @@ vec3 calc_directional_light(DirectionalLight dirlight,
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
     vec3 diffuse = scenelight.diffuse  * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
+    // Specular
+    float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
+    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
             
-    return (ambient + diffuse);
+    return (ambient + diffuse + specular);
 }  
 
 vec3 calc_point_light(PointLight pointlight, 
                       DiffuseMaterial diffuse_material,
+                      SpecularMaterial specular_material,
                       SceneLight scenelight,                       
                       vec3 normalized_frag_model_normals, 
                       vec3 view_direction, 
@@ -158,6 +173,10 @@ vec3 calc_point_light(PointLight pointlight,
     // Diffuse
     float diffuse_impact = max(dot(normalized_frag_model_normals, light_direction), 0.0);
     vec3 diffuse = scenelight.diffuse * diffuse_impact * vec3(texture(diffuse_material.m_sampler, fragment_tex_coords));
+
+    // Specular
+    float specular_impact = pow(max(dot(normalized_frag_model_normals, halfway_btwn_view_and_light_dir), 0.0), specular_material.m_shininess);
+    vec3 specular = scenelight.specular * specular_impact * vec3(texture(specular_material.m_sampler, fragment_tex_coords));
     
     // Attenuation
     float distance_to_light = length(pointlight_converted.position - fragment_position);
@@ -165,8 +184,9 @@ vec3 calc_point_light(PointLight pointlight,
     
     ambient  *= attenuation;
     diffuse  *= attenuation;
+    specular *= attenuation;
 
-    return (ambient + diffuse);
+    return (ambient + diffuse + specular);
 } 
 
 DirectionalLight convert_dirlight_to_tangent_space(DirectionalLight dirlight, mat3 tbn_matrix){

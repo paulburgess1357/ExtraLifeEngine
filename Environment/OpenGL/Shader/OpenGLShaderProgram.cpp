@@ -155,8 +155,8 @@ int OpenGL::OpenGLShaderProgram::get_uniform(const std::string& uniform_name) {
 		m_uniform_locations[uniform_name] = glGetUniformLocation(m_handle, uniform_name.c_str());
 
 		if (m_uniform_locations[uniform_name] == -1) {
-			Print::print("\n\n******************* WARNING: FATAL ERROR UNIFORM CHECKS ARE DISABLED *******************\n\n");
-			// FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
+			// Print::print("\n\n******************* WARNING: FATAL ERROR UNIFORM CHECKS ARE DISABLED *******************\n\n");
+			FatalError::fatal_error("Invalid uniform variable name: '" + uniform_name + "'. This variable has not been found in the current shader (GLSL code) program handle: " + std::to_string(m_handle));
 		}
 	}
 
@@ -201,8 +201,8 @@ void OpenGL::OpenGLShaderProgram::check_uniforms_in_shader_code_are_initialized(
 		// Ignore model_matrix and normal_matrix (These are set via ECS system right before render)
 		if(ignore_strings.count(name_str) == 0){
 			if (m_uniform_locations.count(name_str) == 0) {
-				Print::print("\n\n******************* WARNING: FATAL ERROR UNIFORM CHECKS ARE DISABLED *******************\n\n");
-				// FatalError::fatal_error("The variable: " + name_str + " exists in your GLSL (handle: " + std::to_string(m_handle) + ") code, but has not been set via set_uniform()!");
+				// Print::print("\n\n******************* WARNING: FATAL ERROR UNIFORM CHECKS ARE DISABLED *******************\n\n");
+				FatalError::fatal_error("The variable: " + name_str + " exists in your GLSL (handle: " + std::to_string(m_handle) + ") code, but has not been set via set_uniform()!");
 			}
 		}		
 		// printf("Uniform #%d Type: %u Name: %s\n", i, type, name);

@@ -16,17 +16,47 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 }
 
 void SceneLoader::load_scene(entt::registry& registry) {
+
+	// Shader Book
+	single_cube_diffuse_lighting(registry);
+
+
+
+
+	
 	// voxels(registry, 7, 3, 7);	
 	// grid(registry);
 	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
-	load_spartan(registry);
+	// load_spartan(registry);
 	// cubemap(registry);
 }
 
+void SceneLoader::single_cube_diffuse_lighting(entt::registry& registry) const{
+	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/vertex_diffuse_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/fragment_diffuse_shading.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
+
+	shader_program->set_uniform("light_position_in_world", glm::vec3(100.0f, 20.0f, 0.0f));
+	shader_program->set_uniform("light_intensity", glm::vec3(1.0f));
+	shader_program->set_uniform("diffuse_color", glm::vec3(0.2f, 0.4f, 0.2f));
+
+	const entt::entity cube_entity = registry.create();
+	registry.emplace<ShaderComponent>(cube_entity, shader_program);
+	registry.emplace<CubeComponent>(cube_entity, m_cube_resource.get("cube_normal"));
+	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
+}
+
+
+
+
+
+
+
+
+
 void SceneLoader::grid(entt::registry& registry) const{
-	m_shader_resource.load("grid_shader", "Assets/shaders/model_shaders/grid/grid_vertex_shader.glsl", "Assets/shaders/model_shaders/grid/grid_fragment_shader.glsl", true);
+	m_shader_resource.load("grid_shader", "Assets/shaders/model_shaders_view_space/grid/grid_vertex_shader.glsl", "Assets/shaders/model_shaders_view_space/grid/grid_fragment_shader.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("grid_shader");
 	m_model_resource.load("grid", "Assets/models/metal_grid/metal_grid.obj", *shader_program, m_texture_resource, false);
 	
@@ -43,7 +73,7 @@ void SceneLoader::grid(entt::registry& registry) const{
 
 void SceneLoader::single_cube(entt::registry& registry) const {
 
-	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders/colored_cube/colored_cube_vertex.glsl", "Assets/shaders/model_shaders/colored_cube/colored_cube_fragment.glsl", true);
+	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/colored_cube_vertex.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/colored_cube_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
 
 	shader_program->attach_scene_light(*m_light_resource.get_scenelight("standard_scenelight"));
@@ -62,7 +92,7 @@ void SceneLoader::single_cube(entt::registry& registry) const {
 
 void SceneLoader::single_cube_textured(entt::registry& registry) const {
 
-	m_shader_resource.load("single_cube_textured", "Assets/shaders/model_shaders/textured_cube/textured_cube_vertex.glsl", "Assets/shaders/model_shaders/textured_cube/textured_cube_fragment.glsl", true);
+	m_shader_resource.load("single_cube_textured", "Assets/shaders/model_shaders_view_space/textured_cube/textured_cube_vertex.glsl", "Assets/shaders/model_shaders_view_space/textured_cube/textured_cube_fragment.glsl", true);
 	m_texture_resource.load("brown_container", "Assets/textures/brown_container.png", true);
 	m_texture_resource.load("brown_container_specular", "Assets/textures/container_specular_map.png", false);
 	
@@ -85,7 +115,7 @@ void SceneLoader::single_cube_textured(entt::registry& registry) const {
 void SceneLoader::load_backpack(entt::registry& registry) const{
 
 	const std::string id = "backpack";
-	m_shader_resource.load(id, "Assets/shaders/model_shaders/backpack/backpack_vertex.glsl", "Assets/shaders/model_shaders/backpack/backpack_fragment.glsl", true);
+	m_shader_resource.load(id, "Assets/shaders/model_shaders_view_space/backpack/backpack_vertex.glsl", "Assets/shaders/model_shaders_view_space/backpack/backpack_fragment.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 	
 	m_model_resource.load(id, "Assets/models/backpack/backpack.obj", *shader_program, m_texture_resource, false);
@@ -106,7 +136,7 @@ void SceneLoader::load_spartan(entt::registry& registry) const{
 	//TODO add warning for not being able to load a texture (e.g. metallic roughness)
 	
 	const std::string id = "spartan";
-	m_shader_resource.load(id, "Assets/shaders/model_shaders/spartan/spartan_vertex_testing.glsl", "Assets/shaders/model_shaders/spartan/spartan_fragment_testing.glsl", true);
+	m_shader_resource.load(id, "Assets/shaders/model_shaders_view_space/spartan/spartan_vertex_testing.glsl", "Assets/shaders/model_shaders_view_space/spartan/spartan_fragment_testing.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get(id);
 
 	m_model_resource.load(id, "Assets/models/spartan/scene.gltf", *shader_program, m_texture_resource, true);

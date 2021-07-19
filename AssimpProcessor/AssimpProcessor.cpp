@@ -8,11 +8,11 @@ const aiScene* AssimpProcessor::create_scene_loader(const std::string& full_mode
 		const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_FlipUVs);
 		check_assimp_importer(m_assimp_importer, scene);
 		return scene;
-	} else{
-		const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes);
-		check_assimp_importer(m_assimp_importer, scene);
-		return scene;
-	}		
+	}
+	const aiScene* scene = m_assimp_importer.ReadFile(full_model_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes);
+	check_assimp_importer(m_assimp_importer, scene);
+	return scene;
+			
 }
 
 void AssimpProcessor::check_assimp_importer(const Assimp::Importer& importer, const aiScene* scene) {

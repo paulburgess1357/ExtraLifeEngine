@@ -1,6 +1,7 @@
 #pragma once
 #include "../Interfaces/IVoxelRenderer.h"
 #include "../OpenGL/OpenGLVoxelRenderer.h"
+#include "../../../../Camera/Camera.h"
 
 namespace OpenGL{
 

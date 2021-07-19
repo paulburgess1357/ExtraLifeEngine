@@ -16,6 +16,6 @@ void ImGuiNS::InterfaceCameraData::display() const{
 }
 
 void ImGuiNS::InterfaceCameraData::update_camera_speed() {
-	ImGui::SliderFloat("Camera Speed", &m_camera_speed, 0.005f, 0.50f);
+	ImGui::SliderFloat("Camera Speed", &m_camera_speed, 0.001f, 0.50f);
 	m_camera_data.set_camera_speed(m_camera_speed);
 }

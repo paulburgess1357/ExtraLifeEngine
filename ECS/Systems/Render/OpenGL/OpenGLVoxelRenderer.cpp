@@ -7,6 +7,15 @@ OpenGL::OpenGLVoxelRenderer::OpenGLVoxelRenderer(const VoxelResource& voxel_reso
 	:IVoxelRenderer{ voxel_resource, world_positions_in_range, shader_program} {
 }
 
+// ************************ EXTREMELY IMPORTANT ***************************
+// All shaders are working in view space.  The voxel shader is working
+// in world space.  The normal matrix supplied does not take into account
+// the view matrix.  The normal matrix for a voxel is created when the 
+// Chunk is initialized.  This needs to be updated to take into account
+// the view matrix.  You need to update the voxel renderer as well.  Right
+// now an identify matrix is being used to bypass this issue.
+// *************************************************************************
+
 void OpenGL::OpenGLVoxelRenderer::render() const{
 
 	if(m_voxel_shader_program != nullptr){

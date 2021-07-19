@@ -6,6 +6,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
 
+// ************************ EXTREMELY IMPORTANT ***************************
+// All shaders are working in view space.  The voxel shader is working
+// in world space.  The normal matrix supplied does not take into account
+// the view matrix.  The normal matrix for a voxel is created when the 
+// Chunk is initialized.  This needs to be updated to take into account
+// the view matrix.  You need to update the voxel renderer as well.  Right
+// now an identify matrix is being used to bypass this issue.
+// *************************************************************************
+
 Chunk::Chunk(const WorldPosition& starting_world_position)
 	:m_vertex_qty{ 0 },
 	m_update_required{ true },
@@ -15,7 +24,7 @@ Chunk::Chunk(const WorldPosition& starting_world_position)
 	m_normal_matrix{ glm::mat3(1) }{
 	initialize_types();
 	m_model_matrix = glm::translate(glm::mat4(1.0f), m_starting_world_position.get_vec3());
-	m_normal_matrix = MatrixFunctions::get_normal_matrix(m_model_matrix);
+	m_normal_matrix = MatrixFunctions::get_normal_matrix(m_model_matrix, glm::mat4(1.0f));
 }
 
 Chunk::~Chunk() = default;

@@ -1,5 +1,5 @@
 #include "InterfaceCameraData.h"
-#include "../ExternalResources/imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui_impl_opengl3.h"
 #include <glm/glm.hpp>
 
 ImGuiNS::InterfaceCameraData::InterfaceCameraData(Camera& camera)
@@ -16,6 +16,6 @@ void ImGuiNS::InterfaceCameraData::display() const{
 }
 
 void ImGuiNS::InterfaceCameraData::update_camera_speed() {
-	ImGui::SliderFloat("Camera Speed", &m_camera_speed, 0.005f, 0.50f);
+	ImGui::SliderFloat("Camera Speed", &m_camera_speed, 0.001f, 0.50f);
 	m_camera_data.set_camera_speed(m_camera_speed);
 }

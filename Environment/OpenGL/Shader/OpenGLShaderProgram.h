@@ -2,7 +2,6 @@
 #include "../Light/OpenGLLightHandler.h"
 #include "../Texture/OpenGLTextureHandler.h"
 #include "../../Interfaces/Shader/IShaderProgram.h"
-#include <unordered_map>
 
 namespace OpenGL{
 

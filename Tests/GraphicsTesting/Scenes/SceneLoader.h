@@ -15,9 +15,19 @@ public:
 	[[nodiscard]] VoxelMetaData get_voxel_metadata() const;
 	
 private:
+
+	// Shading Book
+	void single_cube_diffuse_lighting(entt::registry& registry) const;
+
+
+
+
+
+	
+	
+	void single_cube(entt::registry& registry) const;		
 	void cubemap(entt::registry& registry) const;
 	void grid(entt::registry& registry) const;
-	void single_cube(entt::registry& registry) const;
 	void single_cube_textured(entt::registry& registry) const;
 
 	void voxels(entt::registry& registry, const int x_range, const int y_range, const int z_range);

@@ -9,8 +9,8 @@ LightResource::LightResource(){
 void LightResource::load_inital_lights(){
 
 	// Load Standard Lights
-	DirectionalLight dirlight{ "standard_dirlight", { 0.0f, 1.0f, 1.0f } };
-	SceneLight scenelight{ "standard_scenelight",  glm::vec3{ 0.01f }, glm::vec3 { 1.9f }, glm::vec3 { 0.01f } };
+	DirectionalLight dirlight{ "standard_dirlight", { 0.0f, 1.0f, 0.0f } };
+	SceneLight scenelight{ "standard_scenelight",  glm::vec3{ 0.4f }, glm::vec3 { 0.5f }, glm::vec3 { 1.0f } };
 	PointLight pointlight{ "standard_pointlight", { 0.0f, -4.0f, 0.0f },  1.0f, 0.007f, 0.0002f};
 
 	load(dirlight);

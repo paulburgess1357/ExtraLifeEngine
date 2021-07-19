@@ -4,7 +4,6 @@
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../World/WorldPositionsInRangeUpdater.h"
 #include "../../Environment/Interfaces/Shader/IShaderProgram.h"
-#include "entt/entity/registry.hpp"
 #include <memory>
 
 class IVoxelRenderer{

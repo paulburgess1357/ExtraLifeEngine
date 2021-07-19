@@ -6,7 +6,7 @@ FrameBufferLoader::FrameBufferLoader(IWindow& window, FrameBufferHandler& frameb
 }
 
 void FrameBufferLoader::load_framebuffers() const{
-	// load_gamma_correction();
+	load_gamma_correction();
 	// load_edge_detection();
 	// load_blur();
 }

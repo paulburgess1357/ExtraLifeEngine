@@ -18,8 +18,12 @@ public:
 	void load_framebuffer_and_move_to_active(const std::string& framebuffer_name, std::unique_ptr<IFrameBuffer> framebuffer);
 	void move_framebuffer_to_inactive(const std::string& framebuffer_name);
 
-	void check_all_framebuffers_initialized() const;
-	static bool gamma_correction_enabled();	
+	void check_all_framebuffers_initialized() const;	
+	static bool gamma_correction_enabled();
+
+	static void disable_gamma_correction_graphics_api();
+	static void enable_gamma_correction_graphics_api();
+	
 	void destroy();
 	
 private:
@@ -42,6 +46,6 @@ private:
 	
 	// If a gamma framebuffer is added this is set to true
 	static int m_gamma_priority;
-	static bool m_gamma_enabled;
+	static bool m_custom_framebuffer_gamma_enabled;
 	
 };

@@ -1,12 +1,21 @@
 #include "FrameBufferHandler.h"
+#include "../../Neutral/API/GraphicsAPI.h"
 #include "../../../ECS/Components/FrameBuffer/FrameBufferComponent.h"
 #include "../../../ECS/Components/Shader/ShaderComponent.h"
 #include "../../../Utility/FatalError.h"
 #include "../../../Utility/Print.h"
+#include <glad/glad.h>
+
+// Note: The framebuffer handler will disable the graphics api gamma correction
+// if a FrameBufferType::GAMMA_CORRECTION or FrameBufferType::GAMMA_CORRECTION_W_HDR
+// is active.  If that framebuffer is removed, it will reactivate the graphics
+// api gamma correction.  You also cannot have both gamma correction framebuffers
+// running at the same time.  If you attempt to load both, they will simply
+// overwrite each other.
 
 int FrameBufferHandler::m_execution_order = 0;
 int FrameBufferHandler::m_gamma_priority = 9999999;
-bool FrameBufferHandler::m_gamma_enabled = false;
+bool FrameBufferHandler::m_custom_framebuffer_gamma_enabled = false;
 
 const std::map<int, IFrameBuffer*>& FrameBufferHandler::get_active_framebuffer_map() const{
 	return m_active_framebuffers;
@@ -33,9 +42,11 @@ void FrameBufferHandler::move_framebuffer_to_active(const std::string& framebuff
 	IFrameBuffer* framebuffer_to_add = m_all_framebuffers[framebuffer_name].get();
 
 	// If adding a gamma correction framebuffer, its priority of execution will be last.
-	if(framebuffer_to_add->get_framebuffer_type() == FrameBufferType::GAMMA_CORRECTION){
+	// Disable graphics api gamma correction.
+	if(framebuffer_to_add->get_framebuffer_type() == FrameBufferType::GAMMA_CORRECTION || framebuffer_to_add->get_framebuffer_type() == FrameBufferType::GAMMA_CORRECTION_W_HDR){
 		m_active_framebuffers[m_gamma_priority] = framebuffer_to_add;
-		m_gamma_enabled = true;
+		m_custom_framebuffer_gamma_enabled = true;
+		disable_gamma_correction_graphics_api();
 	} else{
 		m_active_framebuffers[m_execution_order] = framebuffer_to_add;
 		m_execution_order++;
@@ -49,14 +60,15 @@ void FrameBufferHandler::move_framebuffer_to_inactive(const std::string& framebu
 
 	// Get execution number for active framebuffer
 	const int framebuffer_execution_order = m_framebuffer_execution_order[framebuffer_name];
-
+	
 	// Remove from active framebuffers
 	m_active_framebuffers.erase(framebuffer_execution_order);
 
-	// If removing the gamma framebuffer, set gamma enabled to false
-	// Note that existing textures that are loaded will have to be reloaded.
+	// If removing the gamma framebuffer, reactivate graphics api gamma correction.
+	// We can identify the gamma correction framebuffer by its execution location
 	if (framebuffer_execution_order == m_gamma_priority) {
-		m_gamma_enabled = false;
+		m_custom_framebuffer_gamma_enabled = false;
+		enable_gamma_correction_graphics_api();
 	}
 		
 
@@ -86,7 +98,7 @@ void FrameBufferHandler::load_framebuffer_and_move_to_active(const std::string& 
 }
 
 bool FrameBufferHandler::gamma_correction_enabled() {
-	return m_gamma_enabled;
+	return m_custom_framebuffer_gamma_enabled;
 }
 
 void FrameBufferHandler::check_all_framebuffers_initialized() const{
@@ -106,4 +118,29 @@ void FrameBufferHandler::check_execution_count() {
 	if(m_execution_order > 99){
 		FatalError::fatal_error("You are attempting to execute more than 99 framebuffers! Are you accidentally looping the adding of framebuffers?");
 	}
+}
+
+void FrameBufferHandler::enable_gamma_correction_graphics_api() {
+
+	Print::print("\nEnabling graphics api gamma correction");
+	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
+		FatalError::fatal_error("Vulkan gamma correction check does  exist!.");
+	} else {
+		FatalError::fatal_error("Unknown graphics API type.  Unable to perform gamma correction check.");
+	}
+}
+
+void FrameBufferHandler::disable_gamma_correction_graphics_api() {
+
+	Print::print("\nDisabling graphics api gamma correction");
+	if (GraphicsAPI::get_api() == GraphicsAPIType::OPENGL) {
+		glDisable(GL_FRAMEBUFFER_SRGB);
+	} else if (GraphicsAPI::get_api() == GraphicsAPIType::VULKAN) {
+		FatalError::fatal_error("Vulkan gamma correction check does  exist!.");
+	} else {
+		FatalError::fatal_error("Unknown graphics API type.  Unable to perform gamma correction check.");
+	}
+
 }

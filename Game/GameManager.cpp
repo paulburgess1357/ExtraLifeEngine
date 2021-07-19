@@ -4,8 +4,6 @@
 #include "../ECS/Systems/Transform/TransformSystem.h"
 #include "../Environment/Interfaces/Window/IWindowCreator.h"
 
-//TODO I *STILL* need to actually write the gamma correction in the framebuffer gamma shader.
-
 GameManager::GameManager()
 	:m_gamestate{ GameState::PLAY },
 	m_camera{ Camera{ glm::vec3(3, 2, 8), glm::vec3(0.01f, -0.09f, -0.96f), 0.001f, 0.05f} },

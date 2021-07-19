@@ -164,6 +164,7 @@
     <ClCompile Include="Environment\Neutral\FrameBuffer\FrameBufferLoader.cpp" />
     <ClCompile Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureFormatFinder.cpp" />
+    <ClCompile Include="ExternalResources\c\glad.c" />
     <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.cpp" />
@@ -175,12 +176,6 @@
     <ClCompile Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.cpp" />
     <ClCompile Include="ResourceManagement\IVboVaoPool.cpp" />
     <ClCompile Include="ResourceManagement\VoxelResource.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui_demo.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui_draw.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ExternalResources\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Voxel\Neutral\TerrainGeneration.cpp" />
     <ClCompile Include="Voxel\GreedyMesh\GreedyMeshExecutor.cpp" />
     <ClCompile Include="Voxel\GreedyMesh\GreedyRowPerSideMesh.cpp" />
@@ -233,7 +228,6 @@
     <ClCompile Include="Environment\Interfaces\Window\IWindowCreator.cpp" />
     <ClCompile Include="Environment\OpenGL\Window\OpenGLWindow.cpp" />
     <ClCompile Include="Environment\OpenGL\Window\OpenGLWindowCreator.cpp" />
-    <ClCompile Include="ExternalResources\c\glad.c" />
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Environment\OpenGL\Shader\OpenGLShaderProgram.cpp" />
@@ -280,14 +274,6 @@
     <ClInclude Include="ResourceManagement\OpenGL\OpenGLVboVaoPool.h" />
     <ClInclude Include="ResourceManagement\IVboVaoPool.h" />
     <ClInclude Include="ResourceManagement\VoxelResource.h" />
-    <ClInclude Include="ExternalResources\imgui\imconfig.h" />
-    <ClInclude Include="ExternalResources\imgui\imgui.h" />
-    <ClInclude Include="ExternalResources\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="ExternalResources\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="ExternalResources\imgui\imgui_internal.h" />
-    <ClInclude Include="ExternalResources\imgui\imstb_rectpack.h" />
-    <ClInclude Include="ExternalResources\imgui\imstb_textedit.h" />
-    <ClInclude Include="ExternalResources\imgui\imstb_truetype.h" />
     <ClInclude Include="ResourceManagement\IncludeResources.h" />
     <ClInclude Include="Voxel\Neutral\TerrainGeneration.h" />
     <ClInclude Include="Voxel\GreedyMesh\GreedyMeshExecutor.h" />

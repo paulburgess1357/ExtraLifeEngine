@@ -1,7 +1,6 @@
 #pragma once
 #include "../../ResourceManagement/ShaderResource.h"
 #include "../../Interfaces/Framebuffer/IFrameBuffer.h"
-#include "entt/entity/registry.hpp"
 #include <map>
 
 class FrameBufferHandler{

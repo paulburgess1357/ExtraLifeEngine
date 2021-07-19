@@ -1,7 +1,8 @@
 #include "TextureLoaderFromFile.h"
 #include "../../Utility/FatalError.h"
 #include "../../Utility/FileHandler.h"
-#include "stb_image/stb_image.h"
+//#include "stb_image.h"
+#include "../../Utility/SBTIUtilities.h"
 #include "StringUtilities/FilePath/FilePath.hpp"
 
 TextureLoaderFromFile::TextureLoaderFromFile(std::string texture_name, std::string texture_path, const bool flip_texture)

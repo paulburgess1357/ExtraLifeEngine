@@ -1,5 +1,4 @@
 #include "OpenGLTexture.h"
-#include "../../Utility/Print.h"
 #include "../../Utility/FatalError.h"
 #include <glad/glad.h>
 

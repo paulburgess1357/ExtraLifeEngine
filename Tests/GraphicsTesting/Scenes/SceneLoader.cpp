@@ -1,7 +1,5 @@
 #include "SceneLoader.h"
 
-// #include <glad/glad.h>
-
 #include "../../ECS/Components/IncludeComponents.h"
 #include "../../ResourceManagement/IncludeResources.h"
 

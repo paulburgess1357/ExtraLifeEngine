@@ -6,6 +6,8 @@ Camera::Camera(const glm::vec3& camera_position, const glm::vec3& camera_forward
 	:CameraData(camera_position, camera_forward),
 	m_movement_speed{ movement_speed },
 	m_look_sensitivity{ look_sensitivity },
+	m_current_pitch{ 0.0f},
+	m_vertical_movement_axis{m_camera_up}, 
 	m_camera_type{ CameraType::FIXED_LEVEL_HORIZON },
 	m_camera_type_toggle { CameraType::FIXED_LEVEL_HORIZON, CameraType::FREE },
 	m_camera_type_toggle_tracker { 1 },

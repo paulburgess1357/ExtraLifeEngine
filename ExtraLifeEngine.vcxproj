@@ -130,8 +130,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\DebugLib\assimp;$(SolutionDir)ExternalResources\lib\DebugLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mtd.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,8 +150,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)ExternalResources\lib\ReleaseLib\assimp;$(SolutionDir)ExternalResources\lib\ReleaseLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,6 +165,13 @@
     <ClCompile Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.cpp" />
     <ClCompile Include="Environment\OpenGL\Texture\OpenGLTextureFormatFinder.cpp" />
     <ClCompile Include="ExternalResources\c\glad.c" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="ExternalResources\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="World\WorldPositionsInRangeUpdater.cpp" />
     <ClCompile Include="ECS\Systems\Render\Interfaces\IVoxelRenderer.cpp" />
     <ClCompile Include="ECS\Systems\Render\OpenGL\OpenGLVoxelRenderer.cpp" />
@@ -256,6 +263,14 @@
     <ClInclude Include="Environment\Neutral\FrameBuffer\FrameBufferLoader.h" />
     <ClInclude Include="Environment\OpenGL\Framebuffer\OpenGLFramebuffer.h" />
     <ClInclude Include="Environment\OpenGL\Texture\OpenGLTextureFormatFinder.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imconfig.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imgui.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imgui_internal.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="ExternalResources\include\imgui\imstb_truetype.h" />
     <ClInclude Include="Voxel\Neutral\VoxelMetaData.h" />
     <ClInclude Include="World\WorldPositionsInRangeUpdater.h" />
     <ClInclude Include="ECS\Components\IncludeComponents.h" />

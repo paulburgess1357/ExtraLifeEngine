@@ -1,5 +1,5 @@
 #include "InterfaceCameraData.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui/imgui_impl_opengl3.h"
 #include <glm/glm.hpp>
 
 ImGuiNS::InterfaceCameraData::InterfaceCameraData(Camera& camera)

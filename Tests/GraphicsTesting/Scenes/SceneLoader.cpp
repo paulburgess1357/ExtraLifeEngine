@@ -16,7 +16,7 @@ SceneLoader::SceneLoader(ShaderResource& shader_resource, ModelResource& model_r
 void SceneLoader::load_scene(entt::registry& registry) {
 
 	// Shader Book
-	// single_cube_diffuse_lighting(registry);
+	single_cube_diffuse_lighting(registry);
 
 
 
@@ -27,7 +27,7 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
-	load_spartan(registry);
+	// load_spartan(registry);
 	// cubemap(registry);
 }
 

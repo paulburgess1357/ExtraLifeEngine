@@ -19,6 +19,7 @@ private:
 	// Shading Book
 	void single_cube_diffuse_lighting(entt::registry& registry) const;
 	void single_cube_phong_lighting(entt::registry& registry) const;
+	void single_cube_discard_effect(entt::registry& registry) const;
 
 
 

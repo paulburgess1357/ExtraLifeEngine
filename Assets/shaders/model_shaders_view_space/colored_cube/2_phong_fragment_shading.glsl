@@ -1,4 +1,7 @@
 #version 330 core
+// Fragment Shader
+// Phong Lighting (AKA Gouraud b/c its implemented in vertex shader)
+// OGL4 Shader Language Cookbook Pg. 88
 
 // Vertex Variables
 in vec3 calculated_frag_color;

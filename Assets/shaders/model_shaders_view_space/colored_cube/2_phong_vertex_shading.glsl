@@ -1,5 +1,8 @@
 #version 330 core
 // Vertex Shader
+// Phong Lighting (AKA Gouraud b/c its implemented in vertex shader)
+// OGL4 Shader Language Cookbook Pg. 88
+
 layout (location = 0) in vec3 cube_position;
 layout (location = 1) in vec3 cube_normals;
 
@@ -26,8 +29,8 @@ layout (std140) uniform uniform_matrices {
 
 // ============ Shader Uniforms ============
 // Lights
-LightInfo light_info;
-MaterialInfo material_info;
+uniform LightInfo light_info;
+uniform MaterialInfo material_info;
 
 // Matrices
 uniform mat4 model_matrix;
@@ -40,14 +43,14 @@ out vec3 calculated_frag_color;
 void main(){	
 
     // Convert light position to view space (eye/camera space)
-    // Note that there isn't a need to dot his conversion each time.  Normally we
+    // Note that there isn't a need to do this conversion each time.  Normally we
     // would just calculate this prior to sending to the shader (as the light
     // position in this example is not changing)
     vec3 light_position_eye = vec3(view_matrix * vec4(light_info.light_position_in_world, 1.0));
 
     // Convert cube normals and cube position to view space (eye/camera space)
     // Note that the model matrix has already been multiplied by the view matrix by the time its sent to the shader (for normal matrix calculation)
-    vec3 cube_normals_eye = normalize(vec3(normal_matrix * cube_normals));
+    vec3 cube_normals_eye = normalize(normal_matrix * cube_normals);
     vec3 cube_position_eye = vec3(view_matrix * model_matrix * vec4(cube_position, 1.0));
     vec3 light_direction_from_surface_to_lightsource = normalize(light_position_eye - cube_position_eye);
 
@@ -60,25 +63,25 @@ void main(){
     vec3 diffuse_light = light_info.diffuse_light_intensity * material_info.diffuse_reflectivity * light_dir_to_normals_dot;
     
 
-    // Specular light reflection is highest when there is pure reflection (Page 86: OpenGL4 Shading Language Cookbook.)
+    // Specular light reflection is highest when there is pure reflection
     vec3 specular_light = vec3(0.0f);
     // Note that when light_dir_to_normals_dot is greater than 0, it means we have some lighting in effect from our 
     // lightsource to our object.  If it was 0 (or less than 0 : note that its its clamped from above), the angle between 
     // the light direction vector and normal vector is greater than 90 degrees).  This would mean that the incoming light 
     // is coming from within the surface of the object.  This means that no light would reach the outside surface of the object 
-    // (Note that if you want lighting here, normal vectors need to be reversed).  See page 83 in OpenGL4 Shading Language Cookbook.
+    // (Note that if you want lighting here, normal vectors need to be reversed).  See page 83 in OGL4 Shading Language Cookbook.
 
     if(light_dir_to_normals_dot > 0){
         // Note that since we are working in view space, the viewer is located at the origin.  This is why we can simply 
         // negate and normalize the vertex position to get the direction towards the viewer.
         vec3 vector_towards_viewer = normalize(-cube_position_eye.xyz);
         
-        // note that the specular effect would be highest when the viewer is aligned with this vector (Page 86: OpenGL4 Shading Language Cookbook.)
+        // Note that the specular effect would be highest when the viewer is aligned with this vector
         vec3 vector_of_perfect_reflection = reflect(-light_direction_from_surface_to_lightsource, cube_normals_eye); 
 
         // Note that both vector_of_perfect_reflection and vector_towards_viewer should be normalized (The reflect function returns a normal 
         // vector as both inputs are normalized above).  As such, the same idea as the above takes place.  If its 0 or less than 0, the angle 
-        // between the view and the reflection vector is greater than 90 degrees. Again, this would mean the reflection source is coming from 
+        // between the viewer and the reflection vector is greater than 90 degrees. Again, this would mean the reflection source is coming from 
         // within the object.  Therefore, we wouldn't want a specular effect.
         specular_light = light_info.specular_light_intensity * material_info.specular_reflectivity * pow(max(dot(vector_of_perfect_reflection, vector_towards_viewer), 0.0f), material_info.shininess);
     }

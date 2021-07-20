@@ -17,9 +17,7 @@ void SceneLoader::load_scene(entt::registry& registry) {
 
 	// Shader Book
 	// single_cube_diffuse_lighting(registry);
-
-
-
+	single_cube_phong_lighting(registry);
 
 	
 	// voxels(registry, 7, 3, 7);	
@@ -27,12 +25,12 @@ void SceneLoader::load_scene(entt::registry& registry) {
 	// single_cube(registry);
 	// single_cube_textured(registry);
 	// load_backpack(registry);
-	load_spartan(registry);
+	// load_spartan(registry);
 	// cubemap(registry);
 }
 
 void SceneLoader::single_cube_diffuse_lighting(entt::registry& registry) const{
-	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/vertex_diffuse_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/fragment_diffuse_shading.glsl", true);
+	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/diffuse_vertex_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/diffuse_fragment_shading.glsl", true);
 	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
 
 	shader_program->set_uniform("light_position_in_world", glm::vec3(100.0f, 20.0f, 0.0f));
@@ -46,6 +44,30 @@ void SceneLoader::single_cube_diffuse_lighting(entt::registry& registry) const{
 }
 
 
+void SceneLoader::single_cube_phong_lighting(entt::registry& registry) const{	
+	
+	// m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/2_phong_vertex_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/2_phong_fragment_shading.glsl", true);
+	// m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/3_phong_equation_vertex_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/3_phong_equation_fragment_shading.glsl", true);
+	m_shader_resource.load("single_cube", "Assets/shaders/model_shaders_view_space/colored_cube/4_phong_2sided_vertex_shading.glsl", "Assets/shaders/model_shaders_view_space/colored_cube/4_phong_2sided_fragment_shading.glsl", true);
+	IShaderProgram* shader_program = m_shader_resource.get("single_cube");
+
+	shader_program->set_uniform("light_info.light_position_in_world", glm::vec3(0.0f, 20.0f, 0.0f));
+	
+	shader_program->set_uniform("light_info.ambient_light_intensity", glm::vec3(0.4f));
+	shader_program->set_uniform("light_info.diffuse_light_intensity", glm::vec3(1.0f));
+	shader_program->set_uniform("light_info.specular_light_intensity", glm::vec3(1.0f));
+
+	shader_program->set_uniform("material_info.ambient_reflectivity", glm::vec3(0.9f, 0.5f, 0.3f));
+	shader_program->set_uniform("material_info.diffuse_reflectivity", glm::vec3(0.9f, 0.5f, 0.3f));
+	
+	shader_program->set_uniform("material_info.specular_reflectivity", glm::vec3(0.8f, 0.8f, 0.8f));
+	shader_program->set_uniform("material_info.shininess", 100.0f);
+
+	const entt::entity cube_entity = registry.create();
+	registry.emplace<ShaderComponent>(cube_entity, shader_program);
+	registry.emplace<CubeComponent>(cube_entity, m_cube_resource.get("cube_normal"));
+	registry.emplace<TransformComponent>(cube_entity, glm::vec3{ 0, 0, 0 });
+}
 
 
 

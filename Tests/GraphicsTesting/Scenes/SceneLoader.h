@@ -20,6 +20,7 @@ private:
 	void single_cube_diffuse_lighting(entt::registry& registry) const;
 	void single_cube_phong_lighting(entt::registry& registry) const;
 	void single_cube_discard_effect(entt::registry& registry) const;
+	void single_cube_multiple_positional_lights(entt::registry& registry) const;
 
 
 
